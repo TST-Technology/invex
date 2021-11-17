@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 
     const path = useLocation();
+    const [navbarSearch, setNavbarSearch] = useState("");
 
     return (
         <>
@@ -13,7 +15,7 @@ const Navbar = () => {
                         <a href="/"><img src={require("../Images/invex-w-logo.png").default} alt="" /></a>
                         <form className="form-group search-blk mx-auto" role="search" method="get" id="searchform" action=""> 
                             <div className="input-group">
-                                <input type="text" value="" name="s" className="form-control" placeholder="Search for symbol, company and news" id="example-search-input" autoComplete="off" /> 
+                                <input type="text" value={navbarSearch} onChange={(e)=>setNavbarSearch(e.target.value)} name="s" className="form-control" placeholder="Search for symbol, company and news" id="example-search-input" autoComplete="off" /> 
                                 <input type="submit" value="Search" id="search-submit" style={{"display": "none"}} /> 
                                 <span className="input-group-append d-flex align-items-center">
                                     <a href="/#"><p><img src={require("../Images/⌘K.png").default} alt=""/></p></a>
@@ -27,15 +29,15 @@ const Navbar = () => {
                 </div>
                 <div className="mainNavbar container">
                     <ul className="d-flex my-0">
-                        <li><a href="/" className={path.pathname==="/"?"active":""}>Home</a></li>
-                        <li><a href="/market" className={path.pathname==="/market"?"active":""}>Market</a></li>
-                        <li><a href="/sectors" className={path.pathname==="/sectors"?"active":""}>Sectors</a></li>
-                        <li><a href="/screener" className={path.pathname==="/screener"?"active":""}>Screener</a></li>
-                        <li><a href="/news" className={path.pathname==="/news"?"active":""}>News</a></li>
-                        <li><a href="/options" className={path.pathname==="/options"?"active":""}>Options</a></li>
-                        <li><a href="/economic-data" className={path.pathname==="/economic-data"?"active":""}>Economic Data</a></li>
-                        <li><a href="/resources" className={path.pathname==="/resources"?"active":""}>Resources</a></li>
-                        <li><a href="/dashboard" className={path.pathname==="/dashboard"?"active":""}>Dashboard</a></li>
+                        <li><Link to="/" className={path.pathname==="/"?"active":""}>Home</Link></li>
+                        <li><Link to="/market" className={path.pathname==="/market"?"active":""} >Market</Link></li>
+                        <li><Link to="/sectors" className={path.pathname==="/sectors"?"active":""}>Sectors</Link></li>
+                        <li><Link to="/screener" className={path.pathname==="/screener"?"active":""}>Screener</Link></li>
+                        <li><Link to="/news" className={path.pathname==="/news"?"active":""}>News</Link></li>
+                        <li><Link to="/options" className={path.pathname==="/options"?"active":""}>Options</Link></li>
+                        <li><Link to="/economic-data" className={path.pathname==="/economic-data"?"active":""}>Economic Data</Link></li>
+                        <li><Link to="/resources" className={path.pathname==="/resources"?"active":""}>Resources</Link></li>
+                        <li><Link to="/dashboard" className={path.pathname==="/dashboard"?"active":""}>Dashboard</Link></li>
                     </ul>
                     <button className="newUser ms-auto">First time here? <span className="fw-bold">Click Here</span></button>
                 </div>
@@ -53,15 +55,15 @@ const Navbar = () => {
                 </div>
                 <div className="offcanvas-body">
                     <ul>
-                        <li><a href="/" className={path.pathname==="/"?"active":""}>Home</a></li>
-                        <li><a href="/market" className={path.pathname==="/market"?"active":""}>Market</a></li>
-                        <li><a href="/sectors" className={path.pathname==="/sectors"?"active":""}>Sectors</a></li>
-                        <li><a href="/screener" className={path.pathname==="/screener"?"active":""}>Screener</a></li>
-                        <li><a href="/news" className={path.pathname==="/news"?"active":""}>News</a></li>
-                        <li><a href="/options" className={path.pathname==="/options"?"active":""}>Options</a></li>
-                        <li><a href="/economic-data" className={path.pathname==="/economic-data"?"active":""}>Economic Data</a></li>
-                        <li><a href="/resources" className={path.pathname==="/resources"?"active":""}>Resources</a></li>
-                        <li><a href="/dashboard" className={path.pathname==="/dashboard"?"active":""}>Dashboard</a></li>
+                        <li><Link to="/" className={path.pathname==="/"?"active":""}>Home</Link></li>
+                        <li><Link to="/market" className={path.pathname==="/market"?"active":""} >Market</Link></li>
+                        <li><Link to="/sectors" className={path.pathname==="/sectors"?"active":""}>Sectors</Link></li>
+                        <li><Link to="/screener" className={path.pathname==="/screener"?"active":""}>Screener</Link></li>
+                        <li><Link to="/news" className={path.pathname==="/news"?"active":""}>News</Link></li>
+                        <li><Link to="/options" className={path.pathname==="/options"?"active":""}>Options</Link></li>
+                        <li><Link to="/economic-data" className={path.pathname==="/economic-data"?"active":""}>Economic Data</Link></li>
+                        <li><Link to="/resources" className={path.pathname==="/resources"?"active":""}>Resources</Link></li>
+                        <li><Link to="/dashboard" className={path.pathname==="/dashboard"?"active":""}>Dashboard</Link></li>
                     </ul>
                     <button className="newUser ms-auto">First time here? <span className="fw-bold">Click Here</span></button>
                 </div>
@@ -80,7 +82,7 @@ const Navbar = () => {
                     <img src={require("../Images/search.png").default} alt="search-icon" className="img-fluid ms-auto" />
                     <form className="form-group search-blk d-none" role="search" method="get" id="searchform" action=""> 
                         <div className="input-group">
-                            <input type="text" value="" name="s" className="form-control" placeholder="Search for symbol, company and news" id="example-search-input" autoComplete="off" /> 
+                            <input type="text" value={navbarSearch} onChange={(e)=>setNavbarSearch(e.target.value)} name="s" className="form-control" placeholder="Search for symbol, company and news" id="example-search-input" autoComplete="off" /> 
                             <input type="submit" value="Search" id="search-submit" style={{"display": "none"}} /> 
                             <span className="input-group-append">
                                 <label htmlFor="search-submit"><img src={require("../Images/search.png").default} alt="search-icon" className="img-fluid" height="24" width="24" /></label>

@@ -201,7 +201,7 @@ button.newUser {
    ######################
 */
 .heroSection {
-  background-image: url("/src/component/Common/Images/hero_bg.jpg");
+  background-image: url("./component/Common/Images/hero_bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top;
@@ -318,7 +318,7 @@ button.newUser {
 }
 .topfeatureblk:after {
   content: '';
-  background-image: url(/src/component/Common/Images/features_bg.png);
+  background-image: url(./component/Common/Images/features_bg.png);
   background-repeat: no-repeat;
   height: 100px;
   width: 100px;
@@ -595,7 +595,7 @@ button.newUser {
 }
 .newslettersec .joinCard {
   padding: 2.5rem;
-  background-image: url("/src/component/Common/Images/joinnow_bg.png");
+  background-image: url("./component/Common/Images/joinnow_bg.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -780,12 +780,12 @@ button.newUser {
 }
 .accordion-button::after {
   content: '';
-  background-image: url(/src/component/Common/Images/down-arrow.png);
+  background-image: url(./component/Common/Images/down-arrow.png);
   background-size: auto;
   background-position: center;
 }
 .accordion-button:not(.collapsed)::after {
-  background-image: url(/src/component/Common/Images/down-arrow.png);
+  background-image: url(./component/Common/Images/down-arrow.png);
   background-size: auto;
   background-position: center;
   transform: rotate(175deg);
