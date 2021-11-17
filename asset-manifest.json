@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/invex/static/css/main.5a43e2a5.chunk.css",
+    "main.js": "/invex/static/js/main.58844963.chunk.js",
+    "main.js.map": "/invex/static/js/main.58844963.chunk.js.map",
+    "runtime-main.js": "/invex/static/js/runtime-main.80a11816.js",
+    "runtime-main.js.map": "/invex/static/js/runtime-main.80a11816.js.map",
+    "static/js/2.d962f9b1.chunk.js": "/invex/static/js/2.d962f9b1.chunk.js",
+    "static/js/2.d962f9b1.chunk.js.map": "/invex/static/js/2.d962f9b1.chunk.js.map",
+    "static/js/3.955d6c1d.chunk.js": "/invex/static/js/3.955d6c1d.chunk.js",
+    "static/js/3.955d6c1d.chunk.js.map": "/invex/static/js/3.955d6c1d.chunk.js.map",
+    "index.html": "/invex/index.html",
+    "static/css/main.5a43e2a5.chunk.css.map": "/invex/static/css/main.5a43e2a5.chunk.css.map",
+    "static/js/2.d962f9b1.chunk.js.LICENSE.txt": "/invex/static/js/2.d962f9b1.chunk.js.LICENSE.txt",
+    "static/media/card1.png": "/invex/static/media/card1.d239c6d2.png",
+    "static/media/card2.png": "/invex/static/media/card2.07b8ceda.png",
+    "static/media/card3.png": "/invex/static/media/card3.79f73e2e.png",
+    "static/media/hero_bg.jpg": "/invex/static/media/hero_bg.eed23675.jpg",
+    "static/media/highlighted_image.png": "/invex/static/media/highlighted_image.bdce2e6f.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.80a11816.js",
+    "static/js/2.d962f9b1.chunk.js",
+    "static/css/main.5a43e2a5.chunk.css",
+    "static/js/main.58844963.chunk.js"
+  ]
+}
