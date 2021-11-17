@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/static/css/main.1e3c61c7.chunk.css",
-    "main.js": "/static/js/main.da4c4301.chunk.js",
-    "main.js.map": "/static/js/main.da4c4301.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.9c957da9.js",
-    "runtime-main.js.map": "/static/js/runtime-main.9c957da9.js.map",
-    "static/js/2.ec5096ef.chunk.js": "/static/js/2.ec5096ef.chunk.js",
-    "static/js/2.ec5096ef.chunk.js.map": "/static/js/2.ec5096ef.chunk.js.map",
-    "static/js/3.955d6c1d.chunk.js": "/static/js/3.955d6c1d.chunk.js",
-    "static/js/3.955d6c1d.chunk.js.map": "/static/js/3.955d6c1d.chunk.js.map",
-    "index.html": "/index.html",
-    "static/css/main.1e3c61c7.chunk.css.map": "/static/css/main.1e3c61c7.chunk.css.map",
-    "static/js/2.ec5096ef.chunk.js.LICENSE.txt": "/static/js/2.ec5096ef.chunk.js.LICENSE.txt",
-    "static/media/card1.png": "/static/media/card1.d239c6d2.png",
-    "static/media/card2.png": "/static/media/card2.07b8ceda.png",
-    "static/media/card3.png": "/static/media/card3.79f73e2e.png",
-    "static/media/hero_bg.jpg": "/static/media/hero_bg.eed23675.jpg",
-    "static/media/highlighted_image.png": "/static/media/highlighted_image.bdce2e6f.png"
+    "main.css": "/invex/static/css/main.4d2d2b8e.chunk.css",
+    "main.js": "/invex/static/js/main.c704a63a.chunk.js",
+    "main.js.map": "/invex/static/js/main.c704a63a.chunk.js.map",
+    "runtime-main.js": "/invex/static/js/runtime-main.fa1e5d88.js",
+    "runtime-main.js.map": "/invex/static/js/runtime-main.fa1e5d88.js.map",
+    "static/js/2.e28f50f9.chunk.js": "/invex/static/js/2.e28f50f9.chunk.js",
+    "static/js/2.e28f50f9.chunk.js.map": "/invex/static/js/2.e28f50f9.chunk.js.map",
+    "static/js/3.a5feb204.chunk.js": "/invex/static/js/3.a5feb204.chunk.js",
+    "static/js/3.a5feb204.chunk.js.map": "/invex/static/js/3.a5feb204.chunk.js.map",
+    "index.html": "/invex/index.html",
+    "static/css/main.4d2d2b8e.chunk.css.map": "/invex/static/css/main.4d2d2b8e.chunk.css.map",
+    "static/js/2.e28f50f9.chunk.js.LICENSE.txt": "/invex/static/js/2.e28f50f9.chunk.js.LICENSE.txt",
+    "static/media/card1.png": "/invex/static/media/card1.d239c6d2.png",
+    "static/media/card2.png": "/invex/static/media/card2.07b8ceda.png",
+    "static/media/card3.png": "/invex/static/media/card3.79f73e2e.png",
+    "static/media/hero_bg.jpg": "/invex/static/media/hero_bg.eed23675.jpg",
+    "static/media/highlighted_image.png": "/invex/static/media/highlighted_image.bdce2e6f.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.9c957da9.js",
-    "static/js/2.ec5096ef.chunk.js",
-    "static/css/main.1e3c61c7.chunk.css",
-    "static/js/main.da4c4301.chunk.js"
+    "static/js/runtime-main.fa1e5d88.js",
+    "static/js/2.e28f50f9.chunk.js",
+    "static/css/main.4d2d2b8e.chunk.css",
+    "static/js/main.c704a63a.chunk.js"
   ]
 }
