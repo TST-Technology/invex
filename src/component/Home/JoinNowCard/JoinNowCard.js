@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const JoinNowCard = () => {
+
+    const [emailAdd, setemailAdd] = useState("");
+
     return (
         <>
           <section class="newslettersec">
@@ -14,7 +17,7 @@ const JoinNowCard = () => {
                             <h2 class="main-title text-white">KEEP UPDATED WITH NEW ANALYSIS</h2>
                             <form class="form-group newsletr_form" role="search" method="get" id="" action=""> 
                                 <div class="input-group">
-                                    <input type="text" value="" name="s" class="form-control" placeholder="Your work email address" autocomplete="off" /> 
+                                    <input type="text" value={emailAdd} onChange={(e)=>setemailAdd(e.target.value)} name="s" class="form-control" placeholder="Your work email address" autocomplete="off" /> 
                                     <span class="input-group-append">
                                         <input type="submit" value="Join Now" class="btn btn-white" /> 
                                     </span>

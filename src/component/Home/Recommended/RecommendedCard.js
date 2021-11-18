@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import ApexChart from '../Chart/ApexChart';
 import Chart from '../Chart/Chart'
 
 const RecommendedCard = ({data}) => {
