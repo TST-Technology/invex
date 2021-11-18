@@ -1,22 +1,26 @@
-import React, { useEffect } from 'react';
-import $ from "jquery";
-import DataTable from "datatables.net";
+import React from 'react';
+import CustomMuiDataTable from '../../Common/CustomDataTable/CustomMuiDataTable';
 
 import tableData from './tableData'
 
-const RightSideTable = () => {
+const RightSideTable = (props) => {
+
 
     return (
-        <div class="righttablecontent">
+        <div class={"righttablecontent "+(props.showFilterSection?"show-content":"")}>
             <div class="table_search d-flex align-items-center justify-content-between p-3">
-                <a href="javascript:void(0);" class="btn btn-light font-bd filter-hide"><i class="bi bi-chevron-double-left"></i></a>
+            <button class="btn btn-light font-bd filter-hide" style={{zIndex:990}} onClick={()=>props.setshowFilterSection(!props.showFilterSection)} >
+                <i class="bi bi-chevron-double-left"></i>
+            </button>
                 <div class="ms-auto">
-                    <a href="#" class="btn btn-outline-dark me-2">Save Screener</a>
-                    <a href="#" class="btn btn-outline-dark">Export</a>
+                    <button class="btn btn-outline-dark me-2">Save Screener</button>
+                    <button class="btn btn-outline-dark">Export</button>
                 </div>
             </div>
             <div class="filter_table">
-                <table class="table table-bordered m-0" id="filter_table">
+                <CustomMuiDataTable tableData={tableData} />
+                {/* <CustomDataTable tableData={tableData} /> */}
+                {/* <table class="table table-bordered m-0" id="filter_table">
                     <thead class="table-light">
                         <tr>
                             <th scope="col">No.</th>
@@ -47,7 +51,7 @@ const RightSideTable = () => {
                             })
                         }
                     </tbody>
-                </table>
+                </table> */}
             </div>
         </div>
     )

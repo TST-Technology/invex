@@ -1,8 +1,8 @@
 import React from 'react'
 
-const LeftSideFilter = () => {
+const LeftSideFilter = (props) => {
     return (
-        <div class="leftsidefilter">
+        <div class={"leftsidefilter "+(props.showFilterSection?"show-menu":"")}>
             <div class="new_scenr_btn">
                 <h4>New Screener</h4>
                 <a href="#" class="btn btn-primary me-2">Save</a>

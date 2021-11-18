@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const FilterModel = () => {
+
+    const [filterSearch, setfilterSearch] = useState("");
+
     return (
         <div class="modal fade" id="filtermodal" tabindex="-1" aria-labelledby="filtermodalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -19,10 +22,10 @@ const FilterModel = () => {
                             <div class="ms-auto">
                                 <form class="form-group common_search mx-auto" role="search" method="get" id="searchform" action=""> 
                                     <div class="input-group">
-                                        <input type="text" value="" name="s" class="form-control" placeholder="Search for Filter" id="example-search-input" id="usr" autocomplete="off" /> 
+                                        <input type="text" value={filterSearch} onChange={(e)=>setfilterSearch(e.target.value)} name="s" class="form-control" placeholder="Search for Filter" id="example-search-input" id="usr" autocomplete="off" /> 
                                         <input type="submit" value="Search" id="search-submit" style={{display: "none"}} /> 
                                         <span class="input-group-append d-flex align-items-center">
-                                            <label for="search-submit"><img src="assets/images/search-b.png" alt="search-icon" class="img-fluid" height="16" width="16" /></label>
+                                            <label for="search-submit"><img src={require("../../Common/Images/search-b.png").default} alt="search-icon" class="img-fluid" height="16" width="16" /></label>
                                         </span>
                                     </div>
                                 </form>
