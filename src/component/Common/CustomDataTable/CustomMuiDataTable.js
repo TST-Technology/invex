@@ -2,80 +2,7 @@ import React from 'react';
 import MUIDataTable from "mui-datatables";
 import { createTheme, ThemeProvider,  } from '@material-ui/core/styles';
 
-const CustomMuiDataTable = ({tableData}) => {
-
-    const columns = [
-        {
-            name: "id",
-            label: "No.",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "ticker",
-            label: "Ticker",
-            options: {
-                filter: true,
-                sort: true,
-                setCellProps: () => ({
-                    style: {
-                      whiteSpace: "nowrap",
-                      fontWeight:"bold",
-                    }
-                }),
-            }
-        },
-        {
-            name: "marketCap",
-            label: "Market Cap",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "PE",
-            label: "P/E",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "fwdPE",
-            label: "FWD P/E",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "PEG",
-            label: "PEG",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "PS",
-            label: "P/S",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "PB",
-            label: "P/B",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-    ];
+const CustomMuiDataTable = ({columns,tableData}) => {
 
     const options = {
         filter: false,
@@ -100,15 +27,19 @@ const CustomMuiDataTable = ({tableData}) => {
                     backgroundColor: "#000"
                 },
                 paper:{
-                    margin:"0 1em",
                     border:"1px solid #dee2e6",
-                    fontFamily:"Poppins"
+                    fontFamily:"Poppins",
+                    borderRadius: 0
                 }
             },
             MuiTableCell: {
                 head: {
-                  backgroundColor: '#000',
+                  fontWeight:"bold",
+                  backgroundColor:"white",
                 },
+                root: {
+                    fontFamily:"Poppins"
+                }
             },
         }
     })

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Chart from '../Chart/Chart'
+import Chart from "../../Common/Chart/Chart";
 
 const RecommendedCard = ({data}) => {
 
