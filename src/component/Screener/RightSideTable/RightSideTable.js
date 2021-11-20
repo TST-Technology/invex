@@ -5,6 +5,79 @@ import tableData from './tableData'
 
 const RightSideTable = (props) => {
 
+    const columns = [
+        {
+            name: "id",
+            label: "No.",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ticker",
+            label: "Ticker",
+            options: {
+                filter: true,
+                sort: true,
+                setCellProps: () => ({
+                    style: {
+                      whiteSpace: "nowrap",
+                      fontWeight:"bold",
+                    }
+                }),
+            }
+        },
+        {
+            name: "marketCap",
+            label: "Market Cap",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "PE",
+            label: "P/E",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "fwdPE",
+            label: "FWD P/E",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "PEG",
+            label: "PEG",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "PS",
+            label: "P/S",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "PB",
+            label: "P/B",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+    ];
+
 
     return (
         <div class={"righttablecontent "+(props.showFilterSection?"show-content":"")}>
@@ -18,7 +91,7 @@ const RightSideTable = (props) => {
                 </div>
             </div>
             <div class="filter_table">
-                <CustomMuiDataTable tableData={tableData} />
+                <CustomMuiDataTable columns={columns} tableData={tableData} />
                 {/* <CustomDataTable tableData={tableData} /> */}
                 {/* <table class="table table-bordered m-0" id="filter_table">
                     <thead class="table-light">

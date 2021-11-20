@@ -220,8 +220,7 @@ function Chart () {
         width={160}
         height={100}
         data={data}
-        margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-        view
+        margin={{ top: 10, right: 0, left: -40, bottom: -20 }}
       >
         <defs>
           <linearGradient id='greenColorPv' x1='0' y1='0' x2='0' y2='1'>
