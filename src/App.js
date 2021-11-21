@@ -11,9 +11,7 @@ import Options from './component/Options/Options';
 import EconomicData from './component/EconomicData/EconomicData';
 import Resources from './component/Resources/Resources';
 import Dashboard from './component/Dashboard/Dashboard';
-import { useEffect } from 'react';
-
-import scriptCode from "./script";
+import SymbolPage from './component/Symbol/SymbolPage';
 
 function App() {
   
@@ -41,6 +39,7 @@ function App() {
           <Route path="/economic-data" element={<EconomicData />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/symbol" element={<SymbolPage />} />
         </Routes>
         <Footer />
       </HashRouter>
