@@ -12,6 +12,7 @@ import EconomicData from './component/EconomicData/EconomicData';
 import Resources from './component/Resources/Resources';
 import Dashboard from './component/Dashboard/Dashboard';
 import SymbolPage from './component/Symbol/SymbolPage';
+import VideoResource from './component/VideoResource/VideoResource';
 
 function App() {
   
@@ -40,6 +41,7 @@ function App() {
           <Route path="/resources" element={<Resources />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/symbol" element={<SymbolPage />} />
+          <Route path="/video-resource" element={<VideoResource />} />
         </Routes>
         <Footer />
       </HashRouter>
