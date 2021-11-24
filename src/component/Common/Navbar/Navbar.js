@@ -23,7 +23,7 @@ const Navbar = () => {
                                 </span>
                             </div>
                         </form>
-                        <button className="login-btn me-3">Login</button>
+                        <Link to="/logIn"><button className="login-btn me-3">Login</button></Link>
                         <button className="signup-btn">Signup</button>
                     </div>
                 </div>
