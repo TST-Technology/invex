@@ -1398,6 +1398,81 @@ small > .circle {
    ######################
 */
 
+/* ######################
+  login page css start
+   ######################
+*/
+.login_section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 0px);
+}
+.login_form {
+  background: #FFFFFF;
+  box-shadow: 0px 10px 20px rgb(41 41 42 / 7%);
+  border-radius: 8px;
+  padding: 2.5rem;
+  max-width: 400px;
+  margin: 0 auto;
+  font-weight: 500;
+}
+.login_form .form-control {
+  height: 52px;
+}
+.login_form .form-group {
+  position: relative;
+}
+.login_form .pwdeye {
+  position: absolute;
+  top: 43px;
+  right: 20px;
+  cursor: pointer;
+}
+.login_form .pwdeye i {
+  font-size: 20px;
+}
+.login_form form .btn {
+  height: 52px;
+  font-size: 16px;
+}
+.login_form form label {
+  font-size: 14px;
+}
+.login_form form .donthveac span, 
+.login_form form .donthveac a {
+  font-size: 14px;
+}
+.login_form .forgot_link {
+  position: absolute;
+  top: 5px;
+  right: 0;
+  font-size: 12px;
+}
+/* ######################
+  login page css end
+   ######################
+*/
+
+/* ######################
+  wishlist page css start
+   ######################
+*/
+.profile_page {
+  margin-top: 150px;
+}
+.profile_sidebar {
+  background: #FFFFFF;
+  box-shadow: 0px 10px 20px rgb(41 41 42 / 7%);
+  height: calc(100vh - 170px);
+  padding: 30px;
+  margin-bottom: 20px;
+}
+/* ######################
+  wishlist page css end
+   ######################
+*/
+
 
 
 /*custome scroll design css*/
@@ -1734,6 +1809,24 @@ small > .circle {
   .company_details {
     padding: 20px 0 0px 0;
   }
+
+  .login_section {
+    height: calc(100vh - 56px);
+  }
+  .login_form {
+    box-shadow: none;
+    padding: 2rem 0.8rem;
+    height: calc(100vh - 56px);
+  }
+  .login_form form {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 200px);
+    justify-content: space-between;
+  }
+  .login_form .donthveac {
+    margin-bottom: 10px;
+  }
 }
 
 
@@ -1820,5 +1913,8 @@ small > .circle {
   }
   .company_details {
     padding: 40px 0 30px 0;
+  }
+  .login_section {
+    height: calc(100vh - 56px);
   }
 }

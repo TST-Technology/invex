@@ -9,10 +9,10 @@ import Sectors from './component/Common/Sectors/Sectors';
 import News from './component/News/News';
 import Options from './component/Options/Options';
 import EconomicData from './component/EconomicData/EconomicData';
-import Resources from './component/Resources/Resources';
 import Dashboard from './component/Dashboard/Dashboard';
 import SymbolPage from './component/Symbol/SymbolPage';
 import VideoResource from './component/VideoResource/VideoResource';
+import LogIn from './component/Authentication/LogIn/LogIn';
 
 function App() {
   
@@ -32,16 +32,16 @@ function App() {
         <Navbar />
         <Routes>
           <Route exact path="/" element={<Home/>} />
+          <Route path="/logIn" element={<LogIn />} />
           <Route path="/screener" element={<Screener/>} />
           <Route path="/market" element={<Market />} />
           <Route path="/sectors" element={<Sectors />} />
           <Route path="/news" element={<News />} />
           <Route path="/options" element={<Options />} />
           <Route path="/economic-data" element={<EconomicData />} />
-          <Route path="/resources" element={<Resources />} />
+          <Route path="/resources" element={<VideoResource />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/symbol" element={<SymbolPage />} />
-          <Route path="/video-resource" element={<VideoResource />} />
         </Routes>
         <Footer />
       </HashRouter>
