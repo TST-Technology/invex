@@ -1,0 +1,42 @@
+[
+    {
+        "listItemName" : "Overview",
+        "link" : "/#/news",
+        "iconClass" : "bi bi-pie-chart-fill"
+    },
+    {
+        "listItemName" : "Portfolio",
+        "link" : "/#/news",
+        "iconClass" : "bi bi-ticket-detailed-fill"
+    },
+    {
+        "listItemName" : "Watchlist",
+        "link" : "/#/news",
+        "iconClass" : "bi bi-bookmark-fill"
+    },
+    {
+        "listItemName" : "News",
+        "link" : "/#/news",
+        "iconClass" : "bi bi-people-fill"
+    },
+    {
+        "listItemName" : "Upcoming Events",
+        "link" : "/#/news",
+        "iconClass" : "bi bi-person-fill"
+    },
+    {
+        "listItemName" : "Saved Screeners",
+        "link" : "/#/news",
+        "iconClass" : "bi bi-journal-bookmark-fill"
+    },
+    {
+        "listItemName" : "Settings",
+        "link" : "/#/news",
+        "iconClass" : "bi bi-gear-fill"
+    },
+    {
+        "listItemName" : "Subscription",
+        "link" : "/#/news",
+        "iconClass" : "bi bi-award"
+    }
+]
