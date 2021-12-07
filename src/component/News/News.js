@@ -1,5 +1,7 @@
 import React from "react";
 import sidebarData from "./NewsSidebarData.json";
+import newsList from "./NewsData.json";
+import newsImage from "../Common/Images/news-16.png";
 
 console.log("Sidebar Data ", sidebarData);
 
@@ -44,63 +46,36 @@ const News = () => {
             </div>
             <div class="col-xl-9 col-lg-8 col-md-8">
               <div class="row">
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-                  <div class="news_block mb-3">
-                    <div class="news_img">
-                      {/* <a href="javascript:void(0);"><img src="assets/images/news-11.png" class="img-fluid" alt="news_image"></a> */}
+                {newsList.map((newsItem) => {
+                  const newsDescription = newsItem.description || "";
+                  const newsCategory = newsItem.category || "";
+                  const newsTag = newsItem.tag || "";
+                  //   const poster = newsItem.poster || "";
+
+                  return (
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="news_block mb-3">
+                        <div class="news_img">
+                          {/* <a href="javascript:void(0);"></a> */}
+                          <img
+                            src={newsImage}
+                            class="img-fluid"
+                            alt="news_image"
+                          ></img>
+                        </div>
+                        <div class="news_content">
+                          <a href="javascript:void(0);" class="text-dark">
+                            <h5>{newsDescription}</h5>
+                          </a>
+                          <a href="javascript:void(0);" class="text-primary">
+                            {newsCategory}
+                          </a>
+                          <span>{newsTag}</span>
+                        </div>
+                      </div>
                     </div>
-                    <div class="news_content">
-                      <a href="javascript:void(0);" class="text-dark">
-                        <h5>
-                          Lucid shares soar on news of first electric sedan
-                          deliveries
-                        </h5>
-                      </a>
-                      <a href="javascript:void(0);" class="text-primary">
-                        Business
-                      </a>
-                      <span> · Money Wise</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-                  <div class="news_block mb-3">
-                    <div class="news_img">
-                      {/* <a href="javascript:void(0);"><img src="assets/images/news-14.png" class="img-fluid" alt="news_image"></a> */}
-                    </div>
-                    <div class="news_content">
-                      <a href="javascript:void(0);" class="text-dark">
-                        <h5>
-                          Lucid shares soar on news of first electric sedan
-                          deliveries
-                        </h5>
-                      </a>
-                      <a href="javascript:void(0);" class="text-primary">
-                        Business
-                      </a>
-                      <span> · Money Wise</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-                  <div class="news_block mb-3">
-                    <div class="news_img">
-                      {/* <a href="javascript:void(0);"><img src="assets/images/news-15.png" class="img-fluid" alt="news_image"></a> */}
-                    </div>
-                    <div class="news_content">
-                      <a href="javascript:void(0);" class="text-dark">
-                        <h5>
-                          Lucid shares soar on news of first electric sedan
-                          deliveries
-                        </h5>
-                      </a>
-                      <a href="javascript:void(0);" class="text-primary">
-                        Business
-                      </a>
-                      <span> · Money Wise</span>
-                    </div>
-                  </div>
-                </div>
+                  );
+                })}
               </div>
             </div>
           </div>
