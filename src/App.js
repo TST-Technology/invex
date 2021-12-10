@@ -14,6 +14,7 @@ import SymbolPage from "./component/Symbol/SymbolPage";
 import VideoResource from "./component/VideoResource/VideoResource";
 import LogIn from "./component/Authentication/LogIn/LogIn";
 import GoToTop from "./ScrollToTop";
+import BidTable from "./component/NewComps/BidTable";
 
 function App() {
   // useEffect(() => {
@@ -29,6 +30,7 @@ function App() {
   return (
     <div className="App">
       <HashRouter>
+        <GoToTop />
         <Navbar />
         <Routes>
           <Route exact path="/" element={<Home />} />
@@ -42,8 +44,8 @@ function App() {
           <Route exact path="/resources" element={<VideoResource />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/symbol" element={<SymbolPage />} />
+          <Route exact path="/bidtable" element={<BidTable />} />
         </Routes>
-        <GoToTop />
         <Footer />
       </HashRouter>
     </div>
