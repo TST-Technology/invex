@@ -1,0 +1,73 @@
+/* Google fonts Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.max-width{
+    max-width: 5rem;
+}
+
+.margin{
+    margin-top: 100px;
+    padding-top: 100px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Poppins;
+}
+
+.active_tab {
+    background-color: blue;
+    border-radius: 20px;
+    color: white;
+}
+
+.tabs {
+    font-size: small;
+}
+
+.tabs p {
+    cursor: pointer;
+}
+
+.company_info img {
+    object-fit: contain;
+}
+
+.company_info{
+    /* border: 1px solid black; */
+}
+
+.master-container-div{
+    top: 1rem;
+}
+
+/* Date Filter Css */
+
+.date-selector{
+    background-color: rgb(231, 231, 231);
+    /* border: 1px solid grey; */
+    border-radius: 0.9rem;
+    margin: auto 0;
+    padding: 0.5rem 4rem;
+    color: rgb(144, 144, 144);
+    cursor: pointer;
+}
+
+.date-selector:hover, .active-date{
+    background-color: blue;
+    color: white;
+}
+
+.expiry-date{
+    /* background-color: blue; */
+    font-size: 1rem;
+    font-weight: 900;
+    text-align: center;
+
+}
+
+.center-text{
+    text-align: center;
+}
