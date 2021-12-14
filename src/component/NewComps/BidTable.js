@@ -15,6 +15,7 @@ import { options, columns, midTableCols } from "./helpers";
 // import Options from "../Options/Options";
 
 const BidTable = () => {
+  // const [bidData, setBidData] = useState({});
   const expiration = bidData["Expiration"] || [];
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const rollingValue = bidData["rolling_value"] || [];
@@ -25,7 +26,9 @@ const BidTable = () => {
   const [callTable, setCallTableData] = useState([]);
   const [putTable, setPutTableData] = useState([]);
   const [stepSize, setStepSize] = useState(1);
-  const [strikes, setStrikes] = useState(25);
+  const [strikes, setStrikes] = useState(10);
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
 
   const stepSizeChangeHandler = (e) => {
     setStepSize(e.target.value);
@@ -33,6 +36,33 @@ const BidTable = () => {
 
   const strikesChangeHandler = (e) => {
     setStrikes(e.target.value);
+  };
+
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  var raw = JSON.stringify({
+    symbol_value: "BAL",
+    stepsize: stepSize,
+    month: 300,
+    Strike_percentage: strikes,
+    startdate: "2019-01-01",
+    enddate: "2021-01-01",
+    datadate: "2021-12-01",
+  });
+
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  const fetchData = () => {
+    fetch("http://dharm.ga/hello/calc", requestOptions)
+      .then((response) => response.json())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
   };
 
   const updateCallTableData = () => {
@@ -148,8 +178,8 @@ const BidTable = () => {
 
   return (
     <>
-      <div className="container mt-5">
-        <div className="p-2 company_info card shadow d-flex flex-row justify-content-center mt-5 margin ">
+      <div className="container top-bar">
+        <div className="p-2 company_info card  d-flex flex-row justify-content-between ">
           <img
             className="mx-3"
             width="40px"
@@ -179,7 +209,8 @@ const BidTable = () => {
             </button>
           </form>
         </div>
-        <div className="shadow card d-flex flex-row mx-2 mb-4 pl-3 pr-3 justify-content-center align-items-center">
+
+        <div className=" d-flex flex-row  justify-content-center align-items-center mt-2">
           <p className="my-auto mx-2">Strategy</p>
           <div className="dropdown my-auto">
             <a

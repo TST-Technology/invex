@@ -1,6 +1,13 @@
 /* Google fonts Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
+.top-bar{
+    /* border: 1px solid grey; */
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    margin-top: 150px;
+}
+
 .max-width{
     max-width: 5rem;
 }
