@@ -1,6 +1,37 @@
 /* Google fonts Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
+
+.input-wrapper{
+    display: flex;
+    /* border: 1px solid green; */
+    white-space: nowrap;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: rgb(46, 46, 46);
+}
+
+.search-container{
+    width: 320px;
+    margin-right: 2rem;
+}
+.search-suggestion{
+    position: absolute;
+    background-color: honeydew;
+    width: 320px;
+    margin-left: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgb(1, 31, 1);
+}
+
+.suggestion{
+    border-bottom: 1px solid rgb(197, 221, 197);
+    width: 100%;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
 .top-bar{
     /* border: 1px solid grey; */
     padding: 1rem 0;
@@ -53,23 +84,23 @@ body {
 /* Date Filter Css */
 
 .date-selector{
-    background-color: rgb(231, 231, 231);
+    background-color: rgb(240, 240, 240);
     /* border: 1px solid grey; */
-    border-radius: 0.9rem;
+    border-radius: 0.7rem;
     margin: auto 0;
-    padding: 0.5rem 4rem;
+    padding: 0.5rem 3rem;
     color: rgb(144, 144, 144);
     cursor: pointer;
 }
 
 .date-selector:hover, .active-date{
-    background-color: blue;
+    background-color: rgb(19, 19, 19);
     color: white;
 }
 
 .expiry-date{
     /* background-color: blue; */
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 900;
     text-align: center;
 
