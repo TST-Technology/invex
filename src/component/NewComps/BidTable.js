@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import bidData from "./tableDataNew.json";
+import bidDataa from "./tableDataNew.json";
 import moment from "moment";
 // import CustomMuiDataTable from "../Common/CustomDataTable/CustomMuiDataTable";
 import CustomTable from "./customTable";
@@ -15,7 +15,7 @@ import { options, columns, midTableCols } from "./helpers";
 // import Options from "../Options/Options";
 
 const BidTable = () => {
-  // const [bidData, setBidData] = useState({});
+  const [bidData, setBidData] = useState(bidDataa);
   const expiration = bidData["Expiration"] || [];
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const rollingValue = bidData["rolling_value"] || [];
@@ -61,7 +61,7 @@ const BidTable = () => {
   const fetchData = () => {
     fetch("http://dharm.ga/hello/calc", requestOptions)
       .then((response) => response.json())
-      .then((result) => console.log(result))
+      .then((result) => setBidData(result))
       .catch((error) => console.log("error", error));
   };
 
@@ -105,7 +105,7 @@ const BidTable = () => {
         Ask: ask[i].toFixed(3),
         Mid: mid[i].toFixed(3),
         Time: time[i].toFixed(3),
-        "% Change": String(Number(change[i]).toFixed(3)).concat(` %`),
+        "% Change": String(Number(change[i]).toFixed(2)).concat(` %`),
         "Probab Strike": strike[i].toFixed(3),
         HVTV: hvtv[i].toFixed(3),
         "Invex Ratio": invex[i].toFixed(3),
@@ -148,7 +148,7 @@ const BidTable = () => {
         Ask: ask[i].toFixed(3),
         Mid: mid[i].toFixed(3),
         Time: time[i].toFixed(3),
-        "% Change": String(Number(change[i]).toFixed(3)).concat(` %`),
+        "% Change": String(Number(change[i]).toFixed(2)).concat(` %`),
         "Probab Strike": strike[i].toFixed(3),
         HVTV: hvtv[i].toFixed(3),
         "Invex Ratio": invex[i].toFixed(3),
@@ -163,22 +163,23 @@ const BidTable = () => {
   // console.log("Bid expiration date ", expDateFilter, selRollingVal, filtered);
 
   useEffect(() => {
+    fetchData();
+  }, [strikes, stepSize]);
+
+  useEffect(() => {
     updateCallTableData();
     updatePutTableData();
     // console.log("Call Table Data", callTable);
-  }, [rollingValue, expDateFilter]);
+  }, [rollingValue]);
 
   useEffect(() => {
     setSelRollingVal(rollingValue[expDateFilter]);
-  }, [expDateFilter, rollingValue]);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  }, [expDateFilter]);
 
   return (
     <>
       <div className="container top-bar">
+        {/* <div>{strikes}</div> */}
         <div className="p-2 company_info card  d-flex flex-row justify-content-between ">
           <img
             className="mx-3"
