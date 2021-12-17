@@ -15,6 +15,7 @@ import VideoResource from "./component/VideoResource/VideoResource";
 import LogIn from "./component/Authentication/LogIn/LogIn";
 import GoToTop from "./ScrollToTop";
 import BidTable from "./component/NewComps/BidTable";
+import CallPutMain from "./component/callPut/callPutMain";
 
 function App() {
   // useEffect(() => {
@@ -45,6 +46,7 @@ function App() {
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/symbol" element={<SymbolPage />} />
           <Route exact path="/bidtable" element={<BidTable />} />
+          <Route exact path="/callPut" element={<CallPutMain />} />
         </Routes>
         <Footer />
       </HashRouter>
