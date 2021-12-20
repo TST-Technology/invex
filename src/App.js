@@ -15,6 +15,8 @@ import VideoResource from "./component/VideoResource/VideoResource";
 import LogIn from "./component/Authentication/LogIn/LogIn";
 import GoToTop from "./ScrollToTop";
 import BidTable from "./component/NewComps/BidTable";
+import CPIIndexHome from "./component/CPIndex/CPIIndexHome";
+import NonManufacture from "./component/CPIndex/nonManufacture";
 
 function App() {
   // useEffect(() => {
@@ -45,6 +47,8 @@ function App() {
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/symbol" element={<SymbolPage />} />
           <Route exact path="/bidtable" element={<BidTable />} />
+          <Route exact path="/cpindex" element={<CPIIndexHome />} />
+          <Route exact path="/non_manufacture" element={<NonManufacture />} />
         </Routes>
         <Footer />
       </HashRouter>
