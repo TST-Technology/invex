@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/invex/static/css/main.22496591.chunk.css",
-    "main.js": "/invex/static/js/main.08291b33.chunk.js",
-    "main.js.map": "/invex/static/js/main.08291b33.chunk.js.map",
+    "main.css": "/invex/static/css/main.8384fd5b.chunk.css",
+    "main.js": "/invex/static/js/main.8d0b9f3c.chunk.js",
+    "main.js.map": "/invex/static/js/main.8d0b9f3c.chunk.js.map",
     "runtime-main.js": "/invex/static/js/runtime-main.7275f75a.js",
     "runtime-main.js.map": "/invex/static/js/runtime-main.7275f75a.js.map",
     "static/css/2.50d7ef31.chunk.css": "/invex/static/css/2.50d7ef31.chunk.css",
-    "static/js/2.281e5260.chunk.js": "/invex/static/js/2.281e5260.chunk.js",
-    "static/js/2.281e5260.chunk.js.map": "/invex/static/js/2.281e5260.chunk.js.map",
+    "static/js/2.20fde8f8.chunk.js": "/invex/static/js/2.20fde8f8.chunk.js",
+    "static/js/2.20fde8f8.chunk.js.map": "/invex/static/js/2.20fde8f8.chunk.js.map",
     "static/js/3.77ccd409.chunk.js": "/invex/static/js/3.77ccd409.chunk.js",
     "static/js/3.77ccd409.chunk.js.map": "/invex/static/js/3.77ccd409.chunk.js.map",
     "index.html": "/invex/index.html",
     "static/css/2.50d7ef31.chunk.css.map": "/invex/static/css/2.50d7ef31.chunk.css.map",
-    "static/css/main.22496591.chunk.css.map": "/invex/static/css/main.22496591.chunk.css.map",
-    "static/js/2.281e5260.chunk.js.LICENSE.txt": "/invex/static/js/2.281e5260.chunk.js.LICENSE.txt",
+    "static/css/main.8384fd5b.chunk.css.map": "/invex/static/css/main.8384fd5b.chunk.css.map",
+    "static/js/2.20fde8f8.chunk.js.LICENSE.txt": "/invex/static/js/2.20fde8f8.chunk.js.LICENSE.txt",
     "static/media/card1.png": "/invex/static/media/card1.d239c6d2.png",
     "static/media/card2.png": "/invex/static/media/card2.07b8ceda.png",
     "static/media/card3.png": "/invex/static/media/card3.79f73e2e.png",
@@ -32,7 +32,7 @@
     "static/media/news-7.png": "/invex/static/media/news-7.90c51bb0.png",
     "static/media/news-8.png": "/invex/static/media/news-8.72923c07.png",
     "static/media/news-9.png": "/invex/static/media/news-9.eff6b0f4.png",
-    "static/media/star-round.svg": "/invex/static/media/star-round.1125e9b4.svg",
+    "static/media/star-round.svg": "/invex/static/media/star-round.8fe4837a.svg",
     "static/media/video-resource.png": "/invex/static/media/video-resource.b9a8b823.png",
     "static/media/video_thumb-1.png": "/invex/static/media/video_thumb-1.56390a1e.png",
     "static/media/video_thumb-2.png": "/invex/static/media/video_thumb-2.73857fa4.png",
@@ -46,8 +46,8 @@
   "entrypoints": [
     "static/js/runtime-main.7275f75a.js",
     "static/css/2.50d7ef31.chunk.css",
-    "static/js/2.281e5260.chunk.js",
-    "static/css/main.22496591.chunk.css",
-    "static/js/main.08291b33.chunk.js"
+    "static/js/2.20fde8f8.chunk.js",
+    "static/css/main.8384fd5b.chunk.css",
+    "static/js/main.8d0b9f3c.chunk.js"
   ]
 }
