@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
+import InvexRoutes from '../../../InvexRoutes';
 
 const Navbar = () => {
 
@@ -12,7 +13,7 @@ const Navbar = () => {
             <nav className="laptopNav fixed-top">
                 <div className="upperNavbar">
                     <div className="container d-flex align-items-center">
-                        <a href="/"><img src={require("../Images/invex-w-logo.png").default} alt="" /></a>
+                        <Link to={InvexRoutes.Home.path}><img src={require("../Images/invex-w-logo.png").default} alt="" /></Link>
                         <form className="form-group search-blk mx-auto" role="search" method="get" id="searchform" action=""> 
                             <div className="input-group">
                                 <input type="text" value={navbarSearch} onChange={(e)=>setNavbarSearch(e.target.value)} name="s" className="form-control" placeholder="Search for symbol, company and news" id="example-search-input" autoComplete="off" /> 
@@ -23,23 +24,63 @@ const Navbar = () => {
                                 </span>
                             </div>
                         </form>
-                        <Link to="/logIn"><button className="login-btn me-3">Login</button></Link>
-                        <button className="signup-btn">Signup</button>
+                        <Link to={InvexRoutes.LogIn.path}><button className="login-btn me-3">Login</button></Link>
+                        <Link to={InvexRoutes.SignUp.path} ><button className="signup-btn">Signup</button></Link>
                     </div>
                 </div>
                 <div className="mainNavbar container">
                     <ul className="d-flex my-0">
-                        <li><Link to="/" className={path.pathname==="/"?"active":""}>Home</Link></li>
-                        <li><Link to="/market" className={path.pathname==="/market"?"active":""} >Market</Link></li>
-                        <li><Link to="/sectors" className={path.pathname==="/sectors"?"active":""}>Sectors</Link></li>
-                        <li><Link to="/screener" className={path.pathname==="/screener"?"active":""}>Screener</Link></li>
-                        <li><Link to="/news" className={path.pathname==="/news"?"active":""}>News</Link></li>
-                        <li><Link to="/options" className={path.pathname==="/options"?"active":""}>Options</Link></li>
-                        <li><Link to="/economic-data" className={path.pathname==="/economic-data"?"active":""}>Economic Data</Link></li>
-                        <li><Link to="/resources" className={path.pathname==="/resources"?"active":""}>Resources</Link></li>
-                        <li><Link to="/dashboard" className={path.pathname==="/dashboard"?"active":""}>Dashboard</Link></li>
+                        <li>
+                            <Link to={InvexRoutes.Home.path} className={path.pathname===InvexRoutes.Home.path?"active":""}>
+                                Home
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={InvexRoutes.Market.path} className={path.pathname===InvexRoutes.Market.path?"active":""} >
+                                Market
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={InvexRoutes.Sectors.path} className={path.pathname===InvexRoutes.Sectors.path?"active":""}>
+                                Sectors
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={InvexRoutes.Screener.path} className={path.pathname===InvexRoutes.Screener.path?"active":""}>
+                                Screener
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={InvexRoutes.News.path} className={path.pathname===InvexRoutes.News.path?"active":""}>
+                                News
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={InvexRoutes.Options.path} className={path.pathname===InvexRoutes.Options.path?"active":""}>
+                                Options
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={InvexRoutes.EcomData.path} className={path.pathname===InvexRoutes.EcomData.path?"active":""}>
+                                Economic Data
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={InvexRoutes.Resources.path} className={path.pathname===InvexRoutes.Resources.path?"active":""}>
+                                Resources
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={InvexRoutes.Dashboard.path} className={path.pathname===InvexRoutes.Dashboard.path?"active":""}>
+                                Dashboard
+                            </Link>
+                        </li>
                     </ul>
-                    <button className="newUser ms-auto">First time here? <span className="fw-bold">Click Here</span></button>
+                    <button className="newUser ms-auto">First time here? 
+                        <Link style={{color:"white", textDecoration:"none"}} to={InvexRoutes.SignUp.path}>
+                            <span className="fw-bold">Click Here</span>
+                        </Link>
+                    </button>
                 </div>
             </nav>
         
@@ -55,17 +96,57 @@ const Navbar = () => {
                 </div>
                 <div className="offcanvas-body">
                     <ul>
-                        <li><Link to="/" className={path.pathname==="/"?"active":""}>Home</Link></li>
-                        <li><Link to="/market" className={path.pathname==="/market"?"active":""} >Market</Link></li>
-                        <li><Link to="/sectors" className={path.pathname==="/sectors"?"active":""}>Sectors</Link></li>
-                        <li><Link to="/screener" className={path.pathname==="/screener"?"active":""}>Screener</Link></li>
-                        <li><Link to="/news" className={path.pathname==="/news"?"active":""}>News</Link></li>
-                        <li><Link to="/options" className={path.pathname==="/options"?"active":""}>Options</Link></li>
-                        <li><Link to="/economic-data" className={path.pathname==="/economic-data"?"active":""}>Economic Data</Link></li>
-                        <li><Link to="/resources" className={path.pathname==="/resources"?"active":""}>Resources</Link></li>
-                        <li><Link to="/dashboard" className={path.pathname==="/dashboard"?"active":""}>Dashboard</Link></li>
+                        <li>
+                            <Link to={InvexRoutes.Home.path} className={path.pathname===InvexRoutes.Home.path?"active":""}>
+                                Home
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={InvexRoutes.Market.path} className={path.pathname===InvexRoutes.Market.path?"active":""} >
+                                Market
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={InvexRoutes.Sectors.path} className={path.pathname===InvexRoutes.Sectors.path?"active":""}>
+                                Sectors
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={InvexRoutes.Screener.path} className={path.pathname===InvexRoutes.Screener.path?"active":""}>
+                                Screener
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={InvexRoutes.News.path} className={path.pathname===InvexRoutes.News.path?"active":""}>
+                                News
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={InvexRoutes.Options.path} className={path.pathname===InvexRoutes.Options.path?"active":""}>
+                                Options
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={InvexRoutes.EcomData.path} className={path.pathname===InvexRoutes.EcomData.path?"active":""}>
+                                Economic Data
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={InvexRoutes.Resources.path} className={path.pathname===InvexRoutes.Resources.path?"active":""}>
+                                Resources
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={InvexRoutes.Dashboard.path} className={path.pathname===InvexRoutes.Dashboard.path?"active":""}>
+                                Dashboard
+                            </Link>
+                        </li>
                     </ul>
-                    <button className="newUser ms-auto">First time here? <span className="fw-bold">Click Here</span></button>
+                    <button className="newUser ms-auto">First time here? 
+                        <Link style={{color:"white", textDecoration:"none"}} to={InvexRoutes.SignUp.path}>
+                            <span className="fw-bold">Click Here</span>
+                        </Link>
+                    </button>
                 </div>
             </div>
 

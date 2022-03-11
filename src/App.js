@@ -1,5 +1,8 @@
 import { Routes, Route, HashRouter, BrowserRouter } from "react-router-dom";
 import "./style.css";
+
+import InvexRoutes from "./InvexRoutes";
+
 import Navbar from "./component/Common/Navbar/Navbar";
 import Home from "./component/Home/Home";
 import Screener from "./component/Screener/Screener";
@@ -17,6 +20,8 @@ import GoToTop from "./ScrollToTop";
 import BidTable from "./component/NewComps/BidTable";
 import CPIIndexHome from "./component/CPIndex/CPIIndexHome";
 import NonManufacture from "./component/CPIndex/nonManufacture";
+import SignUp from "./component/Authentication/LogIn/SignUp";
+import Price from "./component/Price/Price";
 
 function App() {
   // useEffect(() => {
@@ -35,20 +40,22 @@ function App() {
         <GoToTop />
         <Navbar />
         <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/logIn" element={<LogIn />} />
-          <Route exact path="/screener" element={<Screener />} />
-          <Route exact path="/market" element={<Market />} />
-          <Route exact path="/sectors" element={<Sectors />} />
-          <Route exact path="/news" element={<News />} />
-          <Route exact path="/options" element={<Options />} />
-          <Route exact path="/economic-data" element={<EconomicData />} />
-          <Route exact path="/resources" element={<VideoResource />} />
-          <Route exact path="/dashboard" element={<Dashboard />} />
-          <Route exact path="/symbol" element={<SymbolPage />} />
-          <Route exact path="/bidtable" element={<BidTable />} />
-          <Route exact path="/cpindex" element={<CPIIndexHome />} />
-          <Route exact path="/non_manufacture" element={<NonManufacture />} />
+          <Route exact path={InvexRoutes.Home.path} element={<Home />} />
+          <Route exact path={InvexRoutes.LogIn.path} element={<LogIn />} />
+          <Route exact path={InvexRoutes.SignUp.path} element={<SignUp />} />
+          <Route exact path={InvexRoutes.Screener.path} element={<Screener />} />
+          <Route exact path={InvexRoutes.Market.path} element={<Market />} />
+          <Route exact path={InvexRoutes.Sectors.path} element={<Sectors />} />
+          <Route exact path={InvexRoutes.News.path} element={<News />} />
+          <Route exact path={InvexRoutes.Price.path} element={<Price />} />
+          <Route exact path={InvexRoutes.Options.path} element={<Options />} />
+          <Route exact path={InvexRoutes.EcomData.path} element={<EconomicData />} />
+          <Route exact path={InvexRoutes.Resources.path} element={<VideoResource />} />
+          <Route exact path={InvexRoutes.Dashboard.path} element={<Dashboard />} />
+          <Route exact path={InvexRoutes.Symbol.path} element={<SymbolPage />} />
+          <Route exact path={InvexRoutes.BidTable.path} element={<BidTable />} />
+          <Route exact path={InvexRoutes.CPIndex.path} element={<CPIIndexHome />} />
+          <Route exact path={InvexRoutes.NonManufacture.path} element={<NonManufacture />} />
         </Routes>
         <Footer />
       </HashRouter>
