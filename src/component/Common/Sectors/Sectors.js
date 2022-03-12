@@ -4,29 +4,29 @@ import topETFData from "./topETFData.json";
 
 const Sectors = () => {
   return (
-    <div class="main">
-      <section class="sectors_sec">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-4">
-              <div class="leftsidefilter">
-                <div class="new_scenr_btn">
-                  <h4 class="m-0">All Sectors</h4>
+    <div className="main">
+      <section className="sectors_sec">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-4">
+              <div className="leftsidefilter">
+                <div className="new_scenr_btn">
+                  <h4 className="m-0">All Sectors</h4>
                 </div>
-                <div class="accordion" id="acc_sidefilter">
-                  <div class="in_acc_item">
-                    <h2 class="in_acc_header" id="acc_commu_serv">
+                <div className="accordion" id="acc_sidefilter">
+                  <div className="in_acc_item">
+                    <h2 className="in_acc_header" id="acc_commu_serv">
                       <button
-                        class="accordion-button collapsed"
+                        className="accordion-button collapsed"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#coll_commu_serv"
                         aria-expanded="true"
                         aria-controls="coll_commu_serv"
                       >
-                        <span class="d-block w-100">
+                        <span className="d-block w-100">
                           Communication Services{" "}
-                          <a class="float-end me-3 pe-3 text-secondary">
+                          <a className="float-end me-3 pe-3 text-secondary">
                             5 Industries
                           </a>
                         </span>
@@ -34,30 +34,30 @@ const Sectors = () => {
                     </h2>
                     <div
                       id="coll_commu_serv"
-                      class="accordion-collapse collapse"
+                      className="accordion-collapse collapse"
                       aria-labelledby="acc_commu_serv"
                       data-bs-parent="#acc_sidefilter"
                     >
-                      <div class="in_acc_body">
+                      <div className="in_acc_body">
                         It is shown by default, until the collapse plugin adds
                         the appropriate classes that we use to style each
                         element.
                       </div>
                     </div>
                   </div>
-                  <div class="in_acc_item">
-                    <h2 class="in_acc_header" id="acc_consumer_discre">
+                  <div className="in_acc_item">
+                    <h2 className="in_acc_header" id="acc_consumer_discre">
                       <button
-                        class="accordion-button collapsed"
+                        className="accordion-button collapsed"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#coll_consumer_discre"
                         aria-expanded="false"
                         aria-controls="coll_consumer_discre"
                       >
-                        <span class="d-block w-100">
+                        <span className="d-block w-100">
                           Consumer Discretionary{" "}
-                          <a class="float-end me-3 pe-3 text-secondary">
+                          <a className="float-end me-3 pe-3 text-secondary">
                             11 Industries
                           </a>
                         </span>
@@ -65,30 +65,30 @@ const Sectors = () => {
                     </h2>
                     <div
                       id="coll_consumer_discre"
-                      class="accordion-collapse collapse"
+                      className="accordion-collapse collapse"
                       aria-labelledby="acc_consumer_discre"
                       data-bs-parent="#acc_sidefilter"
                     >
-                      <div class="in_acc_body">
+                      <div className="in_acc_body">
                         It is shown by default, until the collapse plugin adds
                         the appropriate classes that we use to style each
                         element.
                       </div>
                     </div>
                   </div>
-                  <div class="in_acc_item">
-                    <h2 class="in_acc_header" id="acc_consumer_staples">
+                  <div className="in_acc_item">
+                    <h2 className="in_acc_header" id="acc_consumer_staples">
                       <button
-                        class="accordion-button collapsed"
+                        className="accordion-button collapsed"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#coll_consumer_staples"
                         aria-expanded="false"
                         aria-controls="coll_consumer_staples"
                       >
-                        <span class="d-block w-100">
+                        <span className="d-block w-100">
                           Consumer Staples{" "}
-                          <a class="float-end me-3 pe-3 text-secondary">
+                          <a className="float-end me-3 pe-3 text-secondary">
                             11 Industries
                           </a>
                         </span>
@@ -96,30 +96,30 @@ const Sectors = () => {
                     </h2>
                     <div
                       id="coll_consumer_staples"
-                      class="accordion-collapse collapse"
+                      className="accordion-collapse collapse"
                       aria-labelledby="acc_consumer_staples"
                       data-bs-parent="#acc_sidefilter"
                     >
-                      <div class="in_acc_body">
+                      <div className="in_acc_body">
                         It is shown by default, until the collapse plugin adds
                         the appropriate classes that we use to style each
                         element.
                       </div>
                     </div>
                   </div>
-                  <div class="in_acc_item">
-                    <h2 class="in_acc_header" id="acc_energy">
+                  <div className="in_acc_item">
+                    <h2 className="in_acc_header" id="acc_energy">
                       <button
-                        class="accordion-button collapsed"
+                        className="accordion-button collapsed"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#coll_energy"
                         aria-expanded="false"
                         aria-controls="coll_energy"
                       >
-                        <span class="d-block w-100">
+                        <span className="d-block w-100">
                           Energy{" "}
-                          <a class="float-end me-3 pe-3 text-secondary">
+                          <a className="float-end me-3 pe-3 text-secondary">
                             5 Industries
                           </a>
                         </span>
@@ -127,30 +127,30 @@ const Sectors = () => {
                     </h2>
                     <div
                       id="coll_energy"
-                      class="accordion-collapse collapse"
+                      className="accordion-collapse collapse"
                       aria-labelledby="acc_energy"
                       data-bs-parent="#acc_sidefilter"
                     >
-                      <div class="in_acc_body">
+                      <div className="in_acc_body">
                         It is shown by default, until the collapse plugin adds
                         the appropriate classes that we use to style each
                         element.
                       </div>
                     </div>
                   </div>
-                  <div class="in_acc_item">
-                    <h2 class="in_acc_header" id="acc_financials">
+                  <div className="in_acc_item">
+                    <h2 className="in_acc_header" id="acc_financials">
                       <button
-                        class="accordion-button collapsed"
+                        className="accordion-button collapsed"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#coll_financials"
                         aria-expanded="false"
                         aria-controls="coll_financials"
                       >
-                        <span class="d-block w-100">
+                        <span className="d-block w-100">
                           Financials{" "}
-                          <a class="float-end me-3 pe-3 text-secondary">
+                          <a className="float-end me-3 pe-3 text-secondary">
                             2 Industries
                           </a>
                         </span>
@@ -158,30 +158,30 @@ const Sectors = () => {
                     </h2>
                     <div
                       id="coll_financials"
-                      class="accordion-collapse collapse"
+                      className="accordion-collapse collapse"
                       aria-labelledby="acc_financials"
                       data-bs-parent="#acc_sidefilter"
                     >
-                      <div class="in_acc_body">
+                      <div className="in_acc_body">
                         It is shown by default, until the collapse plugin adds
                         the appropriate classes that we use to style each
                         element.
                       </div>
                     </div>
                   </div>
-                  <div class="in_acc_item">
-                    <h2 class="in_acc_header" id="acc_healthcare">
+                  <div className="in_acc_item">
+                    <h2 className="in_acc_header" id="acc_healthcare">
                       <button
-                        class="accordion-button collapsed"
+                        className="accordion-button collapsed"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#coll_healthcare"
                         aria-expanded="false"
                         aria-controls="coll_healthcare"
                       >
-                        <span class="d-block w-100">
+                        <span className="d-block w-100">
                           Health Care{" "}
-                          <a class="float-end me-3 pe-3 text-secondary">
+                          <a className="float-end me-3 pe-3 text-secondary">
                             6 Industries
                           </a>
                         </span>
@@ -189,30 +189,30 @@ const Sectors = () => {
                     </h2>
                     <div
                       id="coll_healthcare"
-                      class="accordion-collapse collapse"
+                      className="accordion-collapse collapse"
                       aria-labelledby="acc_healthcare"
                       data-bs-parent="#acc_sidefilter"
                     >
-                      <div class="in_acc_body">
+                      <div className="in_acc_body">
                         It is shown by default, until the collapse plugin adds
                         the appropriate classes that we use to style each
                         element.
                       </div>
                     </div>
                   </div>
-                  <div class="in_acc_item">
-                    <h2 class="in_acc_header" id="acc_industries">
+                  <div className="in_acc_item">
+                    <h2 className="in_acc_header" id="acc_industries">
                       <button
-                        class="accordion-button"
+                        className="accordion-button"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#coll_industries"
                         aria-expanded="false"
                         aria-controls="coll_industries"
                       >
-                        <span class="d-block w-100">
+                        <span className="d-block w-100">
                           Industries{" "}
-                          <a class="float-end me-3 pe-3 text-secondary">
+                          <a className="float-end me-3 pe-3 text-secondary">
                             6 Industries
                           </a>
                         </span>
@@ -220,11 +220,11 @@ const Sectors = () => {
                     </h2>
                     <div
                       id="coll_industries"
-                      class="accordion-collapse collapse show"
+                      className="accordion-collapse collapse show"
                       aria-labelledby="acc_industries"
                       data-bs-parent="#acc_sidefilter"
                     >
-                      <div class="in_acc_body">
+                      <div className="in_acc_body">
                         <ul>
                           <li>
                             <a href="javascript:void(0);">Airlines</a>
@@ -234,7 +234,7 @@ const Sectors = () => {
                               Air Freight & Logistics
                             </a>
                           </li>
-                          <li class="active">
+                          <li className="active">
                             <a href="javascript:void(0);">
                               Aerospace & Defense
                             </a>
@@ -288,19 +288,19 @@ const Sectors = () => {
                       </div>
                     </div>
                   </div>
-                  <div class="in_acc_item">
-                    <h2 class="in_acc_header" id="acc_info_tech">
+                  <div className="in_acc_item">
+                    <h2 className="in_acc_header" id="acc_info_tech">
                       <button
-                        class="accordion-button collapsed"
+                        className="accordion-button collapsed"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#coll_info_tech"
                         aria-expanded="false"
                         aria-controls="coll_info_tech"
                       >
-                        <span class="d-block w-100">
+                        <span className="d-block w-100">
                           Information Technology{" "}
-                          <a class="float-end me-3 pe-3 text-secondary">
+                          <a className="float-end me-3 pe-3 text-secondary">
                             6 Industries
                           </a>
                         </span>
@@ -308,30 +308,30 @@ const Sectors = () => {
                     </h2>
                     <div
                       id="coll_info_tech"
-                      class="accordion-collapse collapse"
+                      className="accordion-collapse collapse"
                       aria-labelledby="acc_info_tech"
                       data-bs-parent="#acc_sidefilter"
                     >
-                      <div class="in_acc_body">
+                      <div className="in_acc_body">
                         It is shown by default, until the collapse plugin adds
                         the appropriate classes that we use to style each
                         element.
                       </div>
                     </div>
                   </div>
-                  <div class="in_acc_item">
-                    <h2 class="in_acc_header" id="acc_material">
+                  <div className="in_acc_item">
+                    <h2 className="in_acc_header" id="acc_material">
                       <button
-                        class="accordion-button collapsed"
+                        className="accordion-button collapsed"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#coll_materials"
                         aria-expanded="false"
                         aria-controls="coll_materials"
                       >
-                        <span class="d-block w-100">
+                        <span className="d-block w-100">
                           Materials{" "}
-                          <a class="float-end me-3 pe-3 text-secondary">
+                          <a className="float-end me-3 pe-3 text-secondary">
                             5 Industries
                           </a>
                         </span>
@@ -339,30 +339,30 @@ const Sectors = () => {
                     </h2>
                     <div
                       id="coll_materials"
-                      class="accordion-collapse collapse"
+                      className="accordion-collapse collapse"
                       aria-labelledby="acc_material"
                       data-bs-parent="#acc_sidefilter"
                     >
-                      <div class="in_acc_body">
+                      <div className="in_acc_body">
                         It is shown by default, until the collapse plugin adds
                         the appropriate classes that we use to style each
                         element.
                       </div>
                     </div>
                   </div>
-                  <div class="in_acc_item">
-                    <h2 class="in_acc_header" id="acc_realestate">
+                  <div className="in_acc_item">
+                    <h2 className="in_acc_header" id="acc_realestate">
                       <button
-                        class="accordion-button collapsed"
+                        className="accordion-button collapsed"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#coll_realestate"
                         aria-expanded="false"
                         aria-controls="coll_realestate"
                       >
-                        <span class="d-block w-100">
+                        <span className="d-block w-100">
                           Real Estate{" "}
-                          <a class="float-end me-3 pe-3 text-secondary">
+                          <a className="float-end me-3 pe-3 text-secondary">
                             2 Industries
                           </a>
                         </span>
@@ -370,30 +370,30 @@ const Sectors = () => {
                     </h2>
                     <div
                       id="coll_realestate"
-                      class="accordion-collapse collapse"
+                      className="accordion-collapse collapse"
                       aria-labelledby="acc_realestate"
                       data-bs-parent="#acc_sidefilter"
                     >
-                      <div class="in_acc_body">
+                      <div className="in_acc_body">
                         It is shown by default, until the collapse plugin adds
                         the appropriate classes that we use to style each
                         element.
                       </div>
                     </div>
                   </div>
-                  <div class="in_acc_item">
-                    <h2 class="in_acc_header" id="acc_utilities">
+                  <div className="in_acc_item">
+                    <h2 className="in_acc_header" id="acc_utilities">
                       <button
-                        class="accordion-button collapsed"
+                        className="accordion-button collapsed"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#coll_utilities"
                         aria-expanded="false"
                         aria-controls="coll_utilities"
                       >
-                        <span class="d-block w-100">
+                        <span className="d-block w-100">
                           Utilities{" "}
-                          <a class="float-end me-3 pe-3 text-secondary">
+                          <a className="float-end me-3 pe-3 text-secondary">
                             5 Industries
                           </a>
                         </span>
@@ -401,11 +401,11 @@ const Sectors = () => {
                     </h2>
                     <div
                       id="coll_utilities"
-                      class="accordion-collapse collapse"
+                      className="accordion-collapse collapse"
                       aria-labelledby="acc_utilities"
                       data-bs-parent="#acc_sidefilter"
                     >
-                      <div class="in_acc_body">
+                      <div className="in_acc_body">
                         It is shown by default, until the collapse plugin adds
                         the appropriate classes that we use to style each
                         element.
@@ -415,21 +415,21 @@ const Sectors = () => {
                 </div>
               </div>
             </div>
-            <div class="col-lg-8">
-              <div class="row">
-                <div class="col-lg-12 mb-5">
-                  <div class="card companyviewblk compprofile_block mb-5">
-                    <div class="card-header">
-                      <div class="d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0">
-                        <h6 class="m-0">
+            <div className="col-lg-8">
+              <div className="row">
+                <div className="col-lg-12 mb-5">
+                  <div className="card companyviewblk compprofile_block mb-5">
+                    <div className="card-header">
+                      <div className="d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0">
+                        <h6 className="m-0">
                           <strong>Industrials: Aerospace & Defense</strong>
                         </h6>
                       </div>
                     </div>
-                    <div class="card-body">
-                      <div class="description-para">
-                        <div class="key_status">
-                          <p class="mb-4">
+                    <div className="card-body">
+                      <div className="description-para">
+                        <div className="key_status">
+                          <p className="mb-4">
                             The aerospace & defense industry includes companies
                             that manufacture aerospace and defense products,
                             including aircraft and aircraft parts, tanks, guided
@@ -439,13 +439,13 @@ const Sectors = () => {
                             supporting these products through repair and
                             maintenance services.
                           </p>
-                          <div class="d-flex align-items-center justify-content-between">
-                            <a href="#" class="btn btn-light">
+                          <div className="d-flex align-items-center justify-content-between">
+                            <a href="#" className="btn btn-light">
                               Read More
                             </a>
                             <a
                               href="#"
-                              class="btn btn-primary"
+                              className="btn btn-primary"
                               data-bs-toggle="modal"
                               data-bs-target="#filtermodal"
                             >
@@ -456,28 +456,28 @@ const Sectors = () => {
                       </div>
                     </div>
                   </div>
-                  <div class="mt-5 mb-5">
-                    <h6 class="mb-4">
+                  <div className="mt-5 mb-5">
+                    <h6 className="mb-4">
                       <strong>
                         Market Cap (billions) by Industrial Sector
                       </strong>
                     </h6>
-                    <img src={industrialChart} alt="chart" class="img-fluid" />
+                    <img src={industrialChart} alt="chart" className="img-fluid" />
                   </div>
 
-                  <div class="top_eta">
-                    <div class="mb-5">
-                      <div class="d-flex align-items-center justify-content-between border p-3 border-bottom-0">
-                        <h6 class="m-0">
+                  <div className="top_eta">
+                    <div className="mb-5">
+                      <div className="d-flex align-items-center justify-content-between border p-3 border-bottom-0">
+                        <h6 className="m-0">
                           <strong>Top ETF Preformance</strong>
                         </h6>
-                        <a href="javascript:void(0)" class="text-dark viewmore">
+                        <a href="javascript:void(0)" className="text-dark viewmore">
                           View More
                         </a>
                       </div>
-                      <div class="table-responsive">
-                        <table class="table table-bordered m-0 most_tables">
-                          <thead class="table-light">
+                      <div className="table-responsive">
+                        <table className="table table-bordered m-0 most_tables">
+                          <thead className="table-light">
                             <tr>
                               <th scope="col">Symbol</th>
                               <th scope="col">Market cap(B)</th>
@@ -487,7 +487,7 @@ const Sectors = () => {
                               <th scope="col">Under valued</th>
                             </tr>
                           </thead>
-                          <tbody class="border-top-0">
+                          <tbody className="border-top-0">
                             {topETFData.map((etfData) => {
                               const symb = etfData.symbol || "";
                               const marketCap = etfData.marketCap || "";

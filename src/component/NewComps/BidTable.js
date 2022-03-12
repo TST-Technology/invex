@@ -314,7 +314,7 @@ const BidTable = () => {
 
           <div className="input-wrapper mx-3">
             <p className="my-auto">Strike</p>
-            <div class="d-flex flex-column align-items-start p-3">
+            <div className="d-flex flex-column align-items-start p-3">
               <MuiThemeProvider muiTheme={muiTheme}>
                 <Slider
                   aria-label="Strike"
@@ -330,7 +330,7 @@ const BidTable = () => {
                 />
               </MuiThemeProvider>
             </div>
-            <label for="myinputRange" class="form-label my-auto">
+            <label for="myinputRange" className="form-label my-auto">
               {strikeInput}
             </label>
           </div>
@@ -387,7 +387,7 @@ const BidTable = () => {
                     const date = moment(expDate).format("MMM DD, YYYY");
                     return (
                       <div
-                        class="item"
+                        className="item"
                         onClick={() => {
                           setExpDateFilter(index);
                           setLoader(true);
@@ -400,7 +400,7 @@ const BidTable = () => {
                               : "date-selector"
                           }
                         >
-                          <div class="expiry-date">{date}</div>
+                          <div className="expiry-date">{date}</div>
                         </div>
                       </div>
                     );
@@ -435,9 +435,9 @@ const BidTable = () => {
 
       {onSubmit ? (
         loader ? (
-          <div class="d-flex justify-content-center align-items-center">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
+          <div className="d-flex justify-content-center align-items-center">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
           </div>
         ) : (
@@ -447,7 +447,7 @@ const BidTable = () => {
               const date = moment(expDate).format("MMM DD, YYYY");
               return (
                 <div
-                  class="item"
+                  className="item"
                   onClick={() => {
                     setExpDateFilter(index);
                   }}
@@ -459,7 +459,7 @@ const BidTable = () => {
                         : "date-selector"
                     }
                   >
-                    <div class="expiry-date">{date}</div>
+                    <div className="expiry-date">{date}</div>
                   </div>
                 </div>
               );
@@ -467,8 +467,8 @@ const BidTable = () => {
           </div> */}
 
             {/* 
-        <section class="top_carosuel_sec">
-          <div class="">
+        <section className="top_carosuel_sec">
+          <div className="">
             <ReactOwlCarousel
               className="top_market_carousel owl-carousel owl-theme"
               {...options}
@@ -477,7 +477,7 @@ const BidTable = () => {
                 const date = moment(expDate).format("MMM DD, YYYY");
                 return (
                   <div
-                    class="item"
+                    className="item"
                     onClick={() => {
                       setExpDateFilter(index);
                     }}
@@ -489,7 +489,7 @@ const BidTable = () => {
                           : "date-selector"
                       }
                     >
-                      <div class="expiry-date">{date}</div>
+                      <div className="expiry-date">{date}</div>
                     </div>
                   </div>
                 );
@@ -500,14 +500,14 @@ const BidTable = () => {
 
             <div className="row ">
               <div className="col-sm-5 g-0">
-                <div class=" border p-3 border-bottom-0 center-text text-success">
+                <div className=" border p-3 border-bottom-0 center-text text-success">
                   <strong>Calls</strong>
                 </div>
                 <CustomTable columns={columns} tableData={callTable} />
               </div>
 
               <div className="col-sm-2 g-0">
-                <div class="center-text border p-3 border-bottom-0 text-muted">
+                <div className="center-text border p-3 border-bottom-0 text-muted">
                   <strong>
                     {moment(expiration[expDateFilter]).format("MMM DD, YYYY")}
                   </strong>
@@ -516,7 +516,7 @@ const BidTable = () => {
               </div>
 
               <div className="col-sm-5 g-0">
-                <div class="align-items-center text-align-center border p-3 border-bottom-0 center-text text-danger">
+                <div className="align-items-center text-align-center border p-3 border-bottom-0 center-text text-danger">
                   <strong>Puts</strong>
                 </div>
                 <CustomTable columns={columns} tableData={putTable} />

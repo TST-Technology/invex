@@ -13,20 +13,20 @@ const Screener = () => {
 
   return (
     <>
-      <div class="main">
-        <section class="filterscreener_section">
-          <div class="container">
+      <div className="main">
+        <section className="filterscreener_section">
+          <div className="container">
             <div
-              class={
+              className={
                 "filterscreener_area " +
                 (showFilterSection ? "show-mobile-content" : "")
               }
             >
               <a
                 href="javascript:void(0);"
-                class="btn btn-light font-bd filter-hide filterhidemobile"
+                className="btn btn-light font-bd filter-hide filterhidemobile"
               >
-                <i class="bi bi-chevron-double-left"></i>
+                <i className="bi bi-chevron-double-left"></i>
               </a>
               <LeftSideFilter showFilterSection={showFilterSection} />
               <RightSideTable

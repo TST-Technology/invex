@@ -56,37 +56,37 @@ function CompanyNews () {
   ]
 
   return (
-    <div class='market_news mb-5'>
-      <div class='d-flex align-items-center justify-content-between bg-light p-3 border-bottom-0'>
-        <h6 class='m-0'>
+    <div className='market_news mb-5'>
+      <div className='d-flex align-items-center justify-content-between bg-light p-3 border-bottom-0'>
+        <h6 className='m-0'>
           <strong>Company News</strong>
         </h6>
-        <a href='javascript:void(0)' class='text-dark viewmore'>
+        <a href='javascript:void(0)' className='text-dark viewmore'>
           View More
         </a>
       </div>
-      <div class='row'>
+      <div className='row'>
         {
             newsData.map((data,index)=>{
               return(
-                <div class='col-lg-6'>
-                  <div class='news_block mt-3 mb-3'>
-                    <div class='news_img'>
+                <div className='col-lg-6'>
+                  <div className='news_block mt-3 mb-3'>
+                    <div className='news_img'>
                       <a href='javascript:void(0);'>
                         <img
                           src={require("../../Common/Images/"+data.img).default}
-                          class='img-fluid'
+                          className='img-fluid'
                           alt='news_image'
                         />
                       </a>
                     </div>
-                    <div class='news_content'>
-                      <a href='javascript:void(0);' class='text-dark'>
+                    <div className='news_content'>
+                      <a href='javascript:void(0);' className='text-dark'>
                         <h5>
                           {data.title}
                         </h5>
                       </a>
-                      <a href='javascript:void(0);' class='text-primary'>
+                      <a href='javascript:void(0);' className='text-primary'>
                         Business
                       </a>
                       <span> · {data.business}</span>

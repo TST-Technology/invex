@@ -1,14 +1,16 @@
 import React from "react";
 import MUIDataTable from "mui-datatables";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
+import { CircularProgress } from "@material-ui/core";
 
-const CustomMuiDataTable = ({ columns, tableData, title }) => {
+const CustomMuiDataTable = ({ columns, tableData, title , loading }) => {
   const options = {
     filter: false,
     responsive: "standard",
     elevation: 0,
     selectableRowsHeader: false,
     selectableRows: "none",
+    loading:loading,
     textLabels: {
       pagination: {
         next: "Next Page",
@@ -47,12 +49,19 @@ const CustomMuiDataTable = ({ columns, tableData, title }) => {
   return (
     <>
       <ThemeProvider theme={getMuiTheme()}>
-        <MUIDataTable
-          data={tableData}
-          columns={columns}
-          options={options}
-          title={title}
-        />
+        {loading ? 
+          <div style={{height:50,textAlign:'center'}}>
+            <CircularProgress /> 
+          </div>
+          : 
+          <MUIDataTable
+            data={tableData}
+            columns={columns}
+            options={options}
+            title={title}
+            
+          />
+        }
       </ThemeProvider>
     </>
   );

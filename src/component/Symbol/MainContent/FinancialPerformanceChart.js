@@ -49,8 +49,8 @@ const data = [
 
 function FinancialPerformanceChart () {
   return (
-    <div class='col-lg-6 mb-5'>
-      <h6 class='mb-4'>
+    <div className='col-lg-6 mb-5'>
+      <h6 className='mb-4'>
         <strong>Finantial Performance</strong>
       </h6>
       <ResponsiveContainer width='100%' aspect={1}>

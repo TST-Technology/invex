@@ -7,27 +7,27 @@ import chart from "../Common/Images/industrial_chart.png";
 const NonManufacture = () => {
   return (
     <div>
-      <section class="ism_non_manfuc">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12 mb-5">
-              <div class="card mb-5">
-                <div class="card-body bg-base d-lg-flex d-md-flex d-block align-items-center rounded-3 p-4">
-                  <h5 class="m-0 pe-3">ISM Report On Business</h5>
+      <section className="ism_non_manfuc">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12 mb-5">
+              <div className="card mb-5">
+                <div className="card-body bg-base d-lg-flex d-md-flex d-block align-items-center rounded-3 p-4">
+                  <h5 className="m-0 pe-3">ISM Report On Business</h5>
                 </div>
               </div>
 
-              <div class="card companyviewblk compprofile_block mb-5">
-                <div class="card-header">
-                  <div class="d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0">
-                    <h6 class="m-0">
+              <div className="card companyviewblk compprofile_block mb-5">
+                <div className="card-header">
+                  <div className="d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0">
+                    <h6 className="m-0">
                       <strong>June 2021 Non-Manufacturing</strong>
                     </h6>
                   </div>
                 </div>
-                <div class="card-body">
-                  <div class="description-para">
-                    <div class="key_status">
+                <div className="card-body">
+                  <div className="description-para">
+                    <div className="key_status">
                       <p className="mb-4">
                         The ISM manufacturing index, also known as the
                         purchasing managers' index (PMI), is a monthly indicator
@@ -55,12 +55,12 @@ const NonManufacture = () => {
                   </div>
                 </div>
               </div>
-              <h6 class="mb-4">
+              <h6 className="mb-4">
                 <strong>Last 6 month Non-Manufacturing</strong>
               </h6>
-              <div class="table-responsive">
-                <table class="table table-bordered m-0 most_tables">
-                  <thead class="table-light">
+              <div className="table-responsive">
+                <table className="table table-bordered m-0 most_tables">
+                  <thead className="table-light">
                     <tr>
                       <th scope="col">ISM Manufacturing</th>
                       <th scope="col">Dec (2020)</th>
@@ -71,7 +71,7 @@ const NonManufacture = () => {
                       <th scope="col">May (2021)</th>
                     </tr>
                   </thead>
-                  <tbody class="border-top-0">
+                  <tbody className="border-top-0">
                     {manufacturingDataTable.map((manuData) => {
                       const itemName = manuData["item-type"] || "",
                         jan = manuData.Jan || "0 (0%)",
@@ -83,36 +83,36 @@ const NonManufacture = () => {
                       return (
                         <tr>
                           <td>{itemName}</td>
-                          <td class="up">
+                          <td className="up">
                             {dec}
-                            <span class="arw-up"></span>
+                            <span className="arw-up"></span>
                           </td>
-                          <td class="up">
+                          <td className="up">
                             {jan}
-                            <span class="arw-up"></span>
+                            <span className="arw-up"></span>
                           </td>
-                          <td class="up">
+                          <td className="up">
                             {feb}
-                            <span class="arw-up"></span>
+                            <span className="arw-up"></span>
                           </td>
-                          <td class="up">
+                          <td className="up">
                             {mar}
-                            <span class="arw-up"></span>
+                            <span className="arw-up"></span>
                           </td>
-                          <td class="up">
+                          <td className="up">
                             {apr}
-                            <span class="arw-up"></span>
+                            <span className="arw-up"></span>
                           </td>
-                          <td class="up">
+                          <td className="up">
                             {may}
-                            <span class="arw-up"></span>
+                            <span className="arw-up"></span>
                           </td>
                         </tr>
                       );
                     })}
                   </tbody>
                 </table>
-                <div class="d-flex align-items-center justify-content-between mt-3">
+                <div className="d-flex align-items-center justify-content-between mt-3">
                   <small>Formate: Rank (Persentile)</small>
                   <small>
                     *The above ranking is derived from the last 6 months of data
@@ -120,12 +120,12 @@ const NonManufacture = () => {
                   </small>
                 </div>
               </div>
-              <div class="last-six-non-manf mt-5 mb-5">
-                <h6 class="mb-4">
+              <div className="last-six-non-manf mt-5 mb-5">
+                <h6 className="mb-4">
                   <strong>Last 6 month Non-Manufacturing</strong>
                 </h6>
-                <div class="text-center">
-                  <img src={chart} class="img-fluid" alt="chart" />
+                <div className="text-center">
+                  <img src={chart} className="img-fluid" alt="chart" />
                 </div>
                 <p>
                   <small>
@@ -138,59 +138,59 @@ const NonManufacture = () => {
                   </small>
                 </p>
               </div>
-              <div class="card companyviewblk compprofile_block mb-5">
-                <div class="card-header">
-                  <div class="d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0">
-                    <h6 class="m-0">
+              <div className="card companyviewblk compprofile_block mb-5">
+                <div className="card-header">
+                  <div className="d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0">
+                    <h6 className="m-0">
                       <strong>Analyst Comments</strong>
                     </h6>
                   </div>
                 </div>
-                <div class="card-body">
-                  <div class="anay_comments_sec">
+                <div className="card-body">
+                  <div className="anay_comments_sec">
                     {comments.map((comment) => {
                       return (
                         <>
                           <div>
-                            <img src={star} class="img-fluid" alt="star" />
-                            <h6 class="d-inline-flex ms-2">{comment.title}</h6>
-                            <p class="m-0">{comment.desc}</p>
+                            <img src={star} className="img-fluid" alt="star" />
+                            <h6 className="d-inline-flex ms-2">{comment.title}</h6>
+                            <p className="m-0">{comment.desc}</p>
                           </div>
-                          <div class="border mt-4 mb-4"></div>
+                          <div className="border mt-4 mb-4"></div>
                         </>
                       );
                     })}
                   </div>
                 </div>
               </div>
-              <div class="mt-3 mb-5">
-                <h6 class="mb-3">
+              <div className="mt-3 mb-5">
+                <h6 className="mb-3">
                   <strong>Check previous statics</strong>
                 </h6>
-                <div class="key_status">
-                  <ul class="check_prev_statc">
+                <div className="key_status">
+                  <ul className="check_prev_statc">
                     <li>
-                      <a href="javascript:void(0)" class="text-primary">
+                      <a href="javascript:void(0)" className="text-primary">
                         April 2021 Manufacturing ISM Report On Business.
                       </a>
                     </li>
                     <li>
-                      <a href="javascript:void(0)" class="text-primary">
+                      <a href="javascript:void(0)" className="text-primary">
                         March 2021 Manufacturing ISM Report On Business.
                       </a>
                     </li>
                     <li>
-                      <a href="javascript:void(0)" class="text-primary">
+                      <a href="javascript:void(0)" className="text-primary">
                         February 2021 Manufacturing ISM Report On Business.
                       </a>
                     </li>
                     <li>
-                      <a href="javascript:void(0)" class="text-primary">
+                      <a href="javascript:void(0)" className="text-primary">
                         January 2021 Manufacturing ISM Report On Business.
                       </a>
                     </li>
                     <li>
-                      <a href="javascript:void(0)" class="text-primary">
+                      <a href="javascript:void(0)" className="text-primary">
                         December 2021 Manufacturing ISM Report On Business.
                       </a>
                     </li>

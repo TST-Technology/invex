@@ -55,8 +55,8 @@ const data = [
 
 function VolatilityChart () {
   return (
-    <div class='mb-5'>
-      <h6 class='mb-4'>
+    <div className='mb-5'>
+      <h6 className='mb-4'>
         <strong>Option Analysis: Volatility chart (1Y)</strong>
       </h6>
       <ResponsiveContainer width={'100%'} aspect={1} maxHeight={300}>

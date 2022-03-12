@@ -128,21 +128,21 @@ const TopReactCarousel = () => {
     };
 
     return (
-        <section class="top_carosuel_sec">
-            <div class="container">
+        <section className="top_carosuel_sec">
+            <div className="container">
                 <ReactOwlCarousel className='top_market_carousel owl-carousel owl-theme'  {...options}   >
                     {
                         carousalData.map((data,index)=>{
                             const up = (data.change.dir==="up");
                             return(
-                                <div class="item">
-                                    <div class="marketviewblk">
-                                        <div class="chart-text">
-                                            <h5 class="market_company">{data.company}</h5>
-                                            <p class="market_price">₹{data.price}</p>
-                                            <p class={"market_profit "+(up?"up":"down")}>{(up?"+":"-")+data.change.value}({(up?"+":"-")+data.change.per})</p>
+                                <div className="item">
+                                    <div className="marketviewblk">
+                                        <div className="chart-text">
+                                            <h5 className="market_company">{data.company}</h5>
+                                            <p className="market_price">₹{data.price}</p>
+                                            <p className={"market_profit "+(up?"up":"down")}>{(up?"+":"-")+data.change.value}({(up?"+":"-")+data.change.per})</p>
                                         </div>
-                                        <div class="chart-img ms-auto">
+                                        <div className="chart-img ms-auto">
                                             <TopChart />
                                         </div>
                                     </div>

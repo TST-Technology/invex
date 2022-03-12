@@ -42,15 +42,15 @@ const MainVideoContent = () => {
             {
                 videoData.map((data,index)=>{
                     return(
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                            <div class="video_block">
-                                <div class="video_thumb">
-                                    <img src={(require("../Common/Images/"+data.vid).default)} alt="video" class="img-fluid" />
-                                    <div class="play_btn">
-                                        <a href="javascript:void(0);"><img src={require("../Common/Images/play-btn.png").default} class="img-fluid" alt="play" /></a>
+                        <div className="col-lg-3 col-md-4 col-sm-6 col-12">
+                            <div className="video_block">
+                                <div className="video_thumb">
+                                    <img src={(require("../Common/Images/"+data.vid).default)} alt="video" className="img-fluid" />
+                                    <div className="play_btn">
+                                        <a href="javascript:void(0);"><img src={require("../Common/Images/play-btn.png").default} className="img-fluid" alt="play" /></a>
                                     </div>
                                 </div>
-                                <div class="video_desc">
+                                <div className="video_desc">
                                     <p>{data.title}</p>
                                 </div>
                             </div>

@@ -5,27 +5,27 @@ import cpiChart from "../Common/Images/cpi-chart.png";
 const CPIIndexHome = () => {
   return (
     <div>
-      <div class="ism_non_manfuc">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12 mb-5">
-              <div class="card mb-5">
-                <div class="card-body bg-base d-lg-flex d-md-flex d-block align-items-center rounded-3 p-4">
-                  <h5 class="m-0 pe-3">CONSUMER PRICE INDEX</h5>
+      <div className="ism_non_manfuc">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12 mb-5">
+              <div className="card mb-5">
+                <div className="card-body bg-base d-lg-flex d-md-flex d-block align-items-center rounded-3 p-4">
+                  <h5 className="m-0 pe-3">CONSUMER PRICE INDEX</h5>
                 </div>
               </div>
 
-              <div class="card mb-5">
-                <div class="card-header">
-                  <div class="d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0">
-                    <h6 class="m-0">
+              <div className="card mb-5">
+                <div className="card-header">
+                  <div className="d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0">
+                    <h6 className="m-0">
                       <strong>CONSUMER PRICE INDEX – AUGUST 2021</strong>
                     </h6>
                   </div>
                 </div>
-                <div class="card-body">
-                  <div class="description-para">
-                    <div class="key_status">
+                <div className="card-body">
+                  <div className="description-para">
+                    <div className="key_status">
                       <p className="mb-4">
                         There are two participants in the private sectors:
                         Consumers and Businesses. With regards to
@@ -77,20 +77,20 @@ const CPIIndexHome = () => {
                 </div>
               </div>
 
-              <div class="card mt-5 mb-4">
-                <div class="card-body">
-                  <div class="mt-5">
-                    <div class="row">
-                      <div class="col-lg-3">
-                        <h6 class="mb-3">
+              <div className="card mt-5 mb-4">
+                <div className="card-body">
+                  <div className="mt-5">
+                    <div className="row">
+                      <div className="col-lg-3">
+                        <h6 className="mb-3">
                           <strong>One Month Percent change</strong>
                         </h6>
                       </div>
-                      <div class="col-lg-9">
+                      <div className="col-lg-9">
                         <img
                           src={consumerChart}
                           type="image"
-                          class="img-fluid"
+                          className="img-fluid"
                           alt="chart"
                         />
                       </div>
@@ -98,83 +98,83 @@ const CPIIndexHome = () => {
                   </div>
                 </div>
               </div>
-              <div class="card mt-5 mb-4">
-                <div class="card-body">
-                  <div class="mt-5">
-                    <div class="row">
-                      <div class="col-lg-3">
-                        <h6 class="mb-3">
+              <div className="card mt-5 mb-4">
+                <div className="card-body">
+                  <div className="mt-5">
+                    <div className="row">
+                      <div className="col-lg-3">
+                        <h6 className="mb-3">
                           <strong>Trailing 12-Month Percent change</strong>
                         </h6>
                       </div>
-                      <div class="col-lg-9">
+                      <div className="col-lg-9">
                         <img
                           src={consumerChart}
                           type="image"
-                          class="img-fluid"
+                          className="img-fluid"
                           alt="chart"
                         />
-                        {/* <img src="images/consumer-chart-1.png" type="image" class="img-fluid" alt="chart"> */}
+                        {/* <img src="images/consumer-chart-1.png" type="image" className="img-fluid" alt="chart"> */}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <h6 class="mb-4">
+              <h6 className="mb-4">
                 <strong>CPI All And CPI Core</strong>
               </h6>
 
-              <div class="mb-5">
-                <div class="top_button_panel mb-3">
-                  <button type="button" class="btn btn-info">
+              <div className="mb-5">
+                <div className="top_button_panel mb-3">
+                  <button type="button" className="btn btn-info">
                     1D
                   </button>
-                  <button type="button" class="btn btn-light">
+                  <button type="button" className="btn btn-light">
                     {" "}
                     1W
                   </button>
-                  <button type="button" class="btn btn-light">
+                  <button type="button" className="btn btn-light">
                     {" "}
                     1M
                   </button>
-                  <button type="button" class="btn btn-light">
+                  <button type="button" className="btn btn-light">
                     {" "}
                     1Y
                   </button>
-                  <button type="button" class="btn btn-light">
+                  <button type="button" className="btn btn-light">
                     {" "}
                     5Y
                   </button>
-                  <button type="button" class="btn btn-light">
+                  <button type="button" className="btn btn-light">
                     {" "}
                     MAX
                   </button>
                 </div>
                 <img
                   src={require("../Common/Images/cpi-chart.png")}
-                  class="img-fluid"
+                  className="img-fluid"
                   alt="chart"
                 />
                 <img
                   src={cpiChart}
                   type="image"
-                  class="img-fluid"
+                  className="img-fluid"
                   alt="chart"
                 />
               </div>
 
-              <div class="card mb-5">
-                <div class="card-header">
-                  <div class="d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0">
-                    <h6 class="m-0">
+              <div className="card mb-5">
+                <div className="card-header">
+                  <div className="d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0">
+                    <h6 className="m-0">
                       <strong>CONSUMER PRICE INDEX – AUGUST 2021</strong>
                     </h6>
                   </div>
                 </div>
-                <div class="card-body">
-                  <div class="description-para">
-                    <div class="key_status">
+                <div className="card-body">
+                  <div className="description-para">
+                    <div className="key_status">
                       <p>
                         The Consumer Price Index (CPI) measures the change in
                         prices paid by consumers for goods and services. The CPI
@@ -210,34 +210,34 @@ const CPIIndexHome = () => {
                 </div>
               </div>
 
-              <div class="mt-3 mb-5">
-                <h6 class="mb-3">
+              <div className="mt-3 mb-5">
+                <h6 className="mb-3">
                   <strong>Check previous statics</strong>
                 </h6>
-                <div class="key_status">
-                  <ul class="check_prev_statc">
+                <div className="key_status">
+                  <ul className="check_prev_statc">
                     <li>
-                      <a href="javascript:void(0)" class="text-primary">
+                      <a href="javascript:void(0)" className="text-primary">
                         Consumer Price Index July-2021
                       </a>
                     </li>
                     <li>
-                      <a href="javascript:void(0)" class="text-primary">
+                      <a href="javascript:void(0)" className="text-primary">
                         Consumer Price Index June-2021
                       </a>
                     </li>
                     <li>
-                      <a href="javascript:void(0)" class="text-primary">
+                      <a href="javascript:void(0)" className="text-primary">
                         Consumer Price Index May-2021
                       </a>
                     </li>
                     <li>
-                      <a href="javascript:void(0)" class="text-primary">
+                      <a href="javascript:void(0)" className="text-primary">
                         Consumer Price Index April-2021
                       </a>
                     </li>
                     <li>
-                      <a href="javascript:void(0)" class="text-primary">
+                      <a href="javascript:void(0)" className="text-primary">
                         Consumer Price Index March-2021
                       </a>
                     </li>

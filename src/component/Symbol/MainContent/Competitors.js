@@ -60,19 +60,19 @@ function Competitors () {
   ]
 
   return (
-    <div class='top_competitors'>
-      <div class='mb-5'>
-        <div class='d-flex align-items-center justify-content-between border p-3 border-bottom-0'>
-          <h6 class='m-0'>
+    <div className='top_competitors'>
+      <div className='mb-5'>
+        <div className='d-flex align-items-center justify-content-between border p-3 border-bottom-0'>
+          <h6 className='m-0'>
             <strong>Top Competitors</strong>
           </h6>
-          <a href='javascript:void(0)' class='text-dark viewmore'>
+          <a href='javascript:void(0)' className='text-dark viewmore'>
             View More
           </a>
         </div>
-        <div class='table-responsive'>
-          <table class='table table-bordered m-0 most_tables'>
-            <thead class='table-light'>
+        <div className='table-responsive'>
+          <table className='table table-bordered m-0 most_tables'>
+            <thead className='table-light'>
               <tr>
                 <th scope='col'>AS OF 11/11/21</th>
                 <th scope='col'>AAPL</th>
@@ -83,7 +83,7 @@ function Competitors () {
                 <th scope='col'>INTC</th>
               </tr>
             </thead>
-            <tbody class='border-top-0'>
+            <tbody className='border-top-0'>
               {
                   competitorData.map((data,index)=>{
                     return(

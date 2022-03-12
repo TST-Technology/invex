@@ -4,10 +4,10 @@ import TopBanner from './TopBanner'
 
 const VideoResource = () => {
     return (
-        <div class="main">
-            <section class="video_resource_sec">
-                <div class="container">
-                    <div class="row">
+        <div className="main">
+            <section className="video_resource_sec">
+                <div className="container">
+                    <div className="row">
                         <TopBanner />
                         <MainVideoContent />
                     </div>

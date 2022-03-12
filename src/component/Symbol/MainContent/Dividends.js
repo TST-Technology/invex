@@ -2,11 +2,11 @@ import React from 'react'
 
 function Dividends () {
   return (
-    <div class='col-lg-6 mb-5'>
-      <h6 class='mb-4'>
+    <div className='col-lg-6 mb-5'>
+      <h6 className='mb-4'>
         <strong>Dividends & Splits</strong>
       </h6>
-      <div class='key_status'>
+      <div className='key_status'>
         <ul>
           <li>
             <a href='javascript:void(0)'>Forward Annual Dividend Rate 4</a>{' '}

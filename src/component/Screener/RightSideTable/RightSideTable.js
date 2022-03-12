@@ -80,21 +80,21 @@ const RightSideTable = (props) => {
 
 
     return (
-        <div class={"righttablecontent "+(props.showFilterSection?"show-content":"")}>
-            <div class="table_search d-flex align-items-center justify-content-between p-3">
-            <button class="btn btn-light font-bd filter-hide" style={{zIndex:990}} onClick={()=>props.setshowFilterSection(!props.showFilterSection)} >
-                <i class="bi bi-chevron-double-left"></i>
+        <div className={"righttablecontent "+(props.showFilterSection?"show-content":"")}>
+            <div className="table_search d-flex align-items-center justify-content-between p-3">
+            <button className="btn btn-light font-bd filter-hide" style={{zIndex:990}} onClick={()=>props.setshowFilterSection(!props.showFilterSection)} >
+                <i className="bi bi-chevron-double-left"></i>
             </button>
-                <div class="ms-auto">
-                    <button class="btn btn-outline-dark me-2">Save Screener</button>
-                    <button class="btn btn-outline-dark">Export</button>
+                <div className="ms-auto">
+                    <button className="btn btn-outline-dark me-2">Save Screener</button>
+                    <button className="btn btn-outline-dark">Export</button>
                 </div>
             </div>
-            <div class="filter_table">
+            <div className="filter_table">
                 <CustomMuiDataTable columns={columns} tableData={tableData} />
                 {/* <CustomDataTable tableData={tableData} /> */}
-                {/* <table class="table table-bordered m-0" id="filter_table">
-                    <thead class="table-light">
+                {/* <table className="table table-bordered m-0" id="filter_table">
+                    <thead className="table-light">
                         <tr>
                             <th scope="col">No.</th>
                             <th scope="col">Ticker</th>
@@ -106,7 +106,7 @@ const RightSideTable = (props) => {
                             <th scope="col">P/B</th>
                         </tr>
                     </thead>
-                    <tbody class="border-top-0">
+                    <tbody className="border-top-0">
                         {
                             tableData.map((data,index)=>{
                                 return (

@@ -51,8 +51,8 @@ const data = [
 function PriceChart () {
   const tabSelectedHandler = data => {}
   return (
-    <div class='price_chart mb-5'>
-      <h6 class='mb-4'>
+    <div className='price_chart mb-5'>
+      <h6 className='mb-4'>
         <strong>Price Chart</strong>
       </h6>
       <div className='d-flex flex-wrap justify-content-between align-items-center'>

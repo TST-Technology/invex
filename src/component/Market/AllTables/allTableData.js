@@ -13,16 +13,16 @@ export const topTableColumns = [
             }),
             customHeadRender: (columnMeta, updateDirection) =>{
                 return(
-                    <th class="MuiTableCell-root MuiTableCell-head MUIDataTableHeadCell-root-3433 MUIDataTableHeadCell-fixedHeader-3434" scope="col">
-                        <span role="button" class="MUIDataTableHeadCell-toolButton-3441" data-testid="headcol-1" tabindex="0">
-                            <div class="MUIDataTableHeadCell-sortAction-3438" title="Sort">
-                                <div class="MUIDataTableHeadCell-data-3437">
+                    <th className="MuiTableCell-root MuiTableCell-head MUIDataTableHeadCell-root-3433 MUIDataTableHeadCell-fixedHeader-3434" scope="col">
+                        <span role="button" className="MUIDataTableHeadCell-toolButton-3441" data-testid="headcol-1" tabindex="0">
+                            <div className="MUIDataTableHeadCell-sortAction-3438" title="Sort">
+                                <div className="MUIDataTableHeadCell-data-3437">
                                     <span style={{fontWeight:"bold"}}>
                                         {columnMeta.label}
                                     </span>
                                 </div>
-                                <div class="MUIDataTableHeadCell-sortAction-3438">
-                                    <span class="MuiButtonBase-root MuiTableSortLabel-root MUIDataTableHeadCell-sortLabelRoot-3439" tabindex="0" role="button" aria-disabled="false"></span>
+                                <div className="MUIDataTableHeadCell-sortAction-3438">
+                                    <span className="MuiButtonBase-root MuiTableSortLabel-root MUIDataTableHeadCell-sortLabelRoot-3439" tabindex="0" role="button" aria-disabled="false"></span>
                                 </div>
                             </div>
                         </span>
@@ -241,16 +241,16 @@ export const belowTableColumns = [
             }),
             customHeadRender: (columnMeta, updateDirection) =>{
                 return(
-                    <th class="MuiTableCell-root MuiTableCell-head MUIDataTableHeadCell-root-3433 MUIDataTableHeadCell-fixedHeader-3434" scope="col">
-                        <span role="button" class="MUIDataTableHeadCell-toolButton-3441" data-testid="headcol-1" tabindex="0">
-                            <div class="MUIDataTableHeadCell-sortAction-3438" title="Sort">
-                                <div class="MUIDataTableHeadCell-data-3437">
+                    <th className="MuiTableCell-root MuiTableCell-head MUIDataTableHeadCell-root-3433 MUIDataTableHeadCell-fixedHeader-3434" scope="col">
+                        <span role="button" className="MUIDataTableHeadCell-toolButton-3441" data-testid="headcol-1" tabindex="0">
+                            <div className="MUIDataTableHeadCell-sortAction-3438" title="Sort">
+                                <div className="MUIDataTableHeadCell-data-3437">
                                     <span style={{fontWeight:"bold"}}>
                                         {columnMeta.label}
                                     </span>
                                 </div>
-                                <div class="MUIDataTableHeadCell-sortAction-3438">
-                                    <span class="MuiButtonBase-root MuiTableSortLabel-root MUIDataTableHeadCell-sortLabelRoot-3439" tabindex="0" role="button" aria-disabled="false"></span>
+                                <div className="MUIDataTableHeadCell-sortAction-3438">
+                                    <span className="MuiButtonBase-root MuiTableSortLabel-root MUIDataTableHeadCell-sortLabelRoot-3439" tabindex="0" role="button" aria-disabled="false"></span>
                                 </div>
                             </div>
                         </span>
@@ -260,7 +260,7 @@ export const belowTableColumns = [
         }
     },
     {
-        name: "price",
+        name: "delayedPrice",
         label: "Price",
         options: {
             filter: true,
@@ -275,15 +275,15 @@ export const belowTableColumns = [
             sort: false,
             customBodyRender: (value, tableMeta, updateValue) =>{
                 return (
-                    <span style={{color:(value.dir==="up"?"#13A41B":"#DF0822")}}>
-                        {value.dir==="up"?"+":"-"}{value.data}
+                    <span style={{color:(value > 0 ? "#13A41B" : "#DF0822")}}>
+                        {value}
                     </span>
                 )
             }
         },
     },
     {
-        name: "marketCao",
+        name: "high",
         label: "Market Cao (B)",
         options: {
             filter: true,

@@ -10,7 +10,7 @@ function TabbedComponent ({ tabs, onTabSelected }) {
   }
 
   return (
-    <div class='tab'>
+    <div className='tab'>
       {tabs.map(tab => {
         const mClass = `tab__item ${
           selectedTab && tab.id == selectedTab.id ? 'active' : ''

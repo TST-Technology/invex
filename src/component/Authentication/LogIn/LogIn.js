@@ -70,21 +70,21 @@ const LogIn = () => {
     }
 
     return (
-        <div class="main">
-            <section class="login_section">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="login_form text-lg-center text-left">
-                                <a href="javascipt:void(0);" class="d-block"><img src={require("../../Common/Images/invex-b-wealth.png").default} alt="logo" class="img-fluid mb-3"/></a>
+        <div className="main">
+            <section className="login_section">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="login_form text-lg-center text-left">
+                                <a href="javascipt:void(0);" className="d-block"><img src={require("../../Common/Images/invex-b-wealth.png").default} alt="logo" className="img-fluid mb-3"/></a>
                                 <span>Login to Dashboard</span>
-                                <form class="mt-5 text-start" onSubmit={(e) => logInSubmit(e)}>
+                                <form className="mt-5 text-start" onSubmit={(e) => logInSubmit(e)}>
                                     <div>
-                                        <div class="mb-3 form-group">
-                                            <label for="exampleInputEmail1" class="form-label">Email ID</label>
+                                        <div className="mb-3 form-group">
+                                            <label for="exampleInputEmail1" className="form-label">Email ID</label>
                                             <input 
                                                 type="email" 
-                                                class="form-control" 
+                                                className="form-control" 
                                                 placeholder="Enter Email" 
                                                 id="exampleInputEmail1" 
                                                 aria-describedby="emailHelp" 
@@ -92,38 +92,38 @@ const LogIn = () => {
                                                 onChange={(e)=>setEmailId(e.target.value)}
                                             />
                                         </div>
-                                        <div class="mb-5 form-group">
-                                            <label for="exampleInputPassword1" class="form-label">Password</label>
+                                        <div className="mb-5 form-group">
+                                            <label for="exampleInputPassword1" className="form-label">Password</label>
                                             <input 
                                                 type="password" 
-                                                class="form-control" 
+                                                className="form-control" 
                                                 id="exampleInputPassword1" 
                                                 placeholder="Enter password" 
                                                 value={password} 
                                                 onChange={(e)=>setPassword(e.target.value)}
                                             />
-                                            <a href="javascript:void(0)" class="forgot_link text-muted">Forgot Password?</a>
-                                            {/* <div class="pwdeye">
-                                                <i id="eyeChange" class="bi bi-eye-slash" onclick="passwordEnableOrDisable()"></i>
+                                            <a href="javascript:void(0)" className="forgot_link text-muted">Forgot Password?</a>
+                                            {/* <div className="pwdeye">
+                                                <i id="eyeChange" className="bi bi-eye-slash" onclick="passwordEnableOrDisable()"></i>
                                             </div> */}
                                         </div>
                                     </div>
-                                    <div class="text-center donthveac">
-                                        <button type="submit" class="btn btn-primary w-100 mb-3" >Login</button>
-                                        <span class="text-muted">Don’t have an account?</span> <Link to={InvexRoutes.SignUp.path} class="text-primary">Signup</Link>
+                                    <div className="text-center donthveac">
+                                        <button type="submit" className="btn btn-primary w-100 mb-3" >Login</button>
+                                        <span className="text-muted">Don’t have an account?</span> <Link to={InvexRoutes.SignUp.path} className="text-primary">Signup</Link>
                                     </div>
 
-                                    <hr class="my-4" />
+                                    <hr className="my-4" />
 
                                     <button 
-                                        class="btn btn-lg btn-block btn-primary w-100 mb-2" 
+                                        className="btn btn-lg btn-block btn-primary w-100 mb-2" 
                                         style={{border:"none",backgroundColor:"#dd4b39"}} type="submit"
                                         onClick={() => socialLogin(new GoogleAuthProvider())}
                                     >
                                         <FontAwesomeIcon className='me-1' icon={faGoogle} /> Sign in with google
                                     </button>
                                     <button 
-                                        class="btn btn-lg btn-block btn-primary w-100 mb-2" 
+                                        className="btn btn-lg btn-block btn-primary w-100 mb-2" 
                                         style={{border:"none",backgroundColor:"#3b5998"}} 
                                         type="submit"
                                         onClick={() => socialLogin(new FacebookAuthProvider())}

@@ -8,9 +8,9 @@ import PriceChart from './PriceChart'
 import VolatilityChart from './VolatilityChart'
 function MainContent () {
   return (
-    <div class='col-lg-8'>
+    <div className='col-lg-8'>
       <PriceChart />
-      <div class='row'>
+      <div className='row'>
         <FinancialPerformanceChart />
         <Dividends />
       </div>
