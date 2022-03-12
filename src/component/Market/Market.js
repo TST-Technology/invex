@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getMarketGainers, getMostActiveStacks, getMarketLoosers } from '../api/market'
+import {getIexVolume, getIexPercent, getMarketGainers, getMostActiveStacks, getMarketLoosers } from '../api/market'
 import AllTables from './AllTables/AllTables'
 import MarketNews from './MarketNews/MarketNews'
 import MyWhishList from './MyWhishList/MyWhishList'
@@ -9,18 +9,24 @@ const Market = () => {
     const [ Loading , setLoading] = useState({
         active:false,
         gainers:false,
-        loosers:false
+        loosers:false,
+        iexVolume:false,
+        iexPercent:false,
     });
-    const [ MostActive , setMostActive] = useState();
-    const [ MarketGainers , setMarketGainers] = useState()
-    const [ MarketLoosers , setMarketLoosers] = useState()
+    const [ MostActive , setMostActive] = useState(null);
+    const [ MarketGainers , setMarketGainers] = useState(null)
+    const [ MarketLoosers , setMarketLoosers] = useState(null)
+    const [ IEXVolume , setIEXVolume] = useState(null)
+    const [ IEXPercent , setIEXPercent] = useState(null)
     
     useEffect(()=>{
         (async ()=>{
             setLoading({
                 active:true,
                 gainers:true,
-                loosers:true
+                loosers:true,
+                iexVolume:true,
+                iexPercent:true,
             })
             try {
                 const mostactive = await getMostActiveStacks();
@@ -49,12 +55,32 @@ const Market = () => {
                         loosers:false
                     })
                 }
+
+                const iexvolume = await getIexVolume()
+                if(iexvolume && iexvolume?.status == 200 && iexvolume?.dataLength > 0) {
+                    setIEXVolume(iexvolume.data)
+                    setLoading({
+                        ...Loading,
+                        iexVolume:false
+                    })
+                }
+
+                const iexpercent = await getIexPercent()
+                if(iexpercent && iexpercent?.status == 200 && iexpercent?.dataLength > 0) {
+                    setIEXPercent(iexpercent.data)
+                    setLoading({
+                        ...Loading,
+                        iexPercent:false
+                    })
+                }
             } catch (error) {
                 console.log('error',error)
                 setLoading({
                     active:false,
                     gainers:false,
-                    loosers:false
+                    loosers:false,
+                    iexVolume:false,
+                    iexPercent:false,
                 })
             }
             
@@ -71,6 +97,8 @@ const Market = () => {
                             MostActive={MostActive}
                             MarketGainers={MarketGainers}
                             MarketLoosers={MarketLoosers}
+                            IEXVolume={IEXVolume}
+                            IEXPercent={IEXPercent}
                             Loading={Loading}
                         />
                         <div className="col-lg-4">

@@ -10,7 +10,6 @@ const CustomMuiDataTable = ({ columns, tableData, title , loading }) => {
     elevation: 0,
     selectableRowsHeader: false,
     selectableRows: "none",
-    loading:loading,
     textLabels: {
       pagination: {
         next: "Next Page",
@@ -59,7 +58,6 @@ const CustomMuiDataTable = ({ columns, tableData, title , loading }) => {
             columns={columns}
             options={options}
             title={title}
-            
           />
         }
       </ThemeProvider>

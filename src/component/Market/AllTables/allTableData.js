@@ -1,7 +1,7 @@
 export const topTableColumns = [
     {
-        name: "ticker",
-        label: "Ticker",
+        name: "symbol",
+        label: "symbol",
         options: {
             filter: true,
             sort: true,
@@ -40,7 +40,7 @@ export const topTableColumns = [
         }
     },
     {
-        name: "curPrice",
+        name: "latestPrice",
         label: "Current price",
         options: {
             filter: true,
@@ -48,7 +48,7 @@ export const topTableColumns = [
         }
     },
     {
-        name: "weekLow",
+        name: "week52Low",
         label: "52 Week low",
         options: {
             filter: true,
@@ -56,7 +56,7 @@ export const topTableColumns = [
         }
     },
     {
-        name: "weekHigh",
+        name: "week52High",
         label: "52 Week high",
         options: {
             filter: true,
@@ -64,7 +64,7 @@ export const topTableColumns = [
         }
     },
     {
-        name: "underValued",
+        name: "open",
         label: "Under valued",
         options: {
             filter: true,
