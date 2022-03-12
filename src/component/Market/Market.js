@@ -22,29 +22,38 @@ const Market = () => {
                 gainers:true,
                 loosers:true
             })
-            const mostactive = await getMostActiveStacks();
-            if(mostactive && mostactive?.status == 200 && mostactive?.dataLength > 0) {
-                setMostActive(mostactive.data)
+            try {
+                const mostactive = await getMostActiveStacks();
+                if(mostactive && mostactive?.status == 200 && mostactive?.dataLength > 0) {
+                    setMostActive(mostactive.data)
+                    setLoading({
+                        ...Loading,
+                        active:false,
+                    })
+                }
+
+                const marketgainers = await getMarketGainers()
+                if(marketgainers && marketgainers?.status == 200 && marketgainers?.dataLength > 0) {
+                    setMarketGainers(marketgainers.data)
+                    setLoading({
+                        ...Loading,
+                        gainers:false,
+                    })
+                }
+
+                const marketloosers = await getMarketLoosers()
+                if(marketloosers && marketloosers?.status == 200 && marketloosers?.dataLength > 0) {
+                    setMarketLoosers(marketloosers.data)
+                    setLoading({
+                        ...Loading,
+                        loosers:false
+                    })
+                }
+            } catch (error) {
+                console.log('error',error)
                 setLoading({
-                    ...Loading,
                     active:false,
-                })
-            }
-
-            const marketgainers = await getMarketGainers()
-            if(marketgainers && marketgainers?.status == 200 && marketgainers?.dataLength > 0) {
-                setMarketGainers(marketgainers.data)
-                setLoading({
-                    ...Loading,
                     gainers:false,
-                })
-            }
-
-            const marketloosers = await getMarketLoosers()
-            if(marketloosers && marketloosers?.status == 200 && marketloosers?.dataLength > 0) {
-                setMarketLoosers(marketloosers.data)
-                setLoading({
-                    ...Loading,
                     loosers:false
                 })
             }
