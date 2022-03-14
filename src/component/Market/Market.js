@@ -28,10 +28,14 @@ const Market = () => {
                 iexVolume:true,
                 iexPercent:true,
             })
-            try {
                 const mostactive = await getMostActiveStacks();
                 if(mostactive && mostactive?.status == 200 && mostactive?.dataLength > 0) {
                     setMostActive(mostactive.data)
+                    setLoading({
+                        ...Loading,
+                        active:false,
+                    })
+                }else{
                     setLoading({
                         ...Loading,
                         active:false,
@@ -45,11 +49,21 @@ const Market = () => {
                         ...Loading,
                         gainers:false,
                     })
+                }else{
+                    setLoading({
+                        ...Loading,
+                        gainers:false,
+                    })
                 }
 
                 const marketloosers = await getMarketLoosers()
                 if(marketloosers && marketloosers?.status == 200 && marketloosers?.dataLength > 0) {
                     setMarketLoosers(marketloosers.data)
+                    setLoading({
+                        ...Loading,
+                        loosers:false
+                    })
+                }else{
                     setLoading({
                         ...Loading,
                         loosers:false
@@ -63,6 +77,11 @@ const Market = () => {
                         ...Loading,
                         iexVolume:false
                     })
+                }else{
+                    setLoading({
+                        ...Loading,
+                        iexVolume:false
+                    })
                 }
 
                 const iexpercent = await getIexPercent()
@@ -72,18 +91,13 @@ const Market = () => {
                         ...Loading,
                         iexPercent:false
                     })
+                }else{
+                    setLoading({
+                        ...Loading,
+                        iexVolume:false
+                    })
                 }
-            } catch (error) {
-                console.log('error',error)
-                setLoading({
-                    active:false,
-                    gainers:false,
-                    loosers:false,
-                    iexVolume:false,
-                    iexPercent:false,
-                })
-            }
-            
+           
         })()
     },[])
 
