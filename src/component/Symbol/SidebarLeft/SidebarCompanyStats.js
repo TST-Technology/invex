@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import marked from "../../Common/Images/marked_img.png";
 import unMarked from "../../Common/Images/image4.png";
 
-function SidebarCompanyStats () {
+function SidebarCompanyStats ({Company}) {
   const [showBookmark, setShowBookmark] = useState(false)
 
   const bookmarkToggleHandler = () => {
@@ -33,16 +33,16 @@ function SidebarCompanyStats () {
               <img src={require("../../Common/Images/image1.png").default} alt='image' />
             </div>
             <div className='title1'>
-              <h5 className='card-title'>APPLE INC </h5>
-              <p className='company'>AAPL</p>
+              <h5 className='card-title'>{Company?.companyName}</h5>
+              <p className='company'>{Company?.symbol}</p>
             </div>
           </div>
           <div className='sector_industry'>
             <span className='badge bg-light text-dark'>
-              Sector: Electronic Technology
+              Sector: {Company?.sector}
             </span>
             <span className='badge bg-light text-dark'>
-              Industry: Telecommunications Equipment
+              Industry: {Company?.industry}
             </span>
           </div>
           <div className='chart mb-4 mt-2'>

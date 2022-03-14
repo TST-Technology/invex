@@ -79,6 +79,22 @@ body a {
 }
 .laptopNav .upperNavbar .search-blk {
   width: 49.4%;
+  position: relative;
+}
+.search-blk .search-result {
+  position: absolute;
+  z-index: 99;
+  background-color: #fff;
+  left: 0;
+  right: 0;
+  max-height: 500px;
+  overflow-y: auto;
+}
+.search-blk .search-result li div {
+  margin: 0;
+}
+.search-blk .search-result li:not(:last-child){
+  border-bottom: 1px solid #eee;
 }
 .laptopNav .upperNavbar .search-blk .input-group .input-group-append label {
   padding: 0 15px;
@@ -424,7 +440,7 @@ button.newUser {
   font-weight: 700;
   margin-bottom: 0;
   font-size: 14px;
-}
+  }
 .companyviewblk .chart .text {
   color: #008b3e;
   font-weight: 600;
@@ -440,6 +456,29 @@ button.newUser {
   background-image: linear-gradient(rgba(0, 139, 62, 0.5) rgba(0, 139, 62, 0));
   overflow: hidden;
 }
+.Industry-tag{
+  background: #F8F8F8;
+  border: 1px solid #EFEFEF;
+  box-sizing: border-box;
+  color: #212121;
+  border-radius: 4px;
+  padding: 3px 8px;
+  vertical-align: middle;  
+  display: inline-block;
+
+}
+.tags-list ul{
+  margin: 0;
+  padding: 0;
+}
+.tags-list li{
+  display: inline-block;
+  font-weight: 500;
+  font-size: 14px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
 .comp_brand {
   display: flex;
   align-items: center;

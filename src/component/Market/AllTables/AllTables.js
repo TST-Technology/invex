@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import CustomMuiDataTable from '../../Common/CustomDataTable/CustomMuiDataTable'
-import { topTableColumns, topTableData, belowTableColumns, belowTableData } from './allTableData'
+import { topTableColumns, belowTableColumns, } from './allTableData'
 
 const AllTables = ({IEXVolume, IEXPercent, MostActive, MarketGainers, MarketLoosers, Loading}) => {
     return (

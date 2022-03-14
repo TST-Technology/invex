@@ -1,12 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import InvexRoutes from '../../../InvexRoutes';
+import { getSearchdata } from '../../api/search';
+import Search from './Search';
+import { useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
-
+const Navbar = (props) => {
+    console.log('props',props);
+    const navigate = useNavigate();
     const path = useLocation();
-    const [navbarSearch, setNavbarSearch] = useState("");
+    const [navbarSearch, setNavbarSearch] = useState(null);
+    const [SearchResult, setSearchResult] = useState(null);
+
+    const handleSearch = async (val) =>{
+        try {
+            if(val){
+                var data = await getSearchdata(val)
+                if(data && data?.dataLength > 0 && data?.status === 200){
+                    setSearchResult(data)
+                }
+            }    
+        } catch (err) {
+            console.log('err',err);
+            setSearchResult(null)
+        }
+        
+    }
+    const handleClick = (url) =>{
+        if(url) {
+            navigate(url); 
+            setSearchResult(null) 
+        }
+    }
+
 
     return (
         <>
@@ -14,16 +41,7 @@ const Navbar = () => {
                 <div className="upperNavbar">
                     <div className="container d-flex align-items-center">
                         <Link to={InvexRoutes.Home.path}><img src={require("../Images/invex-w-logo.png").default} alt="" /></Link>
-                        <form className="form-group search-blk mx-auto" role="search" method="get" id="searchform" action=""> 
-                            <div className="input-group">
-                                <input type="text" value={navbarSearch} onChange={(e)=>setNavbarSearch(e.target.value)} name="s" className="form-control" placeholder="Search for symbol, company and news" id="example-search-input" autoComplete="off" /> 
-                                <input type="submit" value="Search" id="search-submit" style={{"display": "none"}} /> 
-                                <span className="input-group-append d-flex align-items-center">
-                                    <a href="/#"><p><img src={require("../Images/⌘K.png").default} alt=""/></p></a>
-                                    <label htmlFor="search-submit"><img src={require("../Images/search.png").default} alt="search-icon" className="img-fluid" height="16" width="16" /></label>
-                                </span>
-                            </div>
-                        </form>
+                        <Search navbarSearch={navbarSearch} handleClick={handleClick} handleSearch={handleSearch} SearchResult={SearchResult}/>
                         <Link to={InvexRoutes.LogIn.path}><button className="login-btn me-3">Login</button></Link>
                         <Link to={InvexRoutes.SignUp.path} ><button className="signup-btn">Signup</button></Link>
                     </div>

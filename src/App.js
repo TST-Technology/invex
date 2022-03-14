@@ -52,7 +52,7 @@ function App() {
           <Route exact path={InvexRoutes.EcomData.path} element={<EconomicData />} />
           <Route exact path={InvexRoutes.Resources.path} element={<VideoResource />} />
           <Route exact path={InvexRoutes.Dashboard.path} element={<Dashboard />} />
-          <Route exact path={InvexRoutes.Symbol.path} element={<SymbolPage />} />
+          <Route exact path={InvexRoutes.Symbol.path} element={<SymbolPage/>} />
           <Route exact path={InvexRoutes.BidTable.path} element={<BidTable />} />
           <Route exact path={InvexRoutes.CPIndex.path} element={<CPIIndexHome />} />
           <Route exact path={InvexRoutes.NonManufacture.path} element={<NonManufacture />} />
