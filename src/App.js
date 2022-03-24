@@ -22,6 +22,7 @@ import CPIIndexHome from "./component/CPIndex/CPIIndexHome";
 import NonManufacture from "./component/CPIndex/nonManufacture";
 import SignUp from "./component/Authentication/LogIn/SignUp";
 import Price from "./component/Price/Price";
+import FinancialStatement from './component/FinancialStatement'
 
 function App() {
   // useEffect(() => {
@@ -56,6 +57,7 @@ function App() {
           <Route exact path={InvexRoutes.BidTable.path} element={<BidTable />} />
           <Route exact path={InvexRoutes.CPIndex.path} element={<CPIIndexHome />} />
           <Route exact path={InvexRoutes.NonManufacture.path} element={<NonManufacture />} />
+          <Route exact path={InvexRoutes.FinancialStatement.path} element={<FinancialStatement />} />
         </Routes>
         <Footer />
       </HashRouter>

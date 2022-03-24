@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function SidebarResources () {
   return (
@@ -9,11 +10,11 @@ function SidebarResources () {
         </h5>
         <ul>
           <li>
-            <a href='#'>
+            <Link to={'/financial-statement'}>
               <img src={require('../../Common/Images/resource_1.png').default} alt='resource' />
               <span>Financial Statements</span>
               <i className='bi bi-box-arrow-up-right ms-auto'></i>
-            </a>
+            </Link>
           </li>
           <li>
             <a href='#'>

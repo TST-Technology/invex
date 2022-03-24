@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
+import { getHistoricalPrices } from '../../api/company'
 import CustomRange from './helper/CustomRange'
 import TabbedComponent from './helper/TabbedComponent'
 
@@ -49,7 +51,25 @@ const data = [
 ]
 
 function PriceChart () {
-  const tabSelectedHandler = data => {}
+
+  const [params] = useSearchParams();
+  const [ChartData, setChartData] = useState([])
+  const [range, setRange] = useState('1D')
+
+  useEffect(() => {
+    (async()=>{
+      var chart = await getHistoricalPrices(params.get('symbol'),range)
+      if(chart?.status == 200 ){
+        setChartData(chart?.data)
+      }
+    })()
+  }, [range])
+  
+
+  const tabSelectedHandler = data => {
+    setRange(data?.name)
+  }
+
   return (
     <div className='price_chart mb-5'>
       <h6 className='mb-4'>

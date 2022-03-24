@@ -3,10 +3,10 @@ import SidebarCompanyInfo from './SidebarCompanyInfo'
 import SidebarCompanyStats from './SidebarCompanyStats'
 import SidebarResources from './SidebarResources'
 
-function SidebarLeft ({Company}) {
+function SidebarLeft ({Company,KeyStatus}) {
   return (
     <div className='col-lg-4'>
-      <SidebarCompanyStats Company={Company}/>
+      <SidebarCompanyStats Company={Company} KeyStatus={KeyStatus}/>
       <SidebarResources Company={Company}/>
       <SidebarCompanyInfo Company={Company}/>
     </div>

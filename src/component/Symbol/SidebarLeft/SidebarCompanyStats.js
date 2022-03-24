@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import marked from "../../Common/Images/marked_img.png";
 import unMarked from "../../Common/Images/image4.png";
 
-function SidebarCompanyStats ({Company}) {
+function SidebarCompanyStats ({Company,KeyStatus}) {
   const [showBookmark, setShowBookmark] = useState(false)
 
   const bookmarkToggleHandler = () => {
@@ -57,20 +57,20 @@ function SidebarCompanyStats ({Company}) {
             </h6>
             <ul>
               <li>
-                <a href='javascript:void(0)'>Market Cap</a> <span>$15B</span>
+                <a href='javascript:void(0)'>Market Cap</a> <span>{KeyStatus?.marketCap}</span>
               </li>
               <li>
                 <a href='javascript:void(0)'>Current Price</a>{' '}
-                <span>$235.49</span>
+                <span>{KeyStatus?.latestPrice}</span>
               </li>
               <li>
-                <a href='javascript:void(0)'>Volume</a> <span>179,620</span>
+                <a href='javascript:void(0)'>Volume</a> <span>{KeyStatus?.volume}</span>
               </li>
               <li>
-                <a href='javascript:void(0)'>Avg Vol</a> <span>579,498</span>
+                <a href='javascript:void(0)'>Avg Vol</a> <span>{KeyStatus?.avgTotalVolume}</span>
               </li>
               <li>
-                <a href='javascript:void(0)'>P/E Ratio</a> <span>24.88</span>
+                <a href='javascript:void(0)'>P/E Ratio</a> <span>{KeyStatus?.peRatio}</span>
               </li>
             </ul>
           </div>

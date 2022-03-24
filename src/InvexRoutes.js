@@ -15,6 +15,7 @@ const InvexRoutes = {
     BidTable: { path: "/bidtable" },
     CPIndex: { path: "/cpindex" },
     NonManufacture: { path: "/non_manufacture" },
+    FinancialStatement: { path: "/financial-statement" },
 }
 
 export default InvexRoutes;
