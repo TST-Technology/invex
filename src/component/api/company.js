@@ -14,3 +14,8 @@ export const getHistoricalPrices = async (symbol,range) =>{
     var {data} = await Services.get(`/stock/historicalPrices?symbol=${symbol}&range=${range}`,)
     return data
 }
+
+export const getTopCompetitors = async (symbol) =>{
+    var {data} = await Services.get(`/stock/peers?symbol=${symbol}`,)
+    return data
+}

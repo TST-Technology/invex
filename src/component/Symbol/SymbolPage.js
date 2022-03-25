@@ -46,7 +46,7 @@ const SymbolPage = (props) => {
                     </div>}
                     {!Loading && <div className='row'>
                         <SidebarLeft Company={Company} KeyStatus={KeyStatus} />
-                        <MainContent Company={Company} />
+                        <MainContent Company={Company} KeyStatus={KeyStatus}/>
                     </div>}
                 </div>
             </section>

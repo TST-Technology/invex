@@ -5,7 +5,7 @@ import resource_1 from '../Common/Images/resource_1.png'
 import resource_2 from '../Common/Images/resource_2.png'
 import resource_3 from '../Common/Images/resource_3.png'
 import resource_4 from '../Common/Images/resource_4.png'
-const sidebar = () => {
+const sidebar = ({Company}) => {
     return (
         <div class="col-lg-4">
             <div class="card companyviewblk compny_left_detail mb-4">
@@ -19,18 +19,18 @@ const sidebar = () => {
                                 <img src={image1} alt="image" />
                             </div>
                             <div class="title1">
-                                <h5 class="card-title">APPLE INC </h5>
-                                <p class="company">AAPL</p>
+                                <h5 class="card-title">{Company?.companyName}</h5>
+                                <p class="company">{Company?.symbol}</p>
                             </div>
                         </div>
                         <div class="sector_industry">
-                            <span class="badge bg-light text-dark">Sector: Electronic Technology</span>
-                            <span class="badge bg-light text-dark">Industry: Telecommunications Equipment</span>
+                            <span class="badge bg-light text-dark">Sector: {Company?.sector}</span>
+                            <span class="badge bg-light text-dark">Industry: {Company?.industry}</span>
                         </div>
                         <div class="chart mb-4 mt-2">
                             <div class="chart-text">
-                                <p class="card-text up">$235.49</p>
-                                <p class="text up">+3.10 (+1.3%)</p>
+                                <p class="card-text up">$235.49 -10</p>
+                                <p class="text up">+3.10 (+1.3%) -10</p>
                             </div>
                         </div>
                     </div>

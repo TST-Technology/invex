@@ -1,7 +1,13 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 
 function SidebarResources () {
+  const [params] = useSearchParams();
+  
+  useEffect(() => {
+    
+  }, [params.get('symbol')])
+  
   return (
     <div className='card companyviewblk resource_block mb-4'>
       <div className='card-body'>
@@ -10,7 +16,7 @@ function SidebarResources () {
         </h5>
         <ul>
           <li>
-            <Link to={'/financial-statement'}>
+            <Link to={`/financial-statement?symbol=${params.get('symbol')}`}>
               <img src={require('../../Common/Images/resource_1.png').default} alt='resource' />
               <span>Financial Statements</span>
               <i className='bi bi-box-arrow-up-right ms-auto'></i>

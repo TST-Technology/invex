@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom';
+import { getTopCompetitors } from '../../api/company';
 
-function Competitors () {
+const Competitors = ({KeyStatus}) => {
 
+  const [tableData,settableData] = useState()
+  const [tableHeader,settableHeader] = useState()
+  const [params] = useSearchParams();
   const competitorData = [
     {
         asOf:"Industry",
@@ -59,6 +64,20 @@ function Competitors () {
     },
   ]
 
+  useEffect(()=>{
+    (async()=>{
+      if(params.get('symbol')){
+        var data = await getTopCompetitors(params.get('symbol'));
+        if(data && data?.status == 200){
+          // KeyStatus
+          settableHeader(data?.data?.companySymbols)
+        }
+      }
+    })()
+  },[])
+
+
+  console.log('KeyStatus',KeyStatus);
   return (
     <div className='top_competitors'>
       <div className='mb-5'>
@@ -74,27 +93,31 @@ function Competitors () {
           <table className='table table-bordered m-0 most_tables'>
             <thead className='table-light'>
               <tr>
-                <th scope='col'>AS OF 11/11/21</th>
+                {/* <th scope='col'></th>  */}
+                {tableHeader && tableHeader?.length > 0 && tableHeader.map((el,i)=>{
+                  return(
+                    <th key={i} scope='col'>{el}</th>
+                  )
+                })}
+                {/* <th scope='col'>AS OF 11/11/21</th>
                 <th scope='col'>AAPL</th>
                 <th scope='col'>Industry Average</th>
                 <th scope='col'>HPQ</th>
                 <th scope='col'>CSCO</th>
                 <th scope='col'>MSI</th>
-                <th scope='col'>INTC</th>
+                <th scope='col'>INTC</th> */}
               </tr>
             </thead>
             <tbody className='border-top-0'>
-              {
-                  competitorData.map((data,index)=>{
-                    return(
+            {tableHeader && tableHeader?.length > 0 && tableHeader.map((el,i)=>{
+                  return(
                       <tr>
-                        <td>{data.asOf}</td>
-                        <td>{data.aapl}</td>
-                        <td>{data.industryAvg}</td>
-                        <td>{data.hpq}</td>
-                        <td>{data.csco}</td>
-                        <td>{data.msi}</td>
-                        <td>{data.intc}</td>
+                        {/* <td></td> */}
+                        <td>{KeyStatus.latestPrice}</td>
+                        <td>{KeyStatus.week52High}</td>
+                        <td>{KeyStatus.week52Low}</td>
+                        <td>{KeyStatus.peRatio}</td>
+                        <td>{KeyStatus.avgTotalVolume}</td>
                       </tr>
                     )
                   })

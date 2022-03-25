@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 
 import marked from "../../Common/Images/marked_img.png";
 import unMarked from "../../Common/Images/image4.png";
+import abbreviateNumber from '../../Common/NumberFormat';
 
-function SidebarCompanyStats ({Company,KeyStatus}) {
+function SidebarCompanyStats({ Company, KeyStatus }) {
   const [showBookmark, setShowBookmark] = useState(false)
 
   const bookmarkToggleHandler = () => {
@@ -21,13 +22,13 @@ function SidebarCompanyStats ({Company,KeyStatus}) {
           <img
             onClick={bookmarkToggleHandler}
             className={bookmarkClass}
-            src={showBookmark?marked:unMarked}
+            src={showBookmark ? marked : unMarked}
             alt='bookmark'
           />
         </a>
       </div>
       <div className='card-body'>
-        <div className='description-para' style={showMore?{maxHeight: "none", overflow: "visible"}:{maxHeight: "380px", overflow: "hidden"}}>
+        <div className='description-para' style={showMore ? { maxHeight: "none", overflow: "visible" } : { maxHeight: "380px", overflow: "hidden" }}>
           <div className='logo'>
             <div className='img'>
               <img src={require("../../Common/Images/image1.png").default} alt='image' />
@@ -57,17 +58,17 @@ function SidebarCompanyStats ({Company,KeyStatus}) {
             </h6>
             <ul>
               <li>
-                <a href='javascript:void(0)'>Market Cap</a> <span>{KeyStatus?.marketCap}</span>
+                <a href='javascript:void(0)'>Market Cap</a> <span>{abbreviateNumber(KeyStatus?.marketCap)}</span>
               </li>
               <li>
                 <a href='javascript:void(0)'>Current Price</a>{' '}
                 <span>{KeyStatus?.latestPrice}</span>
               </li>
               <li>
-                <a href='javascript:void(0)'>Volume</a> <span>{KeyStatus?.volume}</span>
+                <a href='javascript:void(0)'>Volume</a> <span>{abbreviateNumber(KeyStatus?.volume)}</span>
               </li>
               <li>
-                <a href='javascript:void(0)'>Avg Vol</a> <span>{KeyStatus?.avgTotalVolume}</span>
+                <a href='javascript:void(0)'>Avg Vol</a> <span>{abbreviateNumber(KeyStatus?.avgTotalVolume)}</span>
               </li>
               <li>
                 <a href='javascript:void(0)'>P/E Ratio</a> <span>{KeyStatus?.peRatio}</span>
@@ -75,8 +76,8 @@ function SidebarCompanyStats ({Company,KeyStatus}) {
             </ul>
           </div>
         </div>
-        <button className='text-primary readmore' onClick={()=>setShowMore(!showMore)} style={showMore?{ display: 'none' }:{}} >Read More </button>
-        <button className='text-primary readless' onClick={()=>setShowMore(!showMore)} style={showMore?{}:{ display: 'none' }}>
+        <button className='text-primary readmore' onClick={() => setShowMore(!showMore)} style={showMore ? { display: 'none' } : {}} >Read More </button>
+        <button className='text-primary readless' onClick={() => setShowMore(!showMore)} style={showMore ? {} : { display: 'none' }}>
           Read Less{' '}
         </button>
       </div>

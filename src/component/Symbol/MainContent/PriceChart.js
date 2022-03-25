@@ -4,7 +4,7 @@ import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import { getHistoricalPrices } from '../../api/company'
 import CustomRange from './helper/CustomRange'
 import TabbedComponent from './helper/TabbedComponent'
-
+import moment from 'moment'
 const data = [
   {
     name: '01',
@@ -54,13 +54,27 @@ function PriceChart () {
 
   const [params] = useSearchParams();
   const [ChartData, setChartData] = useState([])
-  const [range, setRange] = useState('1D')
+  const [range, setRange] = useState('1W ')
 
   useEffect(() => {
     (async()=>{
       var chart = await getHistoricalPrices(params.get('symbol'),range)
       if(chart?.status == 200 ){
-        setChartData(chart?.data)
+        var tempArr = []
+        var obj = {
+          name: '',
+          uv: '',
+          pv: '',
+          amt: ''
+        }
+        chart?.data?.map((el,i)=>{
+          obj.name = moment(el.data).format('DD');
+          obj.uv = el.open;
+          obj.pv = el.close;
+          obj.amt = el.fhigh;
+          tempArr.push(obj)
+        })
+        setChartData(tempArr)
       }
     })()
   }, [range])
@@ -91,7 +105,7 @@ function PriceChart () {
       </div>
       <ResponsiveContainer width='100%' aspect={1} maxHeight={250}>
         <AreaChart
-          data={data}
+          data={ChartData}
           margin={{ top: 10, right: 30, left: -50, bottom: 0 }}
         >
           <defs>
