@@ -16,11 +16,11 @@ function SidebarResources () {
         </h5>
         <ul>
           <li>
-            <Link to={`/financial-statement?symbol=${params.get('symbol')}`}>
+            <a href='#'>
               <img src={require('../../Common/Images/resource_1.png').default} alt='resource' />
               <span>Financial Statements</span>
               <i className='bi bi-box-arrow-up-right ms-auto'></i>
-            </Link>
+            </a>
           </li>
           <li>
             <a href='#'>
@@ -30,11 +30,11 @@ function SidebarResources () {
             </a>
           </li>
           <li>
-            <a href='#'>
+            <Link to={`/financial-statistics?symbol=${params.get('symbol')}`}>
               <img src={require('../../Common/Images/resource_3.png').default} alt='resource' />
               <span>Financial Statistics</span>
               <i className='bi bi-box-arrow-up-right ms-auto'></i>
-            </a>
+            </Link>
           </li>
           <li>
             <a href='#'>

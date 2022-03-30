@@ -14,7 +14,6 @@ function SidebarCompanyStats({ Company, KeyStatus }) {
   const [showMore, setShowMore] = useState(false);
 
   const bookmarkClass = `upper ${showBookmark ? 'marked' : ''}`
-
   return (
     <div className='card companyviewblk compny_left_detail mb-4'>
       <div className='saved-blk'>
@@ -48,8 +47,8 @@ function SidebarCompanyStats({ Company, KeyStatus }) {
           </div>
           <div className='chart mb-4 mt-2'>
             <div className='chart-text'>
-              <p className='card-text up'>$235.49</p>
-              <p className='text up'>+3.10 (+1.3%)</p>
+              <p className={KeyStatus?.latestPrice > 0 ? 'card-text up' : 'card-text down'}>$ {KeyStatus?.latestPrice}</p>
+              <p className={KeyStatus?.latestPrice > 0 ? 'text up' : 'text down'}>{KeyStatus?.change > 0 ? <>{KeyStatus?.change}</> : <> {KeyStatus?.change}</>} ({KeyStatus?.changePercent}%)</p>
             </div>
           </div>
           <div className='key_status'>

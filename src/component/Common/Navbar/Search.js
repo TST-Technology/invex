@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-import { Divider, List, ListItem, ListItemText, Typography } from '@material-ui/core'
+import { List, ListItem, ListItemText, Typography } from '@material-ui/core'
 
 
 const Search = ({ navbarSearch, handleSearch, handleClick, SearchResult}) => {
-    
-    
     
     return (
         <>

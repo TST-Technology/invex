@@ -2,6 +2,7 @@ import { CircularProgress } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { getCompanyDataBySymbol, getBookKeyStatus } from '../api/company'
+import { getFinancialdividend } from '../api/financialStatistics'
 import MainContent from './MainContent/MainContent'
 import SidebarLeft from './SidebarLeft/SidebarLeft'
 
@@ -10,6 +11,7 @@ const SymbolPage = (props) => {
     const [Company, setCompany] = useState(null)
     const [KeyStatus, setKeyStatus] = useState(null)
     const [Loading, setLoading] = useState(false)
+    const [DividendData, setDividendData] = useState(false)
 
     useEffect(() => {
         (async () => {
@@ -26,11 +28,16 @@ const SymbolPage = (props) => {
                     setKeyStatus(res?.data?.quote)
                 }
                 setLoading(false)
+
+                var dividend = await getFinancialdividend(params.get('symbol'))
+                // console.log('dividend',dividend);
+                if(dividend && dividend?.status == 200){
+                    setDividendData(dividend?.data)
+                }
             }
         })()
     }, [params])
 
-    console.log('KeyStatus', KeyStatus);
 
     return (
         <div className='main'>
@@ -46,7 +53,7 @@ const SymbolPage = (props) => {
                     </div>}
                     {!Loading && <div className='row'>
                         <SidebarLeft Company={Company} KeyStatus={KeyStatus} />
-                        <MainContent Company={Company} KeyStatus={KeyStatus}/>
+                        <MainContent Company={Company} KeyStatus={KeyStatus} DividendData={DividendData}/>
                     </div>}
                 </div>
             </section>

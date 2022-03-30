@@ -37,6 +37,7 @@
     "recharts": "^2.1.6",
     "redux": "^4.1.2",
     "styled-components": "^5.3.3",
+    "use-debounce": "^7.0.1",
     "web-vitals": "^1.0.1"
   },
   "scripts": {

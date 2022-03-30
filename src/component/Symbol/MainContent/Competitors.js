@@ -70,14 +70,15 @@ const Competitors = ({KeyStatus}) => {
         var data = await getTopCompetitors(params.get('symbol'));
         if(data && data?.status == 200){
           // KeyStatus
-          settableHeader(data?.data?.companySymbols)
+          var tempArr = [...data?.data?.companySymbols]
+          
+          settableHeader(tempArr)
         }
       }
     })()
   },[])
 
 
-  console.log('KeyStatus',KeyStatus);
   return (
     <div className='top_competitors'>
       <div className='mb-5'>

@@ -7,11 +7,11 @@ import Search from './Search';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = (props) => {
-    console.log('props',props);
     const navigate = useNavigate();
     const path = useLocation();
     const [navbarSearch, setNavbarSearch] = useState(null);
     const [SearchResult, setSearchResult] = useState(null);
+    
 
     const handleSearch = async (val) =>{
         try {

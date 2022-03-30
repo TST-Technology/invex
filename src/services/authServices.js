@@ -2,9 +2,7 @@ import { auth } from "../config/firebase-config";
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    signInWithPopup,
-    onAuthStateChanged,
-    signOut,
+    signInWithPopup
 } from "firebase/auth";
 
 export const emailSignUp = async (userData) => {

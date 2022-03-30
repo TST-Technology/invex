@@ -40,13 +40,13 @@ const sidebar = ({Company}) => {
                 <div class="card-body">
                     <h5 class="mb-4"><strong>Resource</strong></h5>
                     <ul>
-                        {/* <li>
+                        <li>
                             <a href="#">
                                 <img src={resource_1} alt="resource" />
                                 <span>Financial Statements</span>
                                 <i class="bi bi-box-arrow-up-right ms-auto"></i>
                             </a>
-                        </li> */}
+                        </li>
                         <li>
                             <a href="#">
                                 <img src={resource_2} alt="resource" />
@@ -54,13 +54,13 @@ const sidebar = ({Company}) => {
                                 <i class="bi bi-box-arrow-up-right ms-auto"></i>
                             </a>
                         </li>
-                        <li>
+                        {/* <li>
                             <a href="#">
                                 <img src={resource_3} alt="resource" />
                                 <span>Financial Statistics</span>
                                 <i class="bi bi-box-arrow-up-right ms-auto"></i>
                             </a>
-                        </li>
+                        </li> */}
                         <li>
                             <a href="#">
                                 <img src={resource_4} alt="resource" />
