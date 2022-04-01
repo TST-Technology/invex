@@ -5,6 +5,8 @@ import { getHistoricalPrices, getintradayprices } from '../../api/company'
 import CustomRange from './helper/CustomRange'
 import TabbedComponent from './helper/TabbedComponent'
 import moment from 'moment'
+import HiloChart from '../../Common/Chart/HiLo'
+
 const data = [
   {
     name: '01',
@@ -65,23 +67,15 @@ function PriceChart () {
       }else{
         chart = await getHistoricalPrices(params.get('symbol'),range)
       }
-      if(chart?.status == 200 ){
-        var tempArr = []
-        var obj = {
-          name: '',
-          uv: '',
-          pv: '',
-          amt: ''
-        }
+      if(chart && chart.status === 200){
+        var tempData = []
         chart?.data?.map((el,i)=>{
-          obj.name = moment(el.data).format('DD');
-          obj.uv = el.open;
-          obj.pv = el.close;
-          obj.amt = el.fhigh;
-          tempArr.push(obj)
+          if(el.date) return tempData.push([el.date , el.open , el.close , el.high ,el.low])
         })
-        setChartData(tempArr)
+        setChartData(chart.data)
       }
+      console.log('chart',chart);
+      
     })()
   }, [range])
   
@@ -89,6 +83,9 @@ function PriceChart () {
   const tabSelectedHandler = data => {
     setRange(data?.name)
   }
+  
+  const options = { style: 'currency', currency: 'USD' };
+  const numberFormat = new Intl.NumberFormat('en-US', options);
 
   return (
     <div className='price_chart mb-5'>
@@ -109,7 +106,9 @@ function PriceChart () {
         />
         <CustomRange />
       </div>
-      <ResponsiveContainer width='100%' aspect={1} maxHeight={250}>
+
+      <HiloChart chartData={ChartData}/>
+      {/* <ResponsiveContainer width='100%' aspect={1} maxHeight={250}>
         <AreaChart
           data={ChartData}
           margin={{ top: 10, right: 30, left: -50, bottom: 0 }}
@@ -134,7 +133,7 @@ function PriceChart () {
             fill='url(#colorPv)'
           />
         </AreaChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer> */}
     </div>
   )
 }
