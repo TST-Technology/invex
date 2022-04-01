@@ -1,6 +1,6 @@
 import React from 'react'
 
-function CompanyNews () {
+const CompanyNews = ({NewsData}) => {
 
   const newsData = [
     {
@@ -55,6 +55,7 @@ function CompanyNews () {
     },
   ]
 
+
   return (
     <div className='market_news mb-5'>
       <div className='d-flex align-items-center justify-content-between bg-light p-3 border-bottom-0'>
@@ -67,29 +68,29 @@ function CompanyNews () {
       </div>
       <div className='row'>
         {
-            newsData.map((data,index)=>{
+            NewsData && NewsData.length > 0 && NewsData.map((data,index)=>{
               return(
                 <div className='col-lg-6'>
                   <div className='news_block mt-3 mb-3'>
                     <div className='news_img'>
-                      <a href='javascript:void(0);'>
+                      <a href={data.qmUrl} target='_blank'>
                         <img
-                          src={require("../../Common/Images/"+data.img).default}
+                          src={data.image}
                           className='img-fluid'
-                          alt='news_image'
+                          alt='provider'
                         />
                       </a>
                     </div>
                     <div className='news_content'>
-                      <a href='javascript:void(0);' className='text-dark'>
+                      <a href={data.qmUrl} target='_blank' className='text-dark'>
                         <h5>
-                          {data.title}
+                          {data.headline}
                         </h5>
                       </a>
-                      <a href='javascript:void(0);' className='text-primary'>
+                      <a className='text-primary'>
                         Business
                       </a>
-                      <span> · {data.business}</span>
+                      <span> · {data.provider}</span>
                     </div>
                   </div>
                 </div>

@@ -1,7 +1,7 @@
 import { CircularProgress } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { getCompanyDataBySymbol, getBookKeyStatus } from '../api/company'
+import { getCompanyDataBySymbol, getBookKeyStatus, getNewsBySymbol } from '../api/company'
 import { getFinancialdividend } from '../api/financialStatistics'
 import MainContent from './MainContent/MainContent'
 import SidebarLeft from './SidebarLeft/SidebarLeft'
@@ -12,6 +12,7 @@ const SymbolPage = (props) => {
     const [KeyStatus, setKeyStatus] = useState(null)
     const [Loading, setLoading] = useState(false)
     const [DividendData, setDividendData] = useState(false)
+    const [NewsData, setNewsData] = useState(null)
 
     useEffect(() => {
         (async () => {
@@ -30,10 +31,15 @@ const SymbolPage = (props) => {
                 setLoading(false)
 
                 var dividend = await getFinancialdividend(params.get('symbol'))
-                // console.log('dividend',dividend);
                 if(dividend && dividend?.status == 200){
                     setDividendData(dividend?.data)
                 }
+
+                var news = await getNewsBySymbol(params.get('symbol'))
+                if(news && news?.status == 200){
+                    setNewsData(news?.data)
+                }
+                
             }
         })()
     }, [params])
@@ -53,7 +59,12 @@ const SymbolPage = (props) => {
                     </div>}
                     {!Loading && <div className='row'>
                         <SidebarLeft Company={Company} KeyStatus={KeyStatus} />
-                        <MainContent Company={Company} KeyStatus={KeyStatus} DividendData={DividendData}/>
+                        <MainContent 
+                            Company={Company} 
+                            KeyStatus={KeyStatus} 
+                            DividendData={DividendData}
+                            NewsData={NewsData}
+                        />
                     </div>}
                 </div>
             </section>

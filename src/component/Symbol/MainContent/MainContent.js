@@ -6,7 +6,7 @@ import ExpectedValuation from './ExpectedValuation'
 import FinancialPerformanceChart from './FinancialPerformanceChart'
 import PriceChart from './PriceChart'
 import VolatilityChart from './VolatilityChart'
-function MainContent ({KeyStatus,DividendData}) {
+function MainContent ({KeyStatus,DividendData,NewsData}) {
   return (
     <div className='col-lg-8'>
       <PriceChart />
@@ -16,7 +16,7 @@ function MainContent ({KeyStatus,DividendData}) {
       </div>
       <ExpectedValuation />
       <VolatilityChart />
-      <CompanyNews />
+      <CompanyNews NewsData={NewsData}/>
       <Competitors KeyStatus={KeyStatus}/>
     </div>
   )

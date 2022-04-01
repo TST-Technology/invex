@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
-import { getHistoricalPrices } from '../../api/company'
+import { getHistoricalPrices, getintradayprices } from '../../api/company'
 import CustomRange from './helper/CustomRange'
 import TabbedComponent from './helper/TabbedComponent'
 import moment from 'moment'
@@ -54,11 +54,17 @@ function PriceChart () {
 
   const [params] = useSearchParams();
   const [ChartData, setChartData] = useState([])
-  const [range, setRange] = useState('1W ')
+  const [range, setRange] = useState('1D')
 
   useEffect(() => {
     (async()=>{
-      var chart = await getHistoricalPrices(params.get('symbol'),range)
+
+      var chart;
+      if(range == '1D'){
+        chart = await getintradayprices(params.get('symbol'))
+      }else{
+        chart = await getHistoricalPrices(params.get('symbol'),range)
+      }
       if(chart?.status == 200 ){
         var tempArr = []
         var obj = {
