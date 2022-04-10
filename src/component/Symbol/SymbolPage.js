@@ -47,8 +47,6 @@ const SymbolPage = (props) => {
 
     return (
         <div className='main'>
-
-
             <section className='company_details'>
                 <div className='container'>
                     {Loading && <div style={{

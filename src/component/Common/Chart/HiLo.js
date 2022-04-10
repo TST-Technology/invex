@@ -93,8 +93,12 @@ export default class HiloChart extends SampleBase {
                             lineStyle: { width: 0 },
                             stripLines: [
                                 {
-                                    end: 1300000000, startFromAxis: true, text: '', color: 'black', visible: true,
-                                    opacity: 0.03, zIndex: 'Behind'
+                                    end: 1300000000, 
+                                    startFromAxis: true, 
+                                    // text: '', color: 'black', 
+                                    visible: true,
+                                    opacity: 0.03, 
+                                    zIndex: 'Behind'
                                 }
                             ]
                         }}
@@ -116,13 +120,43 @@ export default class HiloChart extends SampleBase {
                             </RowDirective>
                         </RowsDirective>
                         <AxesDirective>
-                            <AxisDirective name='secondary' opposedPosition={true} rowIndex={1} majorGridLines={{ width: 1 }} labelFormat='n0' title='Price' plotOffset={30} lineStyle={{ width: 0 }}>
+                            <AxisDirective 
+                                name='secondary' 
+                                opposedPosition={true} 
+                                rowIndex={1} 
+                                majorGridLines={{ width: 1 }} 
+                                labelFormat='n0' 
+                                title='Price' 
+                                plotOffset={30} 
+                                lineStyle={{ width: 0 }}
+                            >
                             </AxisDirective>
                         </AxesDirective>
                         <SeriesCollectionDirective>
-                            <SeriesDirective type='Column' dataSource={chartData} animation={{ enable: true }} xName='x' yName='volume' name='Volume'>
+                            <SeriesDirective 
+                                type='Column' 
+                                dataSource={chartData} 
+                                animation={{ enable: true }} 
+                                xName='x' 
+                                yName='volume' 
+                                name='Volume'
+                            >
                             </SeriesDirective>
-                            <SeriesDirective type='Candle' yAxisName='secondary' bearFillColor='#2ecd71' bullFillColor='#e74c3d' dataSource={chartData} animation={{ enable: true }} xName='x' low='low' high='high' open='open' close='close' name='Apple Inc' volume='volume'>
+                            <SeriesDirective 
+                                type='Candle' 
+                                yAxisName='secondary' 
+                                bearFillColor='#2ecd71' 
+                                bullFillColor='#e74c3d' 
+                                dataSource={chartData} 
+                                animation={{ enable: true }} 
+                                xName='x' 
+                                low='low' 
+                                high='high'
+                                open='open' 
+                                close='close' 
+                                name={this.props.CompanyName}
+                                volume='volume'
+                            >
                             </SeriesDirective>
                         </SeriesCollectionDirective>
                     </ChartComponent>

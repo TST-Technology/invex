@@ -16,6 +16,9 @@ const InvexRoutes = {
     CPIndex: { path: "/cpindex" },
     NonManufacture: { path: "/non_manufacture" },
     FinancialStatistics: { path: "/financial-statistics" },
+    BalanceSheet: {path:'/balance-sheet'},
+    CashFlow: {path:'/cash-flow'},
+    ValuationReport :{path:'/valuation-report'}
 }
 
 export default InvexRoutes;

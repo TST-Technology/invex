@@ -34,7 +34,7 @@ const Dividends = ({ DividendData }) => {
       }
     })()
   }, [params.get('symbol')])
-  console.log('ChartData',ChartData);
+  
   return (
     <>
       <div className='col-lg-6 mb-5'>

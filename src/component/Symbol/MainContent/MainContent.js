@@ -7,9 +7,9 @@ import FinancialPerformanceChart from './FinancialPerformanceChart'
 import PriceChart from './PriceChart'
 import VolatilityChart from './VolatilityChart'
 function MainContent ({KeyStatus,DividendData,NewsData}) {
-  return (
+    return (
     <div className='col-lg-8'>
-      <PriceChart />
+      <PriceChart CompanyName={KeyStatus?.companyName}/>
       <div className='row'>
         <FinancialPerformanceChart />
         <Dividends DividendData={DividendData}/>

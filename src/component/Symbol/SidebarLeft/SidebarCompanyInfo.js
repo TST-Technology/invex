@@ -48,7 +48,6 @@ function SidebarCompanyInfo({ Company }) {
                   <span>{Company?.phone}</span>
                 </li>
               </ul>
-
             </div>
           </div>
           <button className='text-primary readmore' onClick={() => setShowMore(!showMore)} style={showMore ? { display: 'none' } : {}}>Read More </button>

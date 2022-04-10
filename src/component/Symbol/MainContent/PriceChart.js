@@ -6,6 +6,7 @@ import CustomRange from './helper/CustomRange'
 import TabbedComponent from './helper/TabbedComponent'
 import moment from 'moment'
 import HiloChart from '../../Common/Chart/HiLo'
+// import { dates } from '../../Common/Chart/data'
 
 const data = [
   {
@@ -52,7 +53,7 @@ const data = [
   }
 ]
 
-function PriceChart () {
+function PriceChart ({CompanyName}) {
 
   const [params] = useSearchParams();
   const [ChartData, setChartData] = useState([])
@@ -67,25 +68,38 @@ function PriceChart () {
       }else{
         chart = await getHistoricalPrices(params.get('symbol'),range)
       }
+      console.log('chart data',chart.data);
       if(chart && chart.status === 200){
-        var tempData = []
+        var tempArr = []
         chart?.data?.map((el,i)=>{
-          if(el.date) return tempData.push([el.date , el.open , el.close , el.high ,el.low])
+          var date = new Date(el.date);
+          var myDate = Date.parse(date);
+          return tempArr.push({
+            x: myDate,
+            open: el.open,
+            close: el.close,
+            high: el.high,
+            low: el.low,
+            volume: el.volume
+          })
         })
-        setChartData(chart.data)
+        console.log('tempArr',tempArr);
+        setChartData(tempArr)
       }
-      console.log('chart',chart);
-      
     })()
   }, [range])
   
+  // x: new Date(+values[0]),
+  // open: 85.9757,
+  // high: 90.6657,
+  // low: 85.7685,
+  // close: 90.5257,
+  // volume: 660187068
 
   const tabSelectedHandler = data => {
     setRange(data?.name)
   }
   
-  const options = { style: 'currency', currency: 'USD' };
-  const numberFormat = new Intl.NumberFormat('en-US', options);
 
   return (
     <div className='price_chart mb-5'>
@@ -107,8 +121,8 @@ function PriceChart () {
         <CustomRange />
       </div>
 
-      <HiloChart chartData={ChartData}/>
-      {/* <ResponsiveContainer width='100%' aspect={1} maxHeight={250}>
+      {/* {ChartData && ChartData.length > 0 &&<HiloChart CompanyName={CompanyName} chartData={ChartData}/>} */}
+      <ResponsiveContainer width='100%' aspect={1} maxHeight={250}>
         <AreaChart
           data={ChartData}
           margin={{ top: 10, right: 30, left: -50, bottom: 0 }}
@@ -133,7 +147,7 @@ function PriceChart () {
             fill='url(#colorPv)'
           />
         </AreaChart>
-      </ResponsiveContainer> */}
+      </ResponsiveContainer>
     </div>
   )
 }
