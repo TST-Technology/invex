@@ -330,7 +330,7 @@ const BidTable = () => {
                 />
               </MuiThemeProvider>
             </div>
-            <label for="myinputRange" className="form-label my-auto">
+            <label htmlFor="myinputRange" className="form-label my-auto">
               {strikeInput}
             </label>
           </div>

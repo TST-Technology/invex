@@ -25,7 +25,7 @@ const FilterModel = () => {
                                         <input type="text" value={filterSearch} onChange={(e)=>setfilterSearch(e.target.value)} name="s" className="form-control" placeholder="Search for Filter" id="example-search-input" id="usr" autocomplete="off" /> 
                                         <input type="submit" value="Search" id="search-submit" style={{display: "none"}} /> 
                                         <span className="input-group-append d-flex align-items-center">
-                                            <label for="search-submit"><img src={require("../../Common/Images/search-b.png").default} alt="search-icon" className="img-fluid" height="16" width="16" /></label>
+                                            <label htmlFor="search-submit"><img src={require("../../Common/Images/search-b.png").default} alt="search-icon" className="img-fluid" height="16" width="16" /></label>
                                         </span>
                                     </div>
                                 </form>
@@ -57,31 +57,31 @@ const FilterModel = () => {
                                                 <h6 className="text-secondary mb-4">Filters</h6>
                                                 <div className="form-check">
                                                     <input className="form-check-input" type="radio" name="filter1" id="filter1" />
-                                                    <label className="form-check-label" for="filter1">
+                                                    <label className="form-check-label" htmlFor="filter1">
                                                         Filter 1
                                                     </label>
                                                 </div>
                                                 <div className="form-check">
                                                     <input className="form-check-input" type="radio" name="filter2" id="filter2" checked />
-                                                    <label className="form-check-label" for="filter2">
+                                                    <label className="form-check-label" htmlFor="filter2">
                                                         Filter 2
                                                     </label>
                                                 </div>
                                                 <div className="form-check">
                                                     <input className="form-check-input" type="radio" name="filter3" id="filter3" checked />
-                                                    <label className="form-check-label" for="filter3">
+                                                    <label className="form-check-label" htmlFor="filter3">
                                                         Filter 3
                                                     </label>
                                                 </div>
                                                 <div className="form-check">
                                                     <input className="form-check-input" type="radio" name="filter4" id="filter4" checked />
-                                                    <label className="form-check-label" for="filter4">
+                                                    <label className="form-check-label" htmlFor="filter4">
                                                         Filter 4
                                                     </label>
                                                 </div>
                                                 <div className="form-check">
                                                     <input className="form-check-input" type="radio" name="filter5" id="filter5" checked />
-                                                    <label className="form-check-label" for="filter5">
+                                                    <label className="form-check-label" htmlFor="filter5">
                                                         Filter 5
                                                     </label>
                                                 </div>

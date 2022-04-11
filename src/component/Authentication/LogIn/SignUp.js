@@ -84,7 +84,7 @@ const SignUp = () => {
                                 <form className="mt-5 text-start" style={{height:"fit-content"}} onSubmit={(e) => signUpSubmit(e)}>
                                     <div>
                                         <div className="mb-3 form-group">
-                                            <label for="name" className="form-label">Name</label>
+                                            <label htmlFor="name" className="form-label">Name</label>
                                             <input 
                                                 type="text" 
                                                 className="form-control" 
@@ -96,7 +96,7 @@ const SignUp = () => {
                                             />
                                         </div>
                                         <div className="mb-3 form-group">
-                                            <label for="mobile" className="form-label">Mobile No</label>
+                                            <label htmlFor="mobile" className="form-label">Mobile No</label>
                                             <input 
                                                 type="text"
                                                 maxLength={10}
@@ -109,7 +109,7 @@ const SignUp = () => {
                                             />
                                         </div>
                                         <div className="mb-3 form-group">
-                                            <label for="exampleInputEmail1" className="form-label">Email ID</label>
+                                            <label htmlFor="exampleInputEmail1" className="form-label">Email ID</label>
                                             <input 
                                                 type="text" 
                                                 className="form-control" 
@@ -121,7 +121,7 @@ const SignUp = () => {
                                             />
                                         </div>
                                         <div className="mb-5 form-group">
-                                            <label for="exampleInputPassword1" className="form-label">Password</label>
+                                            <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
                                             <input 
                                                 type="password" 
                                                 className="form-control" 

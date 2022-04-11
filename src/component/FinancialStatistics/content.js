@@ -2,12 +2,12 @@ import React from 'react'
 
 const Content = ({Statements}) => {
     return (
-        <div class="row">
-            <div class="col-lg-6 mb-5">
-                <div class="d-flex align-items-center justify-content-start bg-light p-3 border-bottom-0 mb-3">
-                    <h6 class="m-0"><strong>Pricing Measures</strong></h6>
+        <div className="row">
+            <div className="col-lg-6 mb-5">
+                <div className="d-flex align-items-center justify-content-start bg-light p-3 border-bottom-0 mb-3">
+                    <h6 className="m-0"><strong>Pricing Measures</strong></h6>
                 </div>
-                <div class="key_status">
+                <div className="key_status">
                     <ul>
                         <li><a href="javascript:void(0)">Market Cap</a> <span>{Statements?.marketcap}</span></li>
                         <li><a href="javascript:void(0)">Enterprise Value</a> <span>{Statements?.enterpriseValue}</span></li>
@@ -22,10 +22,10 @@ const Content = ({Statements}) => {
                         <li><a href="javascript:void(0)">Call-Put Ratio</a> <span>{Statements?.putCallRatio}</span></li>
                     </ul>
                 </div>
-                <div class="d-flex align-items-center justify-content-start bg-light p-3 border-bottom-0 mb-3">
-                    <h6 class="m-0"><strong>Share Statistics</strong></h6>
+                <div className="d-flex align-items-center justify-content-start bg-light p-3 border-bottom-0 mb-3">
+                    <h6 className="m-0"><strong>Share Statistics</strong></h6>
                 </div>
-                <div class="key_status">
+                <div className="key_status">
                     <ul>
                         <li><a href="javascript:void(0)">Market Cap</a> <span>{Statements?.marketcap}</span></li>
                         <li><a href="javascript:void(0)">Enterprise Value</a> <span>{Statements?.enterpriseValue}</span></li>
@@ -34,10 +34,10 @@ const Content = ({Statements}) => {
                         <li><a href="javascript:void(0)">Price/Sales</a> <span>{Statements?.priceToSales}</span></li>
                     </ul>
                 </div>
-                <div class="d-flex align-items-center justify-content-start bg-light p-3 border-bottom-0 mb-3">
-                    <h6 class="m-0"><strong>Earnings & Dividends</strong></h6>
+                <div className="d-flex align-items-center justify-content-start bg-light p-3 border-bottom-0 mb-3">
+                    <h6 className="m-0"><strong>Earnings & Dividends</strong></h6>
                 </div>
-                <div class="key_status">
+                <div className="key_status">
                     <ul>
                         <li><a href="javascript:void(0)">Market Cap</a> <span>{Statements?.marketcap}</span></li>
                         <li><a href="javascript:void(0)">Enterprise Value</a> <span>{Statements?.enterpriseValue}</span></li>
@@ -46,11 +46,11 @@ const Content = ({Statements}) => {
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-6 mb-5">
-                <div class="d-flex align-items-center justify-content-start bg-light p-3 border-bottom-0 mb-3">
-                    <h6 class="m-0"><strong>Financial Highlights</strong></h6>
+            <div className="col-lg-6 mb-5">
+                <div className="d-flex align-items-center justify-content-start bg-light p-3 border-bottom-0 mb-3">
+                    <h6 className="m-0"><strong>Financial Highlights</strong></h6>
                 </div>
-                <div class="key_status">
+                <div className="key_status">
                     <ul>
                         <li><a href="javascript:void(0)">Total Revenue</a> <span>{Statements?.totalRevenue}</span></li>
                         <li><a href="javascript:void(0)">Gross Profit</a> <span>{Statements?.grossProfit}</span></li>
@@ -63,10 +63,10 @@ const Content = ({Statements}) => {
                         <li><a href="javascript:void(0)">Debt To Equity</a> <span>{Statements?.debtToEquity}</span></li>
                     </ul>
                 </div>
-                <div class="d-flex align-items-center justify-content-start bg-light p-3 border-bottom-0 mb-3">
-                    <h6 class="m-0"><strong>Stock Price History</strong></h6>
+                <div className="d-flex align-items-center justify-content-start bg-light p-3 border-bottom-0 mb-3">
+                    <h6 className="m-0"><strong>Stock Price History</strong></h6>
                 </div>
-                <div class="key_status">
+                <div className="key_status">
                     <ul>
                         <li><a href="javascript:void(0)">52 Week High</a> <span>{Statements?.week52high}</span></li>
                         <li><a href="javascript:void(0)">52 Week Low</a> <span>{Statements?.week52low}</span></li>

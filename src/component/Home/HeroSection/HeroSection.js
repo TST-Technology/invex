@@ -22,7 +22,7 @@ const HeroSection = () => {
                                             <input type="text" value={heroSearch} onChange={(e)=>setHeroSearch(e.target.value)} name="s" className="form-control" placeholder="Search for symbol, company and news" id="example-search-input" autoComplete="off" /> 
                                             <input type="submit" value="Search" id="search-submit" style={{"display": "none"}} /> 
                                             <span className="input-group-append">
-                                                <label htmlFor="search-submit"><img src={require("../../Common/Images/search.png").default} alt="search-icon" className="img-fluid" height="24" width="24" /></label>
+                                                <label htmlhtmlFor="search-submit"><img src={require("../../Common/Images/search.png").default} alt="search-icon" className="img-fluid" height="24" width="24" /></label>
                                             </span>
                                         </div>
                                     </form>

@@ -6,28 +6,28 @@ import graph from '../Common/Images/graph-2.png'
 
 const ValuationReport = () => {
   return (
-    <div class="main">
-        <section class="valuation_report_sec">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="row">
-                            <div class="col-lg-12 mb-5">
-                                <div class="card mb-5">
-                                    <div class="card-body bg-base d-lg-flex d-md-flex d-block align-items-center rounded-3 p-4">
-                                        <h5 class="m-0 pe-3">Valuation Report</h5><small>Stock Forecast, Predictions & Price Target</small>
+    <div className="main">
+        <section className="valuation_report_sec">
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg-8">
+                        <div className="row">
+                            <div className="col-lg-12 mb-5">
+                                <div className="card mb-5">
+                                    <div className="card-body bg-base d-lg-flex d-md-flex d-block align-items-center rounded-3 p-4">
+                                        <h5 className="m-0 pe-3">Valuation Report</h5><small>Stock Forecast, Predictions & Price Target</small>
                                     </div>
                                 </div>
 
-                                <div class="card companyviewblk compprofile_block mb-5">
-                                    <div class="card-header">
-                                        <div class="d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0">
-                                            <h6 class="m-0"><strong>Analyst Notes</strong></h6>
+                                <div className="card companyviewblk compprofile_block mb-5">
+                                    <div className="card-header">
+                                        <div className="d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0">
+                                            <h6 className="m-0"><strong>Analyst Notes</strong></h6>
                                         </div>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="description-para">
-                                            <div class="key_status">
+                                    <div className="card-body">
+                                        <div className="description-para">
+                                            <div className="key_status">
                                                 <p>Moderna is a young growth company it has potential to grow more in the upcoming years because of its research. 										
                                                     As predicted by the 17 analyst the mean sales growth is estimated as 20.1B and 18.5B for the year 2021 and 2022 respectively. The high sales estimation is 22B and 36.6B & the low sales estimation is 16.9b and 10.2B for the year 2021 and 2022 respectively. Because of covid vaccine analyst are predicting high growth in the revenue. Moderna just got profitable in this quarture and has manage make margin of 68%.before it was loss making company. The margin of the comparable firm like Pfizer generally between 25% to 30%.										
                                                     Bank of America analyst Geoff Meacham wrote in a note published  that the current valuation remains “unreasonable.” In order to justify the market capitalization, an	investor would need to assume that the company would sell up to 1.5 billion doses of its Covid-19 vaccine each year, and a 100% probability of success for the entire pipeline with aggregate peak sales of $30 billion.										
@@ -37,9 +37,9 @@ const ValuationReport = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered m-0 most_tables">
-                                        <thead class="table-light">
+                                <div className="table-responsive">
+                                    <table className="table table-bordered m-0 most_tables">
+                                        <thead className="table-light">
                                             <tr>
                                                 <th scope="col">-</th>
                                                 <th scope="col">Best case</th>
@@ -48,7 +48,7 @@ const ValuationReport = () => {
                                                 <th scope="col">Manual</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="border-top-0">
+                                        <tbody className="border-top-0">
                                             <tr>
                                                 <td>Growth this year</td>
                                                 <td>333.0%</td>
@@ -109,74 +109,74 @@ const ValuationReport = () => {
                                     </table>
                                 </div>
 
-                                <div class="card companyviewblk compprofile_block mt-5 mb-4">
-                                    <div class="card-header">
-                                        <div class="d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0">
-                                            <h6 class="m-0"><strong>Industrials: Aerospace & Defense</strong></h6>
+                                <div className="card companyviewblk compprofile_block mt-5 mb-4">
+                                    <div className="card-header">
+                                        <div className="d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0">
+                                            <h6 className="m-0"><strong>Industrials: Aerospace & Defense</strong></h6>
                                         </div>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="top_button_panel mb-3">
-                                            <span class="pe-3 pb-3"><small><strong>Choose the case</strong></small></span>
-                                            <button type="button" class="btn btn-info">Best case</button>
-                                            <button type="button" class="btn btn-light"> Base care</button>                        
-                                            <button type="button" class="btn btn-light"> Worst care</button>
-                                            <button type="button" class="btn btn-light"> Manual</button>
+                                    <div className="card-body">
+                                        <div className="top_button_panel mb-3">
+                                            <span className="pe-3 pb-3"><small><strong>Choose the case</strong></small></span>
+                                            <button type="button" className="btn btn-info">Best case</button>
+                                            <button type="button" className="btn btn-light"> Base care</button>                        
+                                            <button type="button" className="btn btn-light"> Worst care</button>
+                                            <button type="button" className="btn btn-light"> Manual</button>
                                         </div>
 
-                                        <div class="scenario justify-content-between">
-                                            <span class="best_scena">Estimated value / share</span>
-                                            <div class="chart-text">
-                                                <p class="card-text up m-0"><strong>$235.49</strong></p>
-                                                <p class="text up m-0 ms-2">(+34%)</p>
+                                        <div className="scenario justify-content-between">
+                                            <span className="best_scena">Estimated value / share</span>
+                                            <div className="chart-text">
+                                                <p className="card-text up m-0"><strong>$235.49</strong></p>
+                                                <p className="text up m-0 ms-2">(+34%)</p>
                                             </div>
-                                            <div class="text-end">
-                                                <p class="m-0"><small>Value of equity (Millions): $76,485.50</small></p>
-                                                <p class="m-0"><small>Current price: $391.42</small></p>
+                                            <div className="text-end">
+                                                <p className="m-0"><small>Value of equity (Millions): $76,485.50</small></p>
+                                                <p className="m-0"><small>Current price: $391.42</small></p>
                                             </div>
                                         </div>
 
-                                        <div class="mt-5">
-                                            <div class="row">
-                                                <div class="col-lg-3">
-                                                    <h6 class="mb-3"><strong>Revenue <br/>(Future Expectation)</strong></h6>
+                                        <div className="mt-5">
+                                            <div className="row">
+                                                <div className="col-lg-3">
+                                                    <h6 className="mb-3"><strong>Revenue <br/>(Future Expectation)</strong></h6>
                                                     <small>All values are in Billion</small>
                                                 </div>
-                                                <div class="col-lg-9">
-                                                    <img src={finchart} class="img-fluid" alt="chart"/>
+                                                <div className="col-lg-9">
+                                                    <img src={finchart} className="img-fluid" alt="chart"/>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mt-5">
-                                            <div class="row">
-                                                <div class="col-lg-3">
-                                                    <h6 class="mb-3"><strong>Revenue <br/>(Future Expectation)</strong></h6>
+                                        <div className="mt-5">
+                                            <div className="row">
+                                                <div className="col-lg-3">
+                                                    <h6 className="mb-3"><strong>Revenue <br/>(Future Expectation)</strong></h6>
                                                     <small>All values are in Billion</small>
                                                 </div>
-                                                <div class="col-lg-9">
-                                                    <img src={finchart} class="img-fluid" alt="chart"/>
+                                                <div className="col-lg-9">
+                                                    <img src={finchart} className="img-fluid" alt="chart"/>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mt-5">
-                                            <div class="row">
-                                                <div class="col-lg-3">
-                                                    <h6 class="mb-3"><strong>Free cash flow to firm <br/>(Future Expectation)</strong></h6>
+                                        <div className="mt-5">
+                                            <div className="row">
+                                                <div className="col-lg-3">
+                                                    <h6 className="mb-3"><strong>Free cash flow to firm <br/>(Future Expectation)</strong></h6>
                                                     <small>All values are in Billion</small>
                                                 </div>
-                                                <div class="col-lg-9">
-                                                    <img src={finchart} class="img-fluid" alt="chart"/>
+                                                <div className="col-lg-9">
+                                                    <img src={finchart} className="img-fluid" alt="chart"/>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mt-5">
-                                            <div class="row">
-                                                <div class="col-lg-3">
-                                                    <h6 class="mb-3"><strong>Price Target <br/>(Future Expectation)</strong></h6>
+                                        <div className="mt-5">
+                                            <div className="row">
+                                                <div className="col-lg-3">
+                                                    <h6 className="mb-3"><strong>Price Target <br/>(Future Expectation)</strong></h6>
                                                     <small>All values are in Billion</small>
                                                 </div>
-                                                <div class="col-lg-9">
-                                                    <img src={finchart} class="img-fluid" alt="chart"/>
+                                                <div className="col-lg-9">
+                                                    <img src={finchart} className="img-fluid" alt="chart"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -184,8 +184,8 @@ const ValuationReport = () => {
                                     </div>
                                 </div>   
                                 
-                                <div class="mt-5 mb-5">
-                                    <h6 class="mb-4"><strong>Notes For The Professionals</strong></h6>
+                                <div className="mt-5 mb-5">
+                                    <h6 className="mb-4"><strong>Notes For The Professionals</strong></h6>
                                     <ul>
                                         <li>The above estimations are derived from the Free Cash Flow To Firm Valuation.</li>
                                         <li>We considered the Research & Development expenses as Capital Expense rather than operating expense. Hence, we capitalized the R&D, therefore the current operating margin shown by us may vary with the margin as reported by the company.</li>
@@ -198,41 +198,41 @@ const ValuationReport = () => {
                             </div>
                         </div>                        
                     </div>
-                    <div class="col-lg-4">
+                    <div className="col-lg-4">
                         {/* <!-- company left details box start --> */}
-                        <div class="card companyviewblk compny_left_detail brand_valuation mb-4">
-                            <div class="saved-blk"><a href="javascript:void(0);">
-                                <img class="upper marked" src={marked_img} alt="bookmark"/></a>
+                        <div className="card companyviewblk compny_left_detail brand_valuation mb-4">
+                            <div className="saved-blk"><a href="javascript:void(0);">
+                                <img className="upper marked" src={marked_img} alt="bookmark"/></a>
                             </div>
-                            <div class="card-body">
-                                <div class="comp_brand">
-                                    <div class="img">
+                            <div className="card-body">
+                                <div className="comp_brand">
+                                    <div className="img">
                                         <img src={image1} alt="image"/>
                                     </div>
-                                    <div class="title1">
-                                        <h5 class="card-title">APPLE  INC</h5>
-                                        <p class="company m-0">AAPL</p>
+                                    <div className="title1">
+                                        <h5 className="card-title">APPLE  INC</h5>
+                                        <p className="company m-0">AAPL</p>
                                     </div>
                                 </div>
-                                <div class="marketviewblk">
-                                    <div class="chart-text">
-                                        <p class="market_price">$235.49</p>
-                                        <p class="market_profit up">+3.10 (+1.3%)</p>
+                                <div className="marketviewblk">
+                                    <div className="chart-text">
+                                        <p className="market_price">$235.49</p>
+                                        <p className="market_profit up">+3.10 (+1.3%)</p>
                                     </div>
-                                    <div class="chart-img ms-auto">
+                                    <div className="chart-img ms-auto">
                                         <img src={graph} alt="image"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         {/* <!-- company left details box end --> */}
-                        <div class="d-flex align-items-center justify-content-center bg-light p-3 border-bottom-0">
-                            <h6 class="m-0"><strong>View chart and details</strong></h6>
+                        <div className="d-flex align-items-center justify-content-center bg-light p-3 border-bottom-0">
+                            <h6 className="m-0"><strong>View chart and details</strong></h6>
                         </div>
                         {/* <!-- Basic Company Facts section start--> */}
-                        <div class="col-lg-12 mt-3 mb-5">
-                            <h6 class="mb-3"><strong>Basic Company Facts </strong></h6>
-                            <div class="key_status">
+                        <div className="col-lg-12 mt-3 mb-5">
+                            <h6 className="mb-3"><strong>Basic Company Facts </strong></h6>
+                            <div className="key_status">
                                 <ul>
                                     <li><a href="javascript:void(0)">Fiscal Year:</a> <span>2021 Q1</span></li>
                                     <li><a href="javascript:void(0)">Company Ticker:</a> <span>MRNA</span></li>
@@ -247,9 +247,9 @@ const ValuationReport = () => {
                         </div>
                         {/* <!-- Basic Company Facts section end--> */}
                         {/* <!-- Company current financial section start--> */}
-                        <div class="col-lg-12 mt-3 mb-5">
-                            <h6 class="mb-3"><strong>Company's Current Financials(millions) </strong></h6>
-                            <div class="key_status">
+                        <div className="col-lg-12 mt-3 mb-5">
+                            <h6 className="mb-3"><strong>Company's Current Financials(millions) </strong></h6>
+                            <div className="key_status">
                                 <ul>
                                     <li><a href="javascript:void(0)">Revenues</a> <span>$5,091.0</span></li>
                                     <li><a href="javascript:void(0)">Income Before Interest & Tax</a> <span>$2,420.9</span></li>
@@ -261,9 +261,9 @@ const ValuationReport = () => {
                         </div>
                         {/* <!-- Company current financial section end--> */}
                         {/* <!-- Company current financial section start--> */}
-                        <div class="col-lg-12 mt-3 mb-5">
-                            <h6 class="mb-3"><strong>Current Fundamental Metrices </strong></h6>
-                            <div class="key_status">
+                        <div className="col-lg-12 mt-3 mb-5">
+                            <h6 className="mb-3"><strong>Current Fundamental Metrices </strong></h6>
+                            <div className="key_status">
                                 <ul>
                                     <li><a href="javascript:void(0)">Pre-tax operating margin</a> <span>62.76%</span></li>
                                     <li><a href="javascript:void(0)">Sales to capital ratio</a> <span>4.93</span></li>

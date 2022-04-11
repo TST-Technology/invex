@@ -29,11 +29,11 @@ const FinancialStatistics = () => {
     }, [params.get('symbol')])
     console.log('Company', Company);
     return (
-        <section class="company_details">
-            <div class="container">
-                <div class="row">
+        <section className="company_details">
+            <div className="container">
+                <div className="row">
                     <Sidebar Company={Company} />
-                    <div class="col-lg-8">
+                    <div className="col-lg-8">
                         <Content Statisticss={Statisticss} />
                     </div>
                 </div>

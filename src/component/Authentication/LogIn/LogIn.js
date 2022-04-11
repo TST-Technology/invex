@@ -81,7 +81,7 @@ const LogIn = () => {
                                 <form className="mt-5 text-start" onSubmit={(e) => logInSubmit(e)}>
                                     <div>
                                         <div className="mb-3 form-group">
-                                            <label for="exampleInputEmail1" className="form-label">Email ID</label>
+                                            <label htmlFor="exampleInputEmail1" className="form-label">Email ID</label>
                                             <input 
                                                 type="email" 
                                                 className="form-control" 
@@ -93,7 +93,7 @@ const LogIn = () => {
                                             />
                                         </div>
                                         <div className="mb-5 form-group">
-                                            <label for="exampleInputPassword1" className="form-label">Password</label>
+                                            <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
                                             <input 
                                                 type="password" 
                                                 className="form-control" 

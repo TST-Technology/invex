@@ -61,31 +61,31 @@ const LeftSideFilter = (props) => {
                         <div className="in_acc_body">
                             <div className="form-check">
                                 <input className="form-check-input" type="radio" name="filter1" id="filter1" />
-                                <label className="form-check-label" for="filter1">
+                                <label className="form-check-label" htmlFor="filter1">
                                     Filter 1
                                 </label>
                             </div>
                             <div className="form-check">
                                 <input className="form-check-input" type="radio" name="filter2" id="filter2" checked />
-                                <label className="form-check-label" for="filter2">
+                                <label className="form-check-label" htmlFor="filter2">
                                     Filter 2
                                 </label>
                             </div>
                             <div className="form-check">
                                 <input className="form-check-input" type="radio" name="filter3" id="filter3" checked />
-                                <label className="form-check-label" for="filter3">
+                                <label className="form-check-label" htmlFor="filter3">
                                     Filter 3
                                 </label>
                             </div>
                             <div className="form-check">
                                 <input className="form-check-input" type="radio" name="filter4" id="filter4" checked />
-                                <label className="form-check-label" for="filter4">
+                                <label className="form-check-label" htmlFor="filter4">
                                     Filter 4
                                 </label>
                             </div>
                             <div className="form-check">
                                 <input className="form-check-input" type="radio" name="filter5" id="filter5" checked />
-                                <label className="form-check-label" for="filter5">
+                                <label className="form-check-label" htmlFor="filter5">
                                     Filter 5
                                 </label>
                             </div>
@@ -132,31 +132,31 @@ const LeftSideFilter = (props) => {
                         <div className="in_acc_body">
                             <div className="form-check">
                                 <input className="form-check-input" type="radio" name="filter1" id="filter1" />
-                                <label className="form-check-label" for="filter1">
+                                <label className="form-check-label" htmlFor="filter1">
                                     Filter 1
                                 </label>
                             </div>
                             <div className="form-check">
                                 <input className="form-check-input" type="radio" name="filter2" id="filter2" checked />
-                                <label className="form-check-label" for="filter2">
+                                <label className="form-check-label" htmlFor="filter2">
                                     Filter 2
                                 </label>
                             </div>
                             <div className="form-check">
                                 <input className="form-check-input" type="radio" name="filter3" id="filter3" checked />
-                                <label className="form-check-label" for="filter3">
+                                <label className="form-check-label" htmlFor="filter3">
                                     Filter 3
                                 </label>
                             </div>
                             <div className="form-check">
                                 <input className="form-check-input" type="radio" name="filter4" id="filter4" checked />
-                                <label className="form-check-label" for="filter4">
+                                <label className="form-check-label" htmlFor="filter4">
                                     Filter 4
                                 </label>
                             </div>
                             <div className="form-check">
                                 <input className="form-check-input" type="radio" name="filter5" id="filter5" checked />
-                                <label className="form-check-label" for="filter5">
+                                <label className="form-check-label" htmlFor="filter5">
                                     Filter 5
                                 </label>
                             </div>
