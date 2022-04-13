@@ -8,6 +8,7 @@ import search from '../Common/Images/search-b.png'
 
 const Financials = () => {
     const [tab, setTab] = useState(1)
+    
     return (
         <main>
             <section className="company_details mb-5">
@@ -61,7 +62,6 @@ const Financials = () => {
                         {tab === 1 && <BalanceSheet />}
                         {tab === 2 && <IncomeStatement />}
                         {tab === 3 && <CashFlow />}
-                        
                     </div>
                 </div>
             </section>

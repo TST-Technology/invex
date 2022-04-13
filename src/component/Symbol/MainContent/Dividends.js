@@ -14,7 +14,6 @@ const Dividends = ({ DividendData }) => {
   useEffect(() => {
     (async()=>{
       var chart = await getFinancialPastdividend(params.get('symbol'))
-      console.log('chart',chart);
       if(chart?.status == 200 ){
         var tempArr = []
         var obj = {

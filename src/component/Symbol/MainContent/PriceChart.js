@@ -68,7 +68,6 @@ function PriceChart ({CompanyName}) {
       }else{
         chart = await getHistoricalPrices(params.get('symbol'),range)
       }
-      console.log('chart data',chart.data);
       if(chart && chart.status === 200){
         var tempArr = []
         chart?.data?.map((el,i)=>{
@@ -83,7 +82,6 @@ function PriceChart ({CompanyName}) {
             volume: el.volume
           })
         })
-        console.log('tempArr',tempArr);
         setChartData(tempArr)
       }
     })()

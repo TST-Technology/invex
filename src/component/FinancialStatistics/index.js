@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom';
-import { getCompanyDataBySymbol } from '../api/company';
+import { getCompanyDataBySymbol } from '../api/commonApi';
 import { getFinancialStatistics } from '../api/financialStatistics';
 import Content from './content'
 import Sidebar from './sidebar'
