@@ -29,8 +29,8 @@ const sidebar = ({Company}) => {
                         </div>
                         <div className="chart mb-4 mt-2">
                             <div className="chart-text">
-                                <p className="card-text up">$235.49 -10</p>
-                                <p className="text up">+3.10 (+1.3%) -10</p>
+                                <p className="card-text up">$235.49</p>
+                                <p className="text up">+3.10 (+1.3%)</p>
                             </div>
                         </div>
                     </div>

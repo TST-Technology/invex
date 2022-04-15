@@ -14,6 +14,7 @@ const FinancialStatistics = () => {
         (async () => {
             if (params.get('symbol')) {
                 var data = await getFinancialStatistics(params.get('symbol'))
+                console.log('data',data);
                 if (data && data.data && data.status === 200) {
                     setStatistics(data.data[0])
                 }
@@ -27,7 +28,7 @@ const FinancialStatistics = () => {
             }
         })()
     }, [params.get('symbol')])
-    console.log('Company', Company);
+
     return (
         <section className="company_details">
             <div className="container">

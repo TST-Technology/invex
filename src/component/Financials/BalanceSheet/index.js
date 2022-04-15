@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { getBalanceSheet } from '../../api/financials'
 import LiabilitiesShareholder from './LiabilitiesShareholder'
 import Saily1YearVolatility from './Saily1YearVolatility'
 
@@ -45,43 +46,23 @@ const data =
     }
 
 const BalanceSheet = () => {
-    var CurrentAssetsName = [
-        'Cash, Cash Equivalents & Short Term Investments',
-        'Receivables',
-        'Inventory',
-        'OtherCurrentAssets',
-        'Current Assets Total',
-    ]
-    var NonCurrentAssetsName = [
-        'PropertyPlantEquipment',
-        'IntangibleAssets',
-        'Goodwill',
-        'OtherCurrentAssets',
-        'Long Term Investments',
-        'Other Non-Current Assets',
-        'Non-Current Assets Total',
-        'TotalAssets',
-    ]
-    const [Period , setPeriod] = useState(null)
-    const [View , setView] = useState([])
-    const [CurrentAssets , setCurrentAssets] = useState([])
-    const [NonCurrentAssets , setNonCurrentAssets] = useState([])
+
+    const [Period , setPeriod] = useState('quarterly')
+    const [View , setView] = useState(5)
+    const [BalanceSheetData , setBalanceSheetData] = useState([])
+    
 
     useEffect(() => {
-        var cAssets = []        
-        CurrentAssetsName.map((item,index)=>{
-            let obj = {
-                name:CurrentAssetsName[index],
-                col1:data.currentCash,
-                col2:data.receivables,
-                col3:data.inventory,
-                col4:data.otherCurrentAssets,
-                col5:data.totalAssets,
+        (async()=>{
+            var res = await getBalanceSheet('aapl',Period,View)
+            console.log('res',res);
+            if(res && res.status === 200 && res?.data?.length > 0){
+                setBalanceSheetData(res?.data)
             }
-            cAssets.push(obj)
-        })
-        setCurrentAssets(cAssets)
-    }, [])
+        })()
+    }, [Period,View])
+
+
 
     return (
         <>
@@ -91,13 +72,21 @@ const BalanceSheet = () => {
                         <h5 className="mb-3"><strong>Balance Sheet</strong></h5>
                         <div className="d-inline-flex align-items-center">
                             <label htmlFor="" className="me-3 font-bd">Period</label>
-                            <select className="form-select me-3" aria-label="Default select example">
-                                <option selected>Quarterly</option>
-                                <option value="1">annual</option>
+                            <select 
+                                className="form-select me-3" 
+                                aria-label="Default select example"
+                                onChange={(e)=>setPeriod(e.target.value)}
+                            >
+                                <option selected value='quarterly'>Quarterly</option>
+                                <option value="annual">annual</option>
                             </select>
 
                             <label htmlFor="" className="me-3 font-bd">View</label>
-                            <select className="form-select me-3" aria-label="Default select example">
+                            <select 
+                                className="form-select me-3" 
+                                aria-label="Default select example"
+                                onChange={(e)=>setView(e.target.value)}
+                            >
                                 <option selected>Last 5 Years</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -109,8 +98,8 @@ const BalanceSheet = () => {
                     </form>
                 </div>
             </div>
-            <Saily1YearVolatility data={CurrentAssets}/>
-            <LiabilitiesShareholder/>
+            <Saily1YearVolatility data={BalanceSheetData}/>
+            <LiabilitiesShareholder data={BalanceSheetData}/>
         </>
     )
 }
