@@ -1,9 +1,5 @@
 import { Services } from '../../services/apiService'
 
-export const getBookKeyStatus = async (symbol) =>{
-    var {data} = await Services.get(`/stock/book?symbol=${symbol}`,)
-    return data
-}
 
 export const getHistoricalPrices = async (symbol,range) =>{
     var {data} = await Services.get(`/stock/historicalPrices?symbol=${symbol}&range=${range}`,)

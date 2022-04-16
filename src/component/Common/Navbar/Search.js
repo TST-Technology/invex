@@ -12,7 +12,7 @@ const Search = ({ navbarSearch, handleSearch, handleClick, SearchResult}) => {
                     <input type="submit" value="Search" id="search-submit" style={{ "display": "none" }} />
                     <span className="input-group-append d-flex align-items-center">
                         <a href="/#"><p><img src={require("../Images/⌘K.png").default} alt="" /></p></a>
-                        <label htmlhtmlFor="search-submit"><img src={require("../Images/search.png").default} alt="search-icon" className="img-fluid" height="16" width="16" /></label>
+                        <label htmlFor="search-submit"><img src={require("../Images/search.png").default} alt="search-icon" className="img-fluid" height="16" width="16" /></label>
                     </span>
                 </div>
                 {SearchResult && SearchResult?.data?.length > 0 && <List className='search-result' sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>

@@ -3,64 +3,26 @@ import { getBalanceSheet } from '../../api/financials'
 import LiabilitiesShareholder from './LiabilitiesShareholder'
 import Saily1YearVolatility from './Saily1YearVolatility'
 
-const data =
-    {
-        accountsPayable: 54763000000,
-        capitalSurplus: null,
-        commonStock: 16701272000,
-        currency: "USD",
-        currentAssets: 134836000000,
-        currentCash: 62639000000,
-        currentLongTermDebt: 15613000000,
-        filingType: "10-K",
-        fiscalDate: "2021-09-25",
-        fiscalQuarter: 0,
-        fiscalYear: 2021,
-        goodwill: 0,
-        intangibleAssets: 0,
-        inventory: 6580000000,
-        longTermDebt: 109106000000,
-        longTermInvestments: 216166000000,
-        minorityInterest: 0,
-        netTangibleAssets: 63090000000,
-        otherAssets: 48849000000,
-        otherCurrentAssets: 14111000000,
-        otherCurrentLiabilities: 55105000000,
-        otherLiabilities: 53325000000,
-        propertyPlantEquipment: 39440000000,
-        receivables: 51506000000,
-        reportDate: "2021-10-29",
-        retainedEarnings: 5562000000,
-        shareholderEquity: 63090000000,
-        shortTermInvestments: 14111000000,
-        symbol: "AAPL",
-        totalAssets: 351002000000,
-        totalCurrentLiabilities: 125481000000,
-        totalLiabilities: 287912000000,
-        treasuryStock: 0,
-        id: "BALANCE_SHEET",
-        key: "AAPL",
-        subkey: "annual",
-        date: 1632528000000,
-        updated: 1649775601000
-    }
 
-const BalanceSheet = () => {
+const BalanceSheet = ({ symbol }) => {
 
     const [Period , setPeriod] = useState('quarterly')
     const [View , setView] = useState(5)
     const [BalanceSheetData , setBalanceSheetData] = useState([])
-    
+    const [Loading , setLoading] = useState(false)
 
     useEffect(() => {
         (async()=>{
-            var res = await getBalanceSheet('aapl',Period,View)
-            console.log('res',res);
-            if(res && res.status === 200 && res?.data?.length > 0){
-                setBalanceSheetData(res?.data)
+            setLoading(true)
+            if(symbol){
+                var res = await getBalanceSheet(symbol , Period , View)
+                if(res && res.status === 200 && res?.data?.length > 0){
+                    setBalanceSheetData(res?.data)
+                }
             }
+            setLoading(false)
         })()
-    }, [Period,View])
+    }, [symbol, Period , View])
 
 
 
@@ -87,19 +49,15 @@ const BalanceSheet = () => {
                                 aria-label="Default select example"
                                 onChange={(e)=>setView(e.target.value)}
                             >
-                                <option selected>Last 5 Years</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
+                                <option selected value="5">Last 5 Years</option>
+                                <option value="10">Last 10 Years</option>
                             </select>
                         </div>
                     </form>
                 </div>
             </div>
-            <Saily1YearVolatility data={BalanceSheetData}/>
-            <LiabilitiesShareholder data={BalanceSheetData}/>
+            <Saily1YearVolatility data={BalanceSheetData} Loading={Loading}/>
+            <LiabilitiesShareholder data={BalanceSheetData} Loading={Loading}/>
         </>
     )
 }

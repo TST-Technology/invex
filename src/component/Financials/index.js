@@ -1,13 +1,33 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BalanceSheet from './BalanceSheet'
 import IncomeStatement from './IncomeStatement'
 import CashFlow from './CashFlow'
 import image1 from '../Common/Images/image1.png'
 import graph from '../Common/Images/graph.png'
 import search from '../Common/Images/search-b.png'
+import { useParams } from 'react-router-dom'
+import { getBookKeyStatus, getCompanyDataBySymbol } from '../api/commonApi'
 
 const Financials = () => {
+
+    const [company, setCompany] = useState(1)
+    const [companyPrice, setcompanyPrice] = useState(1)
     const [tab, setTab] = useState(1)
+    const {symbol} = useParams()   
+    
+    useEffect(() => {
+        (async()=>{
+            var res = await getCompanyDataBySymbol(symbol)
+            if(res && res.status == 200 && res.data){
+                setCompany(res.data)
+            }
+            var data = await getBookKeyStatus(symbol)
+            if(data && data.status == 200 && data.data){
+                setcompanyPrice(data.data.quote)
+            }
+        })()
+    }, [symbol])
+    console.log('companyPrice',companyPrice);
     
     return (
         <main>
@@ -23,14 +43,14 @@ const Financials = () => {
                                                 <img src={image1} alt="image" />
                                             </div>
                                             <div className="title1">
-                                                <h5 className="card-title">APPLE INC </h5>
-                                                <p className="company">AAPL</p>
+                                                <h5 className="card-title">{company?.companyName}</h5>
+                                                <p className="company">{company?.symbol}</p>
                                             </div>
                                         </div>
                                         <div className="chart">
                                             <div className="chart-text mt-0">
-                                                <p className="card-text up">$235.49</p>
-                                                <p className="text up">+3.10 (+1.3%)</p>
+                                                <p className="card-text up">${companyPrice?.latestPrice}</p>
+                                                <p className="text up">{companyPrice?.change} ({companyPrice?.changePercent?.toFixed(2)}%)</p>
                                             </div>
                                         </div>
                                         <div className="chart-img me-5">
@@ -59,9 +79,9 @@ const Financials = () => {
                                 <button type="button" onClick={() => setTab(3)} className={"btn btn-light" + (tab == 3 ? ' active ' : '')}> Cash Flow</button>
                             </div>
                         </div>
-                        {tab === 1 && <BalanceSheet />}
-                        {tab === 2 && <IncomeStatement />}
-                        {tab === 3 && <CashFlow />}
+                        {tab === 1 && <BalanceSheet symbol={symbol}/>}
+                        {tab === 2 && <IncomeStatement symbol={symbol}/>}
+                        {tab === 3 && <CashFlow symbol={symbol}/>}
                     </div>
                 </div>
             </section>

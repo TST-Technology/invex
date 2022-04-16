@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom';
-import { getBookKeyStatus, getTopCompetitors } from '../../api/company';
+import { getBookKeyStatus } from '../../api/commonApi';
+import { getTopCompetitors } from '../../api/company';
 
 const Competitors = ({ KeyStatus }) => {
 

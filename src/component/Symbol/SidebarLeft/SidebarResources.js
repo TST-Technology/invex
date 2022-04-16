@@ -16,11 +16,11 @@ function SidebarResources () {
         </h5>
         <ul>
           <li>
-            <a href='#'>
+            <Link to={`/financials/${params.get('symbol')}`}>
               <img src={require('../../Common/Images/resource_1.png').default} alt='resource' />
               <span>Financial Statements</span>
               <i className='bi bi-box-arrow-up-right ms-auto'></i>
-            </a>
+            </Link>
           </li>
           <li>
             <a href='#'>
