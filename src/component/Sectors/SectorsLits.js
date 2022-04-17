@@ -2,7 +2,7 @@ import { CircularProgress } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { getAllSectors } from "../api/sectors";
 
-const SectorsList = ({ setSectorId , setIndustryId , setisLoading }) => {
+const SectorsList = ({ setSectorId , setIndustryId }) => {
 
   const [sectors, setSectors] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -21,8 +21,8 @@ const SectorsList = ({ setSectorId , setIndustryId , setisLoading }) => {
   }, [])
 
   const checkActiveItems = (index,secId) =>{
+    setSubActiveItem()
     if(secId){
-      setisLoading(true);
       setSectorId(secId);
     }
     if(activeItem !== index){
@@ -34,7 +34,6 @@ const SectorsList = ({ setSectorId , setIndustryId , setisLoading }) => {
 
   const checkSubItemsActive = (sub,indId) =>{
     if(indId) {
-      setisLoading(true);
       setIndustryId(indId)
     }
     if(subActiveItem !== sub){
@@ -73,7 +72,7 @@ const SectorsList = ({ setSectorId , setIndustryId , setisLoading }) => {
                       {items.SectorWiseIndustries.length > 0 && items.SectorWiseIndustries.map((sub,key)=>{
                         return(
                           <li key={key} className={subActiveItem == sub.name ? 'active' : ''}>
-                            <a href="javascript:void(0);" onClick={()=>checkSubItemsActive(sub.name)}>
+                            <a href="javascript:void(0);" onClick={()=>checkSubItemsActive(sub.name,sub.id)}>
                               {sub.name}
                             </a>
                           </li>

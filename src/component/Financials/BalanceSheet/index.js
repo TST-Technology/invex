@@ -19,8 +19,8 @@ const BalanceSheet = ({ symbol }) => {
                 if(res && res.status === 200 && res?.data?.length > 0){
                     setBalanceSheetData(res?.data)
                 }
+                setLoading(false)
             }
-            setLoading(false)
         })()
     }, [symbol, Period , View])
 

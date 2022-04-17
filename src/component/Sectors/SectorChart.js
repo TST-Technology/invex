@@ -1,23 +1,11 @@
 import React, { useCallback, useState } from "react";
 import { PieChart, Pie, Sector, Cell, Legend } from "recharts";
+import {NormalFormat} from '../Common/NumberFormat'
 
-const data = [
-  { name: "Consumer Discretionary", value: 600 },
-  { name: "Group B", value: 300 },
-  { name: "Group C", value: 561 },
-  { name: "Group D", value: 61 },
-  { name: "Consumer Discretionary", value: 41 },
-  { name: "Group D", value: 54 },
-  { name: "Group D", value: 80 },
-  { name: "Group D", value: 64 },
-  { name: "Group D", value: 50 },
-  { name: "Group D", value: 12 }
-];
-
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+const COLORS = ["#118dff", "#12239e", "#e66c37", "#6b007b","#e044a7","#744ec2","#d9b300","#d64550","#197278","#1aab40","#15c6f4","#be5dc9"];
 const renderColorfulLegendText = (value, entry) => {
   return (
-    <span style={{ color: "#596579", fontWeight: 500, padding: "10px" }}>
+    <span style={{ fontSize:12, color: "#596579", fontWeight: 500, padding: "10px" }}>
       {value}
     </span>
   );
@@ -66,17 +54,17 @@ const renderActiveShape = (props) => {
         />
         <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
         <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">
-          {`PV ${value}`}
+          {/* {`PV ${value}`} */}{NormalFormat(value)}
         </text>
         <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
-          {`(Rate ${(percent * 100).toFixed(2)}%)`}
+          {`(${(percent * 100).toFixed(2)}%)`}
         </text>
       </g>
     </>
   );
 };
 
-export default function SectorChart() {
+export default function SectorChart({data}) {
   const [activeIndex, setActiveIndex] = useState(0);
   const onPieEnter = useCallback(
     (_, index) => {
@@ -111,7 +99,7 @@ export default function SectorChart() {
         iconSize={10}
         padding={5}
         formatter={renderColorfulLegendText}
-        style={{left:'auto',right:0}}
+        wrapperStyle={{left:'auto', right:0,top:0}} 
       />
     </PieChart>
   );
