@@ -8,7 +8,7 @@ import Home from "./component/Home/Home";
 import Screener from "./component/Screener/Screener";
 import Footer from "./component/Common/Footer/Footer";
 import Market from "./component/Market/Market";
-import Sectors from "./component/Common/Sectors/Sectors";
+import Sectors from "./component/Sectors";
 import News from "./component/News/News";
 import Options from "./component/Options/Options";
 import EconomicData from "./component/EconomicData/EconomicData";

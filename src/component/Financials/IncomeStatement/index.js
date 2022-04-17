@@ -35,7 +35,6 @@ const IncomeStatement = ({symbol}) => {
                 if (res && res.status === 200 && res?.data?.length > 0) {
                     setTableHead(res.data)
                     var data = res?.data;
-
                     var tempArr = [
                         {
                             col0: name[0],
@@ -49,6 +48,7 @@ const IncomeStatement = ({symbol}) => {
                             col8: data[7]?.totalRevenue,
                             col9: data[8]?.totalRevenue,
                             col10: data[9]?.totalRevenue,
+                            ttm : data.map((e,i)=> i <= 3 ? Number(e.totalRevenue) : '').reduce((pV, cV)=> pV + cV, 0)
                         }, {
                             col0: name[1],
                             col1: data[0]?.costOfRevenue,
@@ -61,6 +61,7 @@ const IncomeStatement = ({symbol}) => {
                             col8: data[7]?.costOfRevenue,
                             col9: data[8]?.costOfRevenue,
                             col10: data[9]?.costOfRevenue,
+                            ttm : data.map((e,i)=> i <= 3 ? Number(e.costOfRevenue) : '').reduce((pV, cV)=> pV + cV, 0)
                         }, {
                             col0: name[2],
                             col1: data[0]?.grossProfit,
@@ -73,6 +74,7 @@ const IncomeStatement = ({symbol}) => {
                             col8: data[7]?.grossProfit,
                             col9: data[8]?.grossProfit,
                             col10: data[9]?.grossProfit,
+                            ttm : data.map((e,i)=> i <= 3 ? Number(e.grossProfit) : '').reduce((pV, cV)=> pV + cV, 0)
                         }, {
                             col0: name[3],
                             col1: data[0]?.sellingGeneralAndAdmin,
@@ -85,6 +87,7 @@ const IncomeStatement = ({symbol}) => {
                             col8: data[7]?.sellingGeneralAndAdmin,
                             col9: data[8]?.sellingGeneralAndAdmin,
                             col10: data[9]?.sellingGeneralAndAdmin,
+                            ttm : data.map((e,i)=> i <= 3 ? Number(e.sellingGeneralAndAdmin) : '').reduce((pV, cV)=> pV + cV, 0)
                         }, {
                             col0: name[4],
                             col1: data[0]?.researchAndDevelopment,
@@ -97,6 +100,7 @@ const IncomeStatement = ({symbol}) => {
                             col8: data[7]?.researchAndDevelopment,
                             col9: data[8]?.researchAndDevelopment,
                             col10: data[9]?.researchAndDevelopment,
+                            ttm : data.map((e,i)=> i <= 3 ? Number(e.researchAndDevelopment) : '').reduce((pV, cV)=> pV + cV, 0)
                         }, {
                             col0: name[5],
                             col1: data[0]?.operatingIncome,
@@ -109,6 +113,7 @@ const IncomeStatement = ({symbol}) => {
                             col8: data[7]?.operatingIncome,
                             col9: data[8]?.operatingIncome,
                             col10: data[9]?.operatingIncome,
+                            ttm : data.map((e,i)=> i <= 3 ? Number(e.operatingIncome) : '').reduce((pV, cV)=> pV + cV, 0)
                         }, {
                             col0: name[6],
                             col1: data[0]?.interestIncome,
@@ -121,6 +126,7 @@ const IncomeStatement = ({symbol}) => {
                             col8: data[7]?.interestIncome,
                             col9: data[8]?.interestIncome,
                             col10: data[9]?.interestIncome,
+                            ttm : data.map((e,i)=> i <= 3 ? Number(e.interestIncome) : '').reduce((pV, cV)=> pV + cV, 0)
                         }, {
                             col0: name[7],
                             col1: data[0]?.interestAndOtherExpenses,
@@ -133,6 +139,7 @@ const IncomeStatement = ({symbol}) => {
                             col8: data[7]?.interestAndOtherExpenses,
                             col9: data[8]?.interestAndOtherExpenses,
                             col10: data[9]?.interestAndOtherExpenses,
+                            ttm : data.map((e,i)=> i <= 3 ? Number(e.interestAndOtherExpenses) : '').reduce((pV, cV)=> pV + cV, 0)
                         }, {
                             col0: name[8],
                             col1: data[0]?.pretaxIncome,
@@ -145,6 +152,7 @@ const IncomeStatement = ({symbol}) => {
                             col8: data[7]?.pretaxIncome,
                             col9: data[8]?.pretaxIncome,
                             col10: data[9]?.pretaxIncome,
+                            ttm : data.map((e,i)=> i <= 3 ? Number(e.pretaxIncome) : '').reduce((pV, cV)=> pV + cV, 0)
                         }, {
                             col0: name[9],
                             col1: data[0]?.incomeTax,
@@ -157,6 +165,7 @@ const IncomeStatement = ({symbol}) => {
                             col8: data[7]?.incomeTax,
                             col9: data[8]?.incomeTax,
                             col10: data[9]?.incomeTax,
+                            ttm : data.map((e,i)=> i <= 3 ? Number(e.incomeTax) : '').reduce((pV, cV)=> pV + cV, 0)
                         }, {
                             col0: name[10],
                             col1: data[0]?.minorityInterest,
@@ -169,6 +178,7 @@ const IncomeStatement = ({symbol}) => {
                             col8: data[7]?.minorityInterest,
                             col9: data[8]?.minorityInterest,
                             col10: data[9]?.minorityInterest,
+                            ttm : data.map((e,i)=> i <= 3 ? Number(e.minorityInterest) : '').reduce((pV, cV)=> pV + cV, 0)
                         }, {
                             col0: name[11],
                             col1: data[0]?.netIncomeBasic,
@@ -181,6 +191,7 @@ const IncomeStatement = ({symbol}) => {
                             col8: data[7]?.netIncomeBasic,
                             col9: data[8]?.netIncomeBasic,
                             col10: data[9]?.netIncomeBasic,
+                            ttm : data.map((e,i)=> i <= 3 ? Number(e.netIncomeBasic) : '').reduce((pV, cV)=> pV + cV, 0)
                         }, {
                             col0: name[12],
                             col1: data[0]?.fiscalDate,
@@ -207,6 +218,7 @@ const IncomeStatement = ({symbol}) => {
                             col10: data[9]?.reportDate,
                         },
                     ]
+                    console.log('tempArr',tempArr);
                     setStatements(tempArr)
                 }
             }
@@ -249,6 +261,7 @@ const IncomeStatement = ({symbol}) => {
                     <thead className="table-light">
                         <tr>
                             <th scope="col">Net Income</th>
+                            {Period !== 'annual' && <th scope="col">TTM</th>}
                             {tableHead && tableHead.length > 0 && tableHead.map((el, i) => {
                                 return (
                                     <th key={i} scope="col">{el.quarter > 0 ? 'Q' + el.quarter : ''} {el.year}</th>
@@ -265,6 +278,7 @@ const IncomeStatement = ({symbol}) => {
                             return (
                                 <tr key={i}>
                                     {ob.col0 && <td>{ob.col0}</td>}
+                                    {Period !== 'annual' && <td>{abbreviateNumber(ob.ttm)}</td>}
                                     {ob.col1 && <td>{abbreviateNumber(ob.col1)}</td>}
                                     {ob.col2 && <td>{abbreviateNumber(ob.col2)}</td>}
                                     {ob.col3 && <td>{abbreviateNumber(ob.col3)}</td>}
