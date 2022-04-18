@@ -2,7 +2,7 @@ import { CircularProgress } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { getAllSectors } from "../api/sectors";
 
-const SectorsList = ({ setSectorId , setIndustryId }) => {
+const SectorsList = ({ setSectorId , setIndustryId, getAllSectorsData }) => {
 
   const [sectors, setSectors] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -47,7 +47,7 @@ const SectorsList = ({ setSectorId , setIndustryId }) => {
     <div className="col-lg-4">
       <div className="leftsidefilter">
         <div className="new_scenr_btn">
-          <h4 className="m-0">All Sectors</h4>
+          <h4 className="m-0 c-pointer" role="button" onClick={()=>getAllSectorsData()}>All Sectors</h4>
         </div>
         <div className="accordion" id="acc_sidefilter">
           {loading && <div style={{ height: 110, padding:30, textAlign: 'center' }}>
@@ -57,7 +57,7 @@ const SectorsList = ({ setSectorId , setIndustryId }) => {
             return (
               <div key={i} className="in_acc_item">
                 <h2 className="in_acc_header" id="acc_industries">
-                  <button className={"accordion-button" + (activeItem == i ? '' : ' collapsed ')} onClick={()=>checkActiveItems(i,items.id)}>
+                  <button className={"accordion-button" + (activeItem == i ? ' active ' : ' collapsed ')} onClick={()=>checkActiveItems(i,items.id)}>
                     <span className="d-block w-100">
                       {items.name}
                       <a className="float-end me-3 pe-3 text-secondary">

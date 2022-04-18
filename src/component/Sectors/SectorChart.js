@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { PieChart, Pie, Sector, Cell, Legend } from "recharts";
 import {NormalFormat} from '../Common/NumberFormat'
 
-const COLORS = ["#118dff", "#12239e", "#e66c37", "#6b007b","#e044a7","#744ec2","#d9b300","#d64550","#197278","#1aab40","#15c6f4","#be5dc9"];
+const COLORS = ["#118dff", "#12239e", "#e66c37", "#6b007b","#e044a7","#744ec2","#d9b300","#d64550","#197278","#1aab40","#6e7074","#be5dc9"];
 const renderColorfulLegendText = (value, entry) => {
   return (
     <span style={{ fontSize:12, color: "#596579", fontWeight: 500, padding: "10px" }}>
@@ -65,7 +65,7 @@ const renderActiveShape = (props) => {
 };
 
 export default function SectorChart({data}) {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(4);
   const onPieEnter = useCallback(
     (_, index) => {
       setActiveIndex(index);

@@ -17,3 +17,6 @@ code {
   border-color: #3751FF;
   color: #fff;
 }
+.accordion-button.active span{
+  color: #3751FF;
+}

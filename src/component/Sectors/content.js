@@ -18,9 +18,8 @@ import { CircularProgress } from '@material-ui/core';
 //     { name: "Group D", value: 12 }
 // ];
 
-const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading }) => {
+const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartData,setChartData,getAllSectorsData }) => {
 
-    const [ChartData, setChartData] = useState([])
 
     useEffect(() => {
         (async () => {
@@ -40,18 +39,7 @@ const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading }) => {
                     setChartData(tempArray)
                 }
             }else {
-                res = await getAllSectorsOverview();
-                if (res && res?.status === 200 && res?.data) {
-                    let temp = []
-                    for (let data of res.data.Sector) {
-                        let obj = {
-                            name: data.name,
-                            value: data.totalSectorCap
-                        }
-                        temp.push(obj)
-                    }
-                    setChartData(temp)
-                }
+                await getAllSectorsData()
             }
             setisLoading(false)
         })()
@@ -66,15 +54,22 @@ const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading }) => {
                 res = await getAllIndustryById(industryId);
                 console.log('res getAllIndustryById',res);
                 if (res && res?.status === 200 && res?.data) {
-                    let tempArray = []
-                    for (let data of res.data.IndustryWiseCompany) {
+
+                    let tempArray = [];
+
+                    let industrys = res?.data?.IndustryWiseCompany?.sort((a,b)=> a.value < b.value ? 1 : -1)
+                    let Top10 = industrys.slice(0,10);
+                    for (let data of Top10) {
                         let obj = {
                             name: data.companyName,
                             value: data.marketCap
                         }
                         tempArray.push(obj)
                     }
-                    setChartData(tempArray)
+                    let remaining = industrys?.slice(10).reduce((pv,cv)=>{
+                        return pv + cv.marketCap
+                    },0)
+                    setChartData([...tempArray,{name:'Others',value:remaining,fill:'#000'}])
                 }
             }
             setisLoading(false)
