@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getAllIndustryById, getAllSectors, getAllSectorsById, getAllSectorsOverview } from '../api/sectors';
+import { getAllIndustryById, getAllSectors, getAllSectorsById, getAllSectorsOverview , getSectorWiseDefination,getIndustryWiseDefination,getAllsectorDefination } from '../api/sectors';
 import industrialChart from "../Common/Images/industrial_chart.png";
 import SectorChart from './SectorChart';
 import topETFData from "./topETFData.json";
@@ -20,6 +20,8 @@ import { CircularProgress } from '@material-ui/core';
 
 const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartData,setChartData,getAllSectorsData }) => {
 
+    const [title,settitle]=useState('')
+    const [defination,setdefination]=useState('')
 
     useEffect(() => {
         (async () => {
@@ -28,6 +30,7 @@ const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartDat
             if (sectorId) {
                 res = await getAllSectorsById(sectorId);
                 if (res && res?.status === 200 && res?.data) {
+                    settitle(res.data.sectorName);
                     let tempArray = []
                     for (let data of res.data.Industry) {
                         let obj = {
@@ -38,9 +41,14 @@ const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartDat
                     }
                     setChartData(tempArray)
                 }
+                res = await getSectorWiseDefination(sectorId);
+                if (res && res?.status === 200 && res?.data) {
+                    setdefination(res.data.defination);
+                }
             }else {
                 await getAllSectorsData()
             }
+                
             setisLoading(false)
         })()
     }, [sectorId])
@@ -54,9 +62,8 @@ const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartDat
                 res = await getAllIndustryById(industryId);
                 console.log('res getAllIndustryById',res);
                 if (res && res?.status === 200 && res?.data) {
-
+                    settitle(res.data.industryName);
                     let tempArray = [];
-
                     let industrys = res?.data?.IndustryWiseCompany?.sort((a,b)=> a.value < b.value ? 1 : -1)
                     let Top10 = industrys.slice(0,10);
                     for (let data of Top10) {
@@ -70,6 +77,10 @@ const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartDat
                         return pv + cv.marketCap
                     },0)
                     setChartData([...tempArray,{name:'Others',value:remaining,fill:'#000'}])
+                }
+                res = await getIndustryWiseDefination(industryId);
+                if (res && res?.status === 200 && res?.data) {
+                    setdefination(res.data.defination)
                 }
             }
             setisLoading(false)
@@ -93,7 +104,7 @@ const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartDat
                             <div className="card-header">
                                 <div className="d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0">
                                     <h6 className="m-0">
-                                        <strong>Industrials: Aerospace & Defense</strong>
+                                        <strong>{title}</strong>
                                     </h6>
                                 </div>
                             </div>
@@ -101,14 +112,15 @@ const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartDat
                                 <div className="description-para">
                                     <div className="key_status">
                                         <p className="mb-4">
-                                            The aerospace & defense industry includes companies
+                                            {/* The aerospace & defense industry includes companies
                                             that manufacture aerospace and defense products,
                                             including aircraft and aircraft parts, tanks, guided
                                             missiles, space vehicles, ships and marine
                                             equipment, and other aerospace and defense
                                             components and systems, as well as companies
                                             supporting these products through repair and
-                                            maintenance services.
+                                            maintenance services. */}
+                                            {defination}
                                         </p>
                                         <div className="d-flex align-items-center justify-content-between">
                                             <a href="#" className="btn btn-light">
