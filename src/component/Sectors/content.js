@@ -20,8 +20,8 @@ import { CircularProgress } from '@material-ui/core';
 
 const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartData,setChartData,getAllSectorsData,setSectorId , setIndustryId, }) => {
 
-    const [title,settitle]=useState('')
-    const [defination,setdefination]=useState('')
+    const [title,settitle]=useState("")
+    const [defination,setdefination]=useState("")
 
     useEffect(() => {
         (async () => {
@@ -46,7 +46,25 @@ const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartDat
                     setdefination(res.data.defination);
                 }
             }else {
-                await getAllSectorsData()
+                settitle("All sectors")
+                res = await getAllsectorDefination(sectorId);
+                if (res && res?.status === 200 && res?.data) {
+                     // let tempArray = []
+                    // for (let data of res.data.Industry) {
+                    //     let obj = {
+                    //         name: data.name,
+                    //         value: data.totalIndCap
+                    //     }
+                    //     tempArray.push(obj)
+                    // }
+                    // setChartData(tempArray)
+                    res.data.defination && setdefination(res.data.defination);
+
+                }
+                res = await getSectorWiseDefination(sectorId);
+                if (res && res?.status === 200 && res?.data) {
+                    res.data.defination && setdefination(res.data.defination);
+                }
             }
                 
             setisLoading(false)
@@ -81,6 +99,25 @@ const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartDat
                 res = await getIndustryWiseDefination(industryId);
                 if (res && res?.status === 200 && res?.data) {
                     setdefination(res.data.defination)
+                }
+            }
+            else{
+                res = await getAllSectorsById(sectorId);
+                if (res && res?.status === 200 && res?.data) {
+                    settitle(res.data.sectorName);
+                    let tempArray = []
+                    for (let data of res.data.Industry) {
+                        let obj = {
+                            name: data.name,
+                            value: data.totalIndCap
+                        }
+                        tempArray.push(obj)
+                    }
+                    setChartData(tempArray)
+                }
+                res = await getSectorWiseDefination(sectorId);
+                if (res && res?.status === 200 && res?.data) {
+                    setdefination(res.data.defination);
                 }
             }
             setisLoading(false)
@@ -172,22 +209,22 @@ const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartDat
         
     return (
         <>
-            {isLoading && (
+            {isLoading ? (
                 <div className='col-sm-8' style={{
                     height: 500, textAlign: 'center', display: 'flex',
                     alignItems: 'center', justifyContent: 'center'
                 }}>
                     <CircularProgress />
                 </div>
-            )}
-            {!isLoading && <div className="col-lg-8">
+            ): 
+            <div className="col-lg-8">
                 <div className="row">
                     <div className="col-lg-12 mb-5">
                         <div className="card companyviewblk compprofile_block mb-5">
                             <div className="card-header">
                                 <div className="d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0">
                                     <h6 className="m-0">
-                                        <strong>{title}</strong>
+                                        <strong>{title?title:"Oops! No data."}</strong>
                                     </h6>
                                 </div>
                             </div>
@@ -203,7 +240,7 @@ const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartDat
                                             components and systems, as well as companies
                                             supporting these products through repair and
                                             maintenance services. */}
-                                            {defination}
+                                            {defination?defination:"Oops! No data."}
                                         </p>
                                         <div className="d-flex align-items-center justify-content-between">
                                             <a href="#" className="btn btn-light">
