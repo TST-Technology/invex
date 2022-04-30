@@ -5,6 +5,16 @@ export const getAllSectors = async () =>{
     return data
 }
 
+export const getSectors = async () => {
+    var {data} = await Services.get('/sector',)
+    return data
+}
+
+export const getIndustry = async () => {
+    var {data} = await Services.get('/sector/detail ',)
+    return data
+}
+
 export const getAllsectorDefination = async () =>{
     var {data} = await Services.get('/sector/defination',)
     return data
@@ -32,5 +42,15 @@ export const getIndustryWiseDefination = async (id) =>{
 
 export const getAllIndustryById = async (id) =>{
     var {data} = await Services.get(`/sector/industry/overview/${id}`,)
+    return data
+}
+
+export const getSectorETF = async (id) =>{
+    var {data} = await Services.get(`/sector/etfdata/${id}`,)
+    return data
+}
+
+export const getIndustryETF = async (id) =>{
+    var {data} = await Services.get(`/sector/industry/etfdata/${id}`,)
     return data
 }
