@@ -47,6 +47,8 @@ const Sectors = () => {
                             industryId={industryId} 
                             isLoading={isLoading} 
                             setisLoading={setisLoading}
+                            setSectorId={setSectorId} 
+                            setIndustryId={setIndustryId}
                         />
                     </div>
                 </div>

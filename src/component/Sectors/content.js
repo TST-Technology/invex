@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getAllIndustryById, getAllSectors, getAllSectorsById, getAllSectorsOverview , getSectorWiseDefination,getIndustryWiseDefination,getAllsectorDefination } from '../api/sectors';
+import { getAllIndustryById, getAllSectors, getAllSectorsById, getAllSectorsOverview , getSectorWiseDefination,getIndustryWiseDefination,getAllsectorDefination,getSectors,getSectorETF } from '../api/sectors';
 import industrialChart from "../Common/Images/industrial_chart.png";
 import SectorChart from './SectorChart';
 import topETFData from "./topETFData.json";
@@ -18,7 +18,7 @@ import { CircularProgress } from '@material-ui/core';
 //     { name: "Group D", value: 12 }
 // ];
 
-const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartData,setChartData,getAllSectorsData }) => {
+const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartData,setChartData,getAllSectorsData,setSectorId , setIndustryId, }) => {
 
     const [title,settitle]=useState("")
     const [defination,setdefination]=useState("")
@@ -124,6 +124,89 @@ const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartDat
         })()
     }, [industryId])
 
+    const [sectors, setSectors] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [activeItem, setActiveItem] = useState();
+    const [subActiveItem, setSubActiveItem] = useState();
+    const [etfData,setEtfdata] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+        setLoading(true)
+        var res = await getSectors()
+        if (res && res?.status == 200 && res?.data?.length > 0) {
+            setSectors(res.data)
+        }
+        setLoading(false)
+        })()
+    }, [])
+
+    const checkActiveItems = (index,secId) =>{
+        setSubActiveItem()
+        if(secId){
+        setSectorId(secId);
+        }
+        if(activeItem !== index){
+        setActiveItem(index)
+        }else{
+        setActiveItem()
+        }
+    }
+
+    const checkSubItemsActive = (sub,indId) =>{
+        if(indId) {
+        setIndustryId(indId)
+        }
+        if(subActiveItem !== sub){
+        setSubActiveItem(sub)
+        }else{
+        setSubActiveItem()
+        }
+    }
+
+    useEffect(() => {
+        (async () => 
+        {
+            setisLoading(true)
+            var res;
+            if (sectorId)
+            {
+                res = await getSectorETF(sectorId);
+                if (res && res?.status === 200 && res?.etfData)
+                {
+                    let tempArray = []
+                    for (let data of res.etfData)
+                    {
+                        let obj = {
+                            symbol: data.symbol,
+                            companyName : data.companyName,
+                            latestPrice: data.latestPrice,
+                            change: data.change,
+                            changePercent : data.changePercent,
+                            marketCap: data.marketCap,
+                            avgTotalVolume: data.avgTotalVolume,
+                            week52Low : data.week52Low,
+                            week52High : data.week52High,
+                            beta : data.beta,
+                            sharesOutstanding: data.sharesOutstanding,
+                            month1ChangePercent : data.month1ChangePercent,
+                            month3ChangePercent : data.month3ChangePercent,
+                            month6ChangePercent : data.month6ChangePercent,
+                            ytdChangePercent : data.ytdChangePercent,
+                            year1ChangePercent : data.year1ChangePercent,
+                            year5ChangePercent : data.year5ChangePercent
+                        }
+                        tempArray.push(obj)
+                    }
+                    setEtfdata(tempArray);
+                }
+            }else {
+                await getSectorETF()
+            }
+            setisLoading(false)
+        })()
+        }, [sectorId])
+        
     return (
         <>
             {isLoading ? (
@@ -192,45 +275,108 @@ const SectorsContent = ({ sectorId, industryId, isLoading, setisLoading,ChartDat
                                     <h6 className="m-0">
                                         <strong>Top ETF Preformance</strong>
                                     </h6>
-                                    <a href="javascript:void(0)" className="text-dark viewmore">
-                                        View More
-                                    </a>
                                 </div>
-                                <div className="table-responsive">
+                        <div className="accordion" id="acc_sidefilter">
+                                {loading && <div style={{ height: 110, padding:30, textAlign: 'center' }}>
+                        <div colSpan={6} style={{ textAlign: 'center' }}><CircularProgress size={50} /></div>
+                        </div>}
+                        {!loading && sectors && sectors.length > 0 && sectors.map((items, i) => {
+                            return (
+                            <div key={i} className="in_acc_item">
+                                <h2 className="in_acc_header" id="acc_industries">
+                                <button className={"accordion-button" + (activeItem == i ? ' active ' : ' collapsed ')} onClick={()=>checkActiveItems(i,items.id)}>
+                                    <span className="d-block w-100">
+                                    {items.name}
+                                    </span>
+                                </button>
+                                </h2>
+                                <div id="coll_industries" className={"accordion-collapse collapse" + (activeItem == i ? 'show' : '')}>
+                                <div className="in_acc_body">
+                                    <div className="table-responsive">
                                     <table className="table table-bordered m-0 most_tables">
                                         <thead className="table-light">
                                             <tr>
                                                 <th scope="col">Symbol</th>
-                                                <th scope="col">Market cap(B)</th>
-                                                <th scope="col">Current price</th>
-                                                <th scope="col">52 Week low</th>
-                                                <th scope="col">52 Week high</th>
-                                                <th scope="col">Under valued</th>
+                                                <th scope="col">Company Name</th>
+                                                <th scope="col">Latest Price</th>
+                                                <th scope="col">Change</th>
+                                                <th scope="col">Change Percent</th>
+                                                <th scope="col">Market Cap</th>
+                                                <th scope="col">Avg Total Volume</th>
+                                                <th scope="col">52 Week Low</th>
+                                                <th scope="col">52 Week High</th>
+                                                <th scope="col">Beta</th>
+                                                <th scope="col">Shares Outstanding</th>
+                                                <th scope="col">1M</th>
+                                                <th scope="col">3M</th>
+                                                <th scope="col">6M</th>
+                                                <th scope="col">YTD</th>
+                                                <th scope="col">1Y</th>
+                                                <th scope="col">5Y</th>
                                             </tr>
                                         </thead>
                                         <tbody className="border-top-0">
-                                            {topETFData.map((etfData) => {
+                                            {etfData.map((etfData) => {
                                                 const symb = etfData.symbol || "";
-                                                const marketCap = etfData.marketCap || "";
-                                                const currPrice = etfData.currPrice || "";
-                                                const weekLow = etfData["52WeekLow"] || "";
-                                                const weekHigh = etfData["52WeekHigh"] || "";
-                                                const underValued = etfData.underValued || "";
-
+                                                const cmpny = etfData.companyName || "";
+                                                const ltstPrice = etfData.latestPrice || "";
+                                                const chng = etfData.change || "";
+                                                const chngper = etfData.changePercent || "";
+                                                const mrktcap = etfData.marketCap || "";
+                                                const avgTVolume = etfData.avgTotalVolume || "";
+                                                const wkslow = etfData.week52Low || "";
+                                                const wkshigh = etfData.week52High || "";
+                                                const bta = etfData.beta || "";
+                                                const sharesout = etfData.sharesOutstanding || "";
+                                                const onemnth = etfData.month1ChangePercent || "";
+                                                const threemnth = etfData.month3ChangePercent || "";
+                                                const sixmnth = etfData.month6ChangePercent || "";
+                                                const ytdchnge = etfData.ytdChangePercent || "";
+                                                const oneyrchnge = etfData.year1ChangePercent || "";
+                                                const fiveyerchange = etfData.year5ChangePercent || "";
                                                 return (
                                                     <tr>
                                                         <td>{symb}</td>
-                                                        <td>{marketCap}</td>
-                                                        <td>{currPrice}</td>
-                                                        <td>{weekLow}</td>
-                                                        <td>{weekHigh}</td>
-                                                        <td>{underValued}</td>
+                                                        <td>{cmpny}</td>
+                                                        <td>{ltstPrice}</td>
+                                                        <td>{chng}</td>
+                                                        <td>{chngper}</td>
+                                                        <td>{mrktcap}</td>
+                                                        <td>{avgTVolume}</td>
+                                                        <td>{wkslow}</td>
+                                                        <td>{wkshigh}</td>
+                                                        <td>{bta}</td>
+                                                        <td>{sharesout}</td>
+                                                        <td>{onemnth}</td>
+                                                        <td>{threemnth}</td>
+                                                        <td>{sixmnth}</td>
+                                                        <td>{ytdchnge}</td>
+                                                        <td>{oneyrchnge}</td>
+                                                        <td>{fiveyerchange}</td>
                                                     </tr>
                                                 );
                                             })}
                                         </tbody>
                                     </table>
                                 </div>
+                                </div>
+                                </div>
+                            </div>
+                            )
+                        })}
+                    </div>
+                                
+                                {/* <ul>
+                                    {items.SectorWiseIndustries.length > 0 && items.SectorWiseIndustries.map((sub,key)=>{
+                                        return(
+                                        <li key={key} className={subActiveItem == sub.name ? 'active' : ''}>
+                                            <a href="javascript:void(0);" onClick={()=>checkSubItemsActive(sub.name,sub.id)}>
+                                            {sub.name}
+                                            </a>
+                                        </li>
+                                        )
+                                    })}
+                                    </ul> */}
                             </div>
                         </div>
                     </div>
