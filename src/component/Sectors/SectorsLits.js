@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { getAllSectors } from "../api/sectors";
 
 const SectorsList = ({ setSectorId , setIndustryId, getAllSectorsData }) => {
-//
+
   const [sectors, setSectors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [activeItem, setActiveItem] = useState();
