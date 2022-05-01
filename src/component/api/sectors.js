@@ -54,3 +54,8 @@ export const getIndustryETF = async (id) =>{
     var {data} = await Services.get(`/sector/industry/etfdata/${id}`,)
     return data
 }
+
+export const getParticularIndustryETF = async (id) =>{
+    var {data} = await Services.get(`/sector/industry/top10etfdata/${id}`,)
+    return data
+}

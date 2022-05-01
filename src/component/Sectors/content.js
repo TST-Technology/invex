@@ -11,10 +11,10 @@ import {
   getSectors,
   getSectorETF,
   getIndustryETF,
+  getParticularIndustryETF
 } from "../api/sectors";
 import industrialChart from "../Common/Images/industrial_chart.png";
 import SectorChart from "./SectorChart";
-import topETFData from "./topETFData.json";
 import { CircularProgress } from "@material-ui/core";
 
 // const data = [
@@ -44,6 +44,14 @@ const SectorsContent = ({
   const [title, settitle] = useState("");
   const [defination, setdefination] = useState("");
   const [industries, setIndustries] = useState([]);
+  const [sectors, setSectors] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [etfData, setEtfdata] = useState([]);
+  const [etfid, setetfid] = useState();
+  const [etfitems, setetfitems] = useState();
+  const [etfindid, setetfindid] = useState();
+  const [etfinditems, setetfinditems] = useState();
+
   useEffect(() => {
     (async () => {
       setisLoading(true);
@@ -88,7 +96,6 @@ const SectorsContent = ({
           res.data.defination && setdefination(res.data.defination);
         }
       }
-
       setisLoading(false);
     })();
   }, [sectorId]);
@@ -98,6 +105,7 @@ const SectorsContent = ({
       setisLoading(true);
       var res;
       if (industryId) {
+        setIndustryId(industryId)
         res = await getAllIndustryById(industryId);
         console.log("res getAllIndustryById", res);
         if (res && res?.status === 200 && res?.data) {
@@ -126,6 +134,33 @@ const SectorsContent = ({
         if (res && res?.status === 200 && res?.data) {
           setdefination(res.data.defination);
         }
+        res = await getParticularIndustryETF(industryId);
+        if (res && res?.status === 200 && res?.etfData) {
+          let tempArray = [];
+          for (let data of res.etfData) {
+            let obj = {
+              symbol: data.symbol,
+              companyName: data.companyName,
+              latestPrice: data.latestPrice,
+              change: data.change,
+              changePercent: data.changePercent,
+              marketCap: data.marketCap,
+              avgTotalVolume: data.avgTotalVolume,
+              week52Low: data.week52Low,
+              week52High: data.week52High,
+              beta: data.beta,
+              sharesOutstanding: data.sharesOutstanding,
+              month1ChangePercent: data.month1ChangePercent,
+              month3ChangePercent: data.month3ChangePercent,
+              month6ChangePercent: data.month6ChangePercent,
+              ytdChangePercent: data.ytdChangePercent,
+              year1ChangePercent: data.year1ChangePercent,
+              year5ChangePercent: data.year5ChangePercent,
+            };
+            tempArray.push(obj);
+          }
+          setEtfdata(tempArray);
+        }
       } else {
         res = await getAllSectorsById(sectorId);
         if (res && res?.status === 200 && res?.data) {
@@ -149,12 +184,6 @@ const SectorsContent = ({
     })();
   }, [industryId]);
 
-  const [sectors, setSectors] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [activeItem, setActiveItem] = useState();
-  const [subActiveItem, setSubActiveItem] = useState();
-  const [etfData, setEtfdata] = useState([]);
-
   useEffect(() => {
     (async () => {
       setLoading(true);
@@ -166,37 +195,24 @@ const SectorsContent = ({
     })();
   }, []);
 
-  const checkActiveItems = (index, secId) => {
-    setSubActiveItem();
+  const checkEtfActiveItems = (etf, secId) => {
     if (secId) {
-      setSectorId(secId);
+      setetfid(secId);
     }
-    if (activeItem !== index) {
-      setActiveItem(index);
+    if (etfitems !== etf) {
+      setetfitems(etf);
     } else {
-      setActiveItem();
+      setetfitems();
     }
-  };
-
-  const checkSubItemsActive = (sub, indId) => {
-    if (indId) {
-      setIndustryId(indId);
-    }
-    if (subActiveItem !== sub) {
-      setSubActiveItem(sub);
-    } else {
-      setSubActiveItem();
-    }
-  };
+  }
 
   useEffect(() => {
     (async () => {
       setisLoading(true);
       var res;
-      if (sectorId) {
-        res = await getSectorETF(sectorId);
+      if (etfid) {
+        res = await getSectorETF(etfid);
         if (res && res?.status === 200 && res?.etfData) {
-          console.log(res);
           let tempArray = [];
           for (let data of res.etfData) {
             let obj = {
@@ -227,7 +243,57 @@ const SectorsContent = ({
       }
       setisLoading(false);
     })();
-  }, [sectorId]);
+  }, [etfid]);
+  
+  const checketfindustryActive = (ind, indId) => {
+    if (indId) {
+      setetfindid(indId);
+    }
+    if (etfinditems !== ind) {
+      setetfinditems(ind);
+    } else {
+      setetfinditems();
+    }
+  }
+
+  useEffect(() => {
+    (async () => {
+      setisLoading(true);
+      var res;
+      if (etfindid) {
+        res = await getIndustryETF(etfindid);
+        if (res && res?.status === 200 && res?.etfData) {
+          let tempArray = [];
+          for (let data of res.etfData) {
+            let obj = {
+              symbol: data.symbol,
+              companyName: data.companyName,
+              latestPrice: data.latestPrice,
+              change: data.change,
+              changePercent: data.changePercent,
+              marketCap: data.marketCap,
+              avgTotalVolume: data.avgTotalVolume,
+              week52Low: data.week52Low,
+              week52High: data.week52High,
+              beta: data.beta,
+              sharesOutstanding: data.sharesOutstanding,
+              month1ChangePercent: data.month1ChangePercent,
+              month3ChangePercent: data.month3ChangePercent,
+              month6ChangePercent: data.month6ChangePercent,
+              ytdChangePercent: data.ytdChangePercent,
+              year1ChangePercent: data.year1ChangePercent,
+              year5ChangePercent: data.year5ChangePercent,
+            };
+            tempArray.push(obj);
+          }
+          setEtfdata(tempArray);
+        }
+      } else {
+        await getIndustryETF();
+      }
+      setisLoading(false);
+    })();
+  }, [etfindid]);
 
   return (
     <>
@@ -260,14 +326,6 @@ const SectorsContent = ({
                   <div className="description-para">
                     <div className="key_status">
                       <p className="mb-4">
-                        {/* The aerospace & defense industry includes companies
-                                            that manufacture aerospace and defense products,
-                                            including aircraft and aircraft parts, tanks, guided
-                                            missiles, space vehicles, ships and marine
-                                            equipment, and other aerospace and defense
-                                            components and systems, as well as companies
-                                            supporting these products through repair and
-                                            maintenance services. */}
                         {defination ? defination : "Oops! No data."}
                       </p>
                       <div className="d-flex align-items-center justify-content-between">
@@ -316,291 +374,8 @@ const SectorsContent = ({
                         </div>
                       </div>
                     )}
-                    
-                        <>
-                          {" "}
-                          {!loading &&
-                            sectors &&
-                            sectors.length > 0 &&
-                            sectors.map((items, i) => {
-                              return (
-                                <div key={i} className="in_acc_item">
-                                  <h2
-                                    className="in_acc_header"
-                                    id="acc_industries"
-                                  >
-                                    <button
-                                      className={
-                                        "accordion-button" +
-                                        (activeItem == i
-                                          ? " active "
-                                          : " collapsed ")
-                                      }
-                                      onClick={() =>
-                                        checkActiveItems(i, items.id)
-                                      }
-                                    >
-                                      <span className="d-block w-100">
-                                        {items.name}
-                                      </span>
-                                    </button>
-                                  </h2>
-                                  {sectorId && (
-                                    <div
-                                      id="coll_industries"
-                                      className={
-                                        "accordion-collapse collapse" +
-                                        (activeItem == i ? "show" : "")
-                                      }
-                                    >
-                                      <div className="in_acc_body">
-                                        <div className="table-responsive">
-                                          <table className="table table-bordered m-0 most_tables">
-                                            <thead className="table-light">
-                                              <tr>
-                                                <th scope="col">Symbol</th>
-                                                <th scope="col">
-                                                  Company Name
-                                                </th>
-                                                <th scope="col">
-                                                  Latest Price
-                                                </th>
-                                                <th scope="col">Change</th>
-                                                <th scope="col">
-                                                  Change Percent
-                                                </th>
-                                                <th scope="col">Market Cap</th>
-                                                <th scope="col">
-                                                  Avg Total Volume
-                                                </th>
-                                                <th scope="col">52 Week Low</th>
-                                                <th scope="col">
-                                                  52 Week High
-                                                </th>
-                                                <th scope="col">Beta</th>
-                                                <th scope="col">
-                                                  Shares Outstanding
-                                                </th>
-                                                <th scope="col">1M</th>
-                                                <th scope="col">3M</th>
-                                                <th scope="col">6M</th>
-                                                <th scope="col">YTD</th>
-                                                <th scope="col">1Y</th>
-                                                <th scope="col">5Y</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody className="border-top-0">
-                                              {etfData.map((etfData) => {
-                                                const symb =
-                                                  etfData.symbol || "";
-                                                const cmpny =
-                                                  etfData.companyName || "";
-                                                const ltstPrice =
-                                                  etfData.latestPrice || "";
-                                                const chng =
-                                                  etfData.change || "";
-                                                const chngper =
-                                                  etfData.changePercent || "";
-                                                const mrktcap =
-                                                  etfData.marketCap || "";
-                                                const avgTVolume =
-                                                  etfData.avgTotalVolume || "";
-                                                const wkslow =
-                                                  etfData.week52Low || "";
-                                                const wkshigh =
-                                                  etfData.week52High || "";
-                                                const bta = etfData.beta || "";
-                                                const sharesout =
-                                                  etfData.sharesOutstanding ||
-                                                  "";
-                                                const onemnth =
-                                                  etfData.month1ChangePercent ||
-                                                  "";
-                                                const threemnth =
-                                                  etfData.month3ChangePercent ||
-                                                  "";
-                                                const sixmnth =
-                                                  etfData.month6ChangePercent ||
-                                                  "";
-                                                const ytdchnge =
-                                                  etfData.ytdChangePercent ||
-                                                  "";
-                                                const oneyrchnge =
-                                                  etfData.year1ChangePercent ||
-                                                  "";
-                                                const fiveyerchange =
-                                                  etfData.year5ChangePercent ||
-                                                  "";
-                                                return (
-                                                  <tr>
-                                                    <td>{symb}</td>
-                                                    <td>{cmpny}</td>
-                                                    <td>{ltstPrice}</td>
-                                                    <td>{chng}</td>
-                                                    <td>{chngper}</td>
-                                                    <td>{mrktcap}</td>
-                                                    <td>{avgTVolume}</td>
-                                                    <td>{wkslow}</td>
-                                                    <td>{wkshigh}</td>
-                                                    <td>{bta}</td>
-                                                    <td>{sharesout}</td>
-                                                    <td>{onemnth}</td>
-                                                    <td>{threemnth}</td>
-                                                    <td>{sixmnth}</td>
-                                                    <td>{ytdchnge}</td>
-                                                    <td>{oneyrchnge}</td>
-                                                    <td>{fiveyerchange}</td>
-                                                  </tr>
-                                                );
-                                              })}
-                                            </tbody>
-                                          </table>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  )}
-                                </div>
-                              );
-                            })}
-                        </>
-                      {  (!industryId) ?
-                        <>{"sectorId && !industryId"}</>:
-                      
-                        <>{"Individual Industry data"}</>
-                      
-                      
-                    }
-                    {/* {(industryId )? (
-                      <>Showing industry data</>
-                    ) : (sectorId && industryId)  ? (
-                      <> {!loading &&
-                        industries &&
-                        industries.length > 0 &&
-                        industries.map((items, i) => {
-                          return (
-                            <div key={i} className="in_acc_item">
-                              <h2
-                                className="in_acc_header"
-                                id="acc_industries"
-                              >
-                                <button
-                                  className={
-                                    "accordion-button" +
-                                    (activeItem == i
-                                      ? " active "
-                                      : " collapsed ")
-                                  }
-                                  onClick={() =>
-                                    checkSubItemsActive(i, items.id)
-                                  }
-                                >
-                                  <span className="d-block w-100">
-                                    {items.name}
-                                  </span>
-                                </button>
-                              </h2>
-                              <div
-                                id="coll_industries"
-                                className={
-                                  "accordion-collapse collapse" +
-                                  (activeItem == i ? "show" : "")
-                                }
-                              >
-                                <div className="in_acc_body">
-                                  <div className="table-responsive">
-                                    <table className="table table-bordered m-0 most_tables">
-                                      <thead className="table-light">
-                                        <tr>
-                                          <th scope="col">Symbol</th>
-                                          <th scope="col">Company Name</th>
-                                          <th scope="col">Latest Price</th>
-                                          <th scope="col">Change</th>
-                                          <th scope="col">Change Percent</th>
-                                          <th scope="col">Market Cap</th>
-                                          <th scope="col">
-                                            Avg Total Volume
-                                          </th>
-                                          <th scope="col">52 Week Low</th>
-                                          <th scope="col">52 Week High</th>
-                                          <th scope="col">Beta</th>
-                                          <th scope="col">
-                                            Shares Outstanding
-                                          </th>
-                                          <th scope="col">1M</th>
-                                          <th scope="col">3M</th>
-                                          <th scope="col">6M</th>
-                                          <th scope="col">YTD</th>
-                                          <th scope="col">1Y</th>
-                                          <th scope="col">5Y</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody className="border-top-0">
-                                        {etfData.map((etfData) => {
-                                          const symb = etfData.symbol || "";
-                                          const cmpny =
-                                            etfData.companyName || "";
-                                          const ltstPrice =
-                                            etfData.latestPrice || "";
-                                          const chng = etfData.change || "";
-                                          const chngper =
-                                            etfData.changePercent || "";
-                                          const mrktcap =
-                                            etfData.marketCap || "";
-                                          const avgTVolume =
-                                            etfData.avgTotalVolume || "";
-                                          const wkslow =
-                                            etfData.week52Low || "";
-                                          const wkshigh =
-                                            etfData.week52High || "";
-                                          const bta = etfData.beta || "";
-                                          const sharesout =
-                                            etfData.sharesOutstanding || "";
-                                          const onemnth =
-                                            etfData.month1ChangePercent || "";
-                                          const threemnth =
-                                            etfData.month3ChangePercent || "";
-                                          const sixmnth =
-                                            etfData.month6ChangePercent || "";
-                                          const ytdchnge =
-                                            etfData.ytdChangePercent || "";
-                                          const oneyrchnge =
-                                            etfData.year1ChangePercent || "";
-                                          const fiveyerchange =
-                                            etfData.year5ChangePercent || "";
-                                          return (
-                                            <tr>
-                                              <td>{symb}</td>
-                                              <td>{cmpny}</td>
-                                              <td>{ltstPrice}</td>
-                                              <td>{chng}</td>
-                                              <td>{chngper}</td>
-                                              <td>{mrktcap}</td>
-                                              <td>{avgTVolume}</td>
-                                              <td>{wkslow}</td>
-                                              <td>{wkshigh}</td>
-                                              <td>{bta}</td>
-                                              <td>{sharesout}</td>
-                                              <td>{onemnth}</td>
-                                              <td>{threemnth}</td>
-                                              <td>{sixmnth}</td>
-                                              <td>{ytdchnge}</td>
-                                              <td>{oneyrchnge}</td>
-                                              <td>{fiveyerchange}</td>
-                                            </tr>
-                                          );
-                                        })}
-                                      </tbody>
-                                    </table>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                    </>
-                    ) :(sectorId)? (
+                    {(!sectorId && !industryId) ? (
                       <>
-                        {" "}
                         {!loading &&
                           sectors &&
                           sectors.length > 0 &&
@@ -614,12 +389,12 @@ const SectorsContent = ({
                                   <button
                                     className={
                                       "accordion-button" +
-                                      (activeItem == i
+                                      (etfitems == i
                                         ? " active "
                                         : " collapsed ")
                                     }
                                     onClick={() =>
-                                      checkActiveItems(i, items.id)
+                                      checkEtfActiveItems(i, items.id)
                                     }
                                   >
                                     <span className="d-block w-100">
@@ -627,11 +402,157 @@ const SectorsContent = ({
                                     </span>
                                   </button>
                                 </h2>
+                                {etfid && (
+                                  <div
+                                    id="coll_industries"
+                                    className={
+                                      "accordion-collapse collapse" +
+                                      (etfitems == i ? "show" : "")
+                                    }
+                                  >
+                                    <div className="in_acc_body">
+                                      <div className="table-responsive">
+                                        <table className="table table-bordered m-0 most_tables">
+                                          <thead className="table-light">
+                                            <tr>
+                                              <th scope="col">Symbol</th>
+                                              <th scope="col">
+                                                Company Name
+                                              </th>
+                                              <th scope="col">
+                                                Latest Price
+                                              </th>
+                                              <th scope="col">Change</th>
+                                              <th scope="col">
+                                                Change Percent
+                                              </th>
+                                              <th scope="col">Market Cap</th>
+                                              <th scope="col">
+                                                Avg Total Volume
+                                              </th>
+                                              <th scope="col">52 Week Low</th>
+                                              <th scope="col">
+                                                52 Week High
+                                              </th>
+                                              <th scope="col">Beta</th>
+                                              <th scope="col">
+                                                Shares Outstanding
+                                              </th>
+                                              <th scope="col">1M</th>
+                                              <th scope="col">3M</th>
+                                              <th scope="col">6M</th>
+                                              <th scope="col">YTD</th>
+                                              <th scope="col">1Y</th>
+                                              <th scope="col">5Y</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody className="border-top-0">
+                                            {etfData.map((etfData) => {
+                                              const symb =
+                                                etfData.symbol || "";
+                                              const cmpny =
+                                                etfData.companyName || "";
+                                              const ltstPrice =
+                                                etfData.latestPrice || "";
+                                              const chng =
+                                                etfData.change || "";
+                                              const chngper =
+                                                etfData.changePercent || "";
+                                              const mrktcap =
+                                                etfData.marketCap || "";
+                                              const avgTVolume =
+                                                etfData.avgTotalVolume || "";
+                                              const wkslow =
+                                                etfData.week52Low || "";
+                                              const wkshigh =
+                                                etfData.week52High || "";
+                                              const bta = etfData.beta || "";
+                                              const sharesout =
+                                                etfData.sharesOutstanding ||
+                                                "";
+                                              const onemnth =
+                                                etfData.month1ChangePercent ||
+                                                "";
+                                              const threemnth =
+                                                etfData.month3ChangePercent ||
+                                                "";
+                                              const sixmnth =
+                                                etfData.month6ChangePercent ||
+                                                "";
+                                              const ytdchnge =
+                                                etfData.ytdChangePercent ||
+                                                "";
+                                              const oneyrchnge =
+                                                etfData.year1ChangePercent ||
+                                                "";
+                                              const fiveyerchange =
+                                                etfData.year5ChangePercent ||
+                                                "";
+                                              return (
+                                                <tr>
+                                                  <td>{symb}</td>
+                                                  <td>{cmpny}</td>
+                                                  <td>{ltstPrice}</td>
+                                                  <td>{chng}</td>
+                                                  <td>{chngper}</td>
+                                                  <td>{mrktcap}</td>
+                                                  <td>{avgTVolume}</td>
+                                                  <td>{wkslow}</td>
+                                                  <td>{wkshigh}</td>
+                                                  <td>{bta}</td>
+                                                  <td>{sharesout}</td>
+                                                  <td>{onemnth}</td>
+                                                  <td>{threemnth}</td>
+                                                  <td>{sixmnth}</td>
+                                                  <td>{ytdchnge}</td>
+                                                  <td>{oneyrchnge}</td>
+                                                  <td>{fiveyerchange}</td>
+                                                </tr>
+                                              );
+                                            })}
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                      </>
+                    ) : (sectorId && !industryId) ?
+                      <>{!loading &&
+                        industries &&
+                        industries.length > 0 &&
+                        industries.map((items, i) => {
+                          return (
+                            <div key={i} className="in_acc_item">
+                              <h2
+                                className="in_acc_header"
+                                id="acc_industries"
+                              >
+                                <button
+                                  className={
+                                    "accordion-button" +
+                                    (etfinditems == i
+                                      ? " active "
+                                      : " collapsed ")
+                                  }
+                                  onClick={() =>
+                                    checketfindustryActive(i, items.id)
+                                  }
+                                >
+                                  <span className="d-block w-100">
+                                    {items.name}
+                                  </span>
+                                </button>
+                              </h2>
+                              {etfindid && (
                                 <div
                                   id="coll_industries"
                                   className={
                                     "accordion-collapse collapse" +
-                                    (activeItem == i ? "show" : "")
+                                    (etfinditems == i ? "show" : "")
                                   }
                                 >
                                   <div className="in_acc_body">
@@ -640,16 +561,24 @@ const SectorsContent = ({
                                         <thead className="table-light">
                                           <tr>
                                             <th scope="col">Symbol</th>
-                                            <th scope="col">Company Name</th>
-                                            <th scope="col">Latest Price</th>
+                                            <th scope="col">
+                                              Company Name
+                                            </th>
+                                            <th scope="col">
+                                              Latest Price
+                                            </th>
                                             <th scope="col">Change</th>
-                                            <th scope="col">Change Percent</th>
+                                            <th scope="col">
+                                              Change Percent
+                                            </th>
                                             <th scope="col">Market Cap</th>
                                             <th scope="col">
                                               Avg Total Volume
                                             </th>
                                             <th scope="col">52 Week Low</th>
-                                            <th scope="col">52 Week High</th>
+                                            <th scope="col">
+                                              52 Week High
+                                            </th>
                                             <th scope="col">Beta</th>
                                             <th scope="col">
                                               Shares Outstanding
@@ -664,12 +593,14 @@ const SectorsContent = ({
                                         </thead>
                                         <tbody className="border-top-0">
                                           {etfData.map((etfData) => {
-                                            const symb = etfData.symbol || "";
+                                            const symb =
+                                              etfData.symbol || "";
                                             const cmpny =
                                               etfData.companyName || "";
                                             const ltstPrice =
                                               etfData.latestPrice || "";
-                                            const chng = etfData.change || "";
+                                            const chng =
+                                              etfData.change || "";
                                             const chngper =
                                               etfData.changePercent || "";
                                             const mrktcap =
@@ -682,19 +613,26 @@ const SectorsContent = ({
                                               etfData.week52High || "";
                                             const bta = etfData.beta || "";
                                             const sharesout =
-                                              etfData.sharesOutstanding || "";
+                                              etfData.sharesOutstanding ||
+                                              "";
                                             const onemnth =
-                                              etfData.month1ChangePercent || "";
+                                              etfData.month1ChangePercent ||
+                                              "";
                                             const threemnth =
-                                              etfData.month3ChangePercent || "";
+                                              etfData.month3ChangePercent ||
+                                              "";
                                             const sixmnth =
-                                              etfData.month6ChangePercent || "";
+                                              etfData.month6ChangePercent ||
+                                              "";
                                             const ytdchnge =
-                                              etfData.ytdChangePercent || "";
+                                              etfData.ytdChangePercent ||
+                                              "";
                                             const oneyrchnge =
-                                              etfData.year1ChangePercent || "";
+                                              etfData.year1ChangePercent ||
+                                              "";
                                             const fiveyerchange =
-                                              etfData.year5ChangePercent || "";
+                                              etfData.year5ChangePercent ||
+                                              "";
                                             return (
                                               <tr>
                                                 <td>{symb}</td>
@@ -722,11 +660,122 @@ const SectorsContent = ({
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            );
-                          })}
-                      </>
-                    ):} */}
+                              )}
+                            </div>
+                          );
+                        })}
+                        </> 
+                      :
+                      <>
+                      {
+                        <div className="in_acc_item">
+                          <div className="in_acc_body">
+                            <div className="table-responsive">
+                              <table className="table table-bordered m-0 most_tables">
+                                <thead className="table-light">
+                                  <tr>
+                                    <th scope="col">Symbol</th>
+                                    <th scope="col">
+                                      Company Name
+                                    </th>
+                                    <th scope="col">
+                                      Latest Price
+                                    </th>
+                                    <th scope="col">Change</th>
+                                    <th scope="col">
+                                      Change Percent
+                                    </th>
+                                    <th scope="col">Market Cap</th>
+                                    <th scope="col">
+                                      Avg Total Volume
+                                    </th>
+                                    <th scope="col">52 Week Low</th>
+                                    <th scope="col">
+                                      52 Week High
+                                    </th>
+                                    <th scope="col">Beta</th>
+                                    <th scope="col">
+                                      Shares Outstanding
+                                    </th>
+                                    <th scope="col">1M</th>
+                                    <th scope="col">3M</th>
+                                    <th scope="col">6M</th>
+                                    <th scope="col">YTD</th>
+                                    <th scope="col">1Y</th>
+                                    <th scope="col">5Y</th>
+                                  </tr>
+                                </thead>
+                                <tbody className="border-top-0">
+                                  {etfData.map((etfData) => {
+                                    const symb =
+                                      etfData.symbol || "";
+                                    const cmpny =
+                                      etfData.companyName || "";
+                                    const ltstPrice =
+                                      etfData.latestPrice || "";
+                                    const chng =
+                                      etfData.change || "";
+                                    const chngper =
+                                      etfData.changePercent || "";
+                                    const mrktcap =
+                                      etfData.marketCap || "";
+                                    const avgTVolume =
+                                      etfData.avgTotalVolume || "";
+                                    const wkslow =
+                                      etfData.week52Low || "";
+                                    const wkshigh =
+                                      etfData.week52High || "";
+                                    const bta = etfData.beta || "";
+                                    const sharesout =
+                                      etfData.sharesOutstanding ||
+                                      "";
+                                    const onemnth =
+                                      etfData.month1ChangePercent ||
+                                      "";
+                                    const threemnth =
+                                      etfData.month3ChangePercent ||
+                                      "";
+                                    const sixmnth =
+                                      etfData.month6ChangePercent ||
+                                      "";
+                                    const ytdchnge =
+                                      etfData.ytdChangePercent ||
+                                      "";
+                                    const oneyrchnge =
+                                      etfData.year1ChangePercent ||
+                                      "";
+                                    const fiveyerchange =
+                                      etfData.year5ChangePercent ||
+                                      "";
+                                    return (
+                                      <tr>
+                                        <td>{symb}</td>
+                                        <td>{cmpny}</td>
+                                        <td>{ltstPrice}</td>
+                                        <td>{chng}</td>
+                                        <td>{chngper}</td>
+                                        <td>{mrktcap}</td>
+                                        <td>{avgTVolume}</td>
+                                        <td>{wkslow}</td>
+                                        <td>{wkshigh}</td>
+                                        <td>{bta}</td>
+                                        <td>{sharesout}</td>
+                                        <td>{onemnth}</td>
+                                        <td>{threemnth}</td>
+                                        <td>{sixmnth}</td>
+                                        <td>{ytdchnge}</td>
+                                        <td>{oneyrchnge}</td>
+                                        <td>{fiveyerchange}</td>
+                                      </tr>
+                                    );
+                                  })}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      }</>
+                    }
                   </div>
                 </div>
               </div>
