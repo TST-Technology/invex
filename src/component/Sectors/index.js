@@ -12,18 +12,21 @@ const Sectors = () => {
 
     const getAllSectorsData = async () =>{
         setisLoading(true)
-        var res = await getAllSectorsOverview();
-        if (res && res?.status === 200 && res?.data) {
-            let temp = []
-            for (let data of res.data.Sector) {
-                let obj = {
-                    name: data.name,
-                    value: data.totalSectorCap
-                }
-                temp.push(obj)
-            }
-            setChartData(temp)
-        }
+        setSectorId(null)
+        setIndustryId(null)
+
+        // var res = await getAllSectorsOverview();
+        // if (res && res?.status === 200 && res?.data) {
+        //     let temp = []
+        //     for (let data of res.data.Sector) {
+        //         let obj = {
+        //             name: data.name,
+        //             value: data.totalSectorCap
+        //         }
+        //         temp.push(obj)
+        //     }
+        //     setChartData(temp)
+        // }
         setisLoading(false)
     }
     return (
@@ -44,6 +47,8 @@ const Sectors = () => {
                             industryId={industryId} 
                             isLoading={isLoading} 
                             setisLoading={setisLoading}
+                            setSectorId={setSectorId} 
+                            setIndustryId={setIndustryId}
                         />
                     </div>
                 </div>

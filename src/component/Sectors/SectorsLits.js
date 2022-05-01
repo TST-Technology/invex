@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { getAllSectors } from "../api/sectors";
 
 const SectorsList = ({ setSectorId , setIndustryId, getAllSectorsData }) => {
-
+//
   const [sectors, setSectors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [activeItem, setActiveItem] = useState();
@@ -21,6 +21,7 @@ const SectorsList = ({ setSectorId , setIndustryId, getAllSectorsData }) => {
   }, [])
 
   const checkActiveItems = (index,secId) =>{
+    setIndustryId()
     setSubActiveItem()
     if(secId){
       setSectorId(secId);
@@ -47,7 +48,10 @@ const SectorsList = ({ setSectorId , setIndustryId, getAllSectorsData }) => {
     <div className="col-lg-4">
       <div className="leftsidefilter">
         <div className="new_scenr_btn">
-          <h4 className="m-0 c-pointer" role="button" onClick={()=>getAllSectorsData()}>All Sectors</h4>
+          <h4 className="m-0 c-pointer" role="button" onClick={()=>
+            {
+              checkActiveItems()
+              getAllSectorsData()}}>All Sectors</h4>
         </div>
         <div className="accordion" id="acc_sidefilter">
           {loading && <div style={{ height: 110, padding:30, textAlign: 'center' }}>
