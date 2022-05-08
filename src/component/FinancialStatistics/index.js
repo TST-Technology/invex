@@ -37,20 +37,20 @@ const FinancialStatistics = () => {
     }, [symbol, Period , View])
 
     return (
-        <div class="main">
-        <section class="top_carosuel_sec financial_statc">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 mb-5">
-                        <div class="card mb-3">
-                            <div class="card-body bg-base d-lg-flex d-md-flex d-block align-items-center rounded-3 p-4">
-                                <h5 class="m-0 pe-3">Financial Statistics</h5>
+        <div className="main">
+        <section className="top_carosuel_sec financial_statc">
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg-12 mb-5">
+                        <div className="card mb-3">
+                            <div className="card-body bg-base d-lg-flex d-md-flex d-block align-items-center rounded-3 p-4">
+                                <h5 className="m-0 pe-3">Financial Statistics</h5>
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="card-body">
-                            {/* To check buttons-[added us] */}
-                            <div className="top_button_panel mt-4 mb-3">
+                        <div className="card">
+                            <div className="card-body">
+                            <div className="top_button_panel top_scroll mt-4 mb-3 wrapperzz">
+                                <div className='scrollzz'>
                                 <button type="button" onClick={() => setTab(1)} className={"btn btn-light" + (tab == 1 ? ' active ' : '')}>Capital Structure</button>
                                 <button type="button" onClick={() => setTab(2)} className={"btn btn-light" + (tab == 2 ? ' active ' : '')}>Pricing</button>
                                 <button type="button" onClick={() => setTab(3)} className={"btn btn-light" + (tab == 3 ? ' active ' : '')}>Efficiency Ratios</button>
@@ -61,68 +61,31 @@ const FinancialStatistics = () => {
                                 <button type="button" onClick={() => setTab(8)} className={"btn btn-light" + (tab == 8 ? ' active ' : '')}>Liquidity Ratios</button>
                                 <button type="button" onClick={() => setTab(9)} className={"btn btn-light" + (tab == 9 ? ' active ' : '')}>Earnings & Dividends</button>
                                 <button type="button" onClick={() => setTab(10)} className={"btn btn-light" + (tab == 10 ? ' active ' : '')}>Current Financial Highlights</button>
+                                </div>
                             </div>
-                            {/* added by them but slider not added */}
-                                {/* <!-- top carousel section start --> */}
-                                {/* <section class="top_carosuel_sec">
-                                    <div class="container">
-                                        <div class="top_market_carousel owl-carousel owl-theme" >
-                                            <div class="item">
-                                                <div class="top_button_panel">
-                                                    <button type="button" class="btn btn-info"> Balance Sheet</button>
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <div class="top_button_panel">
-                                                    <button type="button" class="btn btn-light"> Income Statement</button>
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <div class="top_button_panel">
-                                                    <button type="button" class="btn btn-light"> Cash Flow</button>
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <div class="top_button_panel">
-                                                    <button type="button" class="btn btn-light"> Balance Sheet</button>
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <div class="top_button_panel">
-                                                    <button type="button" class="btn btn-light"> Income Statement</button>
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <div class="top_button_panel">
-                                                    <button type="button" class="btn btn-light"> Cash Flow</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section> */}
-                                {/* <!-- top carousel section end --> */}
+                           
                             </div>
                         </div>
-                        <div class="card p-3 mr-auto">
-                            <form class="form-group" role="search" method="get" id="searchform" action="">
-                                <div class="d-inline-flex align-items-center float-end">
-                                    <label for="" class="me-3 font-bd">Period</label>
+                        <div className="card p-3 mr-auto">
+                            <form className="form-group" role="search" method="get" id="searchform" action="">
+                                <div className="d-inline-flex align-items-center float-end">
+                                    <label for="" className="me-3 font-bd">Period</label>
                                     <select 
-                                        class="form-select me-3" 
+                                        className="form-select me-3" 
                                         aria-label="Default select example"
                                         onChange={(e)=>setPeriod(e.target.value)}
                                     >
                                         <option selected value='quarterly'>Quarterly</option>
                                         <option value="annual">Annual</option>
                                     </select>
-                                    <label for="" class="me-3 font-bd">View</label>
+                                    <label for="" className="me-3 font-bd">View</label>
                                     <select 
-                                        class="form-select me-3" 
+                                        className="form-select me-3" 
                                         aria-label="Default select example"
                                         onChange={(e)=>setView(e.target.value)}
                                     >
                                         <option selected value="5">Last 5 years</option>
-                                        {/* <option value="10">Last 10 years</option> */}
+                                        <option value="10">Last 10 years</option>
                                     </select>
                                 </div>
                             </form>

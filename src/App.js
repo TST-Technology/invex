@@ -27,7 +27,7 @@ import FinancialStatistics from './component/FinancialStatistics'
 // import CashFlow from "./component/CashFlow";
 import ValuationReport from "./component/ValuationReport";
 import Financials from "./component/Financials";
-import FinancialShareInfo from "./component/Financials Share Info";
+import FinancialShareInfo from "./component/FinancialsShareInfo";
 
 function App() {
   // useEffect(() => {

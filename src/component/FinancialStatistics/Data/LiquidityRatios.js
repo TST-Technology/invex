@@ -113,9 +113,9 @@ const LiquidityRatios = ({data,Loading}) => {
         }
     }, [data])
     return(
-        <div class="table-responsive mt-4">
-        <table class="table table-bordered m-0 most_tables">
-            <thead class="table-light">
+        <div className="table-responsive mt-4">
+        <table className="table table-bordered m-0 most_tables">
+            <thead className="table-light">
                 <tr>
                     <th scope="col">-</th>
                     <th scope="col">Historical Visualisation</th>
@@ -127,7 +127,7 @@ const LiquidityRatios = ({data,Loading}) => {
                   
                 </tr>
             </thead>
-            <tbody class="border-top-0">
+            <tbody className="border-top-0">
                             {Loading && <tr style={{ height: 100, textAlign: 'center' }}>
                                 <td colSpan={6} style={{textAlign:'center'}}><CircularProgress size={50} /></td>
                             </tr>}
@@ -135,21 +135,21 @@ const LiquidityRatios = ({data,Loading}) => {
                                 return (
                                     <tr key={i}>
                                         {ob.col0 && <td>{ob.col0}</td>}
-                                        { <td class="float-end">
-                                                <div class="form-check mb-0">
-                                                    <input class="form-check-input" type="checkbox" value="" id="" />
+                                        { <td className="float-end">
+                                                <div className="form-check mb-0">
+                                                    <input className="form-check-input" type="checkbox" value="" id="" />
                                                 </div>
                                             </td>}
-                                        {ob.col1 && <td>{abbreviateNumber(ob.col1)}</td>}
-                                        {ob.col2 && <td>{abbreviateNumber(ob.col2)}</td>}
-                                        {ob.col3 && <td>{abbreviateNumber(ob.col3)}</td>}
-                                        {ob.col4 && <td>{abbreviateNumber(ob.col4)}</td>}
-                                        {ob.col5 && <td>{abbreviateNumber(ob.col5)}</td>}
-                                        {ob.col6 && <td>{abbreviateNumber(ob.col6)}</td>}
-                                        {ob.col7 && <td>{abbreviateNumber(ob.col7)}</td>}
-                                        {ob.col8 && <td>{abbreviateNumber(ob.col8)}</td>}
-                                        {ob.col9 && <td>{abbreviateNumber(ob.col9)}</td>}
-                                        {ob.col10 && <td>{abbreviateNumber(ob.col10)}</td>}
+                                        {ob.col1 && <td>{abbreviateNumber(ob.col1.slice(0,6))}</td>}
+                                        {ob.col2 && <td>{abbreviateNumber(ob.col2.slice(0,6))}</td>}
+                                        {ob.col3 && <td>{abbreviateNumber(ob.col3.slice(0,6))}</td>}
+                                        {ob.col4 && <td>{abbreviateNumber(ob.col4.slice(0,6))}</td>}
+                                        {ob.col5 && <td>{abbreviateNumber(ob.col5.slice(0,6))}</td>}
+                                        {ob.col6 && <td>{abbreviateNumber(ob.col6.slice(0,6))}</td>}
+                                        {ob.col7 && <td>{abbreviateNumber(ob.col7.slice(0,6))}</td>}
+                                        {ob.col8 && <td>{abbreviateNumber(ob.col8.slice(0,6))}</td>}
+                                        {ob.col9 && <td>{abbreviateNumber(ob.col9.slice(0,6))}</td>}
+                                        {ob.col10 && <td>{abbreviateNumber(ob.col10.slice(0,6))}</td>}
                                     </tr>
                                 )
                             })}

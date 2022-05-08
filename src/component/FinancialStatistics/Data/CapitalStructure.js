@@ -197,51 +197,51 @@ const CapitalStructure = ({ data, Loading })  => {
                 },
                 {
                     col0: name[13],
-                    col1: data[0]?.bookValuePerShare,
-                    col2: data[1]?.bookValuePerShare,
-                    col3: data[2]?.bookValuePerShare,
-                    col4: data[3]?.bookValuePerShare,
-                    col5: data[4]?.bookValuePerShare,
-                    col6: data[5]?.bookValuePerShare,
-                    col7: data[6]?.bookValuePerShare,
-                    col8: data[7]?.bookValuePerShare,
-                    col9: data[8]?.bookValuePerShare,
-                    col10: data[9]?.bookValuePerShare,
+                    col1: data[0]?.bookValuePerShare.slice(0,5),
+                    col2: data[1]?.bookValuePerShare.slice(0,5),
+                    col3: data[2]?.bookValuePerShare.slice(0,5),
+                    col4: data[3]?.bookValuePerShare.slice(0,5),
+                    col5: data[4]?.bookValuePerShare.slice(0,5),
+                    col6: data[5]?.bookValuePerShare.slice(0,5),
+                    col7: data[6]?.bookValuePerShare.slice(0,5),
+                    col8: data[7]?.bookValuePerShare.slice(0,5),
+                    col9: data[8]?.bookValuePerShare.slice(0,5),
+                    col10: data[9]?.bookValuePerShare.slice(0,5),
                 },
                 {
                     col0: name[14],
-                    col1: data[0]?.taxBurden,
-                    col2: data[1]?.taxBurden,
-                    col3: data[2]?.taxBurden,
-                    col4: data[3]?.taxBurden,
-                    col5: data[4]?.taxBurden,
-                    col6: data[5]?.taxBurden,
-                    col7: data[6]?.taxBurden,
-                    col8: data[7]?.taxBurden,
-                    col9: data[8]?.taxBurden,
-                    col10: data[9]?.taxBurden,
+                    col1: data[0]?.taxBurden.slice(0,5),
+                    col2: data[1]?.taxBurden.slice(0,5),
+                    col3: data[2]?.taxBurden.slice(0,5),
+                    col4: data[3]?.taxBurden.slice(0,5),
+                    col5: data[4]?.taxBurden.slice(0,5),
+                    col6: data[5]?.taxBurden.slice(0,5),
+                    col7: data[6]?.taxBurden.slice(0,5),
+                    col8: data[7]?.taxBurden.slice(0,5),
+                    col9: data[8]?.taxBurden.slice(0,5),
+                    col10: data[9]?.taxBurden.slice(0,5),
                 },
                 {
                     col0: name[15],
-                    col1: data[0]?.altmanZScore,
-                    col2: data[1]?.altmanZScore,
-                    col3: data[2]?.altmanZScore,
-                    col4: data[3]?.altmanZScore,
-                    col5: data[4]?.altmanZScore,
-                    col6: data[5]?.altmanZScore,
-                    col7: data[6]?.altmanZScore,
-                    col8: data[7]?.altmanZScore,
-                    col9: data[8]?.altmanZScore,
-                    col10: data[9]?.altmanZScore,
+                    col1: data[0]?.altmanZScore.slice(0,5),
+                    col2: data[1]?.altmanZScore.slice(0,5),
+                    col3: data[2]?.altmanZScore.slice(0,5),
+                    col4: data[3]?.altmanZScore.slice(0,5),
+                    col5: data[4]?.altmanZScore.slice(0,5),
+                    col6: data[5]?.altmanZScore.slice(0,5),
+                    col7: data[6]?.altmanZScore.slice(0,5),
+                    col8: data[7]?.altmanZScore.slice(0,5),
+                    col9: data[8]?.altmanZScore.slice(0,5),
+                    col10: data[9]?.altmanZScore.slice(0,5),
                 },
             ]
         setCapitalStructuredata(current)
         }
     }, [data])
   return(
-    <div class="table-responsive mt-4">
-    <table class="table table-bordered m-0 most_tables">
-        <thead class="table-light">
+    <div className="table-responsive mt-4">
+    <table className="table table-bordered m-0 most_tables">
+        <thead className="table-light">
             <tr>
                 <th scope="col">-</th>
                 <th scope="col">Historical Visualisation</th>
@@ -253,7 +253,7 @@ const CapitalStructure = ({ data, Loading })  => {
               
             </tr>
         </thead>
-        <tbody class="border-top-0">
+        <tbody className="border-top-0">
                         {Loading && <tr style={{ height: 100, textAlign: 'center' }}>
                             <td colSpan={6} style={{textAlign:'center'}}><CircularProgress size={50} /></td>
                         </tr>}
@@ -261,9 +261,9 @@ const CapitalStructure = ({ data, Loading })  => {
                             return (
                                 <tr key={i}>
                                     {ob.col0 && <td>{ob.col0}</td>}
-                                    { <td class="float-end">
-                                            <div class="form-check mb-0">
-                                                <input class="form-check-input" type="checkbox" value="" id="" />
+                                    { <td className="float-end">
+                                            <div className="form-check mb-0">
+                                                <input className="form-check-input" type="checkbox" value="" id="" />
                                             </div>
                                         </td>}
                                     {ob.col1 && <td>{abbreviateNumber(ob.col1)}</td>}

@@ -102,9 +102,9 @@ const EarningsDividends = ({data,Loading}) => {
     }, [data])
 
     return(
-        <div class="table-responsive mt-4">
-        <table class="table table-bordered m-0 most_tables">
-            <thead class="table-light">
+        <div className="table-responsive mt-4">
+        <table className="table table-bordered m-0 most_tables">
+            <thead className="table-light">
                 <tr>
                     <th scope="col">-</th>
                     <th scope="col">Historical Visualisation</th>
@@ -116,7 +116,7 @@ const EarningsDividends = ({data,Loading}) => {
                   
                 </tr>
             </thead>
-            <tbody class="border-top-0">
+            <tbody className="border-top-0">
                             {Loading && <tr style={{ height: 100, textAlign: 'center' }}>
                                 <td colSpan={6} style={{textAlign:'center'}}><CircularProgress size={50} /></td>
                             </tr>}
@@ -124,9 +124,9 @@ const EarningsDividends = ({data,Loading}) => {
                                 return (
                                     <tr key={i}>
                                         {ob.col0 && <td>{ob.col0}</td>}
-                                        { <td class="float-end">
-                                                <div class="form-check mb-0">
-                                                    <input class="form-check-input" type="checkbox" value="" id="" />
+                                        { <td className="float-end">
+                                                <div className="form-check mb-0">
+                                                    <input className="form-check-input" type="checkbox" value="" id="" />
                                                 </div>
                                             </td>}
                                         {ob.col1 && <td>{abbreviateNumber(ob.col1)}</td>}
