@@ -24,8 +24,6 @@ const BalanceSheet = ({ symbol }) => {
         })()
     }, [symbol, Period , View])
 
-
-
     return (
         <>
             <div className="col-lg-12 mb-4">

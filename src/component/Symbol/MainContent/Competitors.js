@@ -8,7 +8,7 @@ const Competitors = ({ KeyStatus }) => {
   const [tableData, settableData] = useState()
   const [tableHeader, settableHeader] = useState()
   const [params] = useSearchParams();
-  var name = ['latest Price','Average Total Volume','PE Ratio', '52 Week High', '52 Week Low']
+  var name = ['Market Cap','latest Price','Average Total Volume','PE Ratio', '52 Week High', '52 Week Low']
 
   const [Tcol1, setTcol1] = useState(null)
   const [Tcol2, setTcol2] = useState(null)
@@ -20,7 +20,7 @@ const Competitors = ({ KeyStatus }) => {
     (async () => {
       if (params.get('symbol')) {
         var data = await getTopCompetitors(params.get('symbol'));
-        console.log('data', data);
+        // console.log('data', data);
         if (data && data?.status == 200) {
           // KeyStatus
           var api = []
@@ -36,7 +36,7 @@ const Competitors = ({ KeyStatus }) => {
             setTcol5(symbolList[4]?.data?.quote)
           }
 
-          settableHeader(data?.data?.companySymbols)
+          settableHeader(name)
         }
       }
     })()
@@ -44,47 +44,52 @@ const Competitors = ({ KeyStatus }) => {
 ])
 
   useEffect(() => {
-    // console.log('Tcol1',Tcol1,'Tcol2',Tcol2,'Tcol3',Tcol3,'Tcol4',Tcol4,'Tcol5',Tcol5)
+    console.log('Tcol1',Tcol1,'Tcol2',Tcol2,'Tcol3',Tcol3,'Tcol4',Tcol4,'Tcol5',Tcol5)
     var tempArr = [
       {
-        asOf: name[0],
-        col1: Tcol1?.latestPrice,
+        asOf: Tcol1?.symbol,
+        col1: Tcol1?.marketCap,
+        col2: Tcol1?.latestPrice,
+        col3: Tcol1?.avgTotalVolume,
+        col4: Tcol1?.peRatio,
+        col5: Tcol1?.week52High,
+        col6: Tcol1?.week52Low,
+      },
+      {
+        asOf: Tcol2?.symbol,
+        col1: Tcol2?.marketCap,
         col2: Tcol2?.latestPrice,
-        col3: Tcol3?.latestPrice,
-        col4: Tcol4?.latestPrice,
-        col5: Tcol5?.latestPrice,
+        col3: Tcol2?.avgTotalVolume,
+        col4: Tcol2?.peRatio,
+        col5: Tcol2?.week52High,
+        col6: Tcol2?.week52Low,
       },
       {
-        asOf: name[1],
-        col1: Tcol1?.avgTotalVolume,
-        col2: Tcol2?.avgTotalVolume,
+        asOf: Tcol3?.symbol,
+        col1: Tcol3?.marketCap,
+        col2: Tcol3?.latestPrice,
         col3: Tcol3?.avgTotalVolume,
-        col4: Tcol4?.avgTotalVolume,
-        col5: Tcol5?.avgTotalVolume,
+        col4: Tcol3?.peRatio,
+        col5: Tcol3?.week52High,
+        col6: Tcol3?.week52Low,
       },
       {
-        asOf: name[2],
-        col1: Tcol1?.peRatio,
-        col2: Tcol2?.peRatio,
-        col3: Tcol3?.peRatio,
+        asOf: Tcol4?.symbol,
+        col1: Tcol4?.marketCap,
+        col2: Tcol4?.latestPrice,
+        col3: Tcol4?.avgTotalVolume,
         col4: Tcol4?.peRatio,
-        col5: Tcol5?.peRatio,
+        col5: Tcol4?.week52High,
+        col6: Tcol4?.week52Low,
       },
       {
-        asOf: name[3],
-        col1: Tcol1?.week52High,
-        col2: Tcol2?.week52High,
-        col3: Tcol3?.week52High,
-        col4: Tcol4?.week52High,
+        asOf: Tcol5?.symbol,
+        col1: Tcol5?.marketCap,
+        col2: Tcol5?.latestPrice,
+        col3: Tcol5?.avgTotalVolume,
+        col4: Tcol5?.peRatio,
         col5: Tcol5?.week52High,
-      },
-      {
-        asOf: name[4],
-        col1: Tcol1?.week52Low,
-        col2: Tcol2?.week52Low,
-        col3: Tcol3?.week52Low,
-        col4: Tcol4?.week52Low,
-        col5: Tcol5?.week52Low,
+        col6: Tcol5?.week52Low,
       }
     ]
     settableData(tempArr)
@@ -98,9 +103,6 @@ const Competitors = ({ KeyStatus }) => {
           <h6 className='m-0'>
             <strong>Top Competitors</strong>
           </h6>
-          <a href='javascript:void(0)' className='text-dark viewmore'>
-            View More
-          </a>
         </div>
         <div className='table-responsive'>
           <table className='table table-bordered m-0 most_tables'>
@@ -124,6 +126,7 @@ const Competitors = ({ KeyStatus }) => {
                     <td>{el?.col3}</td>
                     <td>{el?.col4}</td>
                     <td>{el?.col5}</td>
+                    <td>{el?.col6}</td>
                   </tr>
                 )
               })}

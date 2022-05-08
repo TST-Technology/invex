@@ -15,7 +15,8 @@ const InvexRoutes = {
     BidTable: { path: "/bidtable" },
     CPIndex: { path: "/cpindex" },
     NonManufacture: { path: "/non_manufacture" },
-    FinancialStatistics: { path: "/financial-statistics" },
+    FinancialStatistics: { path: "/financial-statistics/:symbol" },
+    FinancialShareInfo : {path: '/share-info'},
     Financials:{path:'/financials/:symbol'},
     ValuationReport :{path:'/valuation-report'}
 }

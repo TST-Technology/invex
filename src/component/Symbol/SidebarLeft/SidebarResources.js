@@ -30,7 +30,14 @@ function SidebarResources () {
             </a>
           </li>
           <li>
-            <Link to={`/financial-statistics?symbol=${params.get('symbol')}`}>
+            <Link to={`/share-info?symbol=${params.get('symbol')}`}>
+              <img src={require('../../Common/Images/resource_3.png').default} alt='resource' />
+              <span>Share Info</span>
+              <i className='bi bi-box-arrow-up-right ms-auto'></i>
+            </Link>
+          </li>
+          <li>
+            <Link to={`/financial-statistics/${params.get('symbol')}`}>
               <img src={require('../../Common/Images/resource_3.png').default} alt='resource' />
               <span>Financial Statistics</span>
               <i className='bi bi-box-arrow-up-right ms-auto'></i>

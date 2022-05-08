@@ -27,6 +27,7 @@ import FinancialStatistics from './component/FinancialStatistics'
 // import CashFlow from "./component/CashFlow";
 import ValuationReport from "./component/ValuationReport";
 import Financials from "./component/Financials";
+import FinancialShareInfo from "./component/Financials Share Info";
 
 function App() {
   // useEffect(() => {
@@ -62,6 +63,7 @@ function App() {
           <Route exact path={InvexRoutes.CPIndex.path} element={<CPIIndexHome />} />
           <Route exact path={InvexRoutes.NonManufacture.path} element={<NonManufacture />} />
           <Route exact path={InvexRoutes.FinancialStatistics.path} element={<FinancialStatistics />} />
+          <Route exact path={InvexRoutes.FinancialShareInfo.path} element={<FinancialShareInfo />} />
           <Route exact path={InvexRoutes.Financials.path} element={<Financials />} />
           {/* <Route exact path={InvexRoutes.BalanceSheet.path} element={<BalanceSheet />} />
           <Route exact path={InvexRoutes.CashFlow.path} element={<CashFlow />} /> */}

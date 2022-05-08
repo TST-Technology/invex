@@ -35,6 +35,7 @@ const IncomeStatement = ({symbol}) => {
                 if (res && res.status === 200 && res?.data?.length > 0) {
                     setTableHead(res.data)
                     var data = res?.data;
+                    console.log(data)
                     var tempArr = [
                         {
                             col0: name[0],
