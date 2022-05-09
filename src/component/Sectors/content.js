@@ -16,6 +16,7 @@ import {
 import industrialChart from "../Common/Images/industrial_chart.png";
 import SectorChart from "./SectorChart";
 import { CircularProgress } from "@material-ui/core";
+import abbreviateNumber from '../Common/NumberFormat'
 
 // const data = [
 //     { name: "Consumer Discretionary", value: 600 },
@@ -459,34 +460,34 @@ const SectorsContent = ({
                                               const chngper =
                                                 etfData.changePercent || "";
                                               const mrktcap =
-                                                etfData.marketCap || "";
+                                              abbreviateNumber(etfData.marketCap) || "";
                                               const avgTVolume =
                                                 etfData.avgTotalVolume || "";
                                               const wkslow =
                                                 etfData.week52Low || "";
                                               const wkshigh =
                                                 etfData.week52High || "";
-                                              const bta = etfData.beta || "";
+                                              const bta = etfData.beta.toFixed(3) || "";
                                               const sharesout =
-                                                etfData.sharesOutstanding ||
+                                                abbreviateNumber(etfData.sharesOutstanding) ||
                                                 "";
                                               const onemnth =
-                                                etfData.month1ChangePercent ||
+                                                etfData.month1ChangePercent.toFixed(3) ||
                                                 "";
                                               const threemnth =
-                                                etfData.month3ChangePercent ||
+                                                etfData.month3ChangePercent.toFixed(3) ||
                                                 "";
                                               const sixmnth =
-                                                etfData.month6ChangePercent ||
+                                                etfData.month6ChangePercent.toFixed(3) ||
                                                 "";
                                               const ytdchnge =
-                                                etfData.ytdChangePercent ||
+                                                etfData.ytdChangePercent.toFixed(3) ||
                                                 "";
                                               const oneyrchnge =
-                                                etfData.year1ChangePercent ||
+                                                etfData.year1ChangePercent.toFixed(3) ||
                                                 "";
                                               const fiveyerchange =
-                                                etfData.year5ChangePercent ||
+                                                etfData.year5ChangePercent.toFixed(3) ||
                                                 "";
                                               return (
                                                 <tr>
@@ -604,34 +605,34 @@ const SectorsContent = ({
                                             const chngper =
                                               etfData.changePercent || "";
                                             const mrktcap =
-                                              etfData.marketCap || "";
+                                              abbreviateNumber(etfData.marketCap) || "";
                                             const avgTVolume =
                                               etfData.avgTotalVolume || "";
                                             const wkslow =
                                               etfData.week52Low || "";
                                             const wkshigh =
                                               etfData.week52High || "";
-                                            const bta = etfData.beta || "";
+                                            const bta = etfData.beta.toFixed(3) || "";
                                             const sharesout =
-                                              etfData.sharesOutstanding ||
+                                              abbreviateNumber(etfData.sharesOutstanding) ||
                                               "";
                                             const onemnth =
-                                              etfData.month1ChangePercent ||
+                                              etfData.month1ChangePercent.toFixed(3) ||
                                               "";
                                             const threemnth =
-                                              etfData.month3ChangePercent ||
+                                              etfData.month3ChangePercent.toFixed(3) ||
                                               "";
                                             const sixmnth =
-                                              etfData.month6ChangePercent ||
+                                              etfData.month6ChangePercent.toFixed(3) ||
                                               "";
                                             const ytdchnge =
-                                              etfData.ytdChangePercent ||
+                                              etfData.ytdChangePercent.toFixed(3) ||
                                               "";
                                             const oneyrchnge =
-                                              etfData.year1ChangePercent ||
+                                            etfData.year1ChangePercent.toFixed(3) ||
                                               "";
                                             const fiveyerchange =
-                                              etfData.year5ChangePercent ||
+                                              etfData.year5ChangePercent.toFixed(3) ||
                                               "";
                                             return (
                                               <tr>
@@ -718,34 +719,34 @@ const SectorsContent = ({
                                     const chngper =
                                       etfData.changePercent || "";
                                     const mrktcap =
-                                      etfData.marketCap || "";
+                                      abbreviateNumber(etfData.marketCap) || "";
                                     const avgTVolume =
                                       etfData.avgTotalVolume || "";
                                     const wkslow =
                                       etfData.week52Low || "";
                                     const wkshigh =
                                       etfData.week52High || "";
-                                    const bta = etfData.beta || "";
+                                    const bta = etfData.beta.toFixed(3) || "";
                                     const sharesout =
-                                      etfData.sharesOutstanding ||
+                                      abbreviateNumber(etfData.sharesOutstanding) ||
                                       "";
                                     const onemnth =
-                                      etfData.month1ChangePercent ||
+                                      etfData.month1ChangePercent.toFixed(3) ||
                                       "";
                                     const threemnth =
-                                      etfData.month3ChangePercent ||
+                                      etfData.month3ChangePercent.toFixed(3) ||
                                       "";
                                     const sixmnth =
-                                      etfData.month6ChangePercent ||
+                                      etfData.month6ChangePercent.toFixed(3) ||
                                       "";
                                     const ytdchnge =
-                                      etfData.ytdChangePercent ||
+                                      etfData.ytdChangePercent.toFixed(3) ||
                                       "";
                                     const oneyrchnge =
-                                      etfData.year1ChangePercent ||
+                                    etfData.year1ChangePercent.toFixed(3) ||
                                       "";
                                     const fiveyerchange =
-                                      etfData.year5ChangePercent ||
+                                      etfData.year5ChangePercent.toFixed(3) ||
                                       "";
                                     return (
                                       <tr>

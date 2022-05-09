@@ -7,7 +7,6 @@ const LiabilitiesShareholder = ({ data, Loading }) => {
         'Current Long TermDebt',
         'Other Current Liabilities',
         'Total Current Liabilities',
-        'Current Assets Total',
     ]
     var nonName = [
         'longTermDebt',
@@ -79,19 +78,6 @@ const LiabilitiesShareholder = ({ data, Loading }) => {
                     col9: data[8]?.totalCurrentLiabilities,
                     col10: data[9]?.totalCurrentLiabilities,
                 },
-                {
-                    col0: name[4],
-                    col1: data[0]?.totalCurrentLiabilities,
-                    col2: data[1]?.totalCurrentLiabilities,
-                    col3: data[2]?.totalCurrentLiabilities,
-                    col4: data[3]?.totalCurrentLiabilities,
-                    col5: data[4]?.totalCurrentLiabilities,
-                    col6: data[5]?.totalCurrentLiabilities,
-                    col7: data[6]?.totalCurrentLiabilities,
-                    col8: data[7]?.totalCurrentLiabilities,
-                    col9: data[8]?.totalCurrentLiabilities,
-                    col10: data[9]?.totalCurrentLiabilities,
-                }
             ]
             setCurrentLiabilities(current)
             var nonCurrent = [

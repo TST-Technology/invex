@@ -16,8 +16,8 @@ function MainContent ({KeyStatus,DividendData,NewsData}) {
       </div>
       <ExpectedValuation />
       <VolatilityChart />
-      <CompanyNews NewsData={NewsData}/>
       <Competitors KeyStatus={KeyStatus}/>
+      <CompanyNews NewsData={NewsData}/>
     </div>
   )
 }

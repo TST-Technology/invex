@@ -2417,3 +2417,18 @@ div#savescannermodal .btn {
     margin-top: 40px;
   }
 }
+
+.top_scroll{
+  display: flow-root !important;
+}
+
+.wrapperzz {
+  text-align: center;
+  position: relative;
+}
+
+.scrollzz {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap
+}
