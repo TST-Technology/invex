@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/invex/static/css/main.35f4cfa4.chunk.css",
-    "main.js": "/invex/static/js/main.4f00ebb0.chunk.js",
-    "main.js.map": "/invex/static/js/main.4f00ebb0.chunk.js.map",
+    "main.css": "/invex/static/css/main.328999e4.chunk.css",
+    "main.js": "/invex/static/js/main.846de3ff.chunk.js",
+    "main.js.map": "/invex/static/js/main.846de3ff.chunk.js.map",
     "runtime-main.js": "/invex/static/js/runtime-main.ad0c07dd.js",
     "runtime-main.js.map": "/invex/static/js/runtime-main.ad0c07dd.js.map",
-    "static/css/2.55a1b0a1.chunk.css": "/invex/static/css/2.55a1b0a1.chunk.css",
-    "static/js/2.7c966d8a.chunk.js": "/invex/static/js/2.7c966d8a.chunk.js",
-    "static/js/2.7c966d8a.chunk.js.map": "/invex/static/js/2.7c966d8a.chunk.js.map",
+    "static/css/2.6b01ad1d.chunk.css": "/invex/static/css/2.6b01ad1d.chunk.css",
+    "static/js/2.b6315b4b.chunk.js": "/invex/static/js/2.b6315b4b.chunk.js",
+    "static/js/2.b6315b4b.chunk.js.map": "/invex/static/js/2.b6315b4b.chunk.js.map",
     "index.html": "/invex/index.html",
-    "static/css/2.55a1b0a1.chunk.css.map": "/invex/static/css/2.55a1b0a1.chunk.css.map",
-    "static/css/main.35f4cfa4.chunk.css.map": "/invex/static/css/main.35f4cfa4.chunk.css.map",
-    "static/js/2.7c966d8a.chunk.js.LICENSE.txt": "/invex/static/js/2.7c966d8a.chunk.js.LICENSE.txt",
+    "static/css/2.6b01ad1d.chunk.css.map": "/invex/static/css/2.6b01ad1d.chunk.css.map",
+    "static/css/main.328999e4.chunk.css.map": "/invex/static/css/main.328999e4.chunk.css.map",
+    "static/js/2.b6315b4b.chunk.js.LICENSE.txt": "/invex/static/js/2.b6315b4b.chunk.js.LICENSE.txt",
     "static/media/card1.png": "/invex/static/media/card1.d239c6d2.png",
     "static/media/card2.png": "/invex/static/media/card2.07b8ceda.png",
     "static/media/card3.png": "/invex/static/media/card3.79f73e2e.png",
@@ -38,8 +38,11 @@
     "static/media/news-8.png": "/invex/static/media/news-8.72923c07.png",
     "static/media/news-9.png": "/invex/static/media/news-9.eff6b0f4.png",
     "static/media/offfer-badge.svg": "/invex/static/media/offfer-badge.1072c7f0.svg",
+    "static/media/options-aapl-1.png": "/invex/static/media/options-aapl-1.df152559.png",
+    "static/media/options-aapl-2.png": "/invex/static/media/options-aapl-2.95babc6e.png",
     "static/media/Price.css": "/invex/static/media/price-banner.13aff546.png",
     "static/media/price-head.png": "/invex/static/media/price-head.8e35f8a8.png",
+    "static/media/primeicons.css": "/invex/static/media/primeicons.c6e20533.svg",
     "static/media/star-round.svg": "/invex/static/media/star-round.8fe4837a.svg",
     "static/media/video-resource.png": "/invex/static/media/video-resource.b9a8b823.png",
     "static/media/video_thumb-1.png": "/invex/static/media/video_thumb-1.56390a1e.png",
@@ -53,9 +56,9 @@
   },
   "entrypoints": [
     "static/js/runtime-main.ad0c07dd.js",
-    "static/css/2.55a1b0a1.chunk.css",
-    "static/js/2.7c966d8a.chunk.js",
-    "static/css/main.35f4cfa4.chunk.css",
-    "static/js/main.4f00ebb0.chunk.js"
+    "static/css/2.6b01ad1d.chunk.css",
+    "static/js/2.b6315b4b.chunk.js",
+    "static/css/main.328999e4.chunk.css",
+    "static/js/main.846de3ff.chunk.js"
   ]
 }
