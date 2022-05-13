@@ -2440,3 +2440,16 @@ div#savescannermodal .btn {
   overflow-y: hidden;
   white-space: nowrap
 }
+/* option aapl table css */
+.normal_table>:not(caption)>*>* {
+  border: 1px solid #c5c5c5;
+  border-bottom: none;
+  text-align: center;
+}
+.normal_table>:not(caption)>*>*:nth-child(1) {
+  width: auto;
+}
+.normal_table thead tr + tr th {
+  text-align: center !important;
+  font-weight: normal !important;
+}
