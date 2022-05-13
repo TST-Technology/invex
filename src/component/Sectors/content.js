@@ -60,7 +60,7 @@ const SectorsContent = ({
       if (sectorId) {
         res = await getAllSectorsById(sectorId);
         if (res && res?.status === 200 && res?.data) {
-          console.log(res);
+          //id 1 and 2 data not comming and industry data null
           settitle(res.data.sectorName);
           setIndustries(res.data.Industry);
           let tempArray = [];
@@ -77,27 +77,27 @@ const SectorsContent = ({
         if (res && res?.status === 200 && res?.data) {
           setdefination(res.data.defination);
         }
+        setisLoading(false);
       } else {
         settitle("All sectors");
-        res = await getAllsectorDefination(sectorId);
-        if (res && res?.status === 200 && res?.data) {
-          // let tempArray = []
-          // for (let data of res.data.Industry) {
-          //     let obj = {
-          //         name: data.name,
-          //         value: data.totalIndCap
-          //     }
-          //     tempArray.push(obj)
-          // }
-          // setChartData(tempArray)
+        res = await getAllsectorDefination();
+          if (res && res?.status === 200 && res?.data) {
           res.data.defination && setdefination(res.data.defination);
         }
-        res = await getSectorWiseDefination(sectorId);
+        var res = await getAllSectorsOverview();
         if (res && res?.status === 200 && res?.data) {
-          res.data.defination && setdefination(res.data.defination);
+          let tempArray = []
+          for (let data of res.data.Sector) {
+              let obj = {
+                  name: data.name,
+                  value: data.totalSectorCap
+              }
+              tempArray.push(obj)
+          }
+          setChartData(tempArray)
         }
+        setisLoading(false);
       }
-      setisLoading(false);
     })();
   }, [sectorId]);
 
@@ -298,20 +298,7 @@ const SectorsContent = ({
 
   return (
     <>
-      {isLoading ? (
-        <div
-          className="col-sm-8"
-          style={{
-            height: 500,
-            textAlign: "center",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <CircularProgress />
-        </div>
-      ) : (
+     
         <div className="col-lg-8">
           <div className="row">
             <div className="col-lg-12 mb-5">
@@ -783,7 +770,7 @@ const SectorsContent = ({
             </div>
           </div>
         </div>
-      )}
+      
     </>
   );
 };

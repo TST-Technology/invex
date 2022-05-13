@@ -90,6 +90,14 @@ body a {
   max-height: 500px;
   overflow-y: auto;
 }
+.search-blk2 .search-result {
+  position: absolute;
+  z-index: 99;
+  background-color: #fff;
+  max-height: 400px;
+  overflow-y: auto;
+ 
+}
 .search-blk .search-result li div {
   margin: 0;
 }
