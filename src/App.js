@@ -2,7 +2,6 @@ import { Routes, Route, HashRouter, BrowserRouter } from "react-router-dom";
 import "./style.css";
 
 import InvexRoutes from "./InvexRoutes";
-
 import Navbar from "./component/Common/Navbar/Navbar";
 import Home from "./component/Home/Home";
 import Screener from "./component/Screener/Screener";
@@ -28,6 +27,9 @@ import FinancialStatistics from './component/FinancialStatistics'
 import ValuationReport from "./component/ValuationReport";
 import Financials from "./component/Financials";
 import FinancialShareInfo from "./component/FinancialsShareInfo";
+import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
+import "primereact/resources/primereact.min.css";                  //core css
+import "primeicons/primeicons.css";   
 
 function App() {
   // useEffect(() => {

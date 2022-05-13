@@ -90,6 +90,14 @@ body a {
   max-height: 500px;
   overflow-y: auto;
 }
+.search-blk2 .search-result {
+  position: absolute;
+  z-index: 99;
+  background-color: #fff;
+  max-height: 400px;
+  overflow-y: auto;
+ 
+}
 .search-blk .search-result li div {
   margin: 0;
 }
@@ -2431,4 +2439,17 @@ div#savescannermodal .btn {
   overflow-x: scroll;
   overflow-y: hidden;
   white-space: nowrap
+}
+/* option aapl table css */
+.normal_table>:not(caption)>*>* {
+  border: 1px solid #c5c5c5;
+  border-bottom: none;
+  text-align: center;
+}
+.normal_table>:not(caption)>*>*:nth-child(1) {
+  width: auto;
+}
+.normal_table thead tr + tr th {
+  text-align: center !important;
+  font-weight: normal !important;
 }
