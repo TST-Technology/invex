@@ -2453,3 +2453,16 @@ div#savescannermodal .btn {
   text-align: center !important;
   font-weight: normal !important;
 }
+
+/* symbol page */
+.title-lt {
+  font-size: 14px;
+  color: #808080;
+}
+.title-lt + span {
+  margin-bottom: 20px;
+  display: block;
+  color: #212121;
+  font-size: 14px;
+  font-weight: 500;
+}
