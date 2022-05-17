@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/invex/static/css/main.328999e4.chunk.css",
-    "main.js": "/invex/static/js/main.846de3ff.chunk.js",
-    "main.js.map": "/invex/static/js/main.846de3ff.chunk.js.map",
+    "main.css": "/invex/static/css/main.9dd98dd9.chunk.css",
+    "main.js": "/invex/static/js/main.d306a985.chunk.js",
+    "main.js.map": "/invex/static/js/main.d306a985.chunk.js.map",
     "runtime-main.js": "/invex/static/js/runtime-main.ad0c07dd.js",
     "runtime-main.js.map": "/invex/static/js/runtime-main.ad0c07dd.js.map",
     "static/css/2.6b01ad1d.chunk.css": "/invex/static/css/2.6b01ad1d.chunk.css",
-    "static/js/2.b6315b4b.chunk.js": "/invex/static/js/2.b6315b4b.chunk.js",
-    "static/js/2.b6315b4b.chunk.js.map": "/invex/static/js/2.b6315b4b.chunk.js.map",
+    "static/js/2.5aede8d7.chunk.js": "/invex/static/js/2.5aede8d7.chunk.js",
+    "static/js/2.5aede8d7.chunk.js.map": "/invex/static/js/2.5aede8d7.chunk.js.map",
     "index.html": "/invex/index.html",
     "static/css/2.6b01ad1d.chunk.css.map": "/invex/static/css/2.6b01ad1d.chunk.css.map",
-    "static/css/main.328999e4.chunk.css.map": "/invex/static/css/main.328999e4.chunk.css.map",
-    "static/js/2.b6315b4b.chunk.js.LICENSE.txt": "/invex/static/js/2.b6315b4b.chunk.js.LICENSE.txt",
+    "static/css/main.9dd98dd9.chunk.css.map": "/invex/static/css/main.9dd98dd9.chunk.css.map",
+    "static/js/2.5aede8d7.chunk.js.LICENSE.txt": "/invex/static/js/2.5aede8d7.chunk.js.LICENSE.txt",
     "static/media/card1.png": "/invex/static/media/card1.d239c6d2.png",
     "static/media/card2.png": "/invex/static/media/card2.07b8ceda.png",
     "static/media/card3.png": "/invex/static/media/card3.79f73e2e.png",
@@ -44,6 +44,8 @@
     "static/media/price-head.png": "/invex/static/media/price-head.8e35f8a8.png",
     "static/media/primeicons.css": "/invex/static/media/primeicons.c6e20533.svg",
     "static/media/star-round.svg": "/invex/static/media/star-round.8fe4837a.svg",
+    "static/media/symbol-chart-1.png": "/invex/static/media/symbol-chart-1.f26656c2.png",
+    "static/media/symbol-chart-3.png": "/invex/static/media/symbol-chart-3.0f9a940f.png",
     "static/media/video-resource.png": "/invex/static/media/video-resource.b9a8b823.png",
     "static/media/video_thumb-1.png": "/invex/static/media/video_thumb-1.56390a1e.png",
     "static/media/video_thumb-2.png": "/invex/static/media/video_thumb-2.73857fa4.png",
@@ -57,8 +59,8 @@
   "entrypoints": [
     "static/js/runtime-main.ad0c07dd.js",
     "static/css/2.6b01ad1d.chunk.css",
-    "static/js/2.b6315b4b.chunk.js",
-    "static/css/main.328999e4.chunk.css",
-    "static/js/main.846de3ff.chunk.js"
+    "static/js/2.5aede8d7.chunk.js",
+    "static/css/main.9dd98dd9.chunk.css",
+    "static/js/main.d306a985.chunk.js"
   ]
 }
