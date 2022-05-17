@@ -53,24 +53,23 @@ const data = [
   }
 ]
 
-function PriceChart ({CompanyName}) {
-
+function PriceChart({ CompanyName }) {
   const [params] = useSearchParams();
   const [ChartData, setChartData] = useState([])
   const [range, setRange] = useState('1D')
 
   useEffect(() => {
-    (async()=>{
+    (async () => {
 
       var chart;
-      if(range == '1D'){
+      if (range == '1D') {
         chart = await getintradayprices(params.get('symbol'))
-      }else{
-        chart = await getHistoricalPrices(params.get('symbol'),range)
+      } else {
+        chart = await getHistoricalPrices(params.get('symbol'), range)
       }
-      if(chart && chart.status === 200){
+      if (chart && chart.status === 200) {
         var tempArr = []
-        chart?.data?.map((el,i)=>{
+        chart?.data?.map((el, i) => {
           var date = new Date(el.date);
           var myDate = Date.parse(date);
           return tempArr.push({
@@ -86,7 +85,7 @@ function PriceChart ({CompanyName}) {
       }
     })()
   }, [range])
-  
+
   // x: new Date(+values[0]),
   // open: 85.9757,
   // high: 90.6657,
@@ -97,14 +96,10 @@ function PriceChart ({CompanyName}) {
   const tabSelectedHandler = data => {
     setRange(data?.name)
   }
-  
-
   return (
-    <div className='price_chart mb-5'>
-      <h6 className='mb-4'>
-        <strong>Price Chart</strong>
-      </h6>
-      <div className='d-flex flex-wrap justify-content-between align-items-center'>
+    <div className="price_chart mb-5">
+      <h6 className="mb-4"><strong>Price Chart</strong></h6>
+      <div className="d-flex align-items-center justify-content-between">
         <TabbedComponent
           tabs={[
             { id: '1', name: '1D' },
@@ -118,8 +113,6 @@ function PriceChart ({CompanyName}) {
         />
         <CustomRange />
       </div>
-
-      {/* {ChartData && ChartData.length > 0 &&<HiloChart CompanyName={CompanyName} chartData={ChartData}/>} */}
       <ResponsiveContainer width='100%' aspect={1} maxHeight={250}>
         <AreaChart
           data={ChartData}
@@ -146,6 +139,7 @@ function PriceChart ({CompanyName}) {
           />
         </AreaChart>
       </ResponsiveContainer>
+      {/* <img src={require("../../Common/Images/symbol-chart-1.png").default} className="img-fluid" alt="symbol" /> */}
     </div>
   )
 }

@@ -2,10 +2,12 @@ import { CircularProgress } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { getNewsBySymbol } from '../api/company'
-import { getBookKeyStatus,getCompanyDataBySymbol } from '../api/commonApi'
+import { getBookKeyStatus, getCompanyDataBySymbol } from '../api/commonApi'
 import { getFinancialdividend } from '../api/financialStatistics'
-import MainContent from './MainContent/MainContent'
-import SidebarLeft from './SidebarLeft/SidebarLeft'
+import CompanyDetail from './CompanyDetails/CompanyDetail'
+import CompanyValuation from './CompanyValuation/CompanyValuation'
+import PageContent from './PageContent/PageContent'
+import CompetitorsNews from './CompetitorsAndNews/CompetitorsNews'
 
 const SymbolPage = (props) => {
     const [params] = useSearchParams();
@@ -22,7 +24,7 @@ const SymbolPage = (props) => {
                 var data = await getCompanyDataBySymbol(params.get('symbol'))
                 if (data && data.status === 200) {
                     setCompany(data?.data)
-                }else {
+                } else {
                     setCompany(null)
                 }
                 var res = await getBookKeyStatus(params.get('symbol'))
@@ -32,41 +34,38 @@ const SymbolPage = (props) => {
                 setLoading(false)
 
                 var dividend = await getFinancialdividend(params.get('symbol'))
-                if(dividend && dividend?.status == 200){
+                if (dividend && dividend?.status == 200) {
                     setDividendData(dividend?.data)
                 }
 
                 var news = await getNewsBySymbol(params.get('symbol'))
-                if(news && news?.status == 200){
+                if (news && news?.status == 200) {
                     setNewsData(news?.data)
                 }
-                
+
             }
         })()
     }, [params])
 
-
     return (
-        <div className='main'>
-            <section className='company_details'>
-                <div className='container'>
+        <div className="main">
+            <section className="company_details">
+                <div className="container">
                     {Loading && <div style={{
                         height: 500, textAlign: 'center', display: 'flex',
                         alignItems: 'center', justifyContent: 'center'
                     }}>
                         <CircularProgress />
                     </div>}
-                    {!Loading && <div className='row'>
-                        <SidebarLeft Company={Company} KeyStatus={KeyStatus} />
-                        <MainContent 
-                            Company={Company} 
-                            KeyStatus={KeyStatus} 
-                            DividendData={DividendData}
-                            NewsData={NewsData}
-                        />
-                    </div>}
+                    {!Loading && <div className="row">
+                            <CompanyDetail Company={Company} KeyStatus={KeyStatus} />
+                            <CompanyValuation KeyStatus={KeyStatus} />
+                            <PageContent Company={Company} DividendData={DividendData} />
+                            <CompetitorsNews KeyStatus={KeyStatus} NewsData={NewsData} />
+                        </div>}
                 </div>
             </section>
+
         </div>
     )
 }
