@@ -15,8 +15,8 @@ const CompetitorsNews = ({ KeyStatus, NewsData }) => {
     const [Tcol3, setTcol3] = useState(null)
     const [Tcol4, setTcol4] = useState(null)
     const [Tcol5, setTcol5] = useState(null)
-    const [Tcol6, setTcol6] = useState(null)
-    const [Tcol7, setTcol7] = useState(null)
+    // const [Tcol6, setTcol6] = useState(null)
+    // const [Tcol7, setTcol7] = useState(null)
 
     useEffect(() => {
         (async () => {
@@ -35,8 +35,6 @@ const CompetitorsNews = ({ KeyStatus, NewsData }) => {
                         setTcol3(symbolList[2]?.data?.quote)
                         setTcol4(symbolList[3]?.data?.quote)
                         setTcol5(symbolList[4]?.data?.quote)
-                        setTcol6(symbolList[5]?.data?.quote)
-                        setTcol7(symbolList[6]?.data?.quote)
                     }
 
                     settableHeader(name)
@@ -45,6 +43,7 @@ const CompetitorsNews = ({ KeyStatus, NewsData }) => {
         })()
     }, [params.get('symbol')
     ])
+    console.log(Tcol1)
     useEffect(() => {
         var tempArr = [
             {
@@ -54,7 +53,7 @@ const CompetitorsNews = ({ KeyStatus, NewsData }) => {
                 col3: Tcol1?.peRatio,
                 col4: Tcol1?.peRatio,
                 col5: Tcol1?.peRatio,
-                col6: Tcol1?.peRatio,
+                col6: Tcol1?.ytdChange.toFixed(2),
                 col7: Tcol1?.peRatio,
             },
             {
@@ -64,7 +63,7 @@ const CompetitorsNews = ({ KeyStatus, NewsData }) => {
                 col3: Tcol2?.peRatio,
                 col4: Tcol2?.peRatio,
                 col5: Tcol2?.peRatio,
-                col6: Tcol2?.peRatio,
+                col6: Tcol2?.ytdChange.toFixed(2),
                 col7: Tcol2?.peRatio,
             },
             {
@@ -74,7 +73,7 @@ const CompetitorsNews = ({ KeyStatus, NewsData }) => {
                 col3: Tcol3?.peRatio,
                 col4: Tcol3?.peRatio,
                 col5: Tcol3?.peRatio,
-                col6: Tcol3?.peRatio,
+                col6: Tcol3?.ytdChange.toFixed(2),
                 col7: Tcol3?.peRatio,
             },
             {
@@ -84,7 +83,7 @@ const CompetitorsNews = ({ KeyStatus, NewsData }) => {
                 col3: Tcol4?.peRatio,
                 col4: Tcol4?.peRatio,
                 col5: Tcol4?.peRatio,
-                col6: Tcol4?.peRatio,
+                col6: Tcol4?.ytdChange.toFixed(2),
                 col7: Tcol4?.peRatio,
             },
             {
@@ -94,33 +93,13 @@ const CompetitorsNews = ({ KeyStatus, NewsData }) => {
                 col3: Tcol5?.peRatio,
                 col4: Tcol5?.peRatio,
                 col5: Tcol5?.peRatio,
-                col6: Tcol5?.peRatio,
+                col6: Tcol5?.ytdChange.toFixed(2),
                 col7: Tcol5?.peRatio,
-            },
-            {
-                asOf: Tcol6?.symbol,
-                col1: Tcol6?.latestPrice,
-                col2: Tcol6?.marketCap,
-                col3: Tcol6?.peRatio,
-                col4: Tcol6?.peRatio,
-                col5: Tcol6?.peRatio,
-                col6: Tcol6?.peRatio,
-                col7: Tcol6?.peRatio,
-            },
-            {
-                asOf: Tcol7?.symbol,
-                col1: Tcol7?.latestPrice,
-                col2: Tcol7?.marketCap,
-                col3: Tcol7?.peRatio,
-                col4: Tcol7?.peRatio,
-                col5: Tcol7?.peRatio,
-                col6: Tcol7?.peRatio,
-                col7: Tcol7?.peRatio,
             }
         ]
         settableData(tempArr)
 
-    }, [Tcol1, Tcol2, Tcol3, Tcol4, Tcol5, Tcol6, Tcol7])
+    }, [Tcol1, Tcol2, Tcol3, Tcol4, Tcol5])
     const newsData = [
         {
             img: "news-1.png",

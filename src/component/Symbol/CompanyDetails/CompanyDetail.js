@@ -15,8 +15,6 @@ function CompanyDetail({ Company, KeyStatus }) {
   const [showMore, setShowMore] = useState(false);
 
   const bookmarkClass = `upper ${showBookmark ? 'marked' : ''}`
-
-  console.log(KeyStatus, 'dd')
   return (
     <div className="col-lg-12">
       <div className="card companyviewblk compny_left_detail mb-4">

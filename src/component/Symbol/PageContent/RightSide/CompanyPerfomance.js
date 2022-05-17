@@ -1,4 +1,6 @@
 import React from 'react'
+import moment from 'moment'
+
 import {
     Bar,
     BarChart,
@@ -69,16 +71,17 @@ const CompanyPerfomance = ({DividendData}) => {
                 <h6 className="mb-4"><strong>Dividends & Splits</strong></h6>
                 <div className="key_status">
                     <ul>
-                        <li><a href="javascript:void(0)">Forward Annual Dividend Rate 4</a> <span>0.88</span></li>
-                        <li><a href="javascript:void(0)">Forward Annual Dividend Rate 4</a> <span>0.58%</span></li>
-                        <li><a href="javascript:void(0)">Trailing Annual Dividend Rate 3</a> <span>0.85</span></li>
-                        <li><a href="javascript:void(0)">Trailing Annual Dividend Rate 3</a> <span>0.56%</span></li>
-                        <li><a href="javascript:void(0)">5 Year Average Dividend Yield 4</a> <span>1.22</span></li>
-                        <li><a href="javascript:void(0)">Payout Ratio 4</a> <span>15.15%</span></li>
-                        <li><a href="javascript:void(0)">Dividend Date 3</a> <span>Nov 10, 2021</span></li>
-                        <li><a href="javascript:void(0)">Ex-Dividend Date 4</a> <span>Nov 04, 2021</span></li>
-                        <li><a href="javascript:void(0)">Last Split Factor 2</a> <span>4:1</span></li>
-                        <li><a href="javascript:void(0)">Last Split Date 3</a> <span>Aug 30, 2020</span></li>
+                        <li><a href="javascript:void(0)">Symbol</a>{' '} <span>{DividendData?.symbol}</span></li>
+                        <li><a href="javascript:void(0)">Flag</a>{' '} <span>{DividendData?.flag}</span></li>
+                        <li><a href="javascript:void(0)">Description</a>{' '} <span>{DividendData?.description}</span></li>
+                        <li><a href="javascript:void(0)">Frequency</a>{' '} <span>{DividendData?.frequency}</span></li>
+                        <li><a href="javascript:void(0)">Payment Date</a>{' '} <span>{DividendData?.paymentDate}</span></li>
+                        <li><a href="javascript:void(0)">Amount</a>{' '} <span>{DividendData?.amount}</span></li>
+                        <li><a href="javascript:void(0)">Currency</a>{' '} <span>{DividendData?.currency}</span></li>
+                        <li><a href="javascript:void(0)">Declared Date</a>{' '} <span>{DividendData?.declaredDate}</span></li>
+                        <li><a href="javascript:void(0)">Record date</a>{' '} <span>{DividendData?.recordDate}</span></li>
+                        <li><a href="javascript:void(0)">Date</a>{' '} <span>{moment(Number(DividendData?.date)).format('DD-MM-YYYY')}</span></li>
+                        <li><a href="javascript:void(0)">Last Split Date 3</a>{' '} <span>Aug 30, 2020</span></li>
                     </ul>
                 </div>
             </div>
