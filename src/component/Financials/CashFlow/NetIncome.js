@@ -1,6 +1,7 @@
 import { CircularProgress } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import abbreviateNumber from '../../Common/NumberFormat';
+import { CashFlowDef } from '../defination';
 
 const NetIncome = ({ data, loading }) => {
   var name = [
@@ -11,12 +12,10 @@ const NetIncome = ({ data, loading }) => {
     'Other Operating Activities',
     'cashFlow',
   ];
-  const [netIncome, setNetIncome] = useState([])
+  const [netIncome, setNetIncome] = useState([]);
 
   useEffect(() => {
-
     if (data && data.length > 0) {
-
       var netincomedata = [
         {
           col0: name[0],
@@ -30,6 +29,7 @@ const NetIncome = ({ data, loading }) => {
           col8: data[7]?.netIncome,
           col9: data[8]?.netIncome,
           col10: data[9]?.netIncome,
+          tooltip: CashFlowDef.operatingActivities.netIncome,
         },
         {
           col0: name[1],
@@ -43,6 +43,7 @@ const NetIncome = ({ data, loading }) => {
           col8: data[7]?.depreciation,
           col9: data[8]?.depreciation,
           col10: data[9]?.depreciation,
+          tooltip: CashFlowDef.operatingActivities.depreciation,
         },
         {
           col0: name[2],
@@ -56,6 +57,7 @@ const NetIncome = ({ data, loading }) => {
           col8: data[7]?.changesInReceivables,
           col9: data[8]?.changesInReceivables,
           col10: data[9]?.changesInReceivables,
+          tooltip: CashFlowDef.operatingActivities.changesInReceivables,
         },
         {
           col0: name[3],
@@ -69,6 +71,7 @@ const NetIncome = ({ data, loading }) => {
           col8: data[7]?.changesInInventories,
           col9: data[8]?.changesInInventories,
           col10: data[9]?.changesInInventories,
+          tooltip: CashFlowDef.operatingActivities.changesInInventories,
         },
         {
           col0: name[4],
@@ -82,6 +85,7 @@ const NetIncome = ({ data, loading }) => {
           col8: data[7]?.otherOperatingActivities,
           col9: data[8]?.otherOperatingActivities,
           col10: data[9]?.otherOperatingActivities,
+          tooltip: CashFlowDef.operatingActivities.otherOperatingActivities,
         },
         {
           col0: name[5],
@@ -95,50 +99,70 @@ const NetIncome = ({ data, loading }) => {
           col8: data[7]?.cashFlow,
           col9: data[8]?.cashFlow,
           col10: data[9]?.cashFlow,
-        }
-      ]
-      setNetIncome(netincomedata)
+          tooltip: CashFlowDef.operatingActivities.cashFlow,
+        },
+      ];
+      setNetIncome(netincomedata);
     }
-
-  }, [data])
+  }, [data]);
   return (
-    <div className="table-responsive">
-      <table className="table table-bordered m-0 most_tables">
-        <thead className="table-light">
+    <div className='table-responsive'>
+      <table className='table table-bordered m-0 most_tables'>
+        <thead className='table-light'>
           <tr>
-            <th scope="col">Operating Activities</th>
-            {data && data.length > 0 && data.map((el, i) => {
-              return (
-                <th scope="col">{el.quarter > 0 ? 'Q' + el.quarter : ''} {el.year}</th>
-              )
-            })}
+            <th scope='col'>Operating Activities </th>
+            {data &&
+              data.length > 0 &&
+              data.map((el, i) => {
+                return (
+                  <th scope='col'>
+                    {el.quarter > 0 ? 'Q' + el.quarter : ''} {el.year}
+                  </th>
+                );
+              })}
           </tr>
         </thead>
-        <tbody className="border-top-0">
-          {loading && <tr style={{ height: 100, textAlign: 'center' }}>
-            <td colSpan={6} style={{ textAlign: 'center' }}><CircularProgress size={50} /></td>
-          </tr>}
-          {!loading && netIncome && netIncome.length > 0 && netIncome.map((ob,i) => {
-            return (
-              <tr key={i}>
-                {ob.col0 && <td>{ob.col0}</td>}
-                {ob.col1 && <td>{abbreviateNumber(ob.col1)}</td>}
-                {ob.col2 && <td>{abbreviateNumber(ob.col2)}</td>}
-                {ob.col3 && <td>{abbreviateNumber(ob.col3)}</td>}
-                {ob.col4 && <td>{abbreviateNumber(ob.col4)}</td>}
-                {ob.col5 && <td>{abbreviateNumber(ob.col5)}</td>}
-                {ob.col6 && <td>{abbreviateNumber(ob.col6)}</td>}
-                {ob.col7 && <td>{abbreviateNumber(ob.col7)}</td>}
-                {ob.col8 && <td>{abbreviateNumber(ob.col8)}</td>}
-                {ob.col9 && <td>{abbreviateNumber(ob.col9)}</td>}
-                {ob.col10 && <td>{abbreviateNumber(ob.col10)}</td>}
-              </tr>
-            );
-          })}
+        <tbody className='border-top-0'>
+          {loading && (
+            <tr style={{ height: 100, textAlign: 'center' }}>
+              <td colSpan={6} style={{ textAlign: 'center' }}>
+                <CircularProgress size={50} />
+              </td>
+            </tr>
+          )}
+          {!loading &&
+            netIncome &&
+            netIncome.length > 0 &&
+            netIncome.map((ob, i) => {
+              return (
+                <tr key={i}>
+                  {ob.col0 && (
+                    <td>
+                      {ob.col0}{' '}
+                      <i
+                        class='bi bi-info-circle m-1'
+                        data-toggle='tooltip'
+                        title={ob.tooltip}
+                      ></i>
+                    </td>
+                  )}
+                  {ob.col1 && <td>{abbreviateNumber(ob.col1)}</td>}
+                  {ob.col2 && <td>{abbreviateNumber(ob.col2)}</td>}
+                  {ob.col3 && <td>{abbreviateNumber(ob.col3)}</td>}
+                  {ob.col4 && <td>{abbreviateNumber(ob.col4)}</td>}
+                  {ob.col5 && <td>{abbreviateNumber(ob.col5)}</td>}
+                  {ob.col6 && <td>{abbreviateNumber(ob.col6)}</td>}
+                  {ob.col7 && <td>{abbreviateNumber(ob.col7)}</td>}
+                  {ob.col8 && <td>{abbreviateNumber(ob.col8)}</td>}
+                  {ob.col9 && <td>{abbreviateNumber(ob.col9)}</td>}
+                  {ob.col10 && <td>{abbreviateNumber(ob.col10)}</td>}
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
 export default NetIncome

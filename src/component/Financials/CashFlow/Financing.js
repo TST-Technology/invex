@@ -1,9 +1,9 @@
 import { CircularProgress } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import abbreviateNumber from '../../Common/NumberFormat';
+import { CashFlowDef } from '../defination';
 
 const Financing = ({ data, loading }) => {
-
   var name = [
     'net Borrowings',
     'Other Financing Activities',
@@ -11,12 +11,10 @@ const Financing = ({ data, loading }) => {
     'Change in Cash and Cash Equivalents',
     'cash Change',
   ];
-  const [FinancingData, setFinancingData] = useState([])
+  const [FinancingData, setFinancingData] = useState([]);
 
   useEffect(() => {
-
     if (data && data.length > 0) {
-
       var invest = [
         {
           col0: name[0],
@@ -30,6 +28,7 @@ const Financing = ({ data, loading }) => {
           col8: data[7]?.netBorrowings,
           col9: data[8]?.netBorrowings,
           col10: data[9]?.netBorrowings,
+          tooltip: CashFlowDef.financing.netBorrowings,
         },
         {
           col0: name[1],
@@ -43,6 +42,7 @@ const Financing = ({ data, loading }) => {
           col8: data[7]?.otherFinancingActivities,
           col9: data[8]?.otherFinancingActivities,
           col10: data[9]?.otherFinancingActivities,
+          tooltip: CashFlowDef.financing.otherInvestingActivities,
         },
         {
           col0: name[2],
@@ -56,6 +56,7 @@ const Financing = ({ data, loading }) => {
           col8: data[7]?.cashFlowFinancing,
           col9: data[8]?.cashFlowFinancing,
           col10: data[9]?.cashFlowFinancing,
+          tooltip: CashFlowDef.financing.cashFlowFinancing,
         },
         {
           col0: name[3],
@@ -69,6 +70,7 @@ const Financing = ({ data, loading }) => {
           col8: data[7]?.changeInCashAndCashEquivalents,
           col9: data[8]?.changeInCashAndCashEquivalents,
           col10: data[9]?.changeInCashAndCashEquivalents,
+          tooltip: CashFlowDef.financing.changeCashEquivalents,
         },
         {
           col0: name[4],
@@ -82,51 +84,71 @@ const Financing = ({ data, loading }) => {
           col8: data[7]?.cashChange,
           col9: data[8]?.cashChange,
           col10: data[9]?.cashChange,
-        }
-      ]
-      setFinancingData(invest)
+          tooltip: CashFlowDef.financing.cashChange,
+        },
+      ];
+      setFinancingData(invest);
     }
-
-  }, [data])
+  }, [data]);
 
   return (
-    <div className="table-responsive">
-      <table className="table table-bordered mt-4 most_tables">
-        <thead className="table-light">
+    <div className='table-responsive'>
+      <table className='table table-bordered mt-4 most_tables'>
+        <thead className='table-light'>
           <tr>
-            <th scope="col">Financing Activities</th>
-            {data && data.length > 0 && data.map((el, i) => {
-              return (
-                <th scope="col">{el.quarter > 0 ? 'Q' + el.quarter : ''} {el.year}</th>
-              )
-            })}
+            <th scope='col'>Financing Activities</th>
+            {data &&
+              data.length > 0 &&
+              data.map((el, i) => {
+                return (
+                  <th scope='col'>
+                    {el.quarter > 0 ? 'Q' + el.quarter : ''} {el.year}
+                  </th>
+                );
+              })}
           </tr>
         </thead>
-        <tbody className="border-top-0">
-          {loading && <tr style={{ height: 100, textAlign: 'center' }}>
-            <td colSpan={6} style={{ textAlign: 'center' }}><CircularProgress size={50} /></td>
-          </tr>}
-          {!loading && FinancingData && FinancingData.length > 0 && FinancingData.map((ob,i) => {
-            return (
-              <tr key={i}>
-                {ob.col0 && <td>{ob.col0}</td>}
-                {ob.col1 && <td>{abbreviateNumber(ob.col1)}</td>}
-                {ob.col2 && <td>{abbreviateNumber(ob.col2)}</td>}
-                {ob.col3 && <td>{abbreviateNumber(ob.col3)}</td>}
-                {ob.col4 && <td>{abbreviateNumber(ob.col4)}</td>}
-                {ob.col5 && <td>{abbreviateNumber(ob.col5)}</td>}
-                {ob.col6 && <td>{abbreviateNumber(ob.col6)}</td>}
-                {ob.col7 && <td>{abbreviateNumber(ob.col7)}</td>}
-                {ob.col8 && <td>{abbreviateNumber(ob.col8)}</td>}
-                {ob.col9 && <td>{abbreviateNumber(ob.col9)}</td>}
-                {ob.col10 && <td>{abbreviateNumber(ob.col10)}</td>}
-              </tr>
-            );
-          })}
+        <tbody className='border-top-0'>
+          {loading && (
+            <tr style={{ height: 100, textAlign: 'center' }}>
+              <td colSpan={6} style={{ textAlign: 'center' }}>
+                <CircularProgress size={50} />
+              </td>
+            </tr>
+          )}
+          {!loading &&
+            FinancingData &&
+            FinancingData.length > 0 &&
+            FinancingData.map((ob, i) => {
+              return (
+                <tr key={i}>
+                  {ob.col0 && (
+                    <td>
+                      {ob.col0}{' '}
+                      <i
+                        class='bi bi-info-circle m-1'
+                        data-toggle='tooltip'
+                        title={ob.tooltip}
+                      ></i>
+                    </td>
+                  )}
+                  {ob.col1 && <td>{abbreviateNumber(ob.col1)}</td>}
+                  {ob.col2 && <td>{abbreviateNumber(ob.col2)}</td>}
+                  {ob.col3 && <td>{abbreviateNumber(ob.col3)}</td>}
+                  {ob.col4 && <td>{abbreviateNumber(ob.col4)}</td>}
+                  {ob.col5 && <td>{abbreviateNumber(ob.col5)}</td>}
+                  {ob.col6 && <td>{abbreviateNumber(ob.col6)}</td>}
+                  {ob.col7 && <td>{abbreviateNumber(ob.col7)}</td>}
+                  {ob.col8 && <td>{abbreviateNumber(ob.col8)}</td>}
+                  {ob.col9 && <td>{abbreviateNumber(ob.col9)}</td>}
+                  {ob.col10 && <td>{abbreviateNumber(ob.col10)}</td>}
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
 export default Financing

@@ -1,20 +1,18 @@
 import { CircularProgress } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import abbreviateNumber from '../../Common/NumberFormat';
+import { CashFlowDef } from '../defination';
 
 const Investing = ({ data, loading }) => {
-
   var name = [
     'capital Expenditures',
     'other Investing Activities',
     'total Investing CashFlows',
   ];
-  const [InvestingData, setInvestingData] = useState([])
+  const [InvestingData, setInvestingData] = useState([]);
 
   useEffect(() => {
-
     if (data && data.length > 0) {
-
       var invest = [
         {
           col0: name[0],
@@ -28,6 +26,7 @@ const Investing = ({ data, loading }) => {
           col8: data[7]?.capitalExpenditures,
           col9: data[8]?.capitalExpenditures,
           col10: data[9]?.capitalExpenditures,
+          tooltip: CashFlowDef.investing.capitalExpenditures,
         },
         {
           col0: name[1],
@@ -41,6 +40,7 @@ const Investing = ({ data, loading }) => {
           col8: data[7]?.otherInvestingActivities,
           col9: data[8]?.otherInvestingActivities,
           col10: data[9]?.otherInvestingActivities,
+          tooltip: CashFlowDef.investing.otherInvestingActivity,
         },
         {
           col0: name[2],
@@ -54,50 +54,70 @@ const Investing = ({ data, loading }) => {
           col8: data[7]?.totalInvestingCashFlows,
           col9: data[8]?.totalInvestingCashFlows,
           col10: data[9]?.totalInvestingCashFlows,
+          tooltip: CashFlowDef.investing.totalInvestingCashFlows,
         },
-      ]
-      setInvestingData(invest)
+      ];
+      setInvestingData(invest);
     }
-
-  }, [data])
+  }, [data]);
   return (
-    <div className="table-responsive">
-      <table className="table table-bordered mt-4 most_tables">
-        <thead className="table-light">
+    <div className='table-responsive'>
+      <table className='table table-bordered mt-4 most_tables'>
+        <thead className='table-light'>
           <tr>
-            <th scope="col">Investing Activities</th>
-            {data && data.length > 0 && data.map((el, i) => {
-              return (
-                <th scope="col">{el.quarter > 0 ? 'Q' + el.quarter : ''} {el.year}</th>
-              )
-            })}
+            <th scope='col'>Investing Activities</th>
+            {data &&
+              data.length > 0 &&
+              data.map((el, i) => {
+                return (
+                  <th scope='col'>
+                    {el.quarter > 0 ? 'Q' + el.quarter : ''} {el.year}
+                  </th>
+                );
+              })}
           </tr>
         </thead>
-        <tbody className="border-top-0">
-          {loading && <tr style={{ height: 100, textAlign: 'center' }}>
-            <td colSpan={6} style={{ textAlign: 'center' }}><CircularProgress size={50} /></td>
-          </tr>}
-          {!loading && InvestingData && InvestingData.length > 0 && InvestingData.map((ob, i) => {
-            return (
-              <tr key={i}>
-                {ob.col0 && <td>{ob.col0}</td>}
-                {ob.col1 && <td>{abbreviateNumber(ob.col1)}</td>}
-                {ob.col2 && <td>{abbreviateNumber(ob.col2)}</td>}
-                {ob.col3 && <td>{abbreviateNumber(ob.col3)}</td>}
-                {ob.col4 && <td>{abbreviateNumber(ob.col4)}</td>}
-                {ob.col5 && <td>{abbreviateNumber(ob.col5)}</td>}
-                {ob.col6 && <td>{abbreviateNumber(ob.col6)}</td>}
-                {ob.col7 && <td>{abbreviateNumber(ob.col7)}</td>}
-                {ob.col8 && <td>{abbreviateNumber(ob.col8)}</td>}
-                {ob.col9 && <td>{abbreviateNumber(ob.col9)}</td>}
-                {ob.col10 && <td>{abbreviateNumber(ob.col10)}</td>}
-              </tr>
-            );
-          })}
+        <tbody className='border-top-0'>
+          {loading && (
+            <tr style={{ height: 100, textAlign: 'center' }}>
+              <td colSpan={6} style={{ textAlign: 'center' }}>
+                <CircularProgress size={50} />
+              </td>
+            </tr>
+          )}
+          {!loading &&
+            InvestingData &&
+            InvestingData.length > 0 &&
+            InvestingData.map((ob, i) => {
+              return (
+                <tr key={i}>
+                  {ob.col0 && (
+                    <td>
+                      {ob.col0}{' '}
+                      <i
+                        class='bi bi-info-circle m-1'
+                        data-toggle='tooltip'
+                        title={ob.tooltip}
+                      ></i>
+                    </td>
+                  )}
+                  {ob.col1 && <td>{abbreviateNumber(ob.col1)}</td>}
+                  {ob.col2 && <td>{abbreviateNumber(ob.col2)}</td>}
+                  {ob.col3 && <td>{abbreviateNumber(ob.col3)}</td>}
+                  {ob.col4 && <td>{abbreviateNumber(ob.col4)}</td>}
+                  {ob.col5 && <td>{abbreviateNumber(ob.col5)}</td>}
+                  {ob.col6 && <td>{abbreviateNumber(ob.col6)}</td>}
+                  {ob.col7 && <td>{abbreviateNumber(ob.col7)}</td>}
+                  {ob.col8 && <td>{abbreviateNumber(ob.col8)}</td>}
+                  {ob.col9 && <td>{abbreviateNumber(ob.col9)}</td>}
+                  {ob.col10 && <td>{abbreviateNumber(ob.col10)}</td>}
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
 export default Investing
