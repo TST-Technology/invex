@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
+import InvexRoutes from '../../../InvexRoutes';
 
 const HeroSection = () => {
 
@@ -26,7 +28,7 @@ const HeroSection = () => {
                                     </form>
                                 </div>
                             </div>
-                            <button className="hero-btn">Signup Now</button>
+                            <Link to={InvexRoutes.SignUp.path} ><button className="hero-btn">Signup Now</button></Link>
                         </div>
                     </div>
                 </div>

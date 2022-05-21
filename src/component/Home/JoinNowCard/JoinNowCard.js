@@ -6,20 +6,20 @@ const JoinNowCard = () => {
 
     return (
         <>
-          <section class="newslettersec">
-            <div class="container">
-                <div class="joinCard">
-                    <div class="row">
-                        <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            <img src={require("../../Common/Images/email.png").default} alt="Email" class="img-fluid " />
+          <section className="newslettersec">
+            <div className="container">
+                <div className="joinCard">
+                    <div className="row">
+                        <div className="col-md-4 d-flex align-items-center justify-content-center">
+                            <img src={require("../../Common/Images/email.png").default} alt="Email" className="img-fluid " />
                         </div>
-                        <div class="col-md-8">
-                            <h2 class="main-title text-white">KEEP UPDATED WITH NEW ANALYSIS</h2>
-                            <form class="form-group newsletr_form" role="search" method="get" id="" action=""> 
-                                <div class="input-group">
-                                    <input type="text" value={emailAdd} onChange={(e)=>setemailAdd(e.target.value)} name="s" class="form-control" placeholder="Your work email address" autocomplete="off" /> 
-                                    <span class="input-group-append">
-                                        <input type="submit" value="Join Now" class="btn btn-white" /> 
+                        <div className="col-md-8">
+                            <h2 className="main-title text-white">KEEP UPDATED WITH NEW ANALYSIS</h2>
+                            <form className="form-group newsletr_form" role="search" method="get" id="" action=""> 
+                                <div className="input-group">
+                                    <input type="text" value={emailAdd} onChange={(e)=>setemailAdd(e.target.value)} name="s" className="form-control" placeholder="Your work email address" autoComplete="off" /> 
+                                    <span className="input-group-append">
+                                        <input type="submit" value="Join Now" className="btn btn-white" /> 
                                     </span>
                                 </div>
                             </form>

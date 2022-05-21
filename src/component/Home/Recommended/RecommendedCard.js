@@ -6,27 +6,27 @@ const RecommendedCard = ({data}) => {
     const [stockSaved, setStockSaved] = useState(false);
 
     return (
-        <div class="col-lg-4 col-sm-6">
-            <div class="card companyviewblk">
-                <div class="saved-blk" onClick={()=>setStockSaved(!stockSaved)}>
-                    <img class="upper" src={require("../../Common/Images/"+(stockSaved?"bookMarked.png":"image4.png")).default} alt="bookmark" />
+        <div className="col-lg-4 col-sm-6">
+            <div className="card companyviewblk">
+                <div className="saved-blk" onClick={()=>setStockSaved(!stockSaved)}>
+                    <img className="upper" src={require("../../Common/Images/"+(stockSaved?"bookMarked.png":"image4.png")).default} alt="bookmark" />
                 </div>
-                <div class="card-body">
-                    <div class="logo">
-                        <div class="img">
+                <div className="card-body">
+                    <div className="logo">
+                        <div className="img">
                             <img src={require("../../Common/Images/"+data.image).default} alt="Company Logo" />
                         </div>
-                        <div class="title1">
-                            <h5 class="card-title">{data.title[0]} <span>{data.title[1]}</span></h5>
-                            <p class="company">{data.companyName}</p>
+                        <div className="title1">
+                            <h5 className="card-title">{data.title[0]} <span>{data.title[1]}</span></h5>
+                            <p className="company">{data.companyName}</p>
                         </div>
                     </div>
-                    <div class="chart">
-                        <div class="chart-text">
-                            <p class="card-text">&#8377; {data.price}</p>
-                            <p class="text">+{data.change}</p>
+                    <div className="chart">
+                        <div className="chart-text">
+                            <p className="card-text">&#8377; {data.price}</p>
+                            <p className="text">+{data.change}</p>
                         </div>
-                        <div class="chart-img ms-auto">
+                        <div className="chart-img ms-auto">
                             {/* <img src={require("../../Common/Images/graph.png").default} alt="Graph" /> */}
                             <Chart />
                             {/* <ApexChart /> */}

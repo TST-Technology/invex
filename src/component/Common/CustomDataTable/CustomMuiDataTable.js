@@ -47,12 +47,12 @@ const CustomMuiDataTable = ({ columns, tableData, title }) => {
   return (
     <>
       <ThemeProvider theme={getMuiTheme()}>
-        <MUIDataTable
-          data={tableData}
-          columns={columns}
-          options={options}
-          title={title}
-        />
+          <MUIDataTable
+            data={tableData}
+            columns={columns}
+            options={options}
+            title={title}
+          />
       </ThemeProvider>
     </>
   );
