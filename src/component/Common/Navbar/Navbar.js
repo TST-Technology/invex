@@ -40,7 +40,7 @@ const Navbar = (props) => {
             <Link to={InvexRoutes.Home.path}>
               <img
                 height="54px"
-                src={require("../Images/invex-w-logo.svg").default}
+                src={require("../Images/invex-w-logo.png").default}
                 alt=""
               />
             </Link>
@@ -173,7 +173,7 @@ const Navbar = (props) => {
           <h5 className="offcanvas-title" id="offcanvasExampleLabel">
             <img
               height="54px"
-              src={require("../Images/invex-w-logo.svg").default}
+              src={require("../Images/invex-w-logo.png").default}
               alt="Invex Logo"
             />
           </h5>
@@ -316,7 +316,7 @@ const Navbar = (props) => {
             <div className="d-inline-flex navbar-brand align-items-center">
               <img
                 height="54px"
-                src={require("../Images/invex-w-logo.svg").default}
+                src={require("../Images/invex-w-logo.png").default}
                 alt=""
               />
             </div>
