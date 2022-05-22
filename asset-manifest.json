@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/invex/static/css/main.9dd98dd9.chunk.css",
-    "main.js": "/invex/static/js/main.6fcbf39e.chunk.js",
-    "main.js.map": "/invex/static/js/main.6fcbf39e.chunk.js.map",
+    "main.js": "/invex/static/js/main.b792e9a9.chunk.js",
+    "main.js.map": "/invex/static/js/main.b792e9a9.chunk.js.map",
     "runtime-main.js": "/invex/static/js/runtime-main.ad0c07dd.js",
     "runtime-main.js.map": "/invex/static/js/runtime-main.ad0c07dd.js.map",
     "static/css/2.6b01ad1d.chunk.css": "/invex/static/css/2.6b01ad1d.chunk.css",
@@ -22,6 +22,7 @@
     "static/media/highlighted_image.png": "/invex/static/media/highlighted_image.bdce2e6f.png",
     "static/media/industrial_chart.png": "/invex/static/media/industrial_chart.7eb162f0.png",
     "static/media/invex-w-logo.svg": "/invex/static/media/invex-w-logo.0f439c5e.svg",
+    "static/media/invex-w-logo.png": "/invex/static/media/invex-w-logo.67a08492.png",
     "static/media/news-1.png": "/invex/static/media/news-1.8619c3cc.png",
     "static/media/news-10.png": "/invex/static/media/news-10.5159db0b.png",
     "static/media/news-11.png": "/invex/static/media/news-11.56390a1e.png",
@@ -62,6 +63,6 @@
     "static/css/2.6b01ad1d.chunk.css",
     "static/js/2.5bd21c95.chunk.js",
     "static/css/main.9dd98dd9.chunk.css",
-    "static/js/main.6fcbf39e.chunk.js"
+    "static/js/main.b792e9a9.chunk.js"
   ]
 }
