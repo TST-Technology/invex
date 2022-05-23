@@ -1242,7 +1242,7 @@ small > .circle {
 .most_tables>:not(caption)>*>*:nth-child(1) {
   text-align: left;
   font-weight: 700;
-  width: 240px;
+  width: 140px;
 }
 .up {
   color: #13A41B;

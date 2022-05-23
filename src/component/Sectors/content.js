@@ -410,7 +410,11 @@ const SectorsContent = ({
                                         <thead className='table-light'>
                                           <tr>
                                             <th scope='col'>Symbol</th>
-                                            <th scope='col' colSpan={5}>
+                                            <th
+                                              scope='col'
+                                              colSpan={5}
+                                              style={{ textAlign: 'left' }}
+                                            >
                                               Company Name
                                             </th>
                                             <th scope='col'>Latest Price</th>
@@ -487,7 +491,12 @@ const SectorsContent = ({
                                             return (
                                               <tr>
                                                 <td>{symb}</td>
-                                                <td colSpan={5}>{cmpny}</td>
+                                                <td
+                                                  colSpan={5}
+                                                  style={{ textAlign: 'left' }}
+                                                >
+                                                  {cmpny}
+                                                </td>
                                                 <td>{ltstPrice}</td>
                                                 <td>{chng}</td>
                                                 <td>{chngper}</td>
@@ -558,7 +567,11 @@ const SectorsContent = ({
                                         <thead className='table-light'>
                                           <tr>
                                             <th scope='col'>Symbol</th>
-                                            <th scope='col' colSpan={5}>
+                                            <th
+                                              scope='col'
+                                              colSpan={5}
+                                              style={{ textAlign: 'left' }}
+                                            >
                                               Company Name
                                             </th>
                                             <th scope='col'>Latest Price</th>
@@ -635,7 +648,12 @@ const SectorsContent = ({
                                             return (
                                               <tr>
                                                 <td>{symb}</td>
-                                                <td colSpan={5}>{cmpny}</td>
+                                                <td
+                                                  colSpan={5}
+                                                  style={{ textAlign: 'left' }}
+                                                >
+                                                  {cmpny}
+                                                </td>
                                                 <td>{ltstPrice}</td>
                                                 <td>{chng}</td>
                                                 <td>{chngper}</td>
@@ -677,7 +695,11 @@ const SectorsContent = ({
                                 <thead className='table-light'>
                                   <tr>
                                     <th scope='col'>Symbol</th>
-                                    <th scope='col' colSpan={5}>
+                                    <th
+                                      scope='col'
+                                      colSpan={5}
+                                      style={{ textAlign: 'left' }}
+                                    >
                                       Company Name
                                     </th>
                                     <th scope='col'>Latest Price</th>
@@ -735,7 +757,12 @@ const SectorsContent = ({
                                     return (
                                       <tr>
                                         <td>{symb}</td>
-                                        <td colSpan={5}>{cmpny}</td>
+                                        <td
+                                          colSpan={5}
+                                          style={{ textAlign: 'left' }}
+                                        >
+                                          {cmpny}
+                                        </td>
                                         <td>{ltstPrice}</td>
                                         <td>{chng}</td>
                                         <td>{chngper}</td>
