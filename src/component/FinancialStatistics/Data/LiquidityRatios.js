@@ -17,6 +17,11 @@ const LiquidityRatios = ({ data, Loading }) => {
 
   useEffect(() => {
     if (data && data.length > 0) {
+
+      data.sort(function (a, b) {
+        return b.year - a.year || b.quarter - a.quarter;
+      });
+
       var current = [
         {
           col0: name[0],

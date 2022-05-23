@@ -13,6 +13,11 @@ const Investing = ({ data, loading }) => {
 
   useEffect(() => {
     if (data && data.length > 0) {
+
+      data.sort(function (a, b) {
+        return b.year - a.year || b.quarter - a.quarter;
+      });
+
       var invest = [
         {
           col0: name[0],

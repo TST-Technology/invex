@@ -16,6 +16,11 @@ const NetIncome = ({ data, loading }) => {
 
   useEffect(() => {
     if (data && data.length > 0) {
+
+      data.sort(function (a, b) {
+        return b.year - a.year || b.quarter - a.quarter;
+      });
+
       var netincomedata = [
         {
           col0: name[0],

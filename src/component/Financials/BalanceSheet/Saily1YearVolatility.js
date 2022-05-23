@@ -24,6 +24,11 @@ const Saily1YearVolatility = ({ data, Loading }) => {
   ];
   useEffect(() => {
     if (data && data.length > 0) {
+
+      data.sort(function (a, b) {
+        return b.year - a.year || b.quarter - a.quarter;
+      });
+
       var SailyChartData = [
         {
           col0: name[0],

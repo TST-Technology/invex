@@ -35,7 +35,11 @@ const IncomeStatement = ({ symbol }) => {
         if (res && res.status === 200 && res?.data?.length > 0) {
           setTableHead(res.data);
           var data = res?.data;
-          console.log(data);
+
+          data.sort(function (a, b) {
+            return b.year - a.year || b.quarter - a.quarter;
+          });
+
           var tempArr = [
             {
               col0: name[0],
@@ -304,7 +308,7 @@ const IncomeStatement = ({ symbol }) => {
                 onChange={(e) => setPeriod(e.target.value)}
               >
                 <option selected value='quarterly'>
-                  Quarterly
+                  TTM
                 </option>
                 <option value='annual'>annual</option>
               </select>
