@@ -72,7 +72,7 @@ const Options = () => {
           />
           <Volatility Options={Options} Loading={Loading} />
           <VolatilityIndex Options={Options} Loading={Loading} />
-          <VolatilityChart />
+          <VolatilityChart Options={Options} Loading={Loading} />
           <OptionVolume Options={Options} Loading={Loading} />
         </div>
       </section>
