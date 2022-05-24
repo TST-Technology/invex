@@ -59,3 +59,9 @@ export const getParticularIndustryETF = async (id) =>{
     var {data} = await Services.get(`/sector/industry/top10etfdata/${id}`,)
     return data
 }
+
+export const getSectorAndIndustryBySymbol = async (product) => {
+  //   var { data } = await Services.get(`/sector/sectorandindustry/${product}`);
+  var { data } = await Services.get(`/sector/sectorandindustry/tu`);
+  return data;
+}; 

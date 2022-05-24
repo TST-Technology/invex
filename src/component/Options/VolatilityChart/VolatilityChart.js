@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, PureComponent } from 'react';
 import {
   LineChart,
   Line,
@@ -11,6 +11,20 @@ import {
 } from 'recharts';
 import { CircularProgress } from '@material-ui/core';
 import moment from 'moment';
+
+class CustomizedAxisTick extends PureComponent {
+  render() {
+    const { x, y, stroke, payload } = this.props;
+
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text x={0} y={0} textAnchor='end' fill='#212121' fontSize={'12px'}>
+          {payload.value}%
+        </text>
+      </g>
+    );
+  }
+}
 
 const VolatilityChart = ({ Options, Loading }) => {
   const [graphData, setGraphData] = useState([]);
@@ -358,10 +372,11 @@ const VolatilityChart = ({ Options, Loading }) => {
             />
             <YAxis
               axisLine={false}
-              tick={{ fill: '#212121', fontSize: '12px' }}
+              // tick={{ fill: '#212121', fontSize: '12px' }}
+              tick={<CustomizedAxisTick />}
             />
             <Tooltip />
-            <Legend />
+            {/* <Legend /> */}
             <Line type='monotone' dataKey='percentage' stroke='#8F9DFE' />
 
             {volume === 'INDEX_CALL_PUT' && (

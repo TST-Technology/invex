@@ -5,7 +5,7 @@ import unMarked from "../../Common/Images/image4.png";
 import abbreviateNumber from "../../Common/NumberFormat";
 import PriceChart from "./PriceChart";
 
-function CompanyDetail({ Company, KeyStatus }) {
+function CompanyDetail({ Company, KeyStatus, Sector }) {
   const [showBookmark, setShowBookmark] = useState(false);
 
   const bookmarkToggleHandler = () => {
@@ -14,7 +14,7 @@ function CompanyDetail({ Company, KeyStatus }) {
 
   const [showMore, setShowMore] = useState(false);
 
-  const bookmarkClass = `upper ${showBookmark ? "marked" : ""}`;
+  const bookmarkClass = `upper ${showBookmark ? 'marked' : ''}`;
   return (
     <div className='col-lg-12'>
       <div className='card companyviewblk compny_left_detail mb-4'>
@@ -44,10 +44,14 @@ function CompanyDetail({ Company, KeyStatus }) {
           <p className='m-0 mt-2'>Nasdaq- Real Time Price. Currency in USD</p>
           <div className='sector_industry'>
             <span className='badge bg-light text-dark'>
-              Sector:{Company?.sector}
+              Sector: {Sector?.SectorWiseIndustry?.name}
+              {Sector?.SectorWiseIndustry?.name ? '/' : ''}
+              {Company?.sector}
             </span>
             <span className='badge bg-light text-dark'>
-              Industry: {Company?.industry}
+              Industry: {Sector?.SectorWiseIndustry?.Sector?.name}
+              {Sector?.SectorWiseIndustry?.Sector?.name ? '/' : ''}
+              {Company?.industry}
             </span>
           </div>
           <div className='d-flex mb-4'>

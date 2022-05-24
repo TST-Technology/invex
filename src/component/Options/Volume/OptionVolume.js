@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, PureComponent } from 'react';
 import {
   BarChart,
   XAxis,
@@ -169,7 +169,7 @@ const OptionVolume = ({ Options, Loading }) => {
                 tick={{ fill: '#212121', fontSize: '12px' }}
               />
               <Tooltip />
-              <Legend />
+              {/* <Legend /> */}
               <Bar dataKey='quantity' fill='#3751FF' />
               {volume === 'VOLUME_CALL_PUT' && (
                 <Bar dataKey='put' fill='#82ca9d' />

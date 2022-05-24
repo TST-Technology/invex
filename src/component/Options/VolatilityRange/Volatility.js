@@ -104,7 +104,7 @@ const Volatility = ({ Options, Loading }) => {
               <div className='text-center'>
                 <GaugeChart
                   id='guage-chart1'
-                  textColor='#333'
+                  textColor='transparent'
                   arcWidth={0.1}
                   nrOfLevels={2}
                   arcsLength={openInterestArcLength}
@@ -133,7 +133,7 @@ const Volatility = ({ Options, Loading }) => {
               <div className='text-center'>
                 <GaugeChart
                   id='guage-chart1'
-                  textColor='#333'
+                  textColor='transparent'
                   arcWidth={0.1}
                   nrOfLevels={2}
                   arcsLength={volumeArcLength}
