@@ -1,7 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CircularProgress } from '@material-ui/core';
+import GaugeChart from 'react-gauge-chart';
 
 const Volatility = ({ Options, Loading }) => {
+  const [volumeArcLength, setVolumeArcLength] = useState([]);
+  const [openInterestArcLength, setOpenInterestArcLength] = useState([]);
+
+  useEffect(() => {
+    if (Options && Options.Volume) {
+      const volume = Options.Volume;
+
+      setVolumeArcLength([
+        parseFloat((volume.Calls / volume.Total).toFixed(2)),
+        parseFloat((volume.Puts / volume.Total).toFixed(2)),
+      ]);
+    }
+
+    if (Options && Options.Open_Interest) {
+      const openInterest = Options.Open_Interest;
+
+      setOpenInterestArcLength([
+        parseFloat((openInterest.Calls / openInterest.Total).toFixed(2)),
+        parseFloat((openInterest.Puts / openInterest.Total).toFixed(2)),
+      ]);
+    }
+  }, [Options]);
+
   return (
     <>
       {Loading && (
@@ -70,11 +94,70 @@ const Volatility = ({ Options, Loading }) => {
             </div>
           </div>
           <div className='col-lg-6'>
-            <img
+            {/* <img
               src={require('../../Common/Images/options-aapl-1.png').default}
               className='img-fluid'
               alt='options'
-            />
+            /> */}
+
+            <div className='d-flex'>
+              <div className='text-center'>
+                <GaugeChart
+                  id='guage-chart1'
+                  textColor='#333'
+                  arcWidth={0.1}
+                  nrOfLevels={2}
+                  arcsLength={openInterestArcLength}
+                  colors={['#62A51B', '#E24D23']}
+                  percent={openInterestArcLength[0]}
+                  arcPadding={0.01}
+                  text
+                />
+                <div
+                  className='d-flex justify-content-around'
+                  style={{ marginTop: '-13px' }}
+                >
+                  <p>Calls</p>
+                  <div>
+                    <b> Open Interest </b>
+                    {Options &&
+                      Options.Open_Interest &&
+                      Options.Open_Interest.Total && (
+                        <p>{Options.Open_Interest.Total}</p>
+                      )}
+                  </div>
+                  <p>Puts</p>
+                </div>
+              </div>
+
+              <div className='text-center'>
+                <GaugeChart
+                  id='guage-chart1'
+                  textColor='#333'
+                  arcWidth={0.1}
+                  nrOfLevels={2}
+                  arcsLength={volumeArcLength}
+                  colors={['#62A51B', '#E24D23']}
+                  percent={volumeArcLength[0]}
+                  arcPadding={0.01}
+                  text
+                />
+
+                <div
+                  className='d-flex justify-content-around'
+                  style={{ marginTop: '-13px' }}
+                >
+                  <p>Calls</p>
+                  <div>
+                    <b> Volume </b>
+                    {Options && Options.Volume && Options.Volume.Total && (
+                      <p>{Options.Volume.Total}</p>
+                    )}
+                  </div>
+                  <p>Puts</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}

@@ -47,6 +47,9 @@ const OptionVolume = ({ Options, Loading }) => {
             obj.quantity = Options.Graph_data.putvol[index];
           } else if (volume === 'VOLUME_TOTAL') {
             obj.quantity = Options.Graph_data.totalvol[index];
+          } else if (volume === 'VOLUME_CALL_PUT') {
+            obj.quantity = Options.Graph_data.callvol[index];
+            obj.put = Options.Graph_data.putvol[index];
           }
           obj.date = row;
           graph.push(obj);
@@ -84,7 +87,13 @@ const OptionVolume = ({ Options, Loading }) => {
               {' '}
               Volume Put
             </button>
-            <button type='button' className='btn btn-light'>
+            <button
+              type='button'
+              className={`btn ${
+                volume === 'VOLUME_CALL_PUT' ? 'btn-info' : 'btn-light'
+              }`}
+              onClick={() => setVolume('VOLUME_CALL_PUT')}
+            >
               {' '}
               Volume Call & Put
             </button>
@@ -152,7 +161,6 @@ const OptionVolume = ({ Options, Loading }) => {
                   return moment(date).format('MMM');
                 }}
                 axisLine={false}
-                // ticks={['2021-05-24']}
                 ticks={ticks}
                 tick={{ fill: '#212121', fontSize: '12px' }}
               />
@@ -163,6 +171,9 @@ const OptionVolume = ({ Options, Loading }) => {
               <Tooltip />
               <Legend />
               <Bar dataKey='quantity' fill='#3751FF' />
+              {volume === 'VOLUME_CALL_PUT' && (
+                <Bar dataKey='put' fill='#82ca9d' />
+              )}
             </BarChart>
           </ResponsiveContainer>
         )}
