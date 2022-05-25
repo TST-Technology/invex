@@ -308,7 +308,7 @@ const IncomeStatement = ({ symbol }) => {
                 onChange={(e) => setPeriod(e.target.value)}
               >
                 <option selected value='quarterly'>
-                  TTM
+                  Quarterly
                 </option>
                 <option value='annual'>annual</option>
               </select>
