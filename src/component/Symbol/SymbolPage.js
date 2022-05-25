@@ -9,6 +9,7 @@ import CompanyValuation from './CompanyValuation/CompanyValuation'
 import PageContent from './PageContent/PageContent'
 import CompetitorsNews from './CompetitorsAndNews/CompetitorsNews'
 import { getSectorAndIndustryBySymbol } from '../api/sectors';
+import { getVolatality } from '../api/Option';
 
 const SymbolPage = (props) => {
   const [params] = useSearchParams();
@@ -18,6 +19,9 @@ const SymbolPage = (props) => {
   const [DividendData, setDividendData] = useState(false);
   const [NewsData, setNewsData] = useState(null);
   const [sector, setSector] = useState(null);
+  const [Options, setOptions] = useState({});
+  const date = '2022/05/11';
+  // const date = moment(new Date()).format('YYYY/MM/DD');
 
   useEffect(() => {
     (async () => {
@@ -32,6 +36,11 @@ const SymbolPage = (props) => {
         var res = await getBookKeyStatus(params.get('symbol'));
         if (res && res?.status === 200) {
           setKeyStatus(res?.data?.quote);
+        }
+
+        var volatility = await getVolatality(params.get('symbol'), date);
+        if (volatility) {
+          setOptions(volatility);
         }
         setLoading(false);
 
@@ -78,7 +87,12 @@ const SymbolPage = (props) => {
                 Sector={sector}
               />
               <CompanyValuation KeyStatus={KeyStatus} />
-              <PageContent Company={Company} DividendData={DividendData} />
+              <PageContent
+                Company={Company}
+                DividendData={DividendData}
+                Options={Options}
+                Loading={Loading}
+              />
               <CompetitorsNews KeyStatus={KeyStatus} NewsData={NewsData} />
             </div>
           )}
@@ -86,6 +100,6 @@ const SymbolPage = (props) => {
       </section>
     </div>
   );
-};
+};;;
 
 export default SymbolPage
