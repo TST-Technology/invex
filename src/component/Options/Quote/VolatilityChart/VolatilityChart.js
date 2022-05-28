@@ -336,11 +336,6 @@ const VolatilityChart = ({ Options, Loading }) => {
           </button>
         </div>
       </div>
-      {/* <img
-        src={require('../../Common/Images/options-aapl-2.png').default}
-        className='img-fluid'
-        alt='options'
-      /> */}
 
       {Loading && (
         <div
