@@ -65,6 +65,7 @@ const renderActiveShape = (props) => {
 };
 
 export default function SectorChart({data}) {
+
   const [activeIndex, setActiveIndex] = useState(4);
   const onPieEnter = useCallback(
     (_, index) => {

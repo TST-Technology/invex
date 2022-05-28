@@ -1,20 +1,24 @@
-import React, { useState } from 'react'
-import './TabbedComponent.css'
+import React, { useEffect, useState } from 'react';
+import './TabbedComponent.css';
 
-function TabbedComponent ({ tabs, onTabSelected }) {
-  const [selectedTab, setSelectedTab] = useState(tabs[0])
+function TabbedComponent({ tabs, onTabSelected }) {
+  const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
-  const tabSelectHandler = tab => {
-    setSelectedTab(tab)
-    onTabSelected(tab)
-  }
+  useEffect(() => {
+    setSelectedTab(tabs[0]);
+  }, [tabs]);
+
+  const tabSelectHandler = (tab) => {
+    setSelectedTab(tab);
+    onTabSelected(tab);
+  };
 
   return (
     <div className='tab'>
-      {tabs.map(tab => {
+      {tabs.map((tab) => {
         const mClass = `tab__item ${
           selectedTab && tab.id == selectedTab.id ? 'active' : ''
-        }`
+        }`;
         return (
           <button
             key={tab.id}
@@ -23,10 +27,10 @@ function TabbedComponent ({ tabs, onTabSelected }) {
           >
             {tab.name}
           </button>
-        )
+        );
       })}
     </div>
-  )
+  );
 }
 
-export default TabbedComponent
+export default TabbedComponent;

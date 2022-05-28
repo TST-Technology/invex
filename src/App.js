@@ -27,6 +27,7 @@ import FinancialStatistics from './component/FinancialStatistics'
 import ValuationReport from "./component/ValuationReport";
 import Financials from "./component/Financials";
 import FinancialShareInfo from "./component/FinancialsShareInfo";
+import Valuation from './component/Valuation/Valuation';
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";   
@@ -43,7 +44,7 @@ function App() {
   // });
 
   return (
-    <div className="App">
+    <div className='App'>
       <HashRouter>
         <GoToTop />
         <Navbar />
@@ -51,25 +52,78 @@ function App() {
           <Route exact path={InvexRoutes.Home.path} element={<Home />} />
           <Route exact path={InvexRoutes.LogIn.path} element={<LogIn />} />
           <Route exact path={InvexRoutes.SignUp.path} element={<SignUp />} />
-          <Route exact path={InvexRoutes.Screener.path} element={<Screener />} />
+          <Route
+            exact
+            path={InvexRoutes.Screener.path}
+            element={<Screener />}
+          />
           <Route exact path={InvexRoutes.Market.path} element={<Market />} />
           <Route exact path={InvexRoutes.Sectors.path} element={<Sectors />} />
           <Route exact path={InvexRoutes.News.path} element={<News />} />
           <Route exact path={InvexRoutes.Price.path} element={<Price />} />
           <Route exact path={InvexRoutes.Options.path} element={<Options />} />
-          <Route exact path={InvexRoutes.EcomData.path} element={<EconomicData />} />
-          <Route exact path={InvexRoutes.Resources.path} element={<VideoResource />} />
-          <Route exact path={InvexRoutes.Dashboard.path} element={<Dashboard />} />
-          <Route exact path={InvexRoutes.Symbol.path} element={<SymbolPage/>} />
-          <Route exact path={InvexRoutes.BidTable.path} element={<BidTable />} />
-          <Route exact path={InvexRoutes.CPIndex.path} element={<CPIIndexHome />} />
-          <Route exact path={InvexRoutes.NonManufacture.path} element={<NonManufacture />} />
-          <Route exact path={InvexRoutes.FinancialStatistics.path} element={<FinancialStatistics />} />
-          <Route exact path={InvexRoutes.FinancialShareInfo.path} element={<FinancialShareInfo />} />
-          <Route exact path={InvexRoutes.Financials.path} element={<Financials />} />
+          <Route
+            exact
+            path={InvexRoutes.EcomData.path}
+            element={<EconomicData />}
+          />
+          <Route
+            exact
+            path={InvexRoutes.Resources.path}
+            element={<VideoResource />}
+          />
+          <Route
+            exact
+            path={InvexRoutes.Dashboard.path}
+            element={<Dashboard />}
+          />
+          <Route
+            exact
+            path={InvexRoutes.Symbol.path}
+            element={<SymbolPage />}
+          />
+          <Route
+            exact
+            path={InvexRoutes.BidTable.path}
+            element={<BidTable />}
+          />
+          <Route
+            exact
+            path={InvexRoutes.CPIndex.path}
+            element={<CPIIndexHome />}
+          />
+          <Route
+            exact
+            path={InvexRoutes.NonManufacture.path}
+            element={<NonManufacture />}
+          />
+          <Route
+            exact
+            path={InvexRoutes.FinancialStatistics.path}
+            element={<FinancialStatistics />}
+          />
+          <Route
+            exact
+            path={InvexRoutes.FinancialShareInfo.path}
+            element={<FinancialShareInfo />}
+          />
+          <Route
+            exact
+            path={InvexRoutes.Financials.path}
+            element={<Financials />}
+          />
           {/* <Route exact path={InvexRoutes.BalanceSheet.path} element={<BalanceSheet />} />
           <Route exact path={InvexRoutes.CashFlow.path} element={<CashFlow />} /> */}
-          <Route exact path={InvexRoutes.ValuationReport.path} element={<ValuationReport />} />
+          <Route
+            exact
+            path={InvexRoutes.ValuationReport.path}
+            element={<ValuationReport />}
+          />
+          <Route
+            exact
+            path={InvexRoutes.Valuation.path}
+            element={<Valuation />}
+          />
         </Routes>
         <Footer />
       </HashRouter>

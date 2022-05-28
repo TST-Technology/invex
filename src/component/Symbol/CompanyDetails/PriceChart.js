@@ -68,6 +68,26 @@ function PriceChart({ CompanyName }) {
   const [range, setRange] = useState('1D');
   const [ticks, setTicks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [oneDayEnable, setOneDayEnable] = useState(true);
+  const [timeline, setTimeline] = useState([
+    { id: '1', name: '1D' },
+    { id: '2', name: '1W' },
+    { id: '3', name: '1M' },
+    { id: '4', name: '1Y' },
+    { id: '5', name: '5Y' },
+    { id: '6', name: 'MAX' },
+  ]);
+
+  useEffect(() => {
+    console.log(timeline);
+  }, [timeline]);
+
+  useEffect(() => {
+    if (!oneDayEnable) {
+      setTimeline(timeline.filter((day) => day.name !== '1D'));
+      tabSelectedHandler({ name: '1W' });
+    }
+  }, [oneDayEnable]);
 
   useEffect(() => {
     (async () => {
@@ -75,23 +95,28 @@ function PriceChart({ CompanyName }) {
       var chart;
       if (range == '1D') {
         chart = await getintradayprices(params.get('symbol'));
-
         const tempTime = [];
         const tempTicks = [];
         if (chart && chart.status === 200) {
           var tempArr = [];
-          tempArr = chart?.data?.map((el, i) => {
-            if (el.minute) {
-              const hour = el.minute.substring(0, 2);
-              if (!tempTime.includes(hour)) {
-                tempTime.push(hour);
-                tempTicks.push(el.minute);
+          if (chart?.data && chart?.data.length > 0) {
+            tempArr = chart?.data?.map((el, i) => {
+              if (el.minute) {
+                const hour = el.minute.substring(0, 2);
+                if (!tempTime.includes(hour)) {
+                  tempTime.push(hour);
+                  tempTicks.push(el.minute);
+                }
               }
-            }
-            return el;
-          });
-          setTicks(tempTicks);
-          setChartData(tempArr);
+              return el;
+            });
+            setTicks(tempTicks);
+            setChartData(tempArr);
+          } else {
+            setOneDayEnable(false);
+          }
+        } else {
+          setOneDayEnable(false);
         }
       } else {
         chart = await getHistoricalPrices(params.get('symbol'), range);
@@ -125,17 +150,7 @@ function PriceChart({ CompanyName }) {
         <strong>Price Chart</strong>
       </h6>
       <div className='d-flex align-items-center justify-content-between'>
-        <TabbedComponent
-          tabs={[
-            { id: '1', name: '1D' },
-            { id: '2', name: '1W' },
-            { id: '3', name: '1M' },
-            { id: '4', name: '1Y' },
-            { id: '5', name: '5Y' },
-            { id: '6', name: 'MAX' },
-          ]}
-          onTabSelected={tabSelectedHandler}
-        />
+        <TabbedComponent tabs={timeline} onTabSelected={tabSelectedHandler} />
         <CustomRange />
       </div>
 

@@ -1,5 +1,6 @@
 import React , { useEffect, useState } from 'react'
 import Quote from './Quote/Quote';
+import Market from './Market/Market';
 
 const Options = () => {
   const [option, setOption] = useState('QUOTE');
@@ -39,6 +40,7 @@ const Options = () => {
             </button>
           </div>
           {option && option === 'QUOTE' && <Quote />}
+          {option && option === 'MARKET' && <Market />}
         </div>
       </section>
     </div>
