@@ -9,6 +9,7 @@ import {
 } from 'recharts';
 import { CircularProgress } from '@material-ui/core';
 import moment from 'moment';
+import { Link, useSearchParams } from 'react-router-dom';
 
 class CustomizedAxisTick extends PureComponent {
   render() {
@@ -46,6 +47,7 @@ class CustomizedXAxisTick extends PureComponent {
 }
 
 const VolatalityChart = ({ Options, Loading }) => {
+  const [params] = useSearchParams();
   const [graphData, setGraphData] = useState([]);
   const [period, setPeriod] = useState('YEAR'); // possible values YEAR, 6MONTHS, 3MONTHS
   const [volume, setVolume] = useState('INDEX_CALL'); //possible values
@@ -232,8 +234,11 @@ const VolatalityChart = ({ Options, Loading }) => {
 
   return (
     <div className='row mb-5'>
-      <h6 className='mb-4'>
+      <h6 className='mb-4 d-flex justify-content-between'>
         <strong>AAPL: Daily 1 Year Volatility</strong>
+        <Link to={`/symbol/option/${params.get('symbol')}`}>
+          <strong>View Full Option Analysis</strong>
+        </Link>
       </h6>
       <div className='d-flex align-items-center justify-content-between'>
         <div className='top_button_panel mb-3'>

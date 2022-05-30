@@ -31,7 +31,7 @@ function CompanyDetail({ Company, KeyStatus, Sector, logo }) {
         <div className='card-body'>
           <div className='logo'>
             <div className='img'>
-              <img src={logo} alt='image' />
+              <img src={logo} alt='image' width={100} height={100} />
             </div>
             <div className='title1'>
               <h5 className='card-title'>{Company?.companyName}</h5>

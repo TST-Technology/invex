@@ -3,7 +3,7 @@ import CompanyData from './CompanyData';
 import SearchCompany from './SearchCompany';
 import { CircularProgress } from '@material-ui/core';
 
-const CompanyView = ({ Company, KeyStatus, Loading }) => {
+const CompanyView = ({ Company, KeyStatus, Loading, logo }) => {
   return (
     <div className='row'>
       <div class='col-lg-12 mb-4'>
@@ -24,9 +24,13 @@ const CompanyView = ({ Company, KeyStatus, Loading }) => {
                 </div>
               )}
               {!Loading && (
-                <div className=' d-flex container alig'>
-                  <CompanyData Company={Company} KeyStatus={KeyStatus} />
-                  <SearchCompany />
+                <div className=' d-flex container alig justify-content-between'>
+                  <CompanyData
+                    Company={Company}
+                    KeyStatus={KeyStatus}
+                    logo={logo}
+                  />
+                  {/* <SearchCompany /> */}
                 </div>
               )}
             </div>

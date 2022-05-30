@@ -20,6 +20,7 @@ const InvexRoutes = {
   Financials: { path: '/financials/:symbol' },
   ValuationReport: { path: '/valuation-report' },
   Valuation: { path: '/valuation/:symbol' },
+  SymbolOption: { path: '/symbol/option/:symbol' },
 };
 
 export default InvexRoutes;

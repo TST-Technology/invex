@@ -28,6 +28,7 @@ import ValuationReport from "./component/ValuationReport";
 import Financials from "./component/Financials";
 import FinancialShareInfo from "./component/FinancialsShareInfo";
 import Valuation from './component/Valuation/Valuation';
+import SymbolOption from './component/Symbol/SymbolOption/SymbolOption';
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";   
@@ -123,6 +124,12 @@ function App() {
             exact
             path={InvexRoutes.Valuation.path}
             element={<Valuation />}
+          />
+
+          <Route
+            exact
+            path={InvexRoutes.SymbolOption.path}
+            element={<SymbolOption />}
           />
         </Routes>
         <Footer />
