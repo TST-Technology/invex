@@ -19,3 +19,8 @@ export const getNewsBySymbol = async (symbol) =>{
     var {data} = await Services.get(`/stock/news?symbol=${symbol}`,)
     return data
 }
+
+export const getCompanyLogo = async (symbol) => {
+  var { data } = await Services.get(`/stock/logo?symbol=${symbol}`);
+  return data;
+};

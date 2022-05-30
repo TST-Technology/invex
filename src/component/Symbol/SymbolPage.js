@@ -10,6 +10,7 @@ import PageContent from './PageContent/PageContent'
 import CompetitorsNews from './CompetitorsAndNews/CompetitorsNews'
 import { getSectorAndIndustryBySymbol } from '../api/sectors';
 import { getVolatality } from '../api/Option';
+import { getCompanyLogo } from '../api/company';
 
 const SymbolPage = (props) => {
   const [params] = useSearchParams();
@@ -20,41 +21,54 @@ const SymbolPage = (props) => {
   const [NewsData, setNewsData] = useState(null);
   const [sector, setSector] = useState(null);
   const [Options, setOptions] = useState({});
+  const [logo, setLogo] = useState();
   const date = '2022/05/11';
   // const date = moment(new Date()).format('YYYY/MM/DD');
 
   useEffect(() => {
     (async () => {
+      const symbol = params.get('symbol');
       setLoading(true);
-      if (params.get('symbol')) {
-        var data = await getCompanyDataBySymbol(params.get('symbol'));
+      if (symbol) {
+        var data = await getCompanyDataBySymbol(symbol);
         if (data && data.status === 200) {
           setCompany(data?.data);
         } else {
           setCompany(null);
         }
-        var res = await getBookKeyStatus(params.get('symbol'));
+        var res = await getBookKeyStatus(symbol);
         if (res && res?.status === 200) {
           setKeyStatus(res?.data?.quote);
         }
 
-        var volatility = await getVolatality(params.get('symbol'), date);
+        var volatility = await getVolatality(symbol, date);
         if (volatility) {
           setOptions(volatility);
         }
+
+        const logoData = await getCompanyLogo(symbol);
+        if (
+          logoData &&
+          logoData.data &&
+          logoData.data.url &&
+          logoData.status === 200
+        ) {
+          setLogo(logoData.data.url);
+        }
+
         setLoading(false);
 
-        var dividend = await getFinancialdividend(params.get('symbol'));
+        var dividend = await getFinancialdividend(symbol);
         if (dividend && dividend?.status == 200) {
           setDividendData(dividend?.data);
         }
 
-        var news = await getNewsBySymbol(params.get('symbol'));
+        var news = await getNewsBySymbol(symbol);
         if (news && news?.status == 200) {
           setNewsData(news?.data);
         }
 
-        const sector = await getSectorAndIndustryBySymbol(params.get('symbol'));
+        const sector = await getSectorAndIndustryBySymbol(symbol);
         if (sector && sector?.status == 200) {
           setSector(sector?.data);
         }
@@ -85,6 +99,7 @@ const SymbolPage = (props) => {
                 Company={Company}
                 KeyStatus={KeyStatus}
                 Sector={sector}
+                logo={logo}
               />
               <CompanyValuation KeyStatus={KeyStatus} />
               <PageContent

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import moment from "moment";
-import marked from "../../Common/Images/marked_img.png";
-import unMarked from "../../Common/Images/image4.png";
-import abbreviateNumber from "../../Common/NumberFormat";
-import PriceChart from "./PriceChart";
+import React, { useState } from 'react';
+import moment from 'moment';
+import marked from '../../Common/Images/marked_img.png';
+import unMarked from '../../Common/Images/image4.png';
+import abbreviateNumber from '../../Common/NumberFormat';
+import PriceChart from './PriceChart';
 
-function CompanyDetail({ Company, KeyStatus, Sector }) {
+function CompanyDetail({ Company, KeyStatus, Sector, logo }) {
   const [showBookmark, setShowBookmark] = useState(false);
 
   const bookmarkToggleHandler = () => {
@@ -31,10 +31,7 @@ function CompanyDetail({ Company, KeyStatus, Sector }) {
         <div className='card-body'>
           <div className='logo'>
             <div className='img'>
-              <img
-                src={require('../../Common/Images/image1.png').default}
-                alt='image'
-              />
+              <img src={logo} alt='image' />
             </div>
             <div className='title1'>
               <h5 className='card-title'>{Company?.companyName}</h5>
