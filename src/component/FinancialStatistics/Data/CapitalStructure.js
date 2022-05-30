@@ -7,6 +7,8 @@ import { CapitalStructureDef } from './defination';
 
 const CapitalStructure = ({ data, Loading }) => {
   const [CapitalStructuredata, setCapitalStructuredata] = useState([]);
+  const [chartLabel, setChartLabel] = useState();
+  const [checkedValues, setCheckedValues] = useState([]);
   var name = [
     'Enterprise Value (EV)',
     'Market Cap at Period End',
@@ -28,10 +30,16 @@ const CapitalStructure = ({ data, Loading }) => {
 
   useEffect(() => {
     if (data && data.length > 0) {
-
       data.sort(function (a, b) {
         return b.year - a.year || b.quarter - a.quarter;
       });
+
+      const labels = data.map((el) => {
+        const quarter = el.quarter > 0 ? 'Q' + el.quarter : '';
+        return `${quarter} ${el.year}`;
+      });
+
+      setChartLabel(labels);
 
       var current = [
         {
@@ -262,6 +270,25 @@ const CapitalStructure = ({ data, Loading }) => {
       setCapitalStructuredata(current);
     }
   }, [data]);
+
+  const onChange = (event, index) => {
+    console.log(event.target.checked, index);
+    if (event.target.checked) {
+      if (!checkedValues.includes(index)) {
+        let tempArr = checkedValues;
+        tempArr.push(index);
+        setCheckedValues(tempArr);
+      }
+    } else {
+      let tempArr = checkedValues;
+      const i = tempArr.indexOf(index);
+      if (i > -1) {
+        tempArr.splice(i, 1);
+      }
+      setCheckedValues(tempArr);
+    }
+  };
+
   return (
     <div class='table-responsive mt-4'>
       <table class='table table-bordered m-0 most_tables'>
@@ -320,6 +347,7 @@ const CapitalStructure = ({ data, Loading }) => {
                           type='checkbox'
                           value=''
                           id=''
+                          onChange={(e) => onChange(e, i)}
                         />
                       </div>
                     </td>
