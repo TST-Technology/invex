@@ -1,6 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { getOptionVolumeLoosers } from '../../../api/OptionMarket';
 
 const OptionVolumeLoosers = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      // const currentDate = moment(new Date()).format('YYYY/MM/DD');
+      const currentDate = '2022/05/20';
+      const obj = { date: currentDate };
+      const data = await getOptionVolumeLoosers(obj);
+      console.log(data);
+    })();
+  }, []);
+
   return (
     <div class='mb-5'>
       <div class='d-flex align-items-center justify-content-between mb-4'>
@@ -28,6 +41,42 @@ const OptionVolumeLoosers = () => {
             </tr>
           </thead>
           <tbody class='border-top-0'>
+            {data &&
+              data.map((row) => {
+                return (
+                  <tr>
+                    <td>{row.Symbol}</td>
+                    <td>{row.Last}</td>
+                    <td>{row.volume}</td>
+                    <td>
+                      <span className={row['1_day_change'] > 0 ? 'up' : 'down'}>
+                        {row['1_day_change']}%
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        className={row['Weekly_change'] > 0 ? 'up' : 'down'}
+                      >
+                        {row['Weekly_change']}%
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        className={row['Monthly_change'] > 0 ? 'up' : 'down'}
+                      >
+                        {row['Monthly_change']}%
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        className={row['Quarterly_change'] > 0 ? 'up' : 'down'}
+                      >
+                        {row['Quarterly_change']}%
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
             <tr>
               <td>A</td>
               <td>20</td>

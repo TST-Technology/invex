@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import MostActiveOptions from './MostActiveOptions/MostActiveOptions';
 import HighestImpliedVolatility from './HighestImpliedVolatility/HighestImpliedVolatility';
 import Exploding from './Exploding/Exploding';
@@ -8,8 +8,21 @@ import OptionVolumeLoosers from './OptionVolumeLoosers/OptionVolumeLoosers';
 import OptionOpenInterestGainers from './OptionOpenInterestGainers/OptionOpenInterestGainers';
 import OptionOpenInterestLosers from './OptionOpenInterestLosers/OptionOpenInterestLosers';
 import RightSideSection from './RightSideSection/RightSideSection';
+import { getDefaultMarketOption } from '../../api/OptionMarket';
 
 const Market = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      // const currentDate = moment(new Date()).format('YYYY/MM/DD');
+      const currentDate = '2022/05/20';
+      const obj = { date: currentDate };
+      const data = await getDefaultMarketOption(obj);
+      console.log(data);
+    })();
+  }, []);
+
   return (
     <>
       <div class='row'>
@@ -31,4 +44,4 @@ const Market = () => {
   );
 };
 
-export default Market
+export default Market;

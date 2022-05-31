@@ -1,6 +1,20 @@
-import React from 'react';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { getMostActiveOptions } from '../../../api/OptionMarket';
 
 const MostActiveOptions = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      // const currentDate = moment(new Date()).format('YYYY/MM/DD');
+      const currentDate = '2022/05/20';
+      const obj = { date: currentDate };
+      const data = await getMostActiveOptions(obj);
+      console.log(data);
+    })();
+  }, []);
+
   return (
     <div className='mb-5'>
       <h6 className='mb-3'>
@@ -20,23 +34,43 @@ const MostActiveOptions = () => {
             </tr>
           </thead>
           <tbody className='border-top-0'>
-            <tr>
-              <td>A</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-            </tr>
+            {data &&
+              data.map((row) => {
+                return (
+                  <tr>
+                    <td>{row.Symbol}</td>
+                    <td>{row.Last}</td>
+                    <td>{row.volume}</td>
+                    <td>
+                      <span className={row['1_day_change'] > 0 ? 'up' : 'down'}>
+                        {row['1_day_change']}%
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        className={row['Weekly_change'] > 0 ? 'up' : 'down'}
+                      >
+                        {row['Weekly_change']}%
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        className={row['Monthly_change'] > 0 ? 'up' : 'down'}
+                      >
+                        {row['Monthly_change']}%
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        className={row['Quarterly_change'] > 0 ? 'up' : 'down'}
+                      >
+                        {row['Quarterly_change']}%
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
+
             <tr>
               <td>AA</td>
               <td>20</td>

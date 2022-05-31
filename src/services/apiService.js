@@ -1,22 +1,28 @@
 import axios from "axios";
-import { MarketbashUrl, MarketbashUrls } from "../config/urls";
+import { MarketbashUrl, MarketbashUrls, BASE_URL_V2 } from '../config/urls';
 
 export const Services = axios.create({
-    baseURL: MarketbashUrl,
-    // timeout: 1000,
-    headers: {
-        'Accept': 'application/json',
-        //'Authorization': 'token <your-token-here>'
-    }
+  baseURL: MarketbashUrl,
+  // timeout: 1000,
+  headers: {
+    Accept: 'application/json',
+    //'Authorization': 'token <your-token-here>'
+  },
 });
 
-export const Service =
-    axios.create({
-        baseURL: MarketbashUrls,
-        // timeout: 1000,
-        headers: {
-            'Accept': 'application/json',
-            //'Authorization': 'token <your-token-here>'
-        }
-    });
+export const Service = axios.create({
+  baseURL: MarketbashUrls,
+  // timeout: 1000,
+  headers: {
+    Accept: 'application/json',
+    //'Authorization': 'token <your-token-here>'
+  },
+});
+
+export const ServiceV2 = axios.create({
+  baseURL: BASE_URL_V2,
+  headers: {
+    Accept: 'application/json',
+  },
+});
 
