@@ -2,9 +2,14 @@ import { CircularProgress } from '@material-ui/core'
 import React, { useState, useEffect } from 'react'
 import abbreviateNumber from '../../Common/NumberFormat';
 import { PricingDef } from './defination';
+import CustomChart from '../../Graph/CustomChart';
 
 const Pricing = ({ data, Loading }) => {
   const [Pricingdata, setPricingdata] = useState([]);
+  const [chartLabel, setChartLabel] = useState();
+  const [checkedValues, setCheckedValues] = useState([]);
+  const [dataSets, setDataSets] = useState([]);
+
   var name = [
     'EV/EBIT',
     'EV/EBITDA',
@@ -21,10 +26,16 @@ const Pricing = ({ data, Loading }) => {
 
   useEffect(() => {
     if (data && data.length > 0) {
-
       data.sort(function (a, b) {
         return b.year - a.year || b.quarter - a.quarter;
       });
+
+      const labels = data.map((el) => {
+        const quarter = el.quarter > 0 ? 'Q' + el.quarter : '';
+        return `${quarter} ${el.year}`;
+      });
+
+      setChartLabel(labels);
 
       var current = [
         {
@@ -183,8 +194,57 @@ const Pricing = ({ data, Loading }) => {
         },
       ];
       setPricingdata(current);
+
+      setCheckedValues([]);
     }
   }, [data]);
+
+  useEffect(() => {
+    setDataSets(
+      checkedValues &&
+        checkedValues.map((index) => {
+          const row = Object.values(Pricingdata[index]);
+          return {
+            label: row[0],
+            data: row.slice(1, row.length),
+            borderColor:
+              'rgb(' +
+              Math.floor(Math.random() * 255) +
+              ',' +
+              Math.floor(Math.random() * 255) +
+              ',' +
+              Math.floor(Math.random() * 255) +
+              ')',
+            backgroundColor:
+              'rgba(' +
+              Math.floor(Math.random() * 255) +
+              ',' +
+              Math.floor(Math.random() * 255) +
+              ',' +
+              Math.floor(Math.random() * 255) +
+              ', 0.5)',
+          };
+        })
+    );
+  }, [checkedValues]);
+
+  const onChange = (event, index) => {
+    if (event.target.checked) {
+      if (!checkedValues.includes(index)) {
+        const tempArr = checkedValues;
+        tempArr.push(index);
+        setCheckedValues([...tempArr]);
+      }
+    } else {
+      const tempArr = checkedValues;
+      const i = tempArr.indexOf(index);
+      if (i > -1) {
+        tempArr.splice(i, 1);
+      }
+      setCheckedValues([...tempArr]);
+    }
+  };
+
   return (
     <div className='table-responsive mt-4'>
       <table className='table table-bordered m-0 most_tables'>
@@ -235,27 +295,35 @@ const Pricing = ({ data, Loading }) => {
                           type='checkbox'
                           value=''
                           id=''
+                          onChange={(e) => onChange(e, i)}
                         />
                       </div>
                     </td>
                   }
-                  {ob.col1 && <td>{abbreviateNumber(ob.col1.slice(0, 6))}</td>}
-                  {ob.col2 && <td>{abbreviateNumber(ob.col2.slice(0, 6))}</td>}
-                  {ob.col3 && <td>{abbreviateNumber(ob.col3.slice(0, 6))}</td>}
-                  {ob.col4 && <td>{abbreviateNumber(ob.col4.slice(0, 6))}</td>}
-                  {ob.col5 && <td>{abbreviateNumber(ob.col5.slice(0, 6))}</td>}
-                  {ob.col6 && <td>{abbreviateNumber(ob.col6.slice(0, 6))}</td>}
-                  {ob.col7 && <td>{abbreviateNumber(ob.col7.slice(0, 6))}</td>}
-                  {ob.col8 && <td>{abbreviateNumber(ob.col8.slice(0, 6))}</td>}
-                  {ob.col9 && <td>{abbreviateNumber(ob.col9.slice(0, 6))}</td>}
-                  {ob.col10 && (
-                    <td>{abbreviateNumber(ob.col10.slice(0, 6))}</td>
-                  )}
+                  <td>{abbreviateNumber(ob.col1)}</td>
+                  <td>{abbreviateNumber(ob.col2)}</td>
+                  <td>{abbreviateNumber(ob.col3)}</td>
+                  <td>{abbreviateNumber(ob.col4)}</td>
+                  <td>{abbreviateNumber(ob.col5)}</td>
+                  <td>{abbreviateNumber(ob.col6)}</td>
+                  <td>{abbreviateNumber(ob.col7)}</td>
+                  <td>{abbreviateNumber(ob.col8)}</td>
+                  <td>{abbreviateNumber(ob.col9)}</td>
+
+                  <td>{abbreviateNumber(ob.col10)}</td>
                 </tr>
               );
             })}
         </tbody>
       </table>
+
+      {dataSets && dataSets.length > 0 && (
+        <CustomChart
+          title='Invex Chart'
+          chartLables={chartLabel}
+          dataSets={dataSets}
+        />
+      )}
     </div>
   );
 };
