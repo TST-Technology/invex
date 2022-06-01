@@ -6,6 +6,7 @@ import CustomChart from '../../Graph/CustomChart';
 
 const Returns = ({ data, Loading }) => {
   const [Returnsdata, setReturnsdata] = useState([]);
+  const [ReturnsDataAsc, setReturnsDataAsc] = useState([]);
   const [chartLabel, setChartLabel] = useState();
   const [checkedValues, setCheckedValues] = useState([]);
   const [dataSets, setDataSets] = useState([]);
@@ -29,7 +30,7 @@ const Returns = ({ data, Loading }) => {
         return `${quarter} ${el.year}`;
       });
 
-      setChartLabel(labels);
+      setChartLabel(labels.reverse());
 
       var current = [
         {
@@ -105,6 +106,87 @@ const Returns = ({ data, Loading }) => {
       ];
       setReturnsdata(current);
 
+      const dataAsc = data.slice();
+
+      dataAsc.sort(function (a, b) {
+        return a.year - b.year || a.quarter - b.quarter;
+      });
+
+      var currentAsc = [
+        {
+          col0: name[0],
+          col1: dataAsc[0]?.operatingReturnOnAssets,
+          col2: dataAsc[1]?.operatingReturnOnAssets,
+          col3: dataAsc[2]?.operatingReturnOnAssets,
+          col4: dataAsc[3]?.operatingReturnOnAssets,
+          col5: dataAsc[4]?.operatingReturnOnAssets,
+          col6: dataAsc[5]?.operatingReturnOnAssets,
+          col7: dataAsc[6]?.operatingReturnOnAssets,
+          col8: dataAsc[7]?.operatingReturnOnAssets,
+          col9: dataAsc[8]?.operatingReturnOnAssets,
+          col10: dataAsc[9]?.operatingReturnOnAssets,
+          tooltip: ReturnDef.operatingReturnOnAssets,
+        },
+        {
+          col0: name[1],
+          col1: dataAsc[0]?.returnOnAssets,
+          col2: dataAsc[1]?.returnOnAssets,
+          col3: dataAsc[2]?.returnOnAssets,
+          col4: dataAsc[3]?.returnOnAssets,
+          col5: dataAsc[4]?.returnOnAssets,
+          col6: dataAsc[5]?.returnOnAssets,
+          col7: dataAsc[6]?.returnOnAssets,
+          col8: dataAsc[7]?.returnOnAssets,
+          col9: dataAsc[8]?.returnOnAssets,
+          col10: dataAsc[9]?.returnOnAssets,
+          tooltip: ReturnDef.returnOnAssets,
+        },
+        {
+          col0: name[2],
+          col1: dataAsc[0]?.returnOnEquity,
+          col2: dataAsc[1]?.returnOnEquity,
+          col3: dataAsc[2]?.returnOnEquity,
+          col4: dataAsc[3]?.returnOnEquity,
+          col5: dataAsc[4]?.returnOnEquity,
+          col6: dataAsc[5]?.returnOnEquity,
+          col7: dataAsc[6]?.returnOnEquity,
+          col8: dataAsc[7]?.returnOnEquity,
+          col9: dataAsc[8]?.returnOnEquity,
+          col10: dataAsc[9]?.returnOnEquity,
+          tooltip: ReturnDef.returnOnEquity,
+        },
+        {
+          col0: name[3],
+          col1: dataAsc[0]?.roce,
+          col2: dataAsc[1]?.roce,
+          col3: dataAsc[2]?.roce,
+          col4: dataAsc[3]?.roce,
+          col5: dataAsc[4]?.roce,
+          col6: dataAsc[5]?.roce,
+          col7: dataAsc[6]?.roce,
+          col8: dataAsc[7]?.roce,
+          col9: dataAsc[8]?.roce,
+          col10: dataAsc[9]?.roce,
+          tooltip: ReturnDef.roce,
+        },
+        {
+          col0: name[4],
+          col1: dataAsc[0]?.roic,
+          col2: dataAsc[1]?.roic,
+          col3: dataAsc[2]?.roic,
+          col4: dataAsc[3]?.roic,
+          col5: dataAsc[4]?.roic,
+          col6: dataAsc[5]?.roic,
+          col7: dataAsc[6]?.roic,
+          col8: dataAsc[7]?.roic,
+          col9: dataAsc[8]?.roic,
+          col10: dataAsc[9]?.roic,
+          tooltip: ReturnDef.roic,
+        },
+      ];
+
+      setReturnsDataAsc(currentAsc);
+
       setCheckedValues([]);
     }
   }, [data]);
@@ -113,7 +195,7 @@ const Returns = ({ data, Loading }) => {
     setDataSets(
       checkedValues &&
         checkedValues.map((index) => {
-          const row = Object.values(Returnsdata[index]);
+          const row = Object.values(ReturnsDataAsc[index]);
           return {
             label: row[0],
             data: row.slice(1, row.length),

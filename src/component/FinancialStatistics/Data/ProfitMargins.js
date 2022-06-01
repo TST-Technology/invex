@@ -6,6 +6,7 @@ import CustomChart from '../../Graph/CustomChart';
 
 const ProfitMargins = ({ data, Loading }) => {
   const [ProfitMargindata, setProfitMargindata] = useState([]);
+  const [ProfitMarginDataAsc, setProfitMarginDataAsc] = useState([]);
   const [chartLabel, setChartLabel] = useState();
   const [checkedValues, setCheckedValues] = useState([]);
   const [dataSets, setDataSets] = useState([]);
@@ -32,7 +33,7 @@ const ProfitMargins = ({ data, Loading }) => {
         return `${quarter} ${el.year}`;
       });
 
-      setChartLabel(labels);
+      setChartLabel(labels.reverse());
 
       var current = [
         {
@@ -150,6 +151,128 @@ const ProfitMargins = ({ data, Loading }) => {
       ];
       setProfitMargindata(current);
 
+      const dataAsc = data.slice();
+
+      dataAsc.sort(function (a, b) {
+        return a.year - b.year || a.quarter - b.quarter;
+      });
+
+      var currentAsc = [
+        {
+          col0: name[0],
+          col1: dataAsc[0]?.ebitdaMargin,
+          col2: dataAsc[1]?.ebitdaMargin,
+          col3: dataAsc[2]?.ebitdaMargin,
+          col4: dataAsc[3]?.ebitdaMargin,
+          col5: dataAsc[4]?.ebitdaMargin,
+          col6: dataAsc[5]?.ebitdaMargin,
+          col7: dataAsc[6]?.ebitdaMargin,
+          col8: dataAsc[7]?.ebitdaMargin,
+          col9: dataAsc[8]?.ebitdaMargin,
+          col10: dataAsc[9]?.ebitdaMargin,
+          tooltip: ProfitMarginDef.ebitdaMargin,
+        },
+        {
+          col0: name[1],
+          col1: dataAsc[0]?.freeCashFlowToRevenue,
+          col2: dataAsc[1]?.freeCashFlowToRevenue,
+          col3: dataAsc[2]?.freeCashFlowToRevenue,
+          col4: dataAsc[3]?.freeCashFlowToRevenue,
+          col5: dataAsc[4]?.freeCashFlowToRevenue,
+          col6: dataAsc[5]?.freeCashFlowToRevenue,
+          col7: dataAsc[6]?.freeCashFlowToRevenue,
+          col8: dataAsc[7]?.freeCashFlowToRevenue,
+          col9: dataAsc[8]?.freeCashFlowToRevenue,
+          col10: dataAsc[9]?.freeCashFlowToRevenue,
+          tooltip: ProfitMarginDef.freeCashFlowToRevenue,
+        },
+        {
+          col0: name[2],
+          col1: dataAsc[0]?.netIncomeToRevenue,
+          col2: dataAsc[1]?.netIncomeToRevenue,
+          col3: dataAsc[2]?.netIncomeToRevenue,
+          col4: dataAsc[3]?.netIncomeToRevenue,
+          col5: dataAsc[4]?.netIncomeToRevenue,
+          col6: dataAsc[5]?.netIncomeToRevenue,
+          col7: dataAsc[6]?.netIncomeToRevenue,
+          col8: dataAsc[7]?.netIncomeToRevenue,
+          col9: dataAsc[8]?.netIncomeToRevenue,
+          col10: dataAsc[9]?.netIncomeToRevenue,
+          tooltip: ProfitMarginDef.netIncomeToRevenue,
+        },
+        {
+          col0: name[3],
+          col1: dataAsc[0]?.nopatMargin,
+          col2: dataAsc[1]?.nopatMargin,
+          col3: dataAsc[2]?.nopatMargin,
+          col4: dataAsc[3]?.nopatMargin,
+          col5: dataAsc[4]?.nopatMargin,
+          col6: dataAsc[5]?.nopatMargin,
+          col7: dataAsc[6]?.nopatMargin,
+          col8: dataAsc[7]?.nopatMargin,
+          col9: dataAsc[8]?.nopatMargin,
+          col10: dataAsc[9]?.nopatMargin,
+          tooltip: ProfitMarginDef.nopatMargin,
+        },
+        {
+          col0: name[4],
+          col1: dataAsc[0]?.operatingCfToRevenue,
+          col2: dataAsc[1]?.operatingCfToRevenue,
+          col3: dataAsc[2]?.operatingCfToRevenue,
+          col4: dataAsc[3]?.operatingCfToRevenue,
+          col5: dataAsc[4]?.operatingCfToRevenue,
+          col6: dataAsc[5]?.operatingCfToRevenue,
+          col7: dataAsc[6]?.operatingCfToRevenue,
+          col8: dataAsc[7]?.operatingCfToRevenue,
+          col9: dataAsc[8]?.operatingCfToRevenue,
+          col10: dataAsc[9]?.operatingCfToRevenue,
+          tooltip: ProfitMarginDef.operatingCfToRevenue,
+        },
+        {
+          col0: name[5],
+          col1: dataAsc[0]?.operatingIncomeToRevenue,
+          col2: dataAsc[1]?.operatingIncomeToRevenue,
+          col3: dataAsc[2]?.operatingIncomeToRevenue,
+          col4: dataAsc[3]?.operatingIncomeToRevenue,
+          col5: dataAsc[4]?.operatingIncomeToRevenue,
+          col6: dataAsc[5]?.operatingIncomeToRevenue,
+          col7: dataAsc[6]?.operatingIncomeToRevenue,
+          col8: dataAsc[7]?.operatingIncomeToRevenue,
+          col9: dataAsc[8]?.operatingIncomeToRevenue,
+          col10: dataAsc[9]?.operatingIncomeToRevenue,
+          tooltip: ProfitMarginDef.operatingIncomeToRevenue,
+        },
+        {
+          col0: name[6],
+          col1: dataAsc[0]?.pretaxIncomeMargin,
+          col2: dataAsc[1]?.pretaxIncomeMargin,
+          col3: dataAsc[2]?.pretaxIncomeMargin,
+          col4: dataAsc[3]?.pretaxIncomeMargin,
+          col5: dataAsc[4]?.pretaxIncomeMargin,
+          col6: dataAsc[5]?.pretaxIncomeMargin,
+          col7: dataAsc[6]?.pretaxIncomeMargin,
+          col8: dataAsc[7]?.pretaxIncomeMargin,
+          col9: dataAsc[8]?.pretaxIncomeMargin,
+          col10: dataAsc[9]?.pretaxIncomeMargin,
+          tooltip: ProfitMarginDef.pretaxIncomeMargin,
+        },
+        {
+          col0: name[7],
+          col1: dataAsc[0]?.profitGrossToRevenue,
+          col2: dataAsc[1]?.profitGrossToRevenue,
+          col3: dataAsc[2]?.profitGrossToRevenue,
+          col4: dataAsc[3]?.profitGrossToRevenue,
+          col5: dataAsc[4]?.profitGrossToRevenue,
+          col6: dataAsc[5]?.profitGrossToRevenue,
+          col7: dataAsc[6]?.profitGrossToRevenue,
+          col8: dataAsc[7]?.profitGrossToRevenue,
+          col9: dataAsc[8]?.profitGrossToRevenue,
+          col10: dataAsc[9]?.profitGrossToRevenue,
+          tooltip: ProfitMarginDef.profitGrossToRevenue,
+        },
+      ];
+
+      setProfitMarginDataAsc(currentAsc);
       setCheckedValues([]);
     }
   }, [data]);
@@ -158,7 +281,7 @@ const ProfitMargins = ({ data, Loading }) => {
     setDataSets(
       checkedValues &&
         checkedValues.map((index) => {
-          const row = Object.values(ProfitMargindata[index]);
+          const row = Object.values(ProfitMarginDataAsc[index]);
           return {
             label: row[0],
             data: row.slice(1, row.length),

@@ -3,16 +3,23 @@ import { getExplodingIV } from '../../../api/OptionMarket';
 
 const Exploding = () => {
   const [data, setData] = useState([]);
+  const [ivFilter, setIVFilter] = useState(30);
+  const [orderFilter, setOrderFilter] = useState('Weekly_change');
 
   useEffect(() => {
     (async () => {
       // const currentDate = moment(new Date()).format('YYYY/MM/DD');
       const currentDate = '2022/05/20';
-      const obj = { date: currentDate };
+      const obj = {
+        date: currentDate,
+        day_list: ivFilter,
+        order_data: orderFilter,
+      };
       const data = await getExplodingIV(obj);
+      setData(data);
       console.log(data);
     })();
-  }, []);
+  }, [ivFilter, orderFilter]);
 
   return (
     <div className='mb-5'>
@@ -23,8 +30,11 @@ const Exploding = () => {
         <select
           className='form-select w-25 me-3'
           aria-label='Default select example'
+          onChange={(e) => setOrderFilter(e.target.value)}
         >
-          <option selected>Weekly</option>
+          <option selected value={'Weekly_change'}>
+            Weekly
+          </option>
           <option value={1}>One</option>
           <option value={2}>Two</option>
           <option value={3}>Three</option>
@@ -32,11 +42,13 @@ const Exploding = () => {
         <select
           className='form-select w-25'
           aria-label='Default select example'
+          onChange={(e) => setIVFilter(e.target.value)}
         >
-          <option selected>IV 30</option>
-          <option value={1}>One</option>
-          <option value={2}>Two</option>
-          <option value={3}>Three</option>
+          <option selected value={30}>
+            IV 30
+          </option>
+          <option value={60}>IV 60</option>
+          <option value={90}>IV 90</option>
         </select>
       </div>
       <div className='table-responsive'>

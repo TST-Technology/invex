@@ -6,6 +6,7 @@ import CustomChart from '../../Graph/CustomChart';
 
 const Growth = ({ data, Loading }) => {
   const [Growthdata, setGrowthdata] = useState([]);
+  const [GrowthDataAsc, setGrowthDataAsc] = useState([]);
   const [chartLabel, setChartLabel] = useState();
   const [checkedValues, setCheckedValues] = useState([]);
   const [dataSets, setDataSets] = useState([]);
@@ -34,7 +35,7 @@ const Growth = ({ data, Loading }) => {
         return `${quarter} ${el.year}`;
       });
 
-      setChartLabel(labels);
+      setChartLabel(labels.reverse());
 
       var current = [
         {
@@ -180,6 +181,157 @@ const Growth = ({ data, Loading }) => {
       ];
       setGrowthdata(current);
 
+      const dataAsc = data.slice();
+
+      dataAsc.sort(function (a, b) {
+        return a.year - b.year || a.quarter - b.quarter;
+      });
+
+      var currentAsc = [
+        {
+          col0: name[0],
+          col1: dataAsc[0]?.ebitGrowth,
+          col2: dataAsc[1]?.ebitGrowth,
+          col3: dataAsc[2]?.ebitGrowth,
+          col4: dataAsc[3]?.ebitGrowth,
+          col5: dataAsc[4]?.ebitGrowth,
+          col6: dataAsc[5]?.ebitGrowth,
+          col7: dataAsc[6]?.ebitGrowth,
+          col8: dataAsc[7]?.ebitGrowth,
+          col9: dataAsc[8]?.ebitGrowth,
+          col10: dataAsc[9]?.ebitGrowth,
+          tooltip: GrowthDef.ebitGrowth,
+        },
+        {
+          col0: name[1],
+          col1: dataAsc[0]?.ebitdaGrowth,
+          col2: dataAsc[1]?.ebitdaGrowth,
+          col3: dataAsc[2]?.ebitdaGrowth,
+          col4: dataAsc[3]?.ebitdaGrowth,
+          col5: dataAsc[4]?.ebitdaGrowth,
+          col6: dataAsc[5]?.ebitdaGrowth,
+          col7: dataAsc[6]?.ebitdaGrowth,
+          col8: dataAsc[7]?.ebitdaGrowth,
+          col9: dataAsc[8]?.ebitdaGrowth,
+          col10: dataAsc[9]?.ebitdaGrowth,
+          tooltip: GrowthDef.ebitdaGrowth,
+        },
+        {
+          col0: name[2],
+          col1: dataAsc[0]?.freeCashFlowGrowth,
+          col2: dataAsc[1]?.freeCashFlowGrowth,
+          col3: dataAsc[2]?.freeCashFlowGrowth,
+          col4: dataAsc[3]?.freeCashFlowGrowth,
+          col5: dataAsc[4]?.freeCashFlowGrowth,
+          col6: dataAsc[5]?.freeCashFlowGrowth,
+          col7: dataAsc[6]?.freeCashFlowGrowth,
+          col8: dataAsc[7]?.freeCashFlowGrowth,
+          col9: dataAsc[8]?.freeCashFlowGrowth,
+          col10: dataAsc[9]?.freeCashFlowGrowth,
+          tooltip: GrowthDef.freeCashFlowGrowth,
+        },
+        {
+          col0: name[3],
+          col1: dataAsc[0]?.incomeNetPerWabsoSplitAdjustedYoyDeltaPercent,
+          col2: dataAsc[1]?.incomeNetPerWabsoSplitAdjustedYoyDeltaPercent,
+          col3: dataAsc[2]?.incomeNetPerWabsoSplitAdjustedYoyDeltaPercent,
+          col4: dataAsc[3]?.incomeNetPerWabsoSplitAdjustedYoyDeltaPercent,
+          col5: dataAsc[4]?.incomeNetPerWabsoSplitAdjustedYoyDeltaPercent,
+          col6: dataAsc[5]?.incomeNetPerWabsoSplitAdjustedYoyDeltaPercent,
+          col7: dataAsc[6]?.incomeNetPerWabsoSplitAdjustedYoyDeltaPercent,
+          col8: dataAsc[7]?.incomeNetPerWabsoSplitAdjustedYoyDeltaPercent,
+          col9: dataAsc[8]?.incomeNetPerWabsoSplitAdjustedYoyDeltaPercent,
+          col10: dataAsc[9]?.incomeNetPerWabsoSplitAdjustedYoyDeltaPercent,
+          tooltip: GrowthDef.incomeNetPerWabsoSplitAdjustedYoyDeltaPercent,
+        },
+        {
+          col0: name[4],
+          col1: dataAsc[0]?.investedCapitalGrowth,
+          col2: dataAsc[1]?.investedCapitalGrowth,
+          col3: dataAsc[2]?.investedCapitalGrowth,
+          col4: dataAsc[3]?.investedCapitalGrowth,
+          col5: dataAsc[4]?.investedCapitalGrowth,
+          col6: dataAsc[5]?.investedCapitalGrowth,
+          col7: dataAsc[6]?.investedCapitalGrowth,
+          col8: dataAsc[7]?.investedCapitalGrowth,
+          col9: dataAsc[8]?.investedCapitalGrowth,
+          col10: dataAsc[9]?.investedCapitalGrowth,
+          tooltip: GrowthDef.investedCapitalGrowth,
+        },
+        {
+          col0: name[5],
+          col1: dataAsc[0]?.netIncomeGrowth,
+          col2: dataAsc[1]?.netIncomeGrowth,
+          col3: dataAsc[2]?.netIncomeGrowth,
+          col4: dataAsc[3]?.netIncomeGrowth,
+          col5: dataAsc[4]?.netIncomeGrowth,
+          col6: dataAsc[5]?.netIncomeGrowth,
+          col7: dataAsc[6]?.netIncomeGrowth,
+          col8: dataAsc[7]?.netIncomeGrowth,
+          col9: dataAsc[8]?.netIncomeGrowth,
+          col10: dataAsc[9]?.netIncomeGrowth,
+          tooltip: GrowthDef.netIncomeGrowth,
+        },
+        {
+          col0: name[6],
+          col1: dataAsc[0]?.netWorkingCapitalGrowth,
+          col2: dataAsc[1]?.netWorkingCapitalGrowth,
+          col3: dataAsc[2]?.netWorkingCapitalGrowth,
+          col4: dataAsc[3]?.netWorkingCapitalGrowth,
+          col5: dataAsc[4]?.netWorkingCapitalGrowth,
+          col6: dataAsc[5]?.netWorkingCapitalGrowth,
+          col7: dataAsc[6]?.netWorkingCapitalGrowth,
+          col8: dataAsc[7]?.netWorkingCapitalGrowth,
+          col9: dataAsc[8]?.netWorkingCapitalGrowth,
+          col10: dataAsc[9]?.netWorkingCapitalGrowth,
+          tooltip: GrowthDef.netWorkingCapitalGrowth,
+        },
+        {
+          col0: name[7],
+          col1: dataAsc[0]?.nopatGrowth,
+          col2: dataAsc[1]?.nopatGrowth,
+          col3: dataAsc[2]?.nopatGrowth,
+          col4: dataAsc[3]?.nopatGrowth,
+          col5: dataAsc[4]?.nopatGrowth,
+          col6: dataAsc[5]?.nopatGrowth,
+          col7: dataAsc[6]?.nopatGrowth,
+          col8: dataAsc[7]?.nopatGrowth,
+          col9: dataAsc[8]?.nopatGrowth,
+          col10: dataAsc[9]?.nopatGrowth,
+          tooltip: GrowthDef.nopatGrowth,
+        },
+        {
+          col0: name[8],
+          col1: dataAsc[0]?.operatingCashFlowGrowth,
+          col2: dataAsc[1]?.operatingCashFlowGrowth,
+          col3: dataAsc[2]?.operatingCashFlowGrowth,
+          col4: dataAsc[3]?.operatingCashFlowGrowth,
+          col5: dataAsc[4]?.operatingCashFlowGrowth,
+          col6: dataAsc[5]?.operatingCashFlowGrowth,
+          col7: dataAsc[6]?.operatingCashFlowGrowth,
+          col8: dataAsc[7]?.operatingCashFlowGrowth,
+          col9: dataAsc[8]?.operatingCashFlowGrowth,
+          col10: dataAsc[9]?.operatingCashFlowGrowth,
+          tooltip: GrowthDef.operatingCashFlowGrowth,
+        },
+        {
+          col0: name[9],
+          col1: dataAsc[0]?.revenueGrowth,
+          col2: dataAsc[1]?.revenueGrowth,
+          col3: dataAsc[2]?.revenueGrowth,
+          col4: dataAsc[3]?.revenueGrowth,
+          col5: dataAsc[4]?.revenueGrowth,
+          col6: dataAsc[5]?.revenueGrowth,
+          col7: dataAsc[6]?.revenueGrowth,
+          col8: dataAsc[7]?.revenueGrowth,
+          col9: dataAsc[8]?.revenueGrowth,
+          col10: dataAsc[9]?.revenueGrowth,
+          tooltip: GrowthDef.revenueGrowth,
+        },
+      ];
+
+      setGrowthDataAsc(currentAsc);
+
       setCheckedValues([]);
     }
   }, [data]);
@@ -188,7 +340,7 @@ const Growth = ({ data, Loading }) => {
     setDataSets(
       checkedValues &&
         checkedValues.map((index) => {
-          const row = Object.values(Growthdata[index]);
+          const row = Object.values(GrowthDataAsc[index]);
           return {
             label: row[0],
             data: row.slice(1, row.length),

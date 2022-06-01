@@ -6,6 +6,7 @@ import CustomChart from '../../Graph/CustomChart';
 
 const LiquidityRatios = ({ data, Loading }) => {
   const [LiquidityRatiosdata, setLiquidityRatiosdata] = useState([]);
+  const [LiquidityRatiosDataAsc, setLiquidityRatiosDataAsc] = useState([]);
   const [chartLabel, setChartLabel] = useState();
   const [checkedValues, setCheckedValues] = useState([]);
   const [dataSets, setDataSets] = useState([]);
@@ -31,7 +32,7 @@ const LiquidityRatios = ({ data, Loading }) => {
         return `${quarter} ${el.year}`;
       });
 
-      setChartLabel(labels);
+      setChartLabel(labels.reverse());
 
       var current = [
         {
@@ -134,6 +135,115 @@ const LiquidityRatios = ({ data, Loading }) => {
         },
       ];
       setLiquidityRatiosdata(current);
+
+      const dataAsc = data.slice();
+
+      dataAsc.sort(function (a, b) {
+        return a.year - b.year || a.quarter - b.quarter;
+      });
+
+      var currentAsc = [
+        {
+          col0: name[0],
+          col1: dataAsc[0]?.currentRatio,
+          col2: dataAsc[1]?.currentRatio,
+          col3: dataAsc[2]?.currentRatio,
+          col4: dataAsc[3]?.currentRatio,
+          col5: dataAsc[4]?.currentRatio,
+          col6: dataAsc[5]?.currentRatio,
+          col7: dataAsc[6]?.currentRatio,
+          col8: dataAsc[7]?.currentRatio,
+          col9: dataAsc[8]?.currentRatio,
+          col10: dataAsc[9]?.currentRatio,
+          tooltip: LiquidityRatioDef.currentRatio,
+        },
+        {
+          col0: name[1],
+          col1: dataAsc[0]?.quickRatio,
+          col2: dataAsc[1]?.quickRatio,
+          col3: dataAsc[2]?.quickRatio,
+          col4: dataAsc[3]?.quickRatio,
+          col5: dataAsc[4]?.quickRatio,
+          col6: dataAsc[5]?.quickRatio,
+          col7: dataAsc[6]?.quickRatio,
+          col8: dataAsc[7]?.quickRatio,
+          col9: dataAsc[8]?.quickRatio,
+          col10: dataAsc[9]?.quickRatio,
+          tooltip: LiquidityRatioDef.quickRatio,
+        },
+        {
+          col0: name[2],
+          col1: dataAsc[0]?.assetsToEquity,
+          col2: dataAsc[1]?.assetsToEquity,
+          col3: dataAsc[2]?.assetsToEquity,
+          col4: dataAsc[3]?.assetsToEquity,
+          col5: dataAsc[4]?.assetsToEquity,
+          col6: dataAsc[5]?.assetsToEquity,
+          col7: dataAsc[6]?.assetsToEquity,
+          col8: dataAsc[7]?.assetsToEquity,
+          col9: dataAsc[8]?.assetsToEquity,
+          col10: dataAsc[9]?.assetsToEquity,
+          tooltip: LiquidityRatioDef.assetsToEquity,
+        },
+        {
+          col0: name[3],
+          col1: dataAsc[0]?.preferredEquityToCapital,
+          col2: dataAsc[1]?.preferredEquityToCapital,
+          col3: dataAsc[2]?.preferredEquityToCapital,
+          col4: dataAsc[3]?.preferredEquityToCapital,
+          col5: dataAsc[4]?.preferredEquityToCapital,
+          col6: dataAsc[5]?.preferredEquityToCapital,
+          col7: dataAsc[6]?.preferredEquityToCapital,
+          col8: dataAsc[7]?.preferredEquityToCapital,
+          col9: dataAsc[8]?.preferredEquityToCapital,
+          col10: dataAsc[9]?.preferredEquityToCapital,
+          tooltip: LiquidityRatioDef.preferredEquityToCapital,
+        },
+        {
+          col0: name[4],
+          col1: dataAsc[0]?.ebitToInterestExpense,
+          col2: dataAsc[1]?.ebitToInterestExpense,
+          col3: dataAsc[2]?.ebitToInterestExpense,
+          col4: dataAsc[3]?.ebitToInterestExpense,
+          col5: dataAsc[4]?.ebitToInterestExpense,
+          col6: dataAsc[5]?.ebitToInterestExpense,
+          col7: dataAsc[6]?.ebitToInterestExpense,
+          col8: dataAsc[7]?.ebitToInterestExpense,
+          col9: dataAsc[8]?.ebitToInterestExpense,
+          col10: dataAsc[9]?.ebitToInterestExpense,
+          tooltip: LiquidityRatioDef.ebitToInterestExpense,
+        },
+        {
+          col0: name[5],
+          col1: dataAsc[0]?.operatingCashFlowInterestCoverage,
+          col2: dataAsc[1]?.operatingCashFlowInterestCoverage,
+          col3: dataAsc[2]?.operatingCashFlowInterestCoverage,
+          col4: dataAsc[3]?.operatingCashFlowInterestCoverage,
+          col5: dataAsc[4]?.operatingCashFlowInterestCoverage,
+          col6: dataAsc[5]?.operatingCashFlowInterestCoverage,
+          col7: dataAsc[6]?.operatingCashFlowInterestCoverage,
+          col8: dataAsc[7]?.operatingCashFlowInterestCoverage,
+          col9: dataAsc[8]?.operatingCashFlowInterestCoverage,
+          col10: dataAsc[9]?.operatingCashFlowInterestCoverage,
+          tooltip: LiquidityRatioDef.operatingCashFlowInterestCoverage,
+        },
+        {
+          col0: name[6],
+          col1: dataAsc[0]?.interestBurden,
+          col2: dataAsc[1]?.interestBurden,
+          col3: dataAsc[2]?.interestBurden,
+          col4: dataAsc[3]?.interestBurden,
+          col5: dataAsc[4]?.interestBurden,
+          col6: dataAsc[5]?.interestBurden,
+          col7: dataAsc[6]?.interestBurden,
+          col8: dataAsc[7]?.interestBurden,
+          col9: dataAsc[8]?.interestBurden,
+          col10: dataAsc[9]?.interestBurden,
+          tooltip: LiquidityRatioDef.interestBurden,
+        },
+      ];
+
+      setLiquidityRatiosDataAsc(currentAsc);
 
       setCheckedValues([]);
     }

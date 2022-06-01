@@ -3,16 +3,19 @@ import { getHighestImpliedVolatility } from '../../../api/OptionMarket';
 
 const HighestImpliedVolatility = () => {
   const [data, setData] = useState([]);
+  const [ivFilter, setIVFilter] = useState(30);
 
   useEffect(() => {
     (async () => {
       // const currentDate = moment(new Date()).format('YYYY/MM/DD');
       const currentDate = '2022/05/20';
-      const obj = { date: currentDate };
+      const obj = { date: currentDate, day_list: ivFilter };
       const data = await getHighestImpliedVolatility(obj);
+      setData(data);
       console.log(data);
     })();
-  }, []);
+  }, [ivFilter]);
+
   return (
     <div className='mb-5'>
       <div className='d-flex align-items-center justify-content-between mb-4'>
@@ -22,11 +25,13 @@ const HighestImpliedVolatility = () => {
         <select
           className='form-select w-25'
           aria-label='Default select example'
+          onChange={(e) => setIVFilter(e.target.value)}
         >
-          <option selected>IV 30</option>
-          <option value={1}>One</option>
-          <option value={2}>Two</option>
-          <option value={3}>Three</option>
+          <option selected value={30}>
+            IV 30
+          </option>
+          <option value={60}>IV 60</option>
+          <option value={90}>IV 90</option>
         </select>
       </div>
       <div className='table-responsive'>

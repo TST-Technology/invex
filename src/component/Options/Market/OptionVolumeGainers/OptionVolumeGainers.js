@@ -3,16 +3,18 @@ import { getOptionVolumeGainers } from '../../../api/OptionMarket';
 
 const OptionVolumeGainers = () => {
   const [data, setData] = useState([]);
+  const [orderFilter, setOrderFilter] = useState('Weekly_change');
 
   useEffect(() => {
     (async () => {
       // const currentDate = moment(new Date()).format('YYYY/MM/DD');
       const currentDate = '2022/05/20';
-      const obj = { date: currentDate };
+      const obj = { date: currentDate, order_data: orderFilter };
       const data = await getOptionVolumeGainers(obj);
+      setData(data);
       console.log(data);
     })();
-  }, []);
+  }, [orderFilter]);
 
   return (
     <div className='mb-5'>
@@ -21,10 +23,13 @@ const OptionVolumeGainers = () => {
           <strong>Option Volume Gainers</strong>
         </h6>
         <select
-          className='form-select w-25'
+          className='form-select w-25 me-3'
           aria-label='Default select example'
+          onChange={(e) => setOrderFilter(e.target.value)}
         >
-          <option selected>Weekly</option>
+          <option selected value={'Weekly_change'}>
+            Weekly
+          </option>
           <option value={1}>One</option>
           <option value={2}>Two</option>
           <option value={3}>Three</option>

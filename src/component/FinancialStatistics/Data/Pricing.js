@@ -6,6 +6,7 @@ import CustomChart from '../../Graph/CustomChart';
 
 const Pricing = ({ data, Loading }) => {
   const [Pricingdata, setPricingdata] = useState([]);
+  const [PricingDataAsc, setPricingDataAsc] = useState([]);
   const [chartLabel, setChartLabel] = useState();
   const [checkedValues, setCheckedValues] = useState([]);
   const [dataSets, setDataSets] = useState([]);
@@ -35,7 +36,7 @@ const Pricing = ({ data, Loading }) => {
         return `${quarter} ${el.year}`;
       });
 
-      setChartLabel(labels);
+      setChartLabel(labels.reverse());
 
       var current = [
         {
@@ -195,6 +196,171 @@ const Pricing = ({ data, Loading }) => {
       ];
       setPricingdata(current);
 
+      const dataAsc = data.slice();
+
+      dataAsc.sort(function (a, b) {
+        return a.year - b.year || a.quarter - b.quarter;
+      });
+
+      var currentAsc = [
+        {
+          col0: name[0],
+          col1: dataAsc[0]?.evToEbit,
+          col2: dataAsc[1]?.evToEbit,
+          col3: dataAsc[2]?.evToEbit,
+          col4: dataAsc[3]?.evToEbit,
+          col5: dataAsc[4]?.evToEbit,
+          col6: dataAsc[5]?.evToEbit,
+          col7: dataAsc[6]?.evToEbit,
+          col8: dataAsc[7]?.evToEbit,
+          col9: dataAsc[8]?.evToEbit,
+          col10: dataAsc[9]?.evToEbit,
+          tooltip: PricingDef.evToEbit,
+        },
+        {
+          col0: name[1],
+          col1: dataAsc[0]?.evToEbitda,
+          col2: dataAsc[1]?.evToEbitda,
+          col3: dataAsc[2]?.evToEbitda,
+          col4: dataAsc[3]?.evToEbitda,
+          col5: dataAsc[4]?.evToEbitda,
+          col6: dataAsc[5]?.evToEbitda,
+          col7: dataAsc[6]?.evToEbitda,
+          col8: dataAsc[7]?.evToEbitda,
+          col9: dataAsc[8]?.evToEbitda,
+          col10: dataAsc[9]?.evToEbitda,
+          tooltip: PricingDef.evToEbitda,
+        },
+        {
+          col0: name[2],
+          col1: dataAsc[0]?.evToFcf,
+          col2: dataAsc[1]?.evToFcf,
+          col3: dataAsc[2]?.evToFcf,
+          col4: dataAsc[3]?.evToFcf,
+          col5: dataAsc[4]?.evToFcf,
+          col6: dataAsc[5]?.evToFcf,
+          col7: dataAsc[6]?.evToFcf,
+          col8: dataAsc[7]?.evToFcf,
+          col9: dataAsc[8]?.evToFcf,
+          col10: dataAsc[9]?.evToFcf,
+          tooltip: PricingDef.evToFcf,
+        },
+        {
+          col0: name[3],
+          col1: dataAsc[0]?.evToInvestedCapital,
+          col2: dataAsc[1]?.evToInvestedCapital,
+          col3: dataAsc[2]?.evToInvestedCapital,
+          col4: dataAsc[3]?.evToInvestedCapital,
+          col5: dataAsc[4]?.evToInvestedCapital,
+          col6: dataAsc[5]?.evToInvestedCapital,
+          col7: dataAsc[6]?.evToInvestedCapital,
+          col8: dataAsc[7]?.evToInvestedCapital,
+          col9: dataAsc[8]?.evToInvestedCapital,
+          col10: dataAsc[9]?.evToInvestedCapital,
+          tooltip: PricingDef.evToInvestedCapital,
+        },
+        {
+          col0: name[4],
+          col1: dataAsc[0]?.evToNopat,
+          col2: dataAsc[1]?.evToNopat,
+          col3: dataAsc[2]?.evToNopat,
+          col4: dataAsc[3]?.evToNopat,
+          col5: dataAsc[4]?.evToNopat,
+          col6: dataAsc[5]?.evToNopat,
+          col7: dataAsc[6]?.evToNopat,
+          col8: dataAsc[7]?.evToNopat,
+          col9: dataAsc[8]?.evToNopat,
+          col10: dataAsc[9]?.evToNopat,
+          tooltip: PricingDef.evToNopat,
+        },
+        {
+          col0: name[5],
+          col1: dataAsc[0]?.evToOcf,
+          col2: dataAsc[1]?.evToOcf,
+          col3: dataAsc[2]?.evToOcf,
+          col4: dataAsc[3]?.evToOcf,
+          col5: dataAsc[4]?.evToOcf,
+          col6: dataAsc[5]?.evToOcf,
+          col7: dataAsc[6]?.evToOcf,
+          col8: dataAsc[7]?.evToOcf,
+          col9: dataAsc[8]?.evToOcf,
+          col10: dataAsc[9]?.evToOcf,
+          tooltip: PricingDef.evToOcf,
+        },
+        {
+          col0: name[6],
+          col1: dataAsc[0]?.evToSales,
+          col2: dataAsc[1]?.evToSales,
+          col3: dataAsc[2]?.evToSales,
+          col4: dataAsc[3]?.evToSales,
+          col5: dataAsc[4]?.evToSales,
+          col6: dataAsc[5]?.evToSales,
+          col7: dataAsc[6]?.evToSales,
+          col8: dataAsc[7]?.evToSales,
+          col9: dataAsc[8]?.evToSales,
+          col10: dataAsc[9]?.evToSales,
+          tooltip: PricingDef.evToSales,
+        },
+        {
+          col0: name[7],
+          col1: dataAsc[0]?.fcfYield,
+          col2: dataAsc[1]?.fcfYield,
+          col3: dataAsc[2]?.fcfYield,
+          col4: dataAsc[3]?.fcfYield,
+          col5: dataAsc[4]?.fcfYield,
+          col6: dataAsc[5]?.fcfYield,
+          col7: dataAsc[6]?.fcfYield,
+          col8: dataAsc[7]?.fcfYield,
+          col9: dataAsc[8]?.fcfYield,
+          col10: dataAsc[9]?.fcfYield,
+          tooltip: PricingDef.fcfYield,
+        },
+        {
+          col0: name[8],
+          col1: dataAsc[0]?.pToBv,
+          col2: dataAsc[1]?.pToBv,
+          col3: dataAsc[2]?.pToBv,
+          col4: dataAsc[3]?.pToBv,
+          col5: dataAsc[4]?.pToBv,
+          col6: dataAsc[5]?.pToBv,
+          col7: dataAsc[6]?.pToBv,
+          col8: dataAsc[7]?.pToBv,
+          col9: dataAsc[8]?.pToBv,
+          col10: dataAsc[9]?.pToBv,
+          tooltip: PricingDef.pToBv,
+        },
+        {
+          col0: name[9],
+          col1: dataAsc[0]?.pToE,
+          col2: dataAsc[1]?.pToE,
+          col3: dataAsc[2]?.pToE,
+          col4: dataAsc[3]?.pToE,
+          col5: dataAsc[4]?.pToE,
+          col6: dataAsc[5]?.pToE,
+          col7: dataAsc[6]?.pToE,
+          col8: dataAsc[7]?.pToE,
+          col9: dataAsc[8]?.pToE,
+          col10: dataAsc[9]?.pToE,
+          tooltip: PricingDef.pToE,
+        },
+        {
+          col0: name[10],
+          col1: dataAsc[0]?.priceToRevenue,
+          col2: dataAsc[1]?.priceToRevenue,
+          col3: dataAsc[2]?.priceToRevenue,
+          col4: dataAsc[3]?.priceToRevenue,
+          col5: dataAsc[4]?.priceToRevenue,
+          col6: dataAsc[5]?.priceToRevenue,
+          col7: dataAsc[6]?.priceToRevenue,
+          col8: dataAsc[7]?.priceToRevenue,
+          col9: dataAsc[8]?.priceToRevenue,
+          col10: dataAsc[9]?.priceToRevenue,
+          tooltip: PricingDef.priceToRevenue,
+        },
+      ];
+
+      setPricingDataAsc(currentAsc);
+
       setCheckedValues([]);
     }
   }, [data]);
@@ -203,7 +369,7 @@ const Pricing = ({ data, Loading }) => {
     setDataSets(
       checkedValues &&
         checkedValues.map((index) => {
-          const row = Object.values(Pricingdata[index]);
+          const row = Object.values(PricingDataAsc[index]);
           return {
             label: row[0],
             data: row.slice(1, row.length),

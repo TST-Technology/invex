@@ -6,6 +6,7 @@ import CustomChart from '../../Graph/CustomChart';
 
 const EfficiencyRatios = ({ data, Loading }) => {
   const [EfficiencyRatiosData, setEfficiencyRatiosData] = useState([]);
+  const [EfficiencyRatiosDataAsc, setEfficiencyRatiosDataAsc] = useState([]);
   const [chartLabel, setChartLabel] = useState();
   const [checkedValues, setCheckedValues] = useState([]);
   const [dataSets, setDataSets] = useState([]);
@@ -39,7 +40,7 @@ const EfficiencyRatios = ({ data, Loading }) => {
         return `${quarter} ${el.year}`;
       });
 
-      setChartLabel(labels);
+      setChartLabel(labels.reverse());
 
       var current = [
         {
@@ -255,6 +256,227 @@ const EfficiencyRatios = ({ data, Loading }) => {
       ];
       setEfficiencyRatiosData(current);
 
+      const dataAsc = data.slice();
+
+      dataAsc.sort(function (a, b) {
+        return a.year - b.year || a.quarter - b.quarter;
+      });
+
+      var currentAsc = [
+        {
+          col0: name[0],
+          col1: dataAsc[0]?.accountsPayableTurnover,
+          col2: dataAsc[1]?.accountsPayableTurnover,
+          col3: dataAsc[2]?.accountsPayableTurnover,
+          col4: dataAsc[3]?.accountsPayableTurnover,
+          col5: dataAsc[4]?.accountsPayableTurnover,
+          col6: dataAsc[5]?.accountsPayableTurnover,
+          col7: dataAsc[6]?.accountsPayableTurnover,
+          col8: dataAsc[7]?.accountsPayableTurnover,
+          col9: dataAsc[8]?.accountsPayableTurnover,
+          col10: dataAsc[9]?.accountsPayableTurnover,
+          tooltip: EfficiencyRatioDef.accountsPayableTurnover,
+        },
+        {
+          col0: name[1],
+          col1: dataAsc[0]?.accountsReceivableTurnover,
+          col2: dataAsc[1]?.accountsReceivableTurnover,
+          col3: dataAsc[2]?.accountsReceivableTurnover,
+          col4: dataAsc[3]?.accountsReceivableTurnover,
+          col5: dataAsc[4]?.accountsReceivableTurnover,
+          col6: dataAsc[5]?.accountsReceivableTurnover,
+          col7: dataAsc[6]?.accountsReceivableTurnover,
+          col8: dataAsc[7]?.accountsReceivableTurnover,
+          col9: dataAsc[8]?.accountsReceivableTurnover,
+          col10: dataAsc[9]?.accountsReceivableTurnover,
+          tooltip: EfficiencyRatioDef.accountsReceivableTurnover,
+        },
+        {
+          col0: name[2],
+          col1: dataAsc[0]?.assetTurnover,
+          col2: dataAsc[1]?.assetTurnover,
+          col3: dataAsc[2]?.assetTurnover,
+          col4: dataAsc[3]?.assetTurnover,
+          col5: dataAsc[4]?.assetTurnover,
+          col6: dataAsc[5]?.assetTurnover,
+          col7: dataAsc[6]?.assetTurnover,
+          col8: dataAsc[7]?.assetTurnover,
+          col9: dataAsc[8]?.assetTurnover,
+          col10: dataAsc[9]?.assetTurnover,
+          tooltip: EfficiencyRatioDef.assetTurnover,
+        },
+        {
+          col0: name[3],
+          col1: dataAsc[0]?.fixedAssetTurnover,
+          col2: dataAsc[1]?.fixedAssetTurnover,
+          col3: dataAsc[2]?.fixedAssetTurnover,
+          col4: dataAsc[3]?.fixedAssetTurnover,
+          col5: dataAsc[4]?.fixedAssetTurnover,
+          col6: dataAsc[5]?.fixedAssetTurnover,
+          col7: dataAsc[6]?.fixedAssetTurnover,
+          col8: dataAsc[7]?.fixedAssetTurnover,
+          col9: dataAsc[8]?.fixedAssetTurnover,
+          col10: dataAsc[9]?.fixedAssetTurnover,
+          tooltip: EfficiencyRatioDef.fixedAssetTurnover,
+        },
+        {
+          col0: name[4],
+          col1: dataAsc[0]?.inventoryTurnover,
+          col2: dataAsc[1]?.inventoryTurnover,
+          col3: dataAsc[2]?.inventoryTurnover,
+          col4: dataAsc[3]?.inventoryTurnover,
+          col5: dataAsc[4]?.inventoryTurnover,
+          col6: dataAsc[5]?.inventoryTurnover,
+          col7: dataAsc[6]?.inventoryTurnover,
+          col8: dataAsc[7]?.inventoryTurnover,
+          col9: dataAsc[8]?.inventoryTurnover,
+          col10: dataAsc[9]?.inventoryTurnover,
+          tooltip: EfficiencyRatioDef.inventoryTurnover,
+        },
+        {
+          col0: name[5],
+          col1: dataAsc[0]?.investedCapitalTurnover,
+          col2: dataAsc[1]?.investedCapitalTurnover,
+          col3: dataAsc[2]?.investedCapitalTurnover,
+          col4: dataAsc[3]?.investedCapitalTurnover,
+          col5: dataAsc[4]?.investedCapitalTurnover,
+          col6: dataAsc[5]?.investedCapitalTurnover,
+          col7: dataAsc[6]?.investedCapitalTurnover,
+          col8: dataAsc[7]?.investedCapitalTurnover,
+          col9: dataAsc[8]?.investedCapitalTurnover,
+          col10: dataAsc[9]?.investedCapitalTurnover,
+          tooltip: EfficiencyRatioDef.investedCapitalTurnover,
+        },
+        {
+          col0: name[6],
+          col1: dataAsc[0]?.nibclRevenueDeferredTurnover,
+          col2: dataAsc[1]?.nibclRevenueDeferredTurnover,
+          col3: dataAsc[2]?.nibclRevenueDeferredTurnover,
+          col4: dataAsc[3]?.nibclRevenueDeferredTurnover,
+          col5: dataAsc[4]?.nibclRevenueDeferredTurnover,
+          col6: dataAsc[5]?.nibclRevenueDeferredTurnover,
+          col7: dataAsc[6]?.nibclRevenueDeferredTurnover,
+          col8: dataAsc[7]?.nibclRevenueDeferredTurnover,
+          col9: dataAsc[8]?.nibclRevenueDeferredTurnover,
+          col10: dataAsc[9]?.nibclRevenueDeferredTurnover,
+          tooltip: EfficiencyRatioDef.nibclRevenueDeferredTurnover,
+        },
+        {
+          col0: name[7],
+          col1: dataAsc[0]?.researchDevelopmentToRevenue,
+          col2: dataAsc[1]?.researchDevelopmentToRevenue,
+          col3: dataAsc[2]?.researchDevelopmentToRevenue,
+          col4: dataAsc[3]?.researchDevelopmentToRevenue,
+          col5: dataAsc[4]?.researchDevelopmentToRevenue,
+          col6: dataAsc[5]?.researchDevelopmentToRevenue,
+          col7: dataAsc[6]?.researchDevelopmentToRevenue,
+          col8: dataAsc[7]?.researchDevelopmentToRevenue,
+          col9: dataAsc[8]?.researchDevelopmentToRevenue,
+          col10: dataAsc[9]?.researchDevelopmentToRevenue,
+          tooltip: EfficiencyRatioDef.researchDevelopmentToRevenue,
+        },
+        {
+          col0: name[8],
+          col1: dataAsc[0]?.sgaToRevenue,
+          col2: dataAsc[1]?.sgaToRevenue,
+          col3: dataAsc[2]?.sgaToRevenue,
+          col4: dataAsc[3]?.sgaToRevenue,
+          col5: dataAsc[4]?.sgaToRevenue,
+          col6: dataAsc[5]?.sgaToRevenue,
+          col7: dataAsc[6]?.sgaToRevenue,
+          col8: dataAsc[7]?.sgaToRevenue,
+          col9: dataAsc[8]?.sgaToRevenue,
+          col10: dataAsc[9]?.sgaToRevenue,
+          tooltip: EfficiencyRatioDef.sgaToRevenue,
+        },
+        {
+          col0: name[9],
+          col1: dataAsc[0]?.workingCapitalTurnover,
+          col2: dataAsc[1]?.workingCapitalTurnover,
+          col3: dataAsc[2]?.workingCapitalTurnover,
+          col4: dataAsc[3]?.workingCapitalTurnover,
+          col5: dataAsc[4]?.workingCapitalTurnover,
+          col6: dataAsc[5]?.workingCapitalTurnover,
+          col7: dataAsc[6]?.workingCapitalTurnover,
+          col8: dataAsc[7]?.workingCapitalTurnover,
+          col9: dataAsc[8]?.workingCapitalTurnover,
+          col10: dataAsc[9]?.workingCapitalTurnover,
+          tooltip: EfficiencyRatioDef.workingCapitalTurnover,
+        },
+        {
+          col0: name[10],
+          col1: dataAsc[0]?.cashConversionCycle,
+          col2: dataAsc[1]?.cashConversionCycle,
+          col3: dataAsc[2]?.cashConversionCycle,
+          col4: dataAsc[3]?.cashConversionCycle,
+          col5: dataAsc[4]?.cashConversionCycle,
+          col6: dataAsc[5]?.cashConversionCycle,
+          col7: dataAsc[6]?.cashConversionCycle,
+          col8: dataAsc[7]?.cashConversionCycle,
+          col9: dataAsc[8]?.cashConversionCycle,
+          col10: dataAsc[9]?.cashConversionCycle,
+          tooltip: EfficiencyRatioDef.cashConversionCycle,
+        },
+        {
+          col0: name[11],
+          col1: dataAsc[0]?.daysInAccountsPayable,
+          col2: dataAsc[1]?.daysInAccountsPayable,
+          col3: dataAsc[2]?.daysInAccountsPayable,
+          col4: dataAsc[3]?.daysInAccountsPayable,
+          col5: dataAsc[4]?.daysInAccountsPayable,
+          col6: dataAsc[5]?.daysInAccountsPayable,
+          col7: dataAsc[6]?.daysInAccountsPayable,
+          col8: dataAsc[7]?.daysInAccountsPayable,
+          col9: dataAsc[8]?.daysInAccountsPayable,
+          col10: dataAsc[9]?.daysInAccountsPayable,
+          tooltip: EfficiencyRatioDef.daysInAccountsPayable,
+        },
+        {
+          col0: name[12],
+          col1: dataAsc[0]?.daysInInventory,
+          col2: dataAsc[1]?.daysInInventory,
+          col3: dataAsc[2]?.daysInInventory,
+          col4: dataAsc[3]?.daysInInventory,
+          col5: dataAsc[4]?.daysInInventory,
+          col6: dataAsc[5]?.daysInInventory,
+          col7: dataAsc[6]?.daysInInventory,
+          col8: dataAsc[7]?.daysInInventory,
+          col9: dataAsc[8]?.daysInInventory,
+          col10: dataAsc[9]?.daysInInventory,
+          tooltip: EfficiencyRatioDef.daysInInventory,
+        },
+        {
+          col0: name[13],
+          col1: dataAsc[0]?.daysInRevenueDeferred,
+          col2: dataAsc[1]?.daysInRevenueDeferred,
+          col3: dataAsc[2]?.daysInRevenueDeferred,
+          col4: dataAsc[3]?.daysInRevenueDeferred,
+          col5: dataAsc[4]?.daysInRevenueDeferred,
+          col6: dataAsc[5]?.daysInRevenueDeferred,
+          col7: dataAsc[6]?.daysInRevenueDeferred,
+          col8: dataAsc[7]?.daysInRevenueDeferred,
+          col9: dataAsc[8]?.daysInRevenueDeferred,
+          col10: dataAsc[9]?.daysInRevenueDeferred,
+          tooltip: EfficiencyRatioDef.daysInRevenueDeferred,
+        },
+        {
+          col0: name[14],
+          col1: dataAsc[0]?.daysRevenueOutstanding,
+          col2: dataAsc[1]?.daysRevenueOutstanding,
+          col3: dataAsc[2]?.daysRevenueOutstanding,
+          col4: dataAsc[3]?.daysRevenueOutstanding,
+          col5: dataAsc[4]?.daysRevenueOutstanding,
+          col6: dataAsc[5]?.daysRevenueOutstanding,
+          col7: dataAsc[6]?.daysRevenueOutstanding,
+          col8: dataAsc[7]?.daysRevenueOutstanding,
+          col9: dataAsc[8]?.daysRevenueOutstanding,
+          col10: dataAsc[9]?.daysRevenueOutstanding,
+          tooltip: EfficiencyRatioDef.daysRevenueOutstanding,
+        },
+      ];
+
+      setEfficiencyRatiosDataAsc(currentAsc);
+
       setCheckedValues([]);
     }
   }, [data]);
@@ -263,7 +485,7 @@ const EfficiencyRatios = ({ data, Loading }) => {
     setDataSets(
       checkedValues &&
         checkedValues.map((index) => {
-          const row = Object.values(EfficiencyRatiosData[index]);
+          const row = Object.values(EfficiencyRatiosDataAsc[index]);
           return {
             label: row[0],
             data: row.slice(1, row.length),

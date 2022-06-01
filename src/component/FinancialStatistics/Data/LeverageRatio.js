@@ -6,6 +6,7 @@ import CustomChart from '../../Graph/CustomChart';
 
 const LeverageRatio = ({ data, Loading }) => {
   const [LeverageRatiodata, setLeverageRatiodata] = useState([]);
+  const [LeverageRatioDataAsc, setLeverageRatioDataAsc] = useState([]);
   const [chartLabel, setChartLabel] = useState();
   const [checkedValues, setCheckedValues] = useState([]);
   const [dataSets, setDataSets] = useState([]);
@@ -29,7 +30,7 @@ const LeverageRatio = ({ data, Loading }) => {
         return `${quarter} ${el.year}`;
       });
 
-      setChartLabel(labels);
+      setChartLabel(labels.reverse());
 
       var current = [
         {
@@ -105,6 +106,87 @@ const LeverageRatio = ({ data, Loading }) => {
       ];
       setLeverageRatiodata(current);
 
+      const dataAsc = data.slice();
+
+      dataAsc.sort(function (a, b) {
+        return a.year - b.year || a.quarter - b.quarter;
+      });
+
+      var currentAsc = [
+        {
+          col0: name[0],
+          col1: dataAsc[0]?.debtToAssets,
+          col2: dataAsc[1]?.debtToAssets,
+          col3: dataAsc[2]?.debtToAssets,
+          col4: dataAsc[3]?.debtToAssets,
+          col5: dataAsc[4]?.debtToAssets,
+          col6: dataAsc[5]?.debtToAssets,
+          col7: dataAsc[6]?.debtToAssets,
+          col8: dataAsc[7]?.debtToAssets,
+          col9: dataAsc[8]?.debtToAssets,
+          col10: dataAsc[9]?.debtToAssets,
+          tooltip: LeverageRatioDef.debtToAssets,
+        },
+        {
+          col0: name[1],
+          col1: dataAsc[0]?.debtToCapitalization,
+          col2: dataAsc[1]?.debtToCapitalization,
+          col3: dataAsc[2]?.debtToCapitalization,
+          col4: dataAsc[3]?.debtToCapitalization,
+          col5: dataAsc[4]?.debtToCapitalization,
+          col6: dataAsc[5]?.debtToCapitalization,
+          col7: dataAsc[6]?.debtToCapitalization,
+          col8: dataAsc[7]?.debtToCapitalization,
+          col9: dataAsc[8]?.debtToCapitalization,
+          col10: dataAsc[9]?.debtToCapitalization,
+          tooltip: LeverageRatioDef.debtToCapitalization,
+        },
+        {
+          col0: name[2],
+          col1: dataAsc[0]?.debtToEbitda,
+          col2: dataAsc[1]?.debtToEbitda,
+          col3: dataAsc[2]?.debtToEbitda,
+          col4: dataAsc[3]?.debtToEbitda,
+          col5: dataAsc[4]?.debtToEbitda,
+          col6: dataAsc[5]?.debtToEbitda,
+          col7: dataAsc[6]?.debtToEbitda,
+          col8: dataAsc[7]?.debtToEbitda,
+          col9: dataAsc[8]?.debtToEbitda,
+          col10: dataAsc[9]?.debtToEbitda,
+          tooltip: LeverageRatioDef.debtToEbitda,
+        },
+        {
+          col0: name[3],
+          col1: dataAsc[0]?.debtToEquity,
+          col2: dataAsc[1]?.debtToEquity,
+          col3: dataAsc[2]?.debtToEquity,
+          col4: dataAsc[3]?.debtToEquity,
+          col5: dataAsc[4]?.debtToEquity,
+          col6: dataAsc[5]?.debtToEquity,
+          col7: dataAsc[6]?.debtToEquity,
+          col8: dataAsc[7]?.debtToEquity,
+          col9: dataAsc[8]?.debtToEquity,
+          col10: dataAsc[9]?.debtToEquity,
+          tooltip: LeverageRatioDef.debtToEquity,
+        },
+        {
+          col0: name[4],
+          col1: dataAsc[0]?.netDebtToEbitda,
+          col2: dataAsc[1]?.netDebtToEbitda,
+          col3: dataAsc[2]?.netDebtToEbitda,
+          col4: dataAsc[3]?.netDebtToEbitda,
+          col5: dataAsc[4]?.netDebtToEbitda,
+          col6: dataAsc[5]?.netDebtToEbitda,
+          col7: dataAsc[6]?.netDebtToEbitda,
+          col8: dataAsc[7]?.netDebtToEbitda,
+          col9: dataAsc[8]?.netDebtToEbitda,
+          col10: dataAsc[9]?.netDebtToEbitda,
+          tooltip: LeverageRatioDef.netDebtToEbitda,
+        },
+      ];
+
+      setLeverageRatioDataAsc(currentAsc);
+
       setCheckedValues([]);
     }
   }, [data]);
@@ -113,7 +195,7 @@ const LeverageRatio = ({ data, Loading }) => {
     setDataSets(
       checkedValues &&
         checkedValues.map((index) => {
-          const row = Object.values(LeverageRatiodata[index]);
+          const row = Object.values(LeverageRatioDataAsc[index]);
           return {
             label: row[0],
             data: row.slice(1, row.length),

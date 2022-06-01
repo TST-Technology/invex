@@ -3,16 +3,18 @@ import { getOptionVolumeLoosers } from '../../../api/OptionMarket';
 
 const OptionVolumeLoosers = () => {
   const [data, setData] = useState([]);
+  const [orderFilter, setOrderFilter] = useState('Weekly_change');
 
   useEffect(() => {
     (async () => {
       // const currentDate = moment(new Date()).format('YYYY/MM/DD');
       const currentDate = '2022/05/20';
-      const obj = { date: currentDate };
+      const obj = { date: currentDate, order_data: orderFilter };
       const data = await getOptionVolumeLoosers(obj);
+      setData(data);
       console.log(data);
     })();
-  }, []);
+  }, [orderFilter]);
 
   return (
     <div class='mb-5'>
@@ -20,11 +22,17 @@ const OptionVolumeLoosers = () => {
         <h6 class='me-auto mb-0'>
           <strong>Option Volume Loosers</strong>
         </h6>
-        <select class='form-select w-25' aria-label='Default select example'>
-          <option selected>Weekly</option>
-          <option value='1'>One</option>
-          <option value='2'>Two</option>
-          <option value='3'>Three</option>
+        <select
+          className='form-select w-25 me-3'
+          aria-label='Default select example'
+          onChange={(e) => setOrderFilter(e.target.value)}
+        >
+          <option selected value={'Weekly_change'}>
+            Weekly
+          </option>
+          <option value={1}>One</option>
+          <option value={2}>Two</option>
+          <option value={3}>Three</option>
         </select>
       </div>
       <div class='table-responsive'>

@@ -6,6 +6,7 @@ import CustomChart from '../../Graph/CustomChart';
 
 const CurrentFinancialHighlights = ({ data, Loading }) => {
   const [CurrentFinancialdata, setCurrentFinancialdata] = useState([]);
+  const [CurrentFinancialDataAsc, setCurrentFinancialDataAsc] = useState([]);
   const [chartLabel, setChartLabel] = useState();
   const [checkedValues, setCheckedValues] = useState([]);
   const [dataSets, setDataSets] = useState([]);
@@ -32,7 +33,7 @@ const CurrentFinancialHighlights = ({ data, Loading }) => {
         return `${quarter} ${el.year}`;
       });
 
-      setChartLabel(labels);
+      setChartLabel(labels.reverse());
 
       var current = [
         {
@@ -150,6 +151,129 @@ const CurrentFinancialHighlights = ({ data, Loading }) => {
       ];
       setCurrentFinancialdata(current);
 
+      const dataAsc = data.slice();
+
+      dataAsc.sort(function (a, b) {
+        return a.year - b.year || a.quarter - b.quarter;
+      });
+
+      var currentAsc = [
+        {
+          col0: name[0],
+          col1: dataAsc[0]?.ebitdaReported,
+          col2: dataAsc[1]?.ebitdaReported,
+          col3: dataAsc[2]?.ebitdaReported,
+          col4: dataAsc[3]?.ebitdaReported,
+          col5: dataAsc[4]?.ebitdaReported,
+          col6: dataAsc[5]?.ebitdaReported,
+          col7: dataAsc[6]?.ebitdaReported,
+          col8: dataAsc[7]?.ebitdaReported,
+          col9: dataAsc[8]?.ebitdaReported,
+          col10: dataAsc[9]?.ebitdaReported,
+          tooltip: CurrentFinancialHighlightsDef.ebitdaReported,
+        },
+        {
+          col0: name[1],
+          col1: dataAsc[0]?.expenseOperating,
+          col2: dataAsc[1]?.expenseOperating,
+          col3: dataAsc[2]?.expenseOperating,
+          col4: dataAsc[3]?.expenseOperating,
+          col5: dataAsc[4]?.expenseOperating,
+          col6: dataAsc[5]?.expenseOperating,
+          col7: dataAsc[6]?.expenseOperating,
+          col8: dataAsc[7]?.expenseOperating,
+          col9: dataAsc[8]?.expenseOperating,
+          col10: dataAsc[9]?.expenseOperating,
+          tooltip: CurrentFinancialHighlightsDef.expenseOperating,
+        },
+        {
+          col0: name[2],
+          col1: dataAsc[0]?.freeCashFlow,
+          col2: dataAsc[1]?.freeCashFlow,
+          col3: dataAsc[2]?.freeCashFlow,
+          col4: dataAsc[3]?.freeCashFlow,
+          col5: dataAsc[4]?.freeCashFlow,
+          col6: dataAsc[5]?.freeCashFlow,
+          col7: dataAsc[6]?.freeCashFlow,
+          col8: dataAsc[7]?.freeCashFlow,
+          col9: dataAsc[8]?.freeCashFlow,
+          col10: dataAsc[9]?.freeCashFlow,
+          tooltip: CurrentFinancialHighlightsDef.freeCashFlow,
+        },
+        {
+          col0: name[3],
+          col1: dataAsc[0]?.goodwillTotal,
+          col2: dataAsc[1]?.goodwillTotal,
+          col3: dataAsc[2]?.goodwillTotal,
+          col4: dataAsc[3]?.goodwillTotal,
+          col5: dataAsc[4]?.goodwillTotal,
+          col6: dataAsc[5]?.goodwillTotal,
+          col7: dataAsc[6]?.goodwillTotal,
+          col8: dataAsc[7]?.goodwillTotal,
+          col9: dataAsc[8]?.goodwillTotal,
+          col10: dataAsc[9]?.goodwillTotal,
+          tooltip: CurrentFinancialHighlightsDef.goodwillTotal,
+        },
+        {
+          col0: name[4],
+          col1: dataAsc[0]?.incomeNetPreTax,
+          col2: dataAsc[1]?.incomeNetPreTax,
+          col3: dataAsc[2]?.incomeNetPreTax,
+          col4: dataAsc[3]?.incomeNetPreTax,
+          col5: dataAsc[4]?.incomeNetPreTax,
+          col6: dataAsc[5]?.incomeNetPreTax,
+          col7: dataAsc[6]?.incomeNetPreTax,
+          col8: dataAsc[7]?.incomeNetPreTax,
+          col9: dataAsc[8]?.incomeNetPreTax,
+          col10: dataAsc[9]?.incomeNetPreTax,
+          tooltip: CurrentFinancialHighlightsDef.incomeNetPreTax,
+        },
+        {
+          col0: name[5],
+          col1: dataAsc[0]?.interestMinority,
+          col2: dataAsc[1]?.interestMinority,
+          col3: dataAsc[2]?.interestMinority,
+          col4: dataAsc[3]?.interestMinority,
+          col5: dataAsc[4]?.interestMinority,
+          col6: dataAsc[5]?.interestMinority,
+          col7: dataAsc[6]?.interestMinority,
+          col8: dataAsc[7]?.interestMinority,
+          col9: dataAsc[8]?.interestMinority,
+          col10: dataAsc[9]?.interestMinority,
+          tooltip: CurrentFinancialHighlightsDef.interestMinority,
+        },
+        {
+          col0: name[6],
+          col1: dataAsc[0]?.nopat,
+          col2: dataAsc[1]?.nopat,
+          col3: dataAsc[2]?.nopat,
+          col4: dataAsc[3]?.nopat,
+          col5: dataAsc[4]?.nopat,
+          col6: dataAsc[5]?.nopat,
+          col7: dataAsc[6]?.nopat,
+          col8: dataAsc[7]?.nopat,
+          col9: dataAsc[8]?.nopat,
+          col10: dataAsc[9]?.nopat,
+          tooltip: CurrentFinancialHighlightsDef.nopat,
+        },
+        {
+          col0: name[7],
+          col1: dataAsc[0]?.operatingIncome,
+          col2: dataAsc[1]?.operatingIncome,
+          col3: dataAsc[2]?.operatingIncome,
+          col4: dataAsc[3]?.operatingIncome,
+          col5: dataAsc[4]?.operatingIncome,
+          col6: dataAsc[5]?.operatingIncome,
+          col7: dataAsc[6]?.operatingIncome,
+          col8: dataAsc[7]?.operatingIncome,
+          col9: dataAsc[8]?.operatingIncome,
+          col10: dataAsc[9]?.operatingIncome,
+          tooltip: CurrentFinancialHighlightsDef.operatingIncome,
+        },
+      ];
+
+      setCurrentFinancialDataAsc(currentAsc);
+
       setCheckedValues([]);
     }
   }, [data]);
@@ -158,7 +282,7 @@ const CurrentFinancialHighlights = ({ data, Loading }) => {
     setDataSets(
       checkedValues &&
         checkedValues.map((index) => {
-          const row = Object.values(CurrentFinancialdata[index]);
+          const row = Object.values(CurrentFinancialDataAsc[index]);
           return {
             label: row[0],
             data: row.slice(1, row.length),
