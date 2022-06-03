@@ -66,6 +66,8 @@ const Exploding = () => {
           </thead>
           <tbody className='border-top-0'>
             {data &&
+              Array.isArray(data) &&
+              data.length > 0 &&
               data.map((row) => {
                 return (
                   <tr>

@@ -12,6 +12,7 @@ const MostActiveOptions = () => {
       const obj = { date: currentDate };
       const data = await getMostActiveOptions(obj);
       console.log(data);
+      console.log(typeof data);
     })();
   }, []);
 
@@ -35,6 +36,8 @@ const MostActiveOptions = () => {
           </thead>
           <tbody className='border-top-0'>
             {data &&
+              Array.isArray(data) &&
+              data.length > 0 &&
               data.map((row) => {
                 return (
                   <tr>
