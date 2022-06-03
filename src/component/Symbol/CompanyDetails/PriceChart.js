@@ -14,7 +14,6 @@ import TabbedComponent from './helper/TabbedComponent';
 import moment from 'moment';
 import { CircularProgress } from '@material-ui/core';
 import Chart from 'react-apexcharts';
-import CandleChartImage from '../../Common/Images/candlestick-chart.png';
 
 function PriceChart({ CompanyName }) {
   const [params] = useSearchParams();
