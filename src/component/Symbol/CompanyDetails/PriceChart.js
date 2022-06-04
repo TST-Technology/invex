@@ -255,65 +255,6 @@ function PriceChart({ CompanyName }) {
               height={350}
             />
           )}
-          {/* {candleChartData && candleChartData.length > 0 && range === '1D' && (
-            <Chart
-              options={options}
-              data={candleChartData}
-              series={[{ data: candleChartData }]}
-              type='candlestick'
-              height={350}
-            />
-          )}
-
-          {candleChartData && candleChartData.length > 0 && range === '1W' && (
-            <Chart
-              options={optionsDateTime}
-              data={candleChartData}
-              series={[{ data: candleChartData }]}
-              type='candlestick'
-              height={350}
-            />
-          )}
-
-          {candleChartData && candleChartData.length > 0 && range === '1M' && (
-            <Chart
-              options={optionsDateTime}
-              data={candleChartData}
-              series={[{ data: candleChartData }]}
-              type='candlestick'
-              height={350}
-            />
-          )}
-
-          {candleChartData && candleChartData.length > 0 && range === '1Y' && (
-            <Chart
-              options={optionsDateTime}
-              data={candleChartData}
-              series={[{ data: candleChartData }]}
-              type='candlestick'
-              height={350}
-            />
-          )}
-
-          {candleChartData && candleChartData.length > 0 && range === '5Y' && (
-            <Chart
-              options={optionsDateTime}
-              data={candleChartData}
-              series={[{ data: candleChartData }]}
-              type='candlestick'
-              height={350}
-            />
-          )}
-
-          {candleChartData && candleChartData.length > 0 && range === 'MAX' && (
-            <Chart
-              options={optionsDateTime}
-              data={candleChartData}
-              series={[{ data: candleChartData }]}
-              type='candlestick'
-              height={350}
-            />
-          )} */}
         </>
       )}
     </div>
