@@ -62,13 +62,17 @@ function PriceChart({ CompanyName }) {
               return el;
             });
 
-            const candleData = chart?.data?.map((el) => {
-              const convertedDate = new Date(el.date);
-              let newObj = {};
-              newObj.x = el.minute;
-              newObj.y = [el.open, el.high, el.low, el.close];
-              return newObj;
-            });
+            const candleData = chart?.data
+              ?.filter((el) => {
+                return el.open && el.close && el.high && el.low;
+              })
+              .map((el) => {
+                const convertedDate = new Date(`${el.date} ${el.minute}`);
+                let newObj = {};
+                newObj.x = convertedDate;
+                newObj.y = [el.open, el.high, el.low, el.close];
+                return newObj;
+              });
             setCandleChartData(candleData);
             setTicks(tempTicks);
             setChartData(tempArr);
@@ -96,12 +100,16 @@ function PriceChart({ CompanyName }) {
           setTicks(tempTicks);
           setChartData(tempArr.reverse());
 
-          const candleData = chart?.data?.map((el) => {
-            let newObj = {};
-            newObj.x = el.date;
-            newObj.y = [el.open, el.high, el.low, el.close];
-            return newObj;
-          });
+          const candleData = chart?.data
+            ?.filter((el) => {
+              return el.open && el.close && el.high && el.low;
+            })
+            .map((el) => {
+              let newObj = {};
+              newObj.x = el.date;
+              newObj.y = [el.open, el.high, el.low, el.close];
+              return newObj;
+            });
           setCandleChartData(candleData);
         }
       }
@@ -139,7 +147,15 @@ function PriceChart({ CompanyName }) {
       align: 'left',
     },
     xaxis: {
-      type: 'category',
+      type: 'datetime',
+      labels: {
+        datetimeFormatter: {
+          year: 'yyyy',
+          month: 'MMM yyyy',
+          day: 'dd MMM',
+          hour: 'HH:mm',
+        },
+      },
     },
     yaxis: {
       tooltip: {
@@ -228,9 +244,18 @@ function PriceChart({ CompanyName }) {
         </ResponsiveContainer>
       )}
 
-      {chartType === 'CANDLE_CHART' && (
+      {!isLoading && chartType === 'CANDLE_CHART' && (
         <>
-          {candleChartData && candleChartData.length > 0 && range === '1D' && (
+          {candleChartData && candleChartData.length > 0 && (
+            <Chart
+              options={options}
+              data={candleChartData}
+              series={[{ data: candleChartData }]}
+              type='candlestick'
+              height={350}
+            />
+          )}
+          {/* {candleChartData && candleChartData.length > 0 && range === '1D' && (
             <Chart
               options={options}
               data={candleChartData}
@@ -288,7 +313,7 @@ function PriceChart({ CompanyName }) {
               type='candlestick'
               height={350}
             />
-          )}
+          )} */}
         </>
       )}
     </div>
