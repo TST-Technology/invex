@@ -1,18 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { getHighestImpliedVolatility } from '../../../api/OptionMarket';
+import moment from 'moment';
+import { CircularProgress } from '@material-ui/core';
 
-const HighestImpliedVolatility = () => {
+const HighestImpliedVolatility = ({ values }) => {
   const [data, setData] = useState([]);
-  const [ivFilter, setIVFilter] = useState(30);
+  const [ivFilter, setIVFilter] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setData(values);
+  }, [values]);
 
   useEffect(() => {
     (async () => {
-      // const currentDate = moment(new Date()).format('YYYY/MM/DD');
-      const currentDate = '2022/05/20';
-      const obj = { date: currentDate, day_list: ivFilter };
-      const data = await getHighestImpliedVolatility(obj);
-      setData(data);
-      console.log(data);
+      if (ivFilter) {
+        setIsLoading(true);
+        // const currentDate = moment(new Date()).format('YYYY/MM/DD');
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const currentDate = moment(yesterday).format('YYYY/MM/DD');
+        // const currentDate = '2022/05/20';
+        const obj = { date: currentDate, day_list: ivFilter };
+        const data = await getHighestImpliedVolatility(obj);
+        setData(data);
+        setIsLoading(false);
+      }
     })();
   }, [ivFilter]);
 
@@ -32,204 +45,87 @@ const HighestImpliedVolatility = () => {
           </option>
           <option value={60}>IV 60</option>
           <option value={90}>IV 90</option>
+          <option value={120}>IV 120</option>
+          <option value={150}>IV 150</option>
+          <option value={180}>IV 180</option>
+          <option value={360}>IV 360</option>
         </select>
       </div>
-      <div className='table-responsive'>
-        <table className='table table-bordered m-0 most_tables'>
-          <thead className='table-light'>
-            <tr>
-              <th scope='col'>Suymbol</th>
-              <th scope='col'>Last</th>
-              <th scope='col'>Volume</th>
-              <th scope='col'>1 Day Change</th>
-              <th scope='col'>Weekly Change</th>
-              <th scope='col'>Monthly Change</th>
-              <th scope='col'>Quarterly Change</th>
-            </tr>
-          </thead>
-          <tbody className='border-top-0'>
-            {data &&
-              Array.isArray(data) &&
-              data.length > 0 &&
-              data.map((row) => {
-                return (
-                  <tr>
-                    <td>{row.Symbol}</td>
-                    <td>{row.Last}</td>
-                    <td>{row.volume}</td>
-                    <td>
-                      <span className={row['1_day_change'] > 0 ? 'up' : 'down'}>
-                        {row['1_day_change']}%
-                      </span>
-                    </td>
-                    <td>
-                      <span
-                        className={row['Weekly_change'] > 0 ? 'up' : 'down'}
-                      >
-                        {row['Weekly_change']}%
-                      </span>
-                    </td>
-                    <td>
-                      <span
-                        className={row['Monthly_change'] > 0 ? 'up' : 'down'}
-                      >
-                        {row['Monthly_change']}%
-                      </span>
-                    </td>
-                    <td>
-                      <span
-                        className={row['Quarterly_change'] > 0 ? 'up' : 'down'}
-                      >
-                        {row['Quarterly_change']}%
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })}
-            <tr>
-              <td>A</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-            </tr>
-            <tr>
-              <td>AA</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-            </tr>
-            <tr>
-              <td>AADI</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-            </tr>
-            <tr>
-              <td>AAIC</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-            </tr>
-            <tr>
-              <td>AAL</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-            </tr>
-            <tr>
-              <td>AAN</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-            </tr>
-            <tr>
-              <td>AAON</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-            </tr>
-            <tr>
-              <td>AAP</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-              <td>
-                <span className='up'>4.00%</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <a href='#' className='d-block mt-2 text-end'>
-        Load More....
-      </a>
+      {!isLoading && (
+        <>
+          <div className='table-responsive'>
+            <table className='table table-bordered m-0 most_tables'>
+              <thead className='table-light'>
+                <tr>
+                  <th scope='col'>Symbol</th>
+                  <th scope='col'>Last</th>
+                  <th scope='col'>Volume</th>
+                  <th scope='col'>1 Day Change</th>
+                  <th scope='col'>Weekly Change</th>
+                  <th scope='col'>Monthly Change</th>
+                  <th scope='col'>Quarterly Change</th>
+                </tr>
+              </thead>
+              <tbody className='border-top-0'>
+                {data &&
+                  data.Symbol &&
+                  Object.values(data.Symbol).map((row, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{data.Symbol[index]}</td>
+                        <td>{data.Last[index].toFixed(2)}</td>
+                        <td>{data?.volume && data?.volume[index]}</td>
+                        <td>
+                          <span className={'up'}>
+                            {data['1_day_change'] &&
+                              `${data['1_day_change'][index]} %`}
+                          </span>
+                        </td>
+                        <td>
+                          <span className='up'>
+                            {data['Weekly_change'] &&
+                              `${data['Weekly_change'][index]} %`}
+                          </span>
+                        </td>
+                        <td>
+                          <span className='up'>
+                            {data['Monthly_change'] &&
+                              `${data['Monthly_change'][index]} %`}
+                          </span>
+                        </td>
+                        <td>
+                          <span className='up'>
+                            {data['Quarterly_change'] &&
+                              `${data['Quarterly_change'][index]} %`}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
+          <a href='#' className='d-block mt-2 text-end'>
+            Load More....
+          </a>
+        </>
+      )}
+
+      {isLoading && (
+        <div
+          style={{
+            height: 443,
+            textAlign: 'center',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )}
     </div>
   );
-};
+};;
 
 export default HighestImpliedVolatility;

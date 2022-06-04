@@ -117,27 +117,6 @@ function PriceChart({ CompanyName }) {
     })();
   }, [range]);
 
-  const optionsDateTime = {
-    chart: {
-      type: 'candlestick',
-    },
-    title: {
-      text: 'CandleStick Chart',
-      align: 'left',
-    },
-    xaxis: {
-      type: 'datetime',
-      labels: {
-        format: 'dd MMM yyyy',
-      },
-    },
-    yaxis: {
-      tooltip: {
-        enabled: true,
-      },
-    },
-  };
-
   const options = {
     chart: {
       type: 'candlestick',

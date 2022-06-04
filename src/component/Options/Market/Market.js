@@ -9,37 +9,59 @@ import OptionOpenInterestGainers from './OptionOpenInterestGainers/OptionOpenInt
 import OptionOpenInterestLosers from './OptionOpenInterestLosers/OptionOpenInterestLosers';
 import RightSideSection from './RightSideSection/RightSideSection';
 import { getDefaultMarketOption } from '../../api/OptionMarket';
+import { CircularProgress } from '@material-ui/core';
+import moment from 'moment';
 
 const Market = () => {
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
-      // const currentDate = moment(new Date()).format('YYYY/MM/DD');
-      const currentDate = '2022/05/20';
+      setIsLoading(true);
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const currentDate = moment(yesterday).format('YYYY/MM/DD');
       const obj = { date: currentDate };
       const data = await getDefaultMarketOption(obj);
-      console.log(data);
+      setData(data);
+      setIsLoading(false);
     })();
   }, []);
 
   return (
     <>
-      <div class='row'>
-        <div class='col-lg-8'>
-          <MostActiveOptions />
-          <HighestImpliedVolatility />
-          <Exploding />
-          <Imploding />
-          <OptionVolumeGainers />
-          <OptionVolumeLoosers />
-          <OptionOpenInterestGainers />
-          <OptionOpenInterestLosers />
+      {isLoading && (
+        <div
+          style={{
+            height: 450,
+            textAlign: 'center',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <CircularProgress />
         </div>
-        <div class='col-lg-4'>
-          <RightSideSection />
+      )}
+
+      {!isLoading && (
+        <div class='row'>
+          <div class='col-lg-8'>
+            <MostActiveOptions values={data.mao} />
+            <HighestImpliedVolatility values={data.hiv} />
+            <Exploding values={data.ei} />
+            <Imploding values={data.ii} />
+            <OptionVolumeGainers values={data.ovg} />
+            <OptionVolumeLoosers values={data.ovl} />
+            <OptionOpenInterestGainers values={data.ooig} />
+            <OptionOpenInterestLosers values={data.ooil} />
+          </div>
+          <div class='col-lg-4'>
+            <RightSideSection />
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

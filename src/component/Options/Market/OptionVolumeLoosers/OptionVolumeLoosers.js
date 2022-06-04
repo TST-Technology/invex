@@ -1,25 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { getOptionVolumeLoosers } from '../../../api/OptionMarket';
+import moment from 'moment';
+import { CircularProgress } from '@material-ui/core';
 
-const OptionVolumeLoosers = () => {
+const OptionVolumeLoosers = ({ values }) => {
   const [data, setData] = useState([]);
-  const [orderFilter, setOrderFilter] = useState('Weekly_change');
+  const [orderFilter, setOrderFilter] = useState('');
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setData(values);
+  }, [values]);
 
   useEffect(() => {
     (async () => {
-      // const currentDate = moment(new Date()).format('YYYY/MM/DD');
-      const currentDate = '2022/05/20';
-      const obj = { date: currentDate, order_data: orderFilter };
-      const data = await getOptionVolumeLoosers(obj);
-      setData(data);
-      console.log(data);
+      if (orderFilter) {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const currentDate = moment(yesterday).format('YYYY/MM/DD');
+        const obj = { date: currentDate, order_data: orderFilter };
+        setIsLoading(true);
+        const data = await getOptionVolumeLoosers(obj);
+        setIsLoading(false);
+        setData(data);
+      }
     })();
   }, [orderFilter]);
 
   return (
-    <div class='mb-5'>
-      <div class='d-flex align-items-center justify-content-between mb-4'>
-        <h6 class='me-auto mb-0'>
+    <div className='mb-5'>
+      <div className='d-flex align-items-center justify-content-between mb-4'>
+        <h6 className='me-auto mb-0'>
           <strong>Option Volume Loosers</strong>
         </h6>
         <select
@@ -27,225 +39,116 @@ const OptionVolumeLoosers = () => {
           aria-label='Default select example'
           onChange={(e) => setOrderFilter(e.target.value)}
         >
+          <option value='Daily_change'>Daily</option>
           <option selected value={'Weekly_change'}>
             Weekly
           </option>
-          <option value={1}>One</option>
-          <option value={2}>Two</option>
-          <option value={3}>Three</option>
+          <option value='Monthly_change'>Monthly</option>
+          <option value='Quarterly_change'>Quarterly</option>
         </select>
       </div>
-      <div class='table-responsive'>
-        <table class='table table-bordered m-0 most_tables'>
-          <thead class='table-light'>
-            <tr>
-              <th scope='col'>Suymbol</th>
-              <th scope='col'>Last</th>
-              <th scope='col'>Volume</th>
-              <th scope='col'>1 Day Change</th>
-              <th scope='col'>Weekly Change</th>
-              <th scope='col'>Monthly Change</th>
-              <th scope='col'>Quarterly Change</th>
-            </tr>
-          </thead>
-          <tbody class='border-top-0'>
-            {data &&
-              Array.isArray(data) &&
-              data.length > 0 &&
-              data.map((row) => {
-                return (
-                  <tr>
-                    <td>{row.Symbol}</td>
-                    <td>{row.Last}</td>
-                    <td>{row.volume}</td>
-                    <td>
-                      <span className={row['1_day_change'] > 0 ? 'up' : 'down'}>
-                        {row['1_day_change']}%
-                      </span>
-                    </td>
-                    <td>
-                      <span
-                        className={row['Weekly_change'] > 0 ? 'up' : 'down'}
-                      >
-                        {row['Weekly_change']}%
-                      </span>
-                    </td>
-                    <td>
-                      <span
-                        className={row['Monthly_change'] > 0 ? 'up' : 'down'}
-                      >
-                        {row['Monthly_change']}%
-                      </span>
-                    </td>
-                    <td>
-                      <span
-                        className={row['Quarterly_change'] > 0 ? 'up' : 'down'}
-                      >
-                        {row['Quarterly_change']}%
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })}
-            <tr>
-              <td>A</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='down'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-            </tr>
-            <tr>
-              <td>AA</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='down'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-            </tr>
-            <tr>
-              <td>AADI</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='down'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-            </tr>
-            <tr>
-              <td>AAIC</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='down'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-            </tr>
-            <tr>
-              <td>AAL</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='down'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-            </tr>
-            <tr>
-              <td>AAN</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='down'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-            </tr>
-            <tr>
-              <td>AAOI</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='down'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-            </tr>
-            <tr>
-              <td>AAON</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='down'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-            </tr>
-            <tr>
-              <td>AAP</td>
-              <td>20</td>
-              <td>5651245</td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='down'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-              <td>
-                <span class='up'>4.00%</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <a href='#' class='d-block mt-2 text-end'>
-        Load More....
-      </a>
+
+      {!isLoading && (
+        <>
+          <div className='table-responsive'>
+            <table className='table table-bordered m-0 most_tables'>
+              <thead className='table-light'>
+                <tr>
+                  <th scope='col'>Symbol</th>
+                  <th scope='col'>Last</th>
+                  <th scope='col'>Volume</th>
+                  <th
+                    scope='col'
+                    className={orderFilter === 'Daily_change' ? 'fw-bold' : ''}
+                  >
+                    1 Day Change
+                  </th>
+                  <th
+                    scope='col'
+                    className={
+                      (orderFilter === 'Weekly_change') | (orderFilter === '')
+                        ? 'fw-bold'
+                        : ''
+                    }
+                  >
+                    Weekly Change
+                  </th>
+                  <th
+                    scope='col'
+                    className={
+                      orderFilter === 'Monthly_change' ? 'fw-bold' : ''
+                    }
+                  >
+                    Monthly Change
+                  </th>
+                  <th
+                    scope='col'
+                    className={
+                      orderFilter === 'Quarterly_change' ? 'fw-bold' : ''
+                    }
+                  >
+                    Quarterly Change
+                  </th>
+                </tr>
+              </thead>
+              <tbody className='border-top-0'>
+                {data &&
+                  data.Symbol &&
+                  Object.values(data.Symbol).map((row, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{data.Symbol && data.Symbol[index]}</td>
+                        <td>{data.Last && data.Last[index].toFixed(2)}</td>
+                        <td>{data.volume && data.volume[index]}</td>
+                        <td>
+                          <span className='up'>
+                            {data['1_day_change'] &&
+                              `${data['1_day_change'][index]} %`}
+                          </span>
+                        </td>
+                        <td>
+                          <span className='up'>
+                            {data['Weekly_change'] &&
+                              `${data['Weekly_change'][index]} %`}
+                          </span>
+                        </td>
+                        <td>
+                          <span className='up'>
+                            {data['Monthly_change'] &&
+                              `${data['Monthly_change'][index]} %`}
+                          </span>
+                        </td>
+                        <td>
+                          <span className='up'>
+                            {data['Quarterly_change'] &&
+                              `${data['Quarterly_change'][index]} %`}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
+          <a href='#' className='d-block mt-2 text-end'>
+            Load More....
+          </a>
+        </>
+      )}
+
+      {isLoading && (
+        <div
+          style={{
+            height: 443,
+            textAlign: 'center',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )}
     </div>
   );
 };
