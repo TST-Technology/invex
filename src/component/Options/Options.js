@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Market from './Market/Market';
+import TradingIdea from './TradingIdea/TradingIdea';
 
 const Options = () => {
   const [option, setOption] = useState('MARKET');
 
   return (
     <div className='main'>
-      <section className='company_details'>
+      <section className='sectors_sec'>
         <div className='container'>
           <div className='top_button_panel mt-4 mb-3'>
             <button
@@ -22,15 +23,16 @@ const Options = () => {
             <button
               type='button'
               className={`btn ${
-                option === 'TRADING' ? 'btn-info' : 'btn-light'
+                option === 'TRADING_IDEA' ? 'btn-info' : 'btn-light'
               }`}
-              onClick={() => setOption('QUOTE')}
+              onClick={() => setOption('TRADING_IDEA')}
             >
               {' '}
               Tranding Ideas
             </button>
           </div>
           {option && option === 'MARKET' && <Market />}
+          {option && option === 'TRADING_IDEA' && <TradingIdea />}
         </div>
       </section>
     </div>
