@@ -30,8 +30,8 @@ const CompetitorsNews = ({ KeyStatus, NewsData }) => {
 
   useEffect(() => {
     (async () => {
-      if (params.get("symbol")) {
-        var data = await getTopCompetitors(params.get("symbol"));
+      if (params.get('symbol')) {
+        var data = await getTopCompetitors(params.get('symbol'));
         if (data && data?.status == 200) {
           // KeyStatus
           var api = [];
@@ -40,7 +40,6 @@ const CompetitorsNews = ({ KeyStatus, NewsData }) => {
             api.push(getFinancialStatistics(symbol));
           });
           const symbolList = await Promise.all(api);
-          console.log("symbolList,", symbolList);
           if (symbolList && symbolList?.length > 0) {
             setTcol1((previous) => {
               return {
@@ -83,8 +82,7 @@ const CompetitorsNews = ({ KeyStatus, NewsData }) => {
         }
       }
     })();
-  }, [params.get("symbol")]);
-  console.log("Tcol1", Tcol1);
+  }, [params.get('symbol')]);
   useEffect(() => {
     var tempArr = [
       {
@@ -93,9 +91,9 @@ const CompetitorsNews = ({ KeyStatus, NewsData }) => {
         col2: Tcol1?.marketCap,
         col3: parseFloat(Tcol1?.beta).toFixed(2),
         col4:
-          Tcol1?.peRatio == null ? "NA" : parseFloat(Tcol1?.peRatio).toFixed(2),
-        col5: Tcol1?.ttmEPS == null ? "NA" : Tcol1?.ttmEPS,
-        col6: Tcol1?.ytdChange.toFixed(2),
+          Tcol1?.peRatio == null ? 'NA' : parseFloat(Tcol1?.peRatio).toFixed(2),
+        col5: Tcol1?.ttmEPS == null ? 'NA' : Tcol1?.ttmEPS,
+        col6: Tcol1?.ytdChange ? Tcol1?.ytdChange.toFixed(2) : 'NA',
         col7: parseFloat(Tcol1?.week52change).toFixed(3),
       },
       {
@@ -104,9 +102,9 @@ const CompetitorsNews = ({ KeyStatus, NewsData }) => {
         col2: Tcol2?.marketCap,
         col3: parseFloat(Tcol2?.beta).toFixed(2),
         col4:
-          Tcol2?.peRatio == null ? "NA" : parseFloat(Tcol2?.peRatio).toFixed(2),
-        col5: Tcol2?.ttmEPS == null ? "NA" : Tcol2?.ttmEPS,
-        col6: Tcol2?.ytdChange.toFixed(2),
+          Tcol2?.peRatio == null ? 'NA' : parseFloat(Tcol2?.peRatio).toFixed(2),
+        col5: Tcol2?.ttmEPS == null ? 'NA' : Tcol2?.ttmEPS,
+        col6: Tcol2?.ytdChange ? Tcol2?.ytdChange.toFixed(2) : 'NA',
         col7: parseFloat(Tcol2?.week52change).toFixed(3),
       },
       {
@@ -115,9 +113,9 @@ const CompetitorsNews = ({ KeyStatus, NewsData }) => {
         col2: Tcol3?.marketCap,
         col3: parseFloat(Tcol3?.beta).toFixed(2),
         col4:
-          Tcol3?.peRatio == null ? "NA" : parseFloat(Tcol3?.peRatio).toFixed(2),
-        col5: Tcol3?.ttmEPS == null ? "NA" : Tcol3?.ttmEPS,
-        col6: Tcol3?.ytdChange.toFixed(2),
+          Tcol3?.peRatio == null ? 'NA' : parseFloat(Tcol3?.peRatio).toFixed(2),
+        col5: Tcol3?.ttmEPS == null ? 'NA' : Tcol3?.ttmEPS,
+        col6: Tcol3?.ytdChange ? Tcol3?.ytdChange.toFixed(2) : 'NA',
         col7: parseFloat(Tcol3?.week52change).toFixed(3),
       },
       {
@@ -126,9 +124,9 @@ const CompetitorsNews = ({ KeyStatus, NewsData }) => {
         col2: Tcol4?.marketCap,
         col3: parseFloat(Tcol4?.beta).toFixed(2),
         col4:
-          Tcol4?.peRatio == null ? "NA" : parseFloat(Tcol4?.peRatio).toFixed(2),
-        col5: Tcol4?.ttmEPS == null ? "NA" : Tcol4?.ttmEPS,
-        col6: Tcol4?.ytdChange.toFixed(2),
+          Tcol4?.peRatio == null ? 'NA' : parseFloat(Tcol4?.peRatio).toFixed(2),
+        col5: Tcol4?.ttmEPS == null ? 'NA' : Tcol4?.ttmEPS,
+        col6: Tcol4?.ytdChange ? Tcol4?.ytdChange.toFixed(2) : 'NA',
         col7: parseFloat(Tcol4?.week52change).toFixed(3),
       },
       {
@@ -137,9 +135,10 @@ const CompetitorsNews = ({ KeyStatus, NewsData }) => {
         col2: Tcol5?.marketCap,
         col3: parseFloat(Tcol5?.beta).toFixed(2),
         col4:
-          Tcol5?.peRatio == null ? "NA" : parseFloat(Tcol5?.peRatio).toFixed(2),
-        col5: Tcol5?.ttmEPS == null ? "NA" : Tcol5?.ttmEPS,
-        col6: Tcol5?.ytdChange.toFixed(2),
+          Tcol5?.peRatio == null ? 'NA' : parseFloat(Tcol5?.peRatio).toFixed(2),
+        col5: Tcol5?.ttmEPS == null ? 'NA' : Tcol5?.ttmEPS,
+
+        col6: Tcol5?.ytdChange ? Tcol5?.ytdChange.toFixed(2) : 'NA',
         col7: parseFloat(Tcol5?.week52change).toFixed(3),
       },
     ];
