@@ -2466,3 +2466,39 @@ div#savescannermodal .btn {
   font-size: 14px;
   font-weight: 500;
 }
+
+/* ######################
+  404 page css start
+   ######################
+*/
+.main.pagenotfound_sec {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding-top: 120px;
+}
+.pagenotfound .title {
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 20px;
+}
+.pagenotfound p {
+  font-style: normal;
+  font-weight: 400;
+  color: #000;
+  padding: 10px 280px 20px;
+  font-size: 14px;
+}
+.pagenotfound a {
+  font-size: 20px;
+  color: #000;
+  padding: 10px 60px;
+  border: 2px solid #000;
+  border-radius: 10px;
+  font-weight: 600;
+}
+/* ######################
+  404 page css end
+   ######################
+*/

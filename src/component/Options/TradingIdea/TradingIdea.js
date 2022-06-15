@@ -18,7 +18,7 @@ const TradingIdea = () => {
   const [openInterestParam, setOpenInterestParam] = useState({
     date: currentDate,
   });
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
 
   useEffect(() => {
     (async () => {
@@ -27,20 +27,37 @@ const TradingIdea = () => {
           const volatilityResp = await getTradingIdeasVolatility(
             volatilityParam
           );
-          console.log(volatilityResp);
-          setData(volatilityResp);
+          if (typeof volatilityResp === 'string') {
+            const tempJSON = JSON.parse(volatilityResp.replaceAll('NaN', null));
+            console.log(tempJSON);
+            setData(tempJSON);
+          } else {
+            setData(volatilityResp);
+          }
           break;
         case 'VOLUME':
           const volumeResp = await getTradingIdeasVolume(volumeParam);
-          console.log(volumeResp);
-          setData(volumeResp);
+          if (typeof volumeResp === 'string') {
+            const tempJSON = JSON.parse(volumeResp.replaceAll('NaN', null));
+            console.log(tempJSON);
+            setData(tempJSON);
+          } else {
+            setData(volumeResp);
+          }
           break;
         case 'OPEN_INTEREST':
           const openInterestResp = await getTradingIdeasOpenInterest(
             openInterestParam
           );
-          console.log(openInterestResp);
-          setData(openInterestResp);
+          if (typeof openInterestResp === 'string') {
+            const tempJSON = JSON.parse(
+              openInterestResp.replaceAll('NaN', null)
+            );
+            console.log(tempJSON);
+            setData(tempJSON);
+          } else {
+            setData(openInterestResp);
+          }
           break;
       }
     })();

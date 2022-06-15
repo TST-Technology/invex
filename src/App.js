@@ -29,9 +29,10 @@ import Financials from "./component/Financials";
 import FinancialShareInfo from "./component/FinancialsShareInfo";
 import Valuation from './component/Valuation/Valuation';
 import SymbolOption from './component/Symbol/SymbolOption/SymbolOption';
-import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
-import "primereact/resources/primereact.min.css";                  //core css
-import "primeicons/primeicons.css";   
+import NotFound from './component/404/404';
+import 'primereact/resources/themes/lara-light-indigo/theme.css'; //theme
+import 'primereact/resources/primereact.min.css'; //core css
+import 'primeicons/primeicons.css';
 
 function App() {
   // useEffect(() => {
@@ -131,6 +132,8 @@ function App() {
             path={InvexRoutes.SymbolOption.path}
             element={<SymbolOption />}
           />
+
+          <Route path='*' element={<NotFound />} />
         </Routes>
         <Footer />
       </HashRouter>
