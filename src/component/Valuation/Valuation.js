@@ -8,6 +8,17 @@ import CompanyView from '../Options/Quote/CompanyView/CompanyView';
 import { CircularProgress } from '@material-ui/core';
 import { getCompanyDataBySymbol } from '../api/commonApi';
 import { getCompanyLogo } from '../api/company';
+import {
+  ComposedChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+} from 'recharts';
+
 import Image1 from '../Common/Images/image1.png';
 import Graph from '../Common/Images/graph.png';
 import iwPastPrediction from '../Common/Images/iw-past-prediction.png';
@@ -25,12 +36,34 @@ const Valuation = () => {
   const [sector, setSector] = useState(null);
   const [keyStatus, setKeyStatus] = useState(null);
   const [roic, setROIC] = useState(null);
+  const [invested, setInvested] = useState(null);
   const [logo, setLogo] = useState();
   const [Loading, setLoading] = useState(false);
   const [Company, setCompany] = useState(null);
+  const [valuationOutput, setValuationOutput] = useState(null);
+  const [revenueGraphData, setRevenueGraphData] = useState(null);
+  const [operatingIncomeData, setOperatingIncomeData] = useState(null);
+  const [reinvestmentData, setReinvestmentData] = useState(null);
+  const [freeCashFlowData, setFreeCashFlowData] = useState(null);
+  const [investedCapitalData, setInvestedCapital] = useState(null);
+  const [priceTargetData, setPriceTargetCapital] = useState(null);
+  const [valuationOutputFilter, setValuationOutputFilter] = useState('best');
+  const yearArr = [
+    'year_1',
+    'year_2',
+    'year_3',
+    'year_4',
+    'year_5',
+    'year_6',
+    'year_7',
+    'year_8',
+    'year_9',
+    'year_10',
+  ];
 
   useEffect(() => {
     if (companyValuation) {
+      getValuationOutput();
       companyValuation?.YearlyValuationOutputs.forEach((element, index) => {
         if (
           element?.case &&
@@ -40,9 +73,123 @@ const Valuation = () => {
         ) {
           setROIC(element?.base_year);
         }
+
+        if (
+          element?.case &&
+          element?.field_name &&
+          element?.case === 'base' &&
+          element?.field_name === 'Invested capital'
+        ) {
+          setInvested(element?.base_year);
+        }
       });
     }
   }, [companyValuation]);
+
+  useEffect(() => {
+    getValuationOutput();
+  }, [valuationOutputFilter]);
+
+  const getGraphData = (valuation) => {
+    let year = 2022;
+    let tempArr = [];
+    Object.keys(valuation).forEach((key) => {
+      if (yearArr.includes(key)) {
+        let newObj = {};
+        newObj.year = year + 1;
+        newObj.data = valuation[key];
+        year += 1;
+        tempArr.push(newObj);
+      }
+    });
+    console.log(tempArr);
+    return tempArr;
+  };
+
+  useEffect(() => {
+    if (valuationOutput) {
+      valuationOutput.forEach((valuation, index) => {
+        switch (valuation?.field_name) {
+          case 'Revenue growth rate':
+            const revenueGrowthData = getGraphData(valuation);
+            console.log(revenueGrowthData);
+            setRevenueGraphData(revenueGrowthData);
+            break;
+
+          case 'Revenues':
+            if (revenueGraphData) {
+              let tempArr = [];
+              Object.keys(valuation).forEach((key) => {
+                if (yearArr.includes(key)) {
+                  tempArr.push(valuation[key]);
+                }
+              });
+              const temp = revenueGraphData.map((row, index) => {
+                row.data2 = tempArr[index];
+                return row;
+              });
+              setRevenueGraphData(temp);
+            }
+            break;
+
+          case 'EBIT (Operating) margin':
+            const oiData = getGraphData(valuation);
+            setOperatingIncomeData(oiData);
+            break;
+
+          case 'EBIT (Operating income)':
+            if (operatingIncomeData) {
+              let tempArr = [];
+              Object.keys(valuation).forEach((key) => {
+                if (yearArr.includes(key)) {
+                  tempArr.push(valuation[key]);
+                }
+              });
+              const temp = operatingIncomeData.map((row, index) => {
+                row.data2 = tempArr[index];
+                return row;
+              });
+              setOperatingIncomeData(temp);
+            }
+            break;
+
+          case 'Reinvestment':
+            const reinvestmentData = getGraphData(valuation);
+            setReinvestmentData(reinvestmentData);
+            break;
+
+          case 'FCFF':
+            const fcffData = getGraphData(valuation);
+            setFreeCashFlowData(fcffData);
+
+            break;
+          case 'Invested capital':
+            const investedData = getGraphData(valuation);
+            setInvestedCapital(investedData);
+
+            break;
+          case 'Price Target':
+            if (!priceTargetData) {
+              const priceData = getGraphData(valuation);
+              setPriceTargetCapital(priceData);
+            }
+
+            break;
+        }
+      });
+    }
+  }, [valuationOutput]);
+
+  const getValuationOutput = () => {
+    const tempValuationOutput = companyValuation?.YearlyValuationOutputs.filter(
+      (element) => {
+        return element.case === valuationOutputFilter;
+      }
+    );
+    console.log(tempValuationOutput);
+
+    setValuationOutput(tempValuationOutput);
+  };
 
   useEffect(() => {
     (async () => {
@@ -110,31 +257,6 @@ const Valuation = () => {
                   </div>
                 </div>
                 <div className='col-lg-12'>
-                  {/* <div className='card companyviewblk compny_left_detail'>
-                    <div className='card-body'>
-                      <div className='description-para d-flex align-items-center justify-content-between'>
-                        <div className='logo me-5'>
-                          <div className='img'>
-                            <img src={Image1} alt='image' />
-                          </div>
-                          <div className='title1'>
-                            <h5 className='card-title'>APPLE INC </h5>
-                            <p className='company'>AAPL</p>
-                          </div>
-                        </div>
-                        <div className='chart'>
-                          <div className='chart-text mt-0'>
-                            <p className='card-text up'>$235.49</p>
-                            <p className='text up'>+3.10 (+1.3%)</p>
-                          </div>
-                        </div>
-                        <div className='chart-img me-5 ms-auto'>
-                          <img src={Graph} alt='graph' />
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
-
                   <CompanyView
                     Loading={Loading}
                     KeyStatus={keyStatus}
@@ -218,7 +340,14 @@ const Valuation = () => {
                               <a href='javascript:void(0)'>
                                 Pre-tax operating margin
                               </a>{' '}
-                              <span>62.76%</span>
+                              <span>
+                                {companyValuation &&
+                                companyValuation.CompanyGrowths[0] &&
+                                companyValuation.CompanyGrowths[0]
+                                  ?.pre_tax_op_margin_base
+                                  ? `${companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_base}%`
+                                  : ''}
+                              </span>
                             </li>
                             <li>
                               <a href='javascript:void(0)'>
@@ -294,11 +423,7 @@ const Valuation = () => {
                             <li>
                               <a href='javascript:void(0)'>Invested capital</a>{' '}
                               <span>
-                                {companyValuation?.cost_of_capital
-                                  ? `$${NormalFormat(
-                                      companyValuation?.cost_of_capital
-                                    )}`
-                                  : '-'}
+                                {invested ? `$${NormalFormat(invested)}` : '-'}
                               </span>
                             </li>
                           </ul>
@@ -312,13 +437,7 @@ const Valuation = () => {
                     <h6 className='mb-4'>
                       <strong>Invex Wealth Past Predictions</strong>
                     </h6>
-                    <div className='text-center'>
-                      <img
-                        src={iwPastPrediction}
-                        className='img-fluid'
-                        alt='chart'
-                      />
-                    </div>
+                    <div className='text-center'></div>
                   </div>
                   <div className='card companyviewblk compprofile_block mb-5'>
                     <div className='card-header'>
@@ -372,10 +491,10 @@ const Valuation = () => {
                       <thead className='table-light'>
                         <tr>
                           <th scope='col'>-</th>
-                          <th scope='col'>Q1 2022</th>
-                          <th scope='col'>Q4 2021</th>
-                          <th scope='col'>Q3 2021</th>
-                          <th scope='col'>Q2 2021</th>
+                          <th scope='col'>Best</th>
+                          <th scope='col'>Base</th>
+                          <th scope='col'>Worst</th>
+                          <th scope='col'>Manual</th>
                         </tr>
                       </thead>
                       <tbody className='border-top-0'>
@@ -450,20 +569,40 @@ const Valuation = () => {
                             <strong>Choose the case</strong>
                           </small>
                         </span>
-                        <button type='button' className='btn btn-info'>
+                        <button
+                          type='button'
+                          onClick={() => setValuationOutputFilter('best')}
+                          className={`btn ${
+                            valuationOutputFilter === 'best'
+                              ? 'btn-info'
+                              : 'btn-light'
+                          }`}
+                        >
                           Best case
                         </button>
-                        <button type='button' className='btn btn-light'>
+                        <button
+                          type='button'
+                          onClick={() => setValuationOutputFilter('base')}
+                          className={`btn ${
+                            valuationOutputFilter === 'base'
+                              ? 'btn-info'
+                              : 'btn-light'
+                          }`}
+                        >
                           {' '}
                           Base care
                         </button>
-                        <button type='button' className='btn btn-light'>
+                        <button
+                          type='button'
+                          onClick={() => setValuationOutputFilter('worst')}
+                          className={`btn ${
+                            valuationOutputFilter === 'worst'
+                              ? 'btn-info'
+                              : 'btn-light'
+                          }`}
+                        >
                           {' '}
                           Worst care
-                        </button>
-                        <button type='button' className='btn btn-light'>
-                          {' '}
-                          Manual
                         </button>
                       </div>
                       <div className='scenario justify-content-between'>
@@ -495,13 +634,43 @@ const Valuation = () => {
                             </h6>
                             <small>All values are in Billion</small>
                           </div>
-                          <div className='col-lg-12 mt-3'>
-                            <img
-                              src={RevenueExpec}
-                              className='img-fluid'
-                              alt='chart'
-                            />
-                          </div>
+
+                          {revenueGraphData && (
+                            <div className='col-lg-12 mt-3'>
+                              <ResponsiveContainer
+                                width='100%'
+                                aspect={1}
+                                maxHeight={400}
+                              >
+                                <ComposedChart
+                                  data={revenueGraphData}
+                                  tick={false}
+                                >
+                                  <XAxis
+                                    dataKey='year'
+                                    axisLine={false}
+                                    domain={['auto', 'auto']}
+                                    // ticks={ticks}
+                                    tick={{ fill: '#212121', fontSize: '12px' }}
+                                  />
+                                  <YAxis axisLine={false} />
+                                  <Tooltip />
+
+                                  <Bar
+                                    fill='#F8DF86'
+                                    dataKey='data2'
+                                    barSize={35}
+                                  />
+
+                                  <Line
+                                    type='monotone'
+                                    dataKey='data'
+                                    stroke='#F8DF86'
+                                  />
+                                </ComposedChart>
+                              </ResponsiveContainer>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className='mt-5'>
@@ -512,13 +681,42 @@ const Valuation = () => {
                             </h6>
                             <small>All values are in Billion</small>
                           </div>
-                          <div className='col-lg-12 mt-3'>
-                            <img
-                              src={OperatingIncm}
-                              className='img-fluid'
-                              alt='chart'
-                            />
-                          </div>
+                          {operatingIncomeData && (
+                            <div className='col-lg-12 mt-3'>
+                              <ResponsiveContainer
+                                width='100%'
+                                aspect={1}
+                                maxHeight={400}
+                              >
+                                <ComposedChart
+                                  data={operatingIncomeData}
+                                  tick={false}
+                                >
+                                  <XAxis
+                                    dataKey='year'
+                                    axisLine={false}
+                                    domain={['auto', 'auto']}
+                                    // ticks={ticks}
+                                    tick={{ fill: '#212121', fontSize: '12px' }}
+                                  />
+                                  <YAxis axisLine={false} />
+                                  <Tooltip />
+
+                                  <Bar
+                                    fill='#F8DF86'
+                                    dataKey='data2'
+                                    barSize={35}
+                                  />
+
+                                  <Line
+                                    type='monotone'
+                                    dataKey='data'
+                                    stroke='#F8DF86'
+                                  />
+                                </ComposedChart>
+                              </ResponsiveContainer>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className='mt-5'>
@@ -529,13 +727,33 @@ const Valuation = () => {
                             </h6>
                             <small>All values are in Billion</small>
                           </div>
-                          <div className='col-lg-12 mt-3'>
-                            <img
-                              src={Reinvestment}
-                              className='img-fluid'
-                              alt='chart'
-                            />
-                          </div>
+                          {reinvestmentData && (
+                            <div className='col-lg-12 mt-3'>
+                              <ResponsiveContainer
+                                width='100%'
+                                aspect={1}
+                                maxHeight={400}
+                              >
+                                <BarChart data={reinvestmentData} tick={false}>
+                                  <XAxis
+                                    dataKey='year'
+                                    axisLine={false}
+                                    domain={['auto', 'auto']}
+                                    // ticks={ticks}
+                                    tick={{ fill: '#212121', fontSize: '12px' }}
+                                  />
+                                  <YAxis axisLine={false} />
+                                  <Tooltip />
+
+                                  <Bar
+                                    fill='#F8DF86'
+                                    dataKey='data'
+                                    barSize={35}
+                                  />
+                                </BarChart>
+                              </ResponsiveContainer>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className='mt-5'>
@@ -546,13 +764,33 @@ const Valuation = () => {
                             </h6>
                             <small>All values are in Billion</small>
                           </div>
-                          <div className='col-lg-12 mt-3'>
-                            <img
-                              src={FreeCashFlowFirm}
-                              className='img-fluid'
-                              alt='chart'
-                            />
-                          </div>
+                          {freeCashFlowData && (
+                            <div className='col-lg-12 mt-3'>
+                              <ResponsiveContainer
+                                width='100%'
+                                aspect={1}
+                                maxHeight={400}
+                              >
+                                <BarChart data={freeCashFlowData} tick={false}>
+                                  <XAxis
+                                    dataKey='year'
+                                    axisLine={false}
+                                    domain={['auto', 'auto']}
+                                    // ticks={ticks}
+                                    tick={{ fill: '#212121', fontSize: '12px' }}
+                                  />
+                                  <YAxis axisLine={false} />
+                                  <Tooltip />
+
+                                  <Bar
+                                    fill='#F8DF86'
+                                    dataKey='data'
+                                    barSize={35}
+                                  />
+                                </BarChart>
+                              </ResponsiveContainer>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className='mt-5'>
@@ -565,13 +803,36 @@ const Valuation = () => {
                             </h6>
                             <small>All values are in Billion</small>
                           </div>
-                          <div className='col-lg-12 mt-3'>
-                            <img
-                              src={CapitalRoic}
-                              className='img-fluid'
-                              alt='chart'
-                            />
-                          </div>
+                          {investedCapitalData && (
+                            <div className='col-lg-12 mt-3'>
+                              <ResponsiveContainer
+                                width='100%'
+                                aspect={1}
+                                maxHeight={400}
+                              >
+                                <BarChart
+                                  data={investedCapitalData}
+                                  tick={false}
+                                >
+                                  <XAxis
+                                    dataKey='year'
+                                    axisLine={false}
+                                    domain={['auto', 'auto']}
+                                    // ticks={ticks}
+                                    tick={{ fill: '#212121', fontSize: '12px' }}
+                                  />
+                                  <YAxis axisLine={false} />
+                                  <Tooltip />
+
+                                  <Bar
+                                    fill='#F8DF86'
+                                    dataKey='data'
+                                    barSize={35}
+                                  />
+                                </BarChart>
+                              </ResponsiveContainer>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className='mt-5'>
@@ -582,13 +843,38 @@ const Valuation = () => {
                             </h6>
                             <small>All values are in Billion</small>
                           </div>
-                          <div className='col-lg-12 mt-3'>
-                            <img
-                              src={PriceTarget}
-                              className='img-fluid'
-                              alt='chart'
-                            />
-                          </div>
+                          {priceTargetData &&
+                            Array.isArray(priceTargetData) &&
+                            priceTargetData.length > 0 && (
+                              <div className='col-lg-12 mt-3'>
+                                <ResponsiveContainer
+                                  width='100%'
+                                  aspect={1}
+                                  maxHeight={400}
+                                >
+                                  <BarChart data={priceTargetData}>
+                                    <XAxis
+                                      dataKey='year'
+                                      axisLine={false}
+                                      domain={['auto', 'auto']}
+                                      // ticks={ticks}
+                                      tick={{
+                                        fill: '#212121',
+                                        fontSize: '12px',
+                                      }}
+                                    />
+                                    <YAxis axisLine={false} />
+                                    <Tooltip />
+
+                                    <Bar
+                                      fill='#F8DF86'
+                                      dataKey='data'
+                                      barSize={35}
+                                    />
+                                  </BarChart>
+                                </ResponsiveContainer>
+                              </div>
+                            )}
                         </div>
                       </div>
                     </div>
@@ -652,7 +938,7 @@ const Valuation = () => {
       {Loading && (
         <div
           style={{
-            height: 450,
+            height: 600,
             textAlign: 'center',
             display: 'flex',
             alignItems: 'center',

@@ -213,6 +213,7 @@ function PriceChart({ CompanyName }) {
             <YAxis axisLine={false} tick={false} />
             <Tooltip />
             <Area
+              connectNulls
               type='monotone'
               dataKey='close'
               stroke='#82ca9d'
