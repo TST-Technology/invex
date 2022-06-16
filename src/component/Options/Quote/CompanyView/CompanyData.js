@@ -2,20 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getVolatality } from '../../../api/Option';
 const CompanyData = ({ Company, KeyStatus, logo }) => {
-  const { symbol } = useParams();
-  const [date, setdate] = useState('2022/05/11');
-  useEffect(() => {
-    (async () => {
-      // setLoading(true)
-      if (symbol) {
-        console.log('ddd');
-        var res = await getVolatality(symbol, date);
-        if (res && res.status === 200 && res?.data?.length > 0) {
-        }
-        // setLoading(false)
-      }
-    })();
-  }, [symbol, date]);
   return (
     <>
       <div className='logo me-5'>

@@ -20,7 +20,7 @@ const Market = () => {
     (async () => {
       setIsLoading(true);
       const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
+      yesterday.setDate(yesterday.getDate() - 2);
       const currentDate = moment(yesterday).format('YYYY/MM/DD');
       const obj = { date: currentDate };
       const data = await getDefaultMarketOption(obj);
