@@ -48,6 +48,7 @@ const Valuation = () => {
   const [investedCapitalData, setInvestedCapital] = useState(null);
   const [priceTargetData, setPriceTargetCapital] = useState(null);
   const [valuationOutputFilter, setValuationOutputFilter] = useState('best');
+  const [pastPredictionData, setPastPredictionData] = useState(null);
   const yearArr = [
     'year_1',
     'year_2',
@@ -500,53 +501,188 @@ const Valuation = () => {
                       <tbody className='border-top-0'>
                         <tr>
                           <td>Growth next year</td>
-                          <td>333.0%</td>
-                          <td>300.0%</td>
-                          <td>233.0%</td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.gr_next_year_best
+                              ? `${companyValuation.CompanyGrowths[0]?.gr_next_year_best}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.gr_next_year_base
+                              ? `${companyValuation.CompanyGrowths[0]?.gr_next_year_base}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.gr_next_year_worst
+                              ? `${companyValuation.CompanyGrowths[0]?.gr_next_year_worst}%`
+                              : '-'}
+                          </td>
                           <td>-</td>
                         </tr>
                         <tr>
                           <td>
-                            Compound anual revenue groth rate for Year 3-5
+                            Compound anual revenue growth rate for Year 3-5
                           </td>
-                          <td>333.0%</td>
-                          <td>300.0%</td>
-                          <td>233.0%</td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.compounded_revenue_growth_best
+                              ? `${companyValuation.CompanyGrowths[0]?.compounded_revenue_growth_best}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.compounded_revenue_growth_base
+                              ? `${companyValuation.CompanyGrowths[0]?.compounded_revenue_growth_base}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.compounded_revenue_growth_worst
+                              ? `${companyValuation.CompanyGrowths[0]?.compounded_revenue_growth_worst}%`
+                              : '-'}
+                          </td>
                           <td>-</td>
                         </tr>
                         <tr>
                           <td>Opratiing margin this year/he</td>
-                          <td>333.0%</td>
-                          <td>300.0%</td>
-                          <td>233.0%</td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.op_margin_first_year_best
+                              ? `${companyValuation.CompanyGrowths[0]?.op_margin_first_year_best}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.op_margin_first_year_base
+                              ? `${companyValuation.CompanyGrowths[0]?.op_margin_first_year_base}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.op_margin_first_year_worst
+                              ? `${companyValuation.CompanyGrowths[0]?.op_margin_first_year_worst}%`
+                              : '-'}
+                          </td>
                           <td>-</td>
                         </tr>
                         <tr>
-                          <td>Opratiing margin next year</td>
-                          <td>333.0%</td>
-                          <td>300.0%</td>
-                          <td>233.0%</td>
+                          <td>Operating margin next year</td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.op_margin_next_year_best
+                              ? `${companyValuation.CompanyGrowths[0]?.op_margin_next_year_best}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.op_margin_next_year_base
+                              ? `${companyValuation.CompanyGrowths[0]?.op_margin_next_year_base}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.op_margin_next_year_worst
+                              ? `${companyValuation.CompanyGrowths[0]?.op_margin_next_year_worst}%`
+                              : '-'}
+                          </td>
                           <td>-</td>
                         </tr>
                         <tr>
                           <td>Opratiing margin year 3-5</td>
-                          <td>333.0%</td>
-                          <td>300.0%</td>
-                          <td>233.0%</td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.op_margin_five_year_best
+                              ? `${companyValuation.CompanyGrowths[0]?.op_margin_five_year_best}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.op_margin_five_year_base
+                              ? `${companyValuation.CompanyGrowths[0]?.op_margin_five_year_base}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.op_margin_five_year_worst
+                              ? `${companyValuation.CompanyGrowths[0]?.op_margin_five_year_worst}%`
+                              : '-'}
+                          </td>
                           <td>-</td>
                         </tr>
                         <tr>
                           <td>Target operting margin</td>
-                          <td>333.0%</td>
-                          <td>300.0%</td>
-                          <td>233.0%</td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation?.pre_tax_debt_cost
+                              ? `${companyValuation?.pre_tax_debt_cost}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation?.pre_tax_debt_cost
+                              ? `${companyValuation?.pre_tax_debt_cost}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation?.pre_tax_debt_cost
+                              ? `${companyValuation?.pre_tax_debt_cost}%`
+                              : '-'}
+                          </td>
                           <td>-</td>
                         </tr>
                         <tr>
                           <td>Cost of capital</td>
-                          <td>333.0%</td>
-                          <td>300.0%</td>
-                          <td>233.0%</td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation?.cost_of_capital
+                              ? `${companyValuation?.cost_of_capital}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation?.cost_of_capital
+                              ? `${companyValuation?.cost_of_capital}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation?.cost_of_capital
+                              ? `${companyValuation?.cost_of_capital}%`
+                              : '-'}
+                          </td>
                           <td>-</td>
                         </tr>
                       </tbody>
@@ -635,42 +771,47 @@ const Valuation = () => {
                             <small>All values are in Billion</small>
                           </div>
 
-                          {revenueGraphData && (
-                            <div className='col-lg-12 mt-3'>
-                              <ResponsiveContainer
-                                width='100%'
-                                aspect={1}
-                                maxHeight={400}
-                              >
-                                <ComposedChart
-                                  data={revenueGraphData}
-                                  tick={false}
+                          {revenueGraphData &&
+                            revenueGraphData.length > 0 &&
+                            revenueGraphData[0].data2 && (
+                              <div className='col-lg-12 mt-3'>
+                                <ResponsiveContainer
+                                  width='100%'
+                                  aspect={1}
+                                  maxHeight={400}
                                 >
-                                  <XAxis
-                                    dataKey='year'
-                                    axisLine={false}
-                                    domain={['auto', 'auto']}
-                                    // ticks={ticks}
-                                    tick={{ fill: '#212121', fontSize: '12px' }}
-                                  />
-                                  <YAxis axisLine={false} />
-                                  <Tooltip />
+                                  <ComposedChart
+                                    data={revenueGraphData}
+                                    tick={false}
+                                  >
+                                    <XAxis
+                                      dataKey='year'
+                                      axisLine={false}
+                                      domain={['auto', 'auto']}
+                                      // ticks={ticks}
+                                      tick={{
+                                        fill: '#212121',
+                                        fontSize: '12px',
+                                      }}
+                                    />
+                                    <YAxis axisLine={false} />
+                                    <Tooltip />
 
-                                  <Bar
-                                    fill='#F8DF86'
-                                    dataKey='data2'
-                                    barSize={35}
-                                  />
+                                    <Bar
+                                      fill='#F8DF86'
+                                      dataKey='data2'
+                                      barSize={35}
+                                    />
 
-                                  <Line
-                                    type='monotone'
-                                    dataKey='data'
-                                    stroke='#F8DF86'
-                                  />
-                                </ComposedChart>
-                              </ResponsiveContainer>
-                            </div>
-                          )}
+                                    <Line
+                                      type='monotone'
+                                      dataKey='data'
+                                      stroke='#4162FE'
+                                    />
+                                  </ComposedChart>
+                                </ResponsiveContainer>
+                              </div>
+                            )}
                         </div>
                       </div>
                       <div className='mt-5'>
@@ -711,7 +852,7 @@ const Valuation = () => {
                                   <Line
                                     type='monotone'
                                     dataKey='data'
-                                    stroke='#F8DF86'
+                                    stroke='#4162FE'
                                   />
                                 </ComposedChart>
                               </ResponsiveContainer>
