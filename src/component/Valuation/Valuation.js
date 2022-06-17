@@ -19,16 +19,6 @@ import {
   Bar,
 } from 'recharts';
 
-import Image1 from '../Common/Images/image1.png';
-import Graph from '../Common/Images/graph.png';
-import iwPastPrediction from '../Common/Images/iw-past-prediction.png';
-import RevenueExpec from '../Common/Images/revenue-expec.png';
-import OperatingIncm from '../Common/Images/operating-incm.png';
-import Reinvestment from '../Common/Images/reinvestment.png';
-import CapitalRoic from '../Common/Images/capital-roic.png';
-import PriceTarget from '../Common/Images/price-target.png';
-import FreeCashFlowFirm from '../Common/Images/free-cash-flow-firm.png';
-
 const Valuation = () => {
   const { symbol } = useParams();
   const [data, setData] = useState();
@@ -50,6 +40,7 @@ const Valuation = () => {
   const [valuationOutputFilter, setValuationOutputFilter] = useState('best');
   const [pastPredictionGraphData, setPastPredictionGraphData] = useState(null);
   const [estimatedValue, setEstimatedValue] = useState(null);
+  const [percent, setPercent] = useState(null);
   const yearArr = [
     'year_1',
     'year_2',
@@ -194,6 +185,9 @@ const Valuation = () => {
     companyValuation?.ValuationOutputs.forEach((element) => {
       if (element.case === valuationOutputFilter) {
         setEstimatedValue(element);
+        setPercent(
+          (element?.estimated_share - element?.price) / element?.price
+        );
       }
     });
   };
@@ -289,8 +283,8 @@ const Valuation = () => {
                   <div className='card'>
                     <div className='card-body bg-base d-lg-flex d-md-flex d-block align-items-center rounded-3 p-4'>
                       <h5 className='m-0 pe-3'>
-                        Moderna Inc Stock Forecast, Predictions &amp; Price
-                        Target
+                        {Company?.companyName} Stock Forecast, Predictions &amp;
+                        Price Target
                       </h5>
                     </div>
                   </div>
@@ -478,6 +472,42 @@ const Valuation = () => {
                     </h6>
                     <div className='text-center'></div>
                   </div>
+
+                  {pastPredictionGraphData && (
+                    <ResponsiveContainer
+                      width='100%'
+                      aspect={1}
+                      maxHeight={400}
+                    >
+                      <BarChart data={pastPredictionGraphData} tick={false}>
+                        <XAxis
+                          dataKey='year'
+                          axisLine={false}
+                          domain={['auto', 'auto']}
+                          // ticks={ticks}
+                          tick={{ fill: '#212121', fontSize: '12px' }}
+                        />
+                        <YAxis
+                          axisLine={false}
+                          tick={{
+                            fill: '#212121',
+                            fontSize: '12px',
+                          }}
+                        />
+                        <Tooltip />
+
+                        <Bar fill='#88D1DC' dataKey='best' barSize={35} />
+                        <Bar fill='#F8DF86' dataKey='base' barSize={35} />
+                        <Bar fill='#E88190' dataKey='worst' barSize={35} />
+                        <Bar
+                          fill='#9AA7FE'
+                          dataKey='actualPrice'
+                          barSize={35}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  )}
+
                   <div className='card companyviewblk compprofile_block mb-5'>
                     <div className='card-header'>
                       <div className='d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0'>
@@ -819,11 +849,12 @@ const Valuation = () => {
                                 : '-'}
                             </strong>
                           </p>
-                          {/* <p className='text up m-0 ms-2'>(+34%)</p> */}
                           <p className='text up m-0 ms-2'>
-                            {estimatedValue?.price_percent
-                              ? `(${estimatedValue?.price_percent}%)`
-                              : '-'}
+                            {percent
+                              ? percent >= 0
+                                ? `(+${percent}%)`
+                                : `(-${percent}%)`
+                              : ''}
                           </p>
                         </div>
                         <div className='text-end'>
