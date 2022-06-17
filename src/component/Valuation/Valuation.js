@@ -85,12 +85,6 @@ const Valuation = () => {
           setInvested(element?.base_year);
         }
       });
-
-      companyValuation?.ValuationOutputs.forEach((element) => {
-        if (element.case === valuationOutputFilter) {
-          setEstimatedValue(element);
-        }
-      });
     }
   }, [companyValuation]);
 
@@ -196,6 +190,12 @@ const Valuation = () => {
     );
 
     setValuationOutput(tempValuationOutput);
+
+    companyValuation?.ValuationOutputs.forEach((element) => {
+      if (element.case === valuationOutputFilter) {
+        setEstimatedValue(element);
+      }
+    });
   };
 
   useEffect(() => {
@@ -841,7 +841,7 @@ const Valuation = () => {
                             <small>
                               Current price:{' '}
                               {estimatedValue?.price
-                                ? `${estimatedValue?.price}`
+                                ? `$${NormalFormat(estimatedValue?.price)}`
                                 : '-'}
                             </small>
                           </p>
