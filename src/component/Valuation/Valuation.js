@@ -17,6 +17,8 @@ import {
   ResponsiveContainer,
   BarChart,
   Bar,
+  Legend,
+  LabelList,
 } from 'recharts';
 
 const Valuation = () => {
@@ -275,6 +277,25 @@ const Valuation = () => {
     })();
   }, [symbol]);
 
+  const renderCustomizedLabel = (props) => {
+    const { x, y, width, height, value } = props;
+    const radius = 10;
+
+    return (
+      <g>
+        <text
+          x={x + width / 2}
+          y={y - radius}
+          fill='#000'
+          textAnchor='middle'
+          dominantBaseline='middle'
+        >
+          ${value}
+        </text>
+      </g>
+    );
+  };
+
   return (
     <>
       {data && !Loading && (
@@ -481,13 +502,23 @@ const Valuation = () => {
                       width='100%'
                       aspect={1}
                       maxHeight={400}
+                      className='mb-5'
                     >
-                      <BarChart data={pastPredictionGraphData} tick={false}>
+                      <BarChart
+                        data={pastPredictionGraphData}
+                        tick={false}
+                        margin={{
+                          top: 5,
+                          right: 30,
+                          left: 20,
+                          bottom: 5,
+                        }}
+                        barGap={35}
+                      >
                         <XAxis
                           dataKey='year'
                           axisLine={false}
                           domain={['auto', 'auto']}
-                          // ticks={ticks}
                           tick={{ fill: '#212121', fontSize: '12px' }}
                         />
                         <YAxis
@@ -499,14 +530,31 @@ const Valuation = () => {
                         />
                         <Tooltip />
 
-                        <Bar fill='#88D1DC' dataKey='best' barSize={35} />
-                        <Bar fill='#F8DF86' dataKey='base' barSize={35} />
-                        <Bar fill='#E88190' dataKey='worst' barSize={35} />
-                        <Bar
-                          fill='#9AA7FE'
-                          dataKey='actualPrice'
-                          barSize={35}
-                        />
+                        <Bar fill='#88D1DC' dataKey='best' barSize={35}>
+                          <LabelList
+                            dataKey='best'
+                            content={renderCustomizedLabel}
+                          />
+                        </Bar>
+                        <Bar fill='#F8DF86' dataKey='base' barSize={35}>
+                          <LabelList
+                            dataKey='base'
+                            content={renderCustomizedLabel}
+                          />
+                        </Bar>
+                        <Bar fill='#E88190' dataKey='worst' barSize={35}>
+                          <LabelList
+                            dataKey='worst'
+                            content={renderCustomizedLabel}
+                          />
+                        </Bar>
+                        <Bar fill='#9AA7FE' dataKey='actualPrice' barSize={35}>
+                          <LabelList
+                            dataKey='actualPrice'
+                            content={renderCustomizedLabel}
+                          />
+                        </Bar>
+                        <Legend />
                       </BarChart>
                     </ResponsiveContainer>
                   )}
@@ -927,7 +975,12 @@ const Valuation = () => {
                                       fill='#F8DF86'
                                       dataKey='data2'
                                       barSize={35}
-                                    />
+                                    >
+                                      <LabelList
+                                        dataKey='data2'
+                                        content={renderCustomizedLabel}
+                                      />
+                                    </Bar>
 
                                     <Line
                                       type='monotone'
@@ -979,7 +1032,12 @@ const Valuation = () => {
                                     fill='#F8DF86'
                                     dataKey='data2'
                                     barSize={35}
-                                  />
+                                  >
+                                    <LabelList
+                                      dataKey='data2'
+                                      content={renderCustomizedLabel}
+                                    />
+                                  </Bar>
 
                                   <Line
                                     type='monotone'
@@ -1028,7 +1086,12 @@ const Valuation = () => {
                                     fill='#F8DF86'
                                     dataKey='data'
                                     barSize={35}
-                                  />
+                                  >
+                                    <LabelList
+                                      dataKey='data'
+                                      content={renderCustomizedLabel}
+                                    />
+                                  </Bar>
                                 </BarChart>
                               </ResponsiveContainer>
                             </div>
@@ -1071,7 +1134,12 @@ const Valuation = () => {
                                     fill='#F8DF86'
                                     dataKey='data'
                                     barSize={35}
-                                  />
+                                  >
+                                    <LabelList
+                                      dataKey='data'
+                                      content={renderCustomizedLabel}
+                                    />
+                                  </Bar>
                                 </BarChart>
                               </ResponsiveContainer>
                             </div>
@@ -1119,7 +1187,12 @@ const Valuation = () => {
                                     fill='#F8DF86'
                                     dataKey='data'
                                     barSize={35}
-                                  />
+                                  >
+                                    <LabelList
+                                      dataKey='data'
+                                      content={renderCustomizedLabel}
+                                    />
+                                  </Bar>
                                 </BarChart>
                               </ResponsiveContainer>
                             </div>
@@ -1167,7 +1240,12 @@ const Valuation = () => {
                                       fill='#F8DF86'
                                       dataKey='data'
                                       barSize={35}
-                                    />
+                                    >
+                                      <LabelList
+                                        dataKey='data'
+                                        content={renderCustomizedLabel}
+                                      />
+                                    </Bar>
                                   </BarChart>
                                 </ResponsiveContainer>
                               </div>
