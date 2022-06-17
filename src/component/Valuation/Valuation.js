@@ -186,7 +186,10 @@ const Valuation = () => {
       if (element.case === valuationOutputFilter) {
         setEstimatedValue(element);
         setPercent(
-          (element?.estimated_share - element?.price) / element?.price
+          (
+            ((element?.estimated_share - element?.price) / element?.price) *
+            100
+          ).toFixed(2)
         );
       }
     });
@@ -853,7 +856,7 @@ const Valuation = () => {
                             {percent
                               ? percent >= 0
                                 ? `(+${percent}%)`
-                                : `(-${percent}%)`
+                                : `(${percent}%)`
                               : ''}
                           </p>
                         </div>
