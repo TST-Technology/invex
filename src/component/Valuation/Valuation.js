@@ -48,7 +48,8 @@ const Valuation = () => {
   const [investedCapitalData, setInvestedCapital] = useState(null);
   const [priceTargetData, setPriceTargetCapital] = useState(null);
   const [valuationOutputFilter, setValuationOutputFilter] = useState('best');
-  const [pastPredictionData, setPastPredictionData] = useState(null);
+  const [pastPredictionGraphData, setPastPredictionGraphData] = useState(null);
+  const [estimatedValue, setEstimatedValue] = useState(null);
   const yearArr = [
     'year_1',
     'year_2',
@@ -82,6 +83,12 @@ const Valuation = () => {
           element?.field_name === 'Invested capital'
         ) {
           setInvested(element?.base_year);
+        }
+      });
+
+      companyValuation?.ValuationOutputs.forEach((element) => {
+        if (element.case === valuationOutputFilter) {
+          setEstimatedValue(element);
         }
       });
     }
@@ -187,7 +194,6 @@ const Valuation = () => {
         return element.case === valuationOutputFilter;
       }
     );
-    console.log(tempValuationOutput);
 
     setValuationOutput(tempValuationOutput);
   };
@@ -205,6 +211,38 @@ const Valuation = () => {
             data.data[0].CompanyValuations[0]
           ) {
             setCompanyValuation(data.data[0].CompanyValuations[0]);
+
+            const pastPrediction = data.data[0].CompanyValuations.map((val) => {
+              let best, base, worst, actualPrice;
+              val &&
+                val?.ValuationOutputs.forEach((ele) => {
+                  if (ele.case === 'base') {
+                    base = ele.estimated_share;
+                    actualPrice = ele.price;
+                  }
+                  if (ele.case === 'best') {
+                    best = ele.estimated_share;
+                  }
+                  if (ele.case === 'worst') {
+                    worst = ele.estimated_share;
+                  }
+                });
+              let tempObj = {};
+              tempObj.year = `${val.fiscal_year} ${val.quarter}`;
+              tempObj.best = best;
+              tempObj.worst = worst;
+              tempObj.base = base;
+              tempObj.actualPrice = actualPrice;
+
+              return tempObj;
+            });
+
+            if (pastPrediction && pastPrediction.length > 4) {
+              pastPrediction = pastPrediction.slice(0, 4);
+            }
+
+            setPastPredictionGraphData(pastPrediction);
+            console.log(pastPrediction);
           }
         }
 
@@ -500,6 +538,34 @@ const Valuation = () => {
                       </thead>
                       <tbody className='border-top-0'>
                         <tr>
+                          <td>Growth this year</td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.gr_this_year_best
+                              ? `${companyValuation.CompanyGrowths[0]?.gr_this_year_best}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.gr_this_year_base
+                              ? `${companyValuation.CompanyGrowths[0]?.gr_this_year_base}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.gr_this_year_worst
+                              ? `${companyValuation.CompanyGrowths[0]?.gr_this_year_worst}%`
+                              : '-'}
+                          </td>
+                          <td>-</td>
+                        </tr>
+                        <tr>
                           <td>Growth next year</td>
                           <td>
                             {companyValuation &&
@@ -558,7 +624,7 @@ const Valuation = () => {
                           <td>-</td>
                         </tr>
                         <tr>
-                          <td>Opratiing margin this year/he</td>
+                          <td>Operating margin this year/he</td>
                           <td>
                             {companyValuation &&
                             companyValuation.CompanyGrowths[0] &&
@@ -747,18 +813,37 @@ const Valuation = () => {
                         </span>
                         <div className='chart-text'>
                           <p className='card-text up m-0'>
-                            <strong>$235.49</strong>
+                            <strong>
+                              {estimatedValue?.estimated_share
+                                ? `$${estimatedValue?.estimated_share}`
+                                : '-'}
+                            </strong>
                           </p>
-                          <p className='text up m-0 ms-2'>(+34%)</p>
+                          {/* <p className='text up m-0 ms-2'>(+34%)</p> */}
+                          <p className='text up m-0 ms-2'>
+                            {estimatedValue?.price_percent
+                              ? `(${estimatedValue?.price_percent}%)`
+                              : '-'}
+                          </p>
                         </div>
                         <div className='text-end'>
                           <p className='m-0'>
                             <small>
-                              Value of equity (Millions): $76,485.50
+                              Value of equity (Millions):{' '}
+                              {estimatedValue?.value_of_equity
+                                ? `${NormalFormat(
+                                    estimatedValue?.value_of_equity
+                                  )}`
+                                : '-'}
                             </small>
                           </p>
                           <p className='m-0'>
-                            <small>Current price: $391.42</small>
+                            <small>
+                              Current price:{' '}
+                              {estimatedValue?.price
+                                ? `${estimatedValue?.price}`
+                                : '-'}
+                            </small>
                           </p>
                         </div>
                       </div>
@@ -794,7 +879,14 @@ const Valuation = () => {
                                         fontSize: '12px',
                                       }}
                                     />
-                                    <YAxis axisLine={false} />
+                                    <YAxis
+                                      axisLine={false}
+                                      domain={['auto', 'auto']}
+                                      tick={{
+                                        fill: '#212121',
+                                        fontSize: '12px',
+                                      }}
+                                    />
                                     <Tooltip />
 
                                     <Bar
@@ -840,7 +932,13 @@ const Valuation = () => {
                                     // ticks={ticks}
                                     tick={{ fill: '#212121', fontSize: '12px' }}
                                   />
-                                  <YAxis axisLine={false} />
+                                  <YAxis
+                                    axisLine={false}
+                                    tick={{
+                                      fill: '#212121',
+                                      fontSize: '12px',
+                                    }}
+                                  />
                                   <Tooltip />
 
                                   <Bar
@@ -883,7 +981,13 @@ const Valuation = () => {
                                     // ticks={ticks}
                                     tick={{ fill: '#212121', fontSize: '12px' }}
                                   />
-                                  <YAxis axisLine={false} />
+                                  <YAxis
+                                    axisLine={false}
+                                    tick={{
+                                      fill: '#212121',
+                                      fontSize: '12px',
+                                    }}
+                                  />
                                   <Tooltip />
 
                                   <Bar
@@ -920,7 +1024,13 @@ const Valuation = () => {
                                     // ticks={ticks}
                                     tick={{ fill: '#212121', fontSize: '12px' }}
                                   />
-                                  <YAxis axisLine={false} />
+                                  <YAxis
+                                    axisLine={false}
+                                    tick={{
+                                      fill: '#212121',
+                                      fontSize: '12px',
+                                    }}
+                                  />
                                   <Tooltip />
 
                                   <Bar
@@ -962,7 +1072,13 @@ const Valuation = () => {
                                     // ticks={ticks}
                                     tick={{ fill: '#212121', fontSize: '12px' }}
                                   />
-                                  <YAxis axisLine={false} />
+                                  <YAxis
+                                    axisLine={false}
+                                    tick={{
+                                      fill: '#212121',
+                                      fontSize: '12px',
+                                    }}
+                                  />
                                   <Tooltip />
 
                                   <Bar
@@ -1004,7 +1120,13 @@ const Valuation = () => {
                                         fontSize: '12px',
                                       }}
                                     />
-                                    <YAxis axisLine={false} />
+                                    <YAxis
+                                      axisLine={false}
+                                      tick={{
+                                        fill: '#212121',
+                                        fontSize: '12px',
+                                      }}
+                                    />
                                     <Tooltip />
 
                                     <Bar
