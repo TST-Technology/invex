@@ -3,7 +3,7 @@ import Market from './Market/Market';
 import TradingIdea from './TradingIdea/TradingIdea';
 
 const Options = () => {
-  const [option, setOption] = useState('TRADING_IDEA');
+  const [option, setOption] = useState('MARKET');
 
   return (
     <div className='main'>
