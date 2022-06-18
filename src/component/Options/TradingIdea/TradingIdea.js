@@ -4,13 +4,11 @@ import {
   getTradingIdeasVolatility,
   getTradingIdeasVolume,
 } from '../../api/Option';
-import moment from 'moment';
+import { getOneDayBeforeDate } from '../../Common/Date';
+import { CircularProgress } from '@material-ui/core';
 
 const TradingIdea = () => {
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  // const currentDate = moment(yesterday).format('YYYY/MM/DD');
-  const currentDate = '2022/01/27';
+  const currentDate = getOneDayBeforeDate();
 
   const [activeTab, setActiveTab] = useState();
   const [volatilityParam, setVolatilityParam] = useState({ date: currentDate });
@@ -19,9 +17,11 @@ const TradingIdea = () => {
     date: currentDate,
   });
   const [data, setData] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       switch (activeTab) {
         case 'VOLATILITY':
           const volatilityResp = await getTradingIdeasVolatility(
@@ -60,6 +60,7 @@ const TradingIdea = () => {
           }
           break;
       }
+      setIsLoading(false);
     })();
   }, [volatilityParam, volumeParam, openInterestParam, activeTab]);
 
@@ -1147,253 +1148,204 @@ const TradingIdea = () => {
         </div>
       </div>
       <div className='col-lg-8'>
-        <div className='row'>
-          <div className='col-lg-12 mb-5'>
-            <div className='top_eta mt-5'>
-              <div className='mb-5'>
-                <div className='d-flex align-items-center justify-content-between border p-3 border-bottom-0'>
-                  <h6 className='m-0'>
-                    <strong>Option Market Scaner</strong>
-                  </h6>
-                  <a
-                    href='javascript:void(0)'
-                    className='btn btn-outline-dark viewmore'
-                  >
-                    Export Data
-                  </a>
-                </div>
-                <div className='table-responsive'>
-                  <table className='table table-bordered m-0 most_tables'>
-                    <thead className='table-light'>
-                      <tr>
-                        <th scope='col'>Symbol</th>
-                        <th scope='col'>Last</th>
-                        <th scope='col'>Call Volume</th>
-                        <th scope='col'>Put Volume</th>
-                        <th scope='col'>Ratio</th>
-                      </tr>
-                    </thead>
-                    <tbody className='border-top-0'>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AA</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AADI</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAIC</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAL</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAL</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AA</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AADI</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAIC</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAL</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAL</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AA</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AADI</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAIC</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAL</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAL</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AA</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AADI</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAIC</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAL</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAL</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                    </tbody>
-                  </table>
+        {!isLoading && data && data.symbol && (
+          <div className='row'>
+            <div className='col-lg-12 mb-5'>
+              <div className='top_eta mt-5'>
+                <div className='mb-5'>
+                  <div className='d-flex align-items-center justify-content-between border p-3 border-bottom-0'>
+                    <h6 className='m-0'>
+                      <strong>Option Market Scaner</strong>
+                    </h6>
+                    <a
+                      href='javascript:void(0)'
+                      className='btn btn-outline-dark viewmore'
+                    >
+                      Export Data
+                    </a>
+                  </div>
+                  <div className='table-responsive'>
+                    <table className='table table-bordered m-0 most_tables'>
+                      <thead className='table-light'>
+                        <tr>
+                          <th scope='col'>Symbol</th>
+                          <th scope='col'>Last</th>
+                          {activeTab &&
+                            activeTab === 'VOLATILITY' &&
+                            volatilityParam &&
+                            volatilityParam.days &&
+                            volatilityParam.param !== 'call/put' && (
+                              <>
+                                <th>
+                                  IV
+                                  {volatilityParam && volatilityParam.days
+                                    ? volatilityParam.days
+                                    : ''}{' '}
+                                  Today
+                                </th>
+                                <th>
+                                  IV
+                                  {volatilityParam && volatilityParam.days
+                                    ? volatilityParam.days
+                                    : ''}{' '}
+                                  Before
+                                </th>
+                              </>
+                            )}
+
+                          {activeTab &&
+                            activeTab === 'VOLATILITY' &&
+                            volatilityParam &&
+                            volatilityParam.days &&
+                            volatilityParam.param === 'call/put' && (
+                              <>
+                                <th>
+                                  IV
+                                  {volatilityParam && volatilityParam.days
+                                    ? volatilityParam.days
+                                    : ''}{' '}
+                                  Call
+                                </th>
+                                <th>
+                                  IV
+                                  {volatilityParam && volatilityParam.days
+                                    ? volatilityParam.days
+                                    : ''}{' '}
+                                  Put
+                                </th>
+                              </>
+                            )}
+                          {/* <th scope='col'>Call Volume</th>
+                        <th scope='col'>Put Volume</th> */}
+                          <th scope='col'>Ratio</th>
+                        </tr>
+                      </thead>
+                      <tbody className='border-top-0'>
+                        {data &&
+                          data.symbol &&
+                          Object.values(data.symbol).map((row, index) => {
+                            return (
+                              <tr key={index}>
+                                <td>
+                                  {data?.symbol && data?.symbol[index]
+                                    ? data?.symbol[index]
+                                    : '-'}
+                                </td>
+                                <td>
+                                  {data?.last && data?.last[index]
+                                    ? data?.last[index].toFixed(2)
+                                    : '-'}
+                                </td>
+
+                                {activeTab &&
+                                  activeTab === 'VOLATILITY' &&
+                                  volatilityParam &&
+                                  volatilityParam.days &&
+                                  volatilityParam.param !== 'call/put' && (
+                                    <>
+                                      <td>
+                                        {data[
+                                          `iv${volatilityParam.days}mean_before`
+                                        ] &&
+                                        data[
+                                          `iv${volatilityParam.days}mean_before`
+                                        ][index]
+                                          ? `${data[
+                                              `iv${volatilityParam.days}mean_before`
+                                            ][index].toFixed(2)} %`
+                                          : '-'}
+                                      </td>
+                                      <td>
+                                        {data[
+                                          `iv${volatilityParam.days}mean_today`
+                                        ] &&
+                                        data[
+                                          `iv${volatilityParam.days}mean_today`
+                                        ][index]
+                                          ? `${data[
+                                              `iv${volatilityParam.days}mean_today`
+                                            ][index].toFixed(2)} %`
+                                          : '-'}
+                                      </td>
+                                      <td className='up'>
+                                        {data[
+                                          `${volatilityParam.param}_change`
+                                        ] &&
+                                        data[`${volatilityParam.param}_change`][
+                                          index
+                                        ]
+                                          ? `${data[
+                                              `${volatilityParam.param}_change`
+                                            ][index].toFixed(2)} %`
+                                          : '-'}
+                                      </td>
+                                    </>
+                                  )}
+
+                                {activeTab &&
+                                  activeTab === 'VOLATILITY' &&
+                                  volatilityParam &&
+                                  volatilityParam.days &&
+                                  volatilityParam.param === 'call/put' && (
+                                    <>
+                                      <td>
+                                        {data[
+                                          `iv${volatilityParam.days}call`
+                                        ] &&
+                                        data[`iv${volatilityParam.days}call`][
+                                          index
+                                        ]
+                                          ? `${data[
+                                              `iv${volatilityParam.days}call`
+                                            ][index].toFixed(2)} %`
+                                          : '-'}
+                                      </td>
+                                      <td>
+                                        {data[`iv${volatilityParam.days}put`] &&
+                                        data[`iv${volatilityParam.days}put`][
+                                          index
+                                        ]
+                                          ? `${data[
+                                              `iv${volatilityParam.days}put`
+                                            ][index].toFixed(2)} %`
+                                          : '-'}
+                                      </td>
+                                      <td className='up'>
+                                        {data[`ratio`] && data[`ratio`][index]
+                                          ? `${data[`ratio`][index].toFixed(
+                                              2
+                                            )} %`
+                                          : '-'}
+                                      </td>
+                                    </>
+                                  )}
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
+        {isLoading && (
+          <div
+            style={{
+              height: 450,
+              textAlign: 'center',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <CircularProgress />
+          </div>
+        )}
       </div>
     </div>
   );
-};
+};;;;;;;;;;;;;;;;;;;;;;;;;
 
 export default TradingIdea;
