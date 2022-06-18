@@ -11,6 +11,7 @@ import RightSideSection from './RightSideSection/RightSideSection';
 import { getDefaultMarketOption } from '../../api/OptionMarket';
 import { CircularProgress } from '@material-ui/core';
 import moment from 'moment';
+import { getOneDayBeforeDate } from '../../Common/commonFunctions';
 
 const Market = () => {
   const [data, setData] = useState([]);
@@ -19,9 +20,10 @@ const Market = () => {
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 2);
-      const currentDate = moment(yesterday).format('YYYY/MM/DD');
+      // const yesterday = new Date();
+      // yesterday.setDate(yesterday.getDate() - 2);
+      // const currentDate = moment(yesterday).format('YYYY/MM/DD');
+      const currentDate = getOneDayBeforeDate();
       const obj = { date: currentDate };
       const data = await getDefaultMarketOption(obj);
       setData(data);

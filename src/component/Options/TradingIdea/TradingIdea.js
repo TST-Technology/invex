@@ -4,24 +4,33 @@ import {
   getTradingIdeasVolatility,
   getTradingIdeasVolume,
 } from '../../api/Option';
-import moment from 'moment';
+import {
+  getOneDayBeforeDate,
+  capitalizeFirstLetter,
+} from '../../Common/commonFunctions';
+import { CircularProgress } from '@material-ui/core';
+import { NormalFormat } from '../../Common/NumberFormat';
 
 const TradingIdea = () => {
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  // const currentDate = moment(yesterday).format('YYYY/MM/DD');
-  const currentDate = '2022/01/27';
+  const currentDate = getOneDayBeforeDate();
+  const DEFAULT_PARAM = 'default';
 
-  const [activeTab, setActiveTab] = useState();
-  const [volatilityParam, setVolatilityParam] = useState({ date: currentDate });
+  const [activeTab, setActiveTab] = useState('VOLATILITY');
+  const [volatilityParam, setVolatilityParam] = useState({
+    date: currentDate,
+    days: 30,
+    param: DEFAULT_PARAM,
+  });
   const [volumeParam, setVolumeParam] = useState({ date: currentDate });
   const [openInterestParam, setOpenInterestParam] = useState({
     date: currentDate,
   });
   const [data, setData] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       switch (activeTab) {
         case 'VOLATILITY':
           const volatilityResp = await getTradingIdeasVolatility(
@@ -60,10 +69,12 @@ const TradingIdea = () => {
           }
           break;
       }
+      setIsLoading(false);
     })();
   }, [volatilityParam, volumeParam, openInterestParam, activeTab]);
 
   const duration = [
+    { param: DEFAULT_PARAM, label: '' },
     { param: 'daily', label: 'Daily' },
     { param: 'weekly', label: 'Weekly' },
     { param: 'monthly', label: 'Monthly' },
@@ -75,6 +86,7 @@ const TradingIdea = () => {
     <div className='row'>
       <div className='col-lg-4'>
         <div className='leftsidefilter mb-5'>
+          {/* Start:: Implied Volatility */}
           <div className='new_scenr_btn'>
             <h4 className='m-0'>Implied Volatility</h4>
           </div>
@@ -94,13 +106,13 @@ const TradingIdea = () => {
                     setVolatilityParam({
                       ...volatilityParam,
                       days: 30,
-                      param: 'daily',
+                      param: DEFAULT_PARAM,
                     });
                     setActiveTab('VOLATILITY');
                   }}
                 >
                   <span className='d-block w-100'>
-                    IV30 <a className='float-end me-3 pe-3 text-secondary'>1</a>
+                    IV30 <a className='float-end me-3 pe-3 text-secondary'>6</a>
                   </span>
                 </button>
               </h2>
@@ -141,7 +153,10 @@ const TradingIdea = () => {
                         >
                           <a href='javascript:void(0)'>
                             IV30 {row.label}{' '}
-                            {row.param !== 'call/put' ? 'Change' : ''}
+                            {row.param !== 'call/put' &&
+                            row.param !== DEFAULT_PARAM
+                              ? 'Change'
+                              : ''}
                           </a>
                         </li>
                       );
@@ -165,14 +180,14 @@ const TradingIdea = () => {
                     setVolatilityParam({
                       ...volatilityParam,
                       days: 60,
-                      param: 'daily',
+                      param: DEFAULT_PARAM,
                     });
                     setActiveTab('VOLATILITY');
                   }}
                   type='button'
                 >
                   <span className='d-block w-100'>
-                    IV60 <a className='float-end me-3 pe-3 text-secondary'>1</a>
+                    IV60 <a className='float-end me-3 pe-3 text-secondary'>6</a>
                   </span>
                 </button>
               </h2>
@@ -211,7 +226,10 @@ const TradingIdea = () => {
                         >
                           <a href='javascript:void(0)'>
                             IV60 {row.label}{' '}
-                            {row.param !== 'call/put' ? 'Change' : ''}
+                            {row.param !== 'call/put' &&
+                            row.param !== DEFAULT_PARAM
+                              ? 'Change'
+                              : ''}
                           </a>
                         </li>
                       );
@@ -235,13 +253,13 @@ const TradingIdea = () => {
                     setVolatilityParam({
                       ...volatilityParam,
                       days: 90,
-                      param: 'daily',
+                      param: DEFAULT_PARAM,
                     });
                     setActiveTab('VOLATILITY');
                   }}
                 >
                   <span className='d-block w-100'>
-                    IV90 <a className='float-end me-3 pe-3 text-secondary'>1</a>
+                    IV90 <a className='float-end me-3 pe-3 text-secondary'>6</a>
                   </span>
                 </button>
               </h2>
@@ -280,7 +298,10 @@ const TradingIdea = () => {
                         >
                           <a href='javascript:void(0)'>
                             IV90 {row.label}{' '}
-                            {row.param !== 'call/put' ? 'Change' : ''}
+                            {row.param !== 'call/put' &&
+                            row.param !== DEFAULT_PARAM
+                              ? 'Change'
+                              : ''}
                           </a>
                         </li>
                       );
@@ -304,14 +325,14 @@ const TradingIdea = () => {
                     setVolatilityParam({
                       ...volatilityParam,
                       days: 120,
-                      param: 'daily',
+                      param: DEFAULT_PARAM,
                     });
                     setActiveTab('VOLATILITY');
                   }}
                 >
                   <span className='d-block w-100'>
                     IV120
-                    <a className='float-end me-3 pe-3 text-secondary'>1</a>
+                    <a className='float-end me-3 pe-3 text-secondary'>6</a>
                   </span>
                 </button>
               </h2>
@@ -350,7 +371,10 @@ const TradingIdea = () => {
                         >
                           <a href='javascript:void(0)'>
                             IV120 {row.label}{' '}
-                            {row.param !== 'call/put' ? 'Change' : ''}
+                            {row.param !== 'call/put' &&
+                            row.param !== DEFAULT_PARAM
+                              ? 'Change'
+                              : ''}
                           </a>
                         </li>
                       );
@@ -374,14 +398,14 @@ const TradingIdea = () => {
                     setVolatilityParam({
                       ...volatilityParam,
                       days: 150,
-                      param: 'daily',
+                      param: DEFAULT_PARAM,
                     });
                     setActiveTab('VOLATILITY');
                   }}
                 >
                   <span className='d-block w-100'>
                     IV150
-                    <a className='float-end me-3 pe-3 text-secondary'>1</a>
+                    <a className='float-end me-3 pe-3 text-secondary'>6</a>
                   </span>
                 </button>
               </h2>
@@ -420,7 +444,10 @@ const TradingIdea = () => {
                         >
                           <a href='javascript:void(0)'>
                             IV150 {row.label}{' '}
-                            {row.param !== 'call/put' ? 'Change' : ''}
+                            {row.param !== 'call/put' &&
+                            row.param !== DEFAULT_PARAM
+                              ? 'Change'
+                              : ''}
                           </a>
                         </li>
                       );
@@ -444,14 +471,14 @@ const TradingIdea = () => {
                     setVolatilityParam({
                       ...volatilityParam,
                       days: 180,
-                      param: 'daily',
+                      param: DEFAULT_PARAM,
                     });
                     setActiveTab('VOLATILITY');
                   }}
                 >
                   <span className='d-block w-100'>
                     IV180
-                    <a className='float-end me-3 pe-3 text-secondary'>1</a>
+                    <a className='float-end me-3 pe-3 text-secondary'>6</a>
                   </span>
                 </button>
               </h2>
@@ -490,7 +517,10 @@ const TradingIdea = () => {
                         >
                           <a href='javascript:void(0)'>
                             IV180 {row.label}{' '}
-                            {row.param !== 'call/put' ? 'Change' : ''}
+                            {row.param !== 'call/put' &&
+                            row.param !== DEFAULT_PARAM
+                              ? 'Change'
+                              : ''}
                           </a>
                         </li>
                       );
@@ -514,14 +544,14 @@ const TradingIdea = () => {
                     setVolatilityParam({
                       ...volatilityParam,
                       days: 360,
-                      param: 'daily',
+                      param: DEFAULT_PARAM,
                     });
                     setActiveTab('VOLATILITY');
                   }}
                 >
                   <span className='d-block w-100'>
                     IV360
-                    <a className='float-end me-3 pe-3 text-secondary'>1</a>
+                    <a className='float-end me-3 pe-3 text-secondary'>6</a>
                   </span>
                 </button>
               </h2>
@@ -560,7 +590,10 @@ const TradingIdea = () => {
                         >
                           <a href='javascript:void(0)'>
                             IV360 {row.label}{' '}
-                            {row.param !== 'call/put' ? 'Change' : ''}
+                            {row.param !== 'call/put' &&
+                            row.param !== DEFAULT_PARAM
+                              ? 'Change'
+                              : ''}
                           </a>
                         </li>
                       );
@@ -569,6 +602,8 @@ const TradingIdea = () => {
                 </div>
               </div>
             </div>
+            {/* End:: Implied Volatility */}
+            {/* Start:: Volume */}
             <div className='new_scenr_btn'>
               <h4 className='m-0'>Volume</h4>
             </div>
@@ -587,14 +622,14 @@ const TradingIdea = () => {
                     setVolumeParam({
                       ...volumeParam,
                       option: 'call',
-                      param: 'daily',
+                      param: DEFAULT_PARAM,
                     });
                     setActiveTab('VOLUME');
                   }}
                 >
                   <span className='d-block w-100'>
                     Call Volume
-                    <a className='float-end me-3 pe-3 text-secondary'>7</a>
+                    <a className='float-end me-3 pe-3 text-secondary'>5</a>
                   </span>
                 </button>
               </h2>
@@ -633,7 +668,8 @@ const TradingIdea = () => {
                             }}
                           >
                             <a href='javascript:void(0)'>
-                              Call Volume {row.label} Change
+                              Call Volume {row.label}{' '}
+                              {row.param !== DEFAULT_PARAM ? 'Change' : ''}
                             </a>
                           </li>
                         )
@@ -658,14 +694,14 @@ const TradingIdea = () => {
                     setVolumeParam({
                       ...volumeParam,
                       option: 'put',
-                      param: 'daily',
+                      param: DEFAULT_PARAM,
                     });
                     setActiveTab('VOLUME');
                   }}
                 >
                   <span className='d-block w-100'>
                     Put Volume
-                    <a className='float-end me-3 pe-3 text-secondary'>1</a>
+                    <a className='float-end me-3 pe-3 text-secondary'>5</a>
                   </span>
                 </button>
               </h2>
@@ -704,7 +740,8 @@ const TradingIdea = () => {
                             }}
                           >
                             <a href='javascript:void(0)'>
-                              Put Volume {row.label} Change
+                              Put Volume {row.label}{' '}
+                              {row.param !== DEFAULT_PARAM ? 'Change' : ''}
                             </a>
                           </li>
                         )
@@ -719,7 +756,7 @@ const TradingIdea = () => {
                 <button
                   className={`accordion-button ${
                     volumeParam &&
-                    volumeParam.option === 'options' &&
+                    volumeParam.option === 'total' &&
                     volumeParam.param &&
                     activeTab === 'VOLUME'
                       ? 'active'
@@ -728,15 +765,15 @@ const TradingIdea = () => {
                   onClick={() => {
                     setVolumeParam({
                       ...volumeParam,
-                      option: 'options',
-                      param: 'daily',
+                      option: 'total',
+                      param: DEFAULT_PARAM,
                     });
                     setActiveTab('VOLUME');
                   }}
                 >
                   <span className='d-block w-100'>
                     Options Volume
-                    <a className='float-end me-3 pe-3 text-secondary'>1</a>
+                    <a className='float-end me-3 pe-3 text-secondary'>5</a>
                   </span>
                 </button>
               </h2>
@@ -744,7 +781,7 @@ const TradingIdea = () => {
                 id='coll_financials'
                 className={`accordion-collapse ${
                   volumeParam &&
-                  volumeParam.option === 'options' &&
+                  volumeParam.option === 'total' &&
                   volumeParam.param &&
                   activeTab === 'VOLUME'
                     ? ''
@@ -760,7 +797,7 @@ const TradingIdea = () => {
                             key={index}
                             className={`${
                               volumeParam &&
-                              volumeParam.option === 'options' &&
+                              volumeParam.option === 'total' &&
                               volumeParam.param === row.param
                                 ? 'active'
                                 : ''
@@ -768,14 +805,15 @@ const TradingIdea = () => {
                             onClick={() => {
                               setVolumeParam({
                                 ...volumeParam,
-                                option: 'options',
+                                option: 'total',
                                 param: row.param,
                               });
                               setActiveTab('VOLUME');
                             }}
                           >
                             <a href='javascript:void(0)'>
-                              Options Volume {row.label} Change
+                              Options Volume {row.label}{' '}
+                              {row.param !== DEFAULT_PARAM ? 'Change' : ''}
                             </a>
                           </li>
                         )
@@ -800,7 +838,7 @@ const TradingIdea = () => {
                     setVolumeParam({
                       ...volumeParam,
                       option: 'call/put',
-                      param: 'daily',
+                      param: 'call/put',
                     });
                     setActiveTab('VOLUME');
                   }}
@@ -824,38 +862,31 @@ const TradingIdea = () => {
               >
                 <div className='in_acc_body'>
                   <ul>
-                    {duration.map((row, index) => {
-                      return (
-                        row.param !== 'call/put' && (
-                          <li
-                            key={index}
-                            className={`${
-                              volumeParam &&
-                              volumeParam.option === 'call/put' &&
-                              volumeParam.param === row.param
-                                ? 'active'
-                                : ''
-                            }`}
-                            onClick={() => {
-                              setVolumeParam({
-                                ...volumeParam,
-                                option: 'call/put',
-                                param: row.param,
-                              });
-                              setActiveTab('VOLUME');
-                            }}
-                          >
-                            <a href='javascript:void(0)'>
-                              Call-Put Volume {row.label} Change
-                            </a>
-                          </li>
-                        )
-                      );
-                    })}
+                    <li
+                      className={`${
+                        volumeParam &&
+                        volumeParam.option === 'call/put' &&
+                        volumeParam.param === 'call/put'
+                          ? 'active'
+                          : ''
+                      }`}
+                      onClick={() => {
+                        setVolumeParam({
+                          ...volumeParam,
+                          option: 'call/put',
+                          param: 'call/put',
+                        });
+                        setActiveTab('VOLUME');
+                      }}
+                    >
+                      <a href='javascript:void(0)'>Call-Put Volume</a>
+                    </li>
                   </ul>
                 </div>
               </div>
             </div>
+            {/* End:: Volume */}
+            {/* Start:: Open Interest */}
             <div className='new_scenr_btn'>
               <h4 className='m-0'>Open Interest</h4>
             </div>
@@ -874,14 +905,14 @@ const TradingIdea = () => {
                     setOpenInterestParam({
                       ...openInterestParam,
                       option: 'call',
-                      param: 'daily',
+                      param: DEFAULT_PARAM,
                     });
                     setActiveTab('OPEN_INTEREST');
                   }}
                 >
                   <span className='d-block w-100'>
                     Call OI
-                    <a className='float-end me-3 pe-3 text-secondary'>12</a>
+                    <a className='float-end me-3 pe-3 text-secondary'>5</a>
                   </span>
                 </button>
               </h2>
@@ -945,7 +976,7 @@ const TradingIdea = () => {
                     setOpenInterestParam({
                       ...openInterestParam,
                       option: 'put',
-                      param: 'daily',
+                      param: DEFAULT_PARAM,
                     });
                     setActiveTab('OPEN_INTEREST');
                   }}
@@ -1006,7 +1037,7 @@ const TradingIdea = () => {
                 <button
                   className={`accordion-button ${
                     openInterestParam &&
-                    openInterestParam.option === 'options' &&
+                    openInterestParam.option === 'total' &&
                     openInterestParam.param &&
                     activeTab === 'OPEN_INTEREST'
                       ? 'active'
@@ -1015,15 +1046,15 @@ const TradingIdea = () => {
                   onClick={() => {
                     setOpenInterestParam({
                       ...openInterestParam,
-                      option: 'options',
-                      param: 'daily',
+                      option: 'total',
+                      param: DEFAULT_PARAM,
                     });
                     setActiveTab('OPEN_INTEREST');
                   }}
                 >
                   <span className='d-block w-100'>
                     Options OI
-                    <a className='float-end me-3 pe-3 text-secondary'>1</a>
+                    <a className='float-end me-3 pe-3 text-secondary'>5</a>
                   </span>
                 </button>
               </h2>
@@ -1031,7 +1062,7 @@ const TradingIdea = () => {
                 id='coll_financials'
                 className={`accordion-collapse ${
                   openInterestParam &&
-                  openInterestParam.option === 'options' &&
+                  openInterestParam.option === 'total' &&
                   openInterestParam.param &&
                   activeTab === 'OPEN_INTEREST'
                     ? ''
@@ -1047,7 +1078,7 @@ const TradingIdea = () => {
                             key={index}
                             className={`${
                               openInterestParam &&
-                              openInterestParam.option === 'options' &&
+                              openInterestParam.option === 'total' &&
                               openInterestParam.param === row.param
                                 ? 'active'
                                 : ''
@@ -1055,7 +1086,7 @@ const TradingIdea = () => {
                             onClick={() => {
                               setOpenInterestParam({
                                 ...openInterestParam,
-                                option: 'options',
+                                option: 'total',
                                 param: row.param,
                               });
                               setActiveTab('OPEN_INTEREST');
@@ -1087,7 +1118,7 @@ const TradingIdea = () => {
                     setOpenInterestParam({
                       ...openInterestParam,
                       option: 'call/put',
-                      param: 'daily',
+                      param: 'call/put',
                     });
                     setActiveTab('OPEN_INTEREST');
                   }}
@@ -1111,286 +1142,612 @@ const TradingIdea = () => {
               >
                 <div className='in_acc_body'>
                   <ul>
-                    {duration.map((row, index) => {
-                      return (
-                        row.param !== 'call/put' && (
-                          <li
-                            key={index}
-                            className={`${
-                              openInterestParam &&
-                              openInterestParam.option === 'call/put' &&
-                              openInterestParam.param === row.param
-                                ? 'active'
-                                : ''
-                            }`}
-                            onClick={() => {
-                              setOpenInterestParam({
-                                ...openInterestParam,
-                                option: 'call/put',
-                                param: row.param,
-                              });
-                              setActiveTab('OPEN_INTEREST');
-                            }}
-                          >
-                            <a href='javascript:void(0)'>
-                              Call-Put OI {row.label} Change
-                            </a>
-                          </li>
-                        )
-                      );
-                    })}
+                    <li
+                      className={`${
+                        openInterestParam &&
+                        openInterestParam.option === 'call/put' &&
+                        openInterestParam.param === 'call/put'
+                          ? 'active'
+                          : ''
+                      }`}
+                      onClick={() => {
+                        setOpenInterestParam({
+                          ...openInterestParam,
+                          option: 'call/put',
+                          param: 'call/put',
+                        });
+                        setActiveTab('OPEN_INTEREST');
+                      }}
+                    >
+                      <a href='javascript:void(0)'>Call-Put OI</a>
+                    </li>
                   </ul>
                 </div>
               </div>
             </div>
+
+            {/* End:: Open Interest */}
           </div>
         </div>
       </div>
       <div className='col-lg-8'>
-        <div className='row'>
-          <div className='col-lg-12 mb-5'>
-            <div className='top_eta mt-5'>
-              <div className='mb-5'>
-                <div className='d-flex align-items-center justify-content-between border p-3 border-bottom-0'>
-                  <h6 className='m-0'>
-                    <strong>Option Market Scaner</strong>
-                  </h6>
-                  <a
-                    href='javascript:void(0)'
-                    className='btn btn-outline-dark viewmore'
-                  >
-                    Export Data
-                  </a>
-                </div>
-                <div className='table-responsive'>
-                  <table className='table table-bordered m-0 most_tables'>
-                    <thead className='table-light'>
-                      <tr>
-                        <th scope='col'>Symbol</th>
-                        <th scope='col'>Last</th>
-                        <th scope='col'>Call Volume</th>
-                        <th scope='col'>Put Volume</th>
-                        <th scope='col'>Ratio</th>
-                      </tr>
-                    </thead>
-                    <tbody className='border-top-0'>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AA</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AADI</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAIC</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAL</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAL</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AA</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AADI</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAIC</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAL</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAL</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AA</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AADI</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAIC</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAL</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAL</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AA</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AADI</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAIC</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAL</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>AAL</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                      <tr>
-                        <td>A</td>
-                        <td>20</td>
-                        <td>5651245</td>
-                        <td>5651245</td>
-                        <td className='up'>4.00%</td>
-                      </tr>
-                    </tbody>
-                  </table>
+        {!isLoading && data && data.symbol && (
+          <div className='row'>
+            <div className='col-lg-12 mb-5'>
+              <div className='top_eta mt-5'>
+                <div className='mb-5'>
+                  <div className='d-flex align-items-center justify-content-between border p-3 border-bottom-0'>
+                    <h6 className='m-0'>
+                      <strong>Option Market Scanner</strong>
+                    </h6>
+                    <a
+                      href='javascript:void(0)'
+                      className='btn btn-outline-dark viewmore'
+                    >
+                      Export Data
+                    </a>
+                  </div>
+                  <div className='table-responsive'>
+                    <table className='table table-bordered m-0 most_tables'>
+                      <thead className='table-light'>
+                        <tr>
+                          <th scope='col'>Symbol</th>
+                          <th scope='col'>Last</th>
+                          {/* Start:: Implied Volatility */}
+                          {activeTab &&
+                            activeTab === 'VOLATILITY' &&
+                            volatilityParam &&
+                            volatilityParam.days &&
+                            volatilityParam.param !== 'call/put' &&
+                            volatilityParam.param !== DEFAULT_PARAM && (
+                              <>
+                                <th>
+                                  IV
+                                  {volatilityParam && volatilityParam.days
+                                    ? volatilityParam.days
+                                    : ''}{' '}
+                                  Today
+                                </th>
+                                <th>
+                                  IV
+                                  {volatilityParam && volatilityParam.days
+                                    ? volatilityParam.days
+                                    : ''}{' '}
+                                  Before
+                                </th>
+                              </>
+                            )}
+                          {activeTab &&
+                            activeTab === 'VOLATILITY' &&
+                            volatilityParam &&
+                            volatilityParam.days &&
+                            volatilityParam.param === 'call/put' && (
+                              <>
+                                <th>
+                                  IV
+                                  {volatilityParam && volatilityParam.days
+                                    ? volatilityParam.days
+                                    : ''}{' '}
+                                  Call
+                                </th>
+                                <th>
+                                  IV
+                                  {volatilityParam && volatilityParam.days
+                                    ? volatilityParam.days
+                                    : ''}{' '}
+                                  Put
+                                </th>
+                              </>
+                            )}
+                          {activeTab &&
+                            activeTab === 'VOLATILITY' &&
+                            volatilityParam &&
+                            volatilityParam.days &&
+                            volatilityParam.param === DEFAULT_PARAM && (
+                              <>
+                                <th>
+                                  IV
+                                  {volatilityParam && volatilityParam.days
+                                    ? volatilityParam.days
+                                    : ''}{' '}
+                                </th>
+                              </>
+                            )}
+                          {/* End:: Implied Volatility */}
+                          {/* Start:: Volume */}
+                          {activeTab &&
+                            activeTab === 'VOLUME' &&
+                            volumeParam &&
+                            volumeParam.option &&
+                            volumeParam.param !== 'call/put' &&
+                            volumeParam.param !== DEFAULT_PARAM && (
+                              <>
+                                <th>
+                                  {volumeParam && volumeParam.option
+                                    ? capitalizeFirstLetter(volumeParam.option)
+                                    : ''}{' '}
+                                  Volume Today
+                                </th>
+                                <th>
+                                  {volumeParam && volumeParam.option
+                                    ? capitalizeFirstLetter(volumeParam.option)
+                                    : ''}{' '}
+                                  Volume Before
+                                </th>
+                              </>
+                            )}
+                          {activeTab &&
+                            activeTab === 'VOLUME' &&
+                            volumeParam &&
+                            volumeParam.option &&
+                            volumeParam.param === 'call/put' && (
+                              <>
+                                <th>Call Volume</th>
+                                <th>Put Volume</th>
+                              </>
+                            )}
+
+                          {activeTab &&
+                            activeTab === 'VOLUME' &&
+                            volumeParam &&
+                            volumeParam.option &&
+                            volumeParam.param === DEFAULT_PARAM && (
+                              <>
+                                <th>
+                                  {volumeParam && volumeParam.option
+                                    ? capitalizeFirstLetter(volumeParam.option)
+                                    : ''}{' '}
+                                  Volume
+                                </th>
+                              </>
+                            )}
+                          {/* End:: Volume */}
+                          {/* Start:: Open Interest */}
+                          {activeTab &&
+                            activeTab === 'OPEN_INTEREST' &&
+                            openInterestParam &&
+                            openInterestParam.option &&
+                            openInterestParam.param !== 'call/put' &&
+                            openInterestParam.param !== DEFAULT_PARAM && (
+                              <>
+                                <th>
+                                  {openInterestParam && openInterestParam.option
+                                    ? capitalizeFirstLetter(
+                                        openInterestParam.option
+                                      )
+                                    : ''}{' '}
+                                  OI
+                                </th>
+                                <th>
+                                  Daily{' '}
+                                  {openInterestParam && openInterestParam.option
+                                    ? capitalizeFirstLetter(
+                                        openInterestParam.option
+                                      )
+                                    : ''}{' '}
+                                  OI
+                                </th>
+                              </>
+                            )}
+                          {activeTab &&
+                            activeTab === 'OPEN_INTEREST' &&
+                            openInterestParam &&
+                            openInterestParam.option &&
+                            openInterestParam.param === 'call/put' && (
+                              <>
+                                <th>Call OI</th>
+                                <th>Put OI</th>
+                              </>
+                            )}
+
+                          {activeTab &&
+                            activeTab === 'OPEN_INTEREST' &&
+                            openInterestParam &&
+                            openInterestParam.option &&
+                            openInterestParam.param === DEFAULT_PARAM && (
+                              <>
+                                <th>
+                                  {openInterestParam && openInterestParam.option
+                                    ? capitalizeFirstLetter(
+                                        openInterestParam.option
+                                      )
+                                    : ''}{' '}
+                                  OI
+                                </th>
+                              </>
+                            )}
+
+                          {/* End:: Open Interest */}
+                          {((activeTab === 'VOLATILITY' &&
+                            volatilityParam?.param !== DEFAULT_PARAM) ||
+                            (activeTab === 'VOLUME' &&
+                              volumeParam?.param !== DEFAULT_PARAM) ||
+                            (activeTab === 'OPEN_INTEREST' &&
+                              openInterestParam?.param !== DEFAULT_PARAM)) && (
+                            <th scope='col'>Ratio</th>
+                          )}
+                        </tr>
+                      </thead>
+                      <tbody className='border-top-0'>
+                        {data &&
+                          data.symbol &&
+                          Object.values(data.symbol).map((row, index) => {
+                            return (
+                              <tr key={index}>
+                                <td>
+                                  {data?.symbol && data?.symbol[index]
+                                    ? data?.symbol[index]
+                                    : '-'}
+                                </td>
+                                <td>
+                                  {data?.last && data?.last[index]
+                                    ? data?.last[index].toFixed(2)
+                                    : '-'}
+                                </td>
+
+                                {/* Start:: Implied Volatility */}
+
+                                {activeTab &&
+                                  activeTab === 'VOLATILITY' &&
+                                  volatilityParam &&
+                                  volatilityParam.days &&
+                                  volatilityParam.param !== 'call/put' &&
+                                  volatilityParam.param !== DEFAULT_PARAM && (
+                                    <>
+                                      <td>
+                                        {data[
+                                          `iv${volatilityParam.days}mean_before`
+                                        ] &&
+                                        data[
+                                          `iv${volatilityParam.days}mean_before`
+                                        ][index]
+                                          ? `${data[
+                                              `iv${volatilityParam.days}mean_before`
+                                            ][index].toFixed(2)} %`
+                                          : '-'}
+                                      </td>
+                                      <td>
+                                        {data[
+                                          `iv${volatilityParam.days}mean_today`
+                                        ] &&
+                                        data[
+                                          `iv${volatilityParam.days}mean_today`
+                                        ][index]
+                                          ? `${data[
+                                              `iv${volatilityParam.days}mean_today`
+                                            ][index].toFixed(2)} %`
+                                          : '-'}
+                                      </td>
+                                      <td className='up'>
+                                        {data[
+                                          `${volatilityParam.param}_change`
+                                        ] &&
+                                        data[`${volatilityParam.param}_change`][
+                                          index
+                                        ]
+                                          ? `${data[
+                                              `${volatilityParam.param}_change`
+                                            ][index].toFixed(2)} %`
+                                          : '-'}
+                                      </td>
+                                    </>
+                                  )}
+
+                                {activeTab &&
+                                  activeTab === 'VOLATILITY' &&
+                                  volatilityParam &&
+                                  volatilityParam.days &&
+                                  volatilityParam.param === 'call/put' && (
+                                    <>
+                                      <td>
+                                        {data[
+                                          `iv${volatilityParam.days}call`
+                                        ] &&
+                                        data[`iv${volatilityParam.days}call`][
+                                          index
+                                        ]
+                                          ? `${data[
+                                              `iv${volatilityParam.days}call`
+                                            ][index].toFixed(2)} %`
+                                          : '-'}
+                                      </td>
+                                      <td>
+                                        {data[`iv${volatilityParam.days}put`] &&
+                                        data[`iv${volatilityParam.days}put`][
+                                          index
+                                        ]
+                                          ? `${data[
+                                              `iv${volatilityParam.days}put`
+                                            ][index].toFixed(2)} %`
+                                          : '-'}
+                                      </td>
+                                      <td className='up'>
+                                        {data[`ratio`] && data[`ratio`][index]
+                                          ? `${data[`ratio`][index].toFixed(
+                                              2
+                                            )} %`
+                                          : '-'}
+                                      </td>
+                                    </>
+                                  )}
+
+                                {activeTab &&
+                                  activeTab === 'VOLATILITY' &&
+                                  volatilityParam &&
+                                  volatilityParam.days &&
+                                  volatilityParam.param === DEFAULT_PARAM && (
+                                    <>
+                                      <td>
+                                        {data[
+                                          `iv${volatilityParam.days}mean`
+                                        ] &&
+                                        data[`iv${volatilityParam.days}mean`][
+                                          index
+                                        ]
+                                          ? `${data[
+                                              `iv${volatilityParam.days}mean`
+                                            ][index].toFixed(2)} %`
+                                          : '-'}
+                                      </td>
+                                    </>
+                                  )}
+
+                                {/* End:: Implied Volatility */}
+
+                                {/* Start:: Volume */}
+
+                                {activeTab &&
+                                  activeTab === 'VOLUME' &&
+                                  volumeParam &&
+                                  volumeParam.option &&
+                                  volumeParam.param &&
+                                  volumeParam.param !== 'call/put' &&
+                                  volumeParam.param !== DEFAULT_PARAM && (
+                                    <>
+                                      <td>
+                                        {data[
+                                          `${volumeParam.option}vol_today`
+                                        ] &&
+                                        data[`${volumeParam.option}vol_today`][
+                                          index
+                                        ]
+                                          ? NormalFormat(
+                                              `${
+                                                data[
+                                                  `${volumeParam.option}vol_today`
+                                                ][index]
+                                              }`
+                                            )
+                                          : '-'}
+                                      </td>
+                                      <td>
+                                        {data[
+                                          `${volumeParam.option}vol_before`
+                                        ] &&
+                                        data[`${volumeParam.option}vol_before`][
+                                          index
+                                        ]
+                                          ? NormalFormat(
+                                              `${
+                                                data[
+                                                  `${volumeParam.option}vol_before`
+                                                ][index]
+                                              }`
+                                            )
+                                          : '-'}
+                                      </td>
+
+                                      <td className='up'>
+                                        {data[`${volumeParam.param}_change`] &&
+                                        data[`${volumeParam.param}_change`][
+                                          index
+                                        ]
+                                          ? `${data[
+                                              `${volumeParam.param}_change`
+                                            ][index].toFixed(2)} %`
+                                          : '-'}
+                                      </td>
+                                    </>
+                                  )}
+
+                                {activeTab &&
+                                  activeTab === 'VOLUME' &&
+                                  volumeParam &&
+                                  volumeParam.option &&
+                                  volumeParam.param &&
+                                  volumeParam.param === 'call/put' && (
+                                    <>
+                                      <td>
+                                        {data[`callvol`] &&
+                                        data[`callvol`][index]
+                                          ? NormalFormat(
+                                              `${data[`callvol`][index]}`
+                                            )
+                                          : '-'}
+                                      </td>
+                                      <td>
+                                        {data[`putvol`] && data[`putvol`][index]
+                                          ? NormalFormat(
+                                              `${data[`putvol`][index]}`
+                                            )
+                                          : '-'}
+                                      </td>
+
+                                      <td className='up'>
+                                        {data[`ratio`] && data[`ratio`][index]
+                                          ? `${data[`ratio`][index].toFixed(
+                                              2
+                                            )} %`
+                                          : '-'}
+                                      </td>
+                                    </>
+                                  )}
+
+                                {activeTab &&
+                                  activeTab === 'VOLUME' &&
+                                  volumeParam &&
+                                  volumeParam.option &&
+                                  volumeParam.param &&
+                                  volumeParam.param === DEFAULT_PARAM && (
+                                    <>
+                                      <td>
+                                        {data[`${volumeParam.option}vol`] &&
+                                        data[`${volumeParam.option}vol`][index]
+                                          ? NormalFormat(
+                                              `${
+                                                data[
+                                                  `${volumeParam.option}vol`
+                                                ][index]
+                                              }`
+                                            )
+                                          : '-'}
+                                      </td>
+                                    </>
+                                  )}
+
+                                {/* End:: Volume */}
+
+                                {/* Start:: Open Interest */}
+
+                                {activeTab &&
+                                  activeTab === 'OPEN_INTEREST' &&
+                                  openInterestParam &&
+                                  openInterestParam.option &&
+                                  openInterestParam.param &&
+                                  openInterestParam.param !== 'call/put' &&
+                                  openInterestParam.param !== DEFAULT_PARAM && (
+                                    <>
+                                      <td>
+                                        {data[
+                                          `${openInterestParam.option}oi_today`
+                                        ] &&
+                                        data[
+                                          `${openInterestParam.option}oi_today`
+                                        ][index]
+                                          ? NormalFormat(
+                                              `${
+                                                data[
+                                                  `${openInterestParam.option}oi_today`
+                                                ][index]
+                                              }`
+                                            )
+                                          : '-'}
+                                      </td>
+                                      <td>
+                                        {data[
+                                          `${openInterestParam.option}oi_before`
+                                        ] &&
+                                        data[
+                                          `${openInterestParam.option}oi_before`
+                                        ][index]
+                                          ? NormalFormat(
+                                              `${
+                                                data[
+                                                  `${openInterestParam.option}oi_before`
+                                                ][index]
+                                              }`
+                                            )
+                                          : '-'}
+                                      </td>
+
+                                      <td className='up'>
+                                        {data[
+                                          `${openInterestParam.param}_change`
+                                        ] &&
+                                        data[
+                                          `${openInterestParam.param}_change`
+                                        ][index]
+                                          ? `${data[
+                                              `${openInterestParam.param}_change`
+                                            ][index].toFixed(2)} %`
+                                          : '-'}
+                                      </td>
+                                    </>
+                                  )}
+
+                                {activeTab &&
+                                  activeTab === 'OPEN_INTEREST' &&
+                                  openInterestParam &&
+                                  openInterestParam.option &&
+                                  openInterestParam.param &&
+                                  openInterestParam.param === 'call/put' && (
+                                    <>
+                                      <td>
+                                        {data[`calloi`] && data[`calloi`][index]
+                                          ? NormalFormat(
+                                              `${data[`calloi`][index]}`
+                                            )
+                                          : '-'}
+                                      </td>
+                                      <td>
+                                        {data[`putoi`] && data[`putoi`][index]
+                                          ? NormalFormat(
+                                              `${data[`putoi`][index]}`
+                                            )
+                                          : '-'}
+                                      </td>
+
+                                      <td className='up'>
+                                        {data[`ratio`] && data[`ratio`][index]
+                                          ? `${data[`ratio`][index].toFixed(
+                                              2
+                                            )} %`
+                                          : '-'}
+                                      </td>
+                                    </>
+                                  )}
+
+                                {activeTab &&
+                                  activeTab === 'OPEN_INTEREST' &&
+                                  openInterestParam &&
+                                  openInterestParam.option &&
+                                  openInterestParam.param &&
+                                  openInterestParam.param === DEFAULT_PARAM && (
+                                    <>
+                                      <td>
+                                        {data[
+                                          `${openInterestParam.option}oi`
+                                        ] &&
+                                        data[`${openInterestParam.option}oi`][
+                                          index
+                                        ]
+                                          ? NormalFormat(
+                                              `${
+                                                data[
+                                                  `${openInterestParam.option}oi`
+                                                ][index]
+                                              }`
+                                            )
+                                          : '-'}
+                                      </td>
+                                    </>
+                                  )}
+
+                                {/* End:: Open Interest */}
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
+        {isLoading && (
+          <div
+            style={{
+              height: 450,
+              textAlign: 'center',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <CircularProgress />
+          </div>
+        )}
       </div>
     </div>
   );
