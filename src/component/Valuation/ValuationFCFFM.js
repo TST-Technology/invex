@@ -195,7 +195,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
   }, []);
 
   const getGraphData = (valuation) => {
-    let year = 2022;
+    let year = new Date().getFullYear();
     let tempArr = [];
     Object.keys(valuation).forEach((key) => {
       if (yearArr.includes(key)) {
@@ -244,6 +244,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
           fill='#000'
           textAnchor='middle'
           dominantBaseline='middle'
+          fontSize={10}
         >
           ${value}
         </text>
@@ -892,59 +893,57 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                             <small>All values are in Billion</small>
                           </div>
 
-                          {revenueGraphData &&
-                            revenueGraphData.length > 0 &&
-                            revenueGraphData[0].data2 && (
-                              <div className='col-lg-12 mt-3'>
-                                <ResponsiveContainer
-                                  width='100%'
-                                  aspect={1}
-                                  maxHeight={400}
+                          {revenueGraphData && revenueGraphData.length > 0 && (
+                            <div className='col-lg-12 mt-3'>
+                              <ResponsiveContainer
+                                width='100%'
+                                aspect={1}
+                                maxHeight={400}
+                              >
+                                <ComposedChart
+                                  data={revenueGraphData}
+                                  tick={false}
                                 >
-                                  <ComposedChart
-                                    data={revenueGraphData}
-                                    tick={false}
+                                  <XAxis
+                                    dataKey='year'
+                                    axisLine={false}
+                                    domain={['auto', 'auto']}
+                                    // ticks={ticks}
+                                    tick={{
+                                      fill: '#212121',
+                                      fontSize: '12px',
+                                    }}
+                                  />
+                                  <YAxis
+                                    axisLine={false}
+                                    domain={['auto', 'auto']}
+                                    tick={{
+                                      fill: '#212121',
+                                      fontSize: '12px',
+                                    }}
+                                  />
+                                  <Tooltip />
+
+                                  <Bar
+                                    fill='#F8DF86'
+                                    dataKey='data2'
+                                    barSize={35}
                                   >
-                                    <XAxis
-                                      dataKey='year'
-                                      axisLine={false}
-                                      domain={['auto', 'auto']}
-                                      // ticks={ticks}
-                                      tick={{
-                                        fill: '#212121',
-                                        fontSize: '12px',
-                                      }}
-                                    />
-                                    <YAxis
-                                      axisLine={false}
-                                      domain={['auto', 'auto']}
-                                      tick={{
-                                        fill: '#212121',
-                                        fontSize: '12px',
-                                      }}
-                                    />
-                                    <Tooltip />
-
-                                    <Bar
-                                      fill='#F8DF86'
+                                    <LabelList
                                       dataKey='data2'
-                                      barSize={35}
-                                    >
-                                      <LabelList
-                                        dataKey='data2'
-                                        content={renderCustomizedLabel}
-                                      />
-                                    </Bar>
-
-                                    <Line
-                                      type='monotone'
-                                      dataKey='data'
-                                      stroke='#4162FE'
+                                      content={renderCustomizedLabel}
                                     />
-                                  </ComposedChart>
-                                </ResponsiveContainer>
-                              </div>
-                            )}
+                                  </Bar>
+
+                                  <Line
+                                    type='monotone'
+                                    dataKey='data'
+                                    stroke='#4162FE'
+                                  />
+                                </ComposedChart>
+                              </ResponsiveContainer>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className='mt-5'>

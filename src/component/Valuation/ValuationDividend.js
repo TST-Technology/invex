@@ -12,16 +12,16 @@ import {
   Bar,
   Legend,
   LabelList,
+  LineChart,
 } from 'recharts';
 
 const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
   const [data, setData] = useState();
   const [companyValuation, setCompanyValuation] = useState();
-  const [invested, setInvested] = useState(null);
   const [valuationOutput, setValuationOutput] = useState(null);
-  const [revenueGraphData, setRevenueGraphData] = useState(null);
-  const [operatingIncomeData, setOperatingIncomeData] = useState(null);
-  const [reinvestmentData, setReinvestmentData] = useState(null);
+  const [expectedGrowthRate, setExpectedGrowthRate] = useState(null);
+  const [payoutRatioGraph, setPayoutRatioGraph] = useState(null);
+  const [priceTarget, setPriceTarget] = useState(null);
   const [freeCashFlowData, setFreeCashFlowData] = useState(null);
   const [investedCapitalData, setInvestedCapital] = useState(null);
   const [priceTargetData, setPriceTargetCapital] = useState(null);
@@ -55,20 +55,21 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
           allData.DivDisModelInputs[0]
         ) {
           setCompanyValuation(allData.DivDisModelInputs[0]);
+          console.log(allData.DivDisModelInputs);
 
           const pastPrediction = allData.DivDisModelInputs.map((val) => {
             let best, base, worst, actualPrice;
             val &&
-              val?.ValuationOutputs.forEach((ele) => {
-                if (ele.case === 'base') {
-                  base = ele.estimated_share;
-                  actualPrice = ele.price;
+              val?.DivdiscountOutputs.forEach((ele) => {
+                if (ele.input_case === 'base') {
+                  base = ele.stock_value;
+                  actualPrice = ele.current_price;
                 }
-                if (ele.case === 'best') {
-                  best = ele.estimated_share;
+                if (ele.input_case === 'best') {
+                  best = ele.stock_value;
                 }
-                if (ele.case === 'worst') {
-                  worst = ele.estimated_share;
+                if (ele.input_case === 'worst') {
+                  worst = ele.stock_value;
                 }
               });
             let tempObj = {};
@@ -125,70 +126,52 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
     if (valuationOutput) {
       valuationOutput.forEach((valuation, index) => {
         switch (valuation?.field_name) {
-          case 'Revenue growth rate':
-            const revenueGrowthData = getGraphData(valuation);
-            console.log(revenueGrowthData);
-            setRevenueGraphData(revenueGrowthData);
+          case 'Earnings Per Share':
+            const epsData = getGraphData(valuation);
+            console.log(epsData);
+            setExpectedGrowthRate(epsData);
             break;
 
-          case 'Revenues':
-            if (revenueGraphData) {
+          case 'Expected Growth Rate':
+            if (expectedGrowthRate) {
               let tempArr = [];
               Object.keys(valuation).forEach((key) => {
                 if (yearArr.includes(key)) {
                   tempArr.push(valuation[key]);
                 }
               });
-              const temp = revenueGraphData.map((row, index) => {
+              const temp = expectedGrowthRate.map((row, index) => {
                 row.data2 = tempArr[index];
                 return row;
               });
-              setRevenueGraphData(temp);
+              setExpectedGrowthRate(temp);
             }
             break;
 
-          case 'EBIT (Operating) margin':
-            const oiData = getGraphData(valuation);
-            setOperatingIncomeData(oiData);
+          case 'Dividends Per Share':
+            const dpsData = getGraphData(valuation);
+            setPayoutRatioGraph(dpsData);
             break;
 
-          case 'EBIT (Operating income)':
-            if (operatingIncomeData) {
+          case 'Payout Ratio':
+            if (payoutRatioGraph) {
               let tempArr = [];
               Object.keys(valuation).forEach((key) => {
                 if (yearArr.includes(key)) {
                   tempArr.push(valuation[key]);
                 }
               });
-              const temp = operatingIncomeData.map((row, index) => {
+              const temp = payoutRatioGraph.map((row, index) => {
                 row.data2 = tempArr[index];
                 return row;
               });
-              setOperatingIncomeData(temp);
+              setPayoutRatioGraph(temp);
             }
             break;
 
-          case 'Reinvestment':
-            const reinvestmentData = getGraphData(valuation);
-            setReinvestmentData(reinvestmentData);
-            break;
-
-          case 'FCFF':
-            const fcffData = getGraphData(valuation);
-            setFreeCashFlowData(fcffData);
-
-            break;
-          case 'Invested capital':
-            const investedData = getGraphData(valuation);
-            setInvestedCapital(investedData);
-
-            break;
           case 'Price Target':
-            if (!priceTargetData) {
-              const priceData = getGraphData(valuation);
-              setPriceTargetCapital(priceData);
-            }
-
+            const priceTarget = getGraphData(valuation);
+            setPriceTarget(priceTarget);
             break;
         }
       });
@@ -196,7 +179,7 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
   }, [valuationOutput]);
 
   const getGraphData = (valuation) => {
-    let year = 2022;
+    let year = new Date().getFullYear();
     let tempArr = [];
     Object.keys(valuation).forEach((key) => {
       if (yearArr.includes(key)) {
@@ -212,25 +195,37 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
   };
 
   const getValuationOutput = () => {
-    const tempValuationOutput = companyValuation?.YearlyValuationOutputs.filter(
-      (element) => {
-        return element.case === valuationOutputFilter;
-      }
-    );
+    const tempValuationOutput =
+      companyValuation?.YearlyDivdiscountOutputs.filter((element) => {
+        return element.input_case === valuationOutputFilter;
+      });
+
+    console.log(tempValuationOutput);
 
     setValuationOutput(tempValuationOutput);
 
-    companyValuation?.ValuationOutputs.forEach((element) => {
-      if (element.case === valuationOutputFilter) {
+    companyValuation?.DivdiscountOutputs.forEach((element) => {
+      if (element.input_case === valuationOutputFilter) {
         setEstimatedValue(element);
         setPercent(
           (
-            ((element?.estimated_share - element?.price) / element?.price) *
+            ((element?.stock_value - element?.current_price) /
+              element?.current_price) *
             100
           ).toFixed(2)
         );
       }
     });
+  };
+
+  const CustomizedLabel = (props) => {
+    const { x, y, stroke, value } = props;
+
+    return (
+      <text x={x} y={y} dy={-4} fill={stroke} fontSize={10} textAnchor='middle'>
+        ${value}
+      </text>
+    );
   };
 
   const renderCustomizedLabel = (props) => {
@@ -245,6 +240,7 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
           fill='#000'
           textAnchor='middle'
           dominantBaseline='middle'
+          fontSize={10}
         >
           ${value}
         </text>
@@ -859,8 +855,8 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                         <div className='chart-text'>
                           <p className='card-text up m-0'>
                             <strong>
-                              {estimatedValue?.estimated_share
-                                ? `$${estimatedValue?.estimated_share}`
+                              {estimatedValue?.stock_value
+                                ? `$${estimatedValue?.stock_value.toFixed(2)}`
                                 : '-'}
                             </strong>
                           </p>
@@ -876,18 +872,16 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                           <p className='m-0'>
                             <small>
                               Value of equity (Millions):{' '}
-                              {estimatedValue?.value_of_equity
-                                ? `${NormalFormat(
-                                    estimatedValue?.value_of_equity
-                                  )}`
+                              {estimatedValue?.equity_value
+                                ? `${estimatedValue?.equity_value.toFixed(2)}`
                                 : '-'}
                             </small>
                           </p>
                           <p className='m-0'>
                             <small>
                               Current price:{' '}
-                              {estimatedValue?.price
-                                ? `$${NormalFormat(estimatedValue?.price)}`
+                              {estimatedValue?.current_price
+                                ? `$${estimatedValue?.current_price.toFixed(2)}`
                                 : '-'}
                             </small>
                           </p>
@@ -897,75 +891,12 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                         <div className='row'>
                           <div className='col-lg-3'>
                             <h6 className='mb-0'>
-                              <strong>Revenue (Future Expectation)</strong>
+                              <strong>Earnings Per Share</strong>
                             </h6>
                             <small>All values are in Billion</small>
                           </div>
 
-                          {revenueGraphData &&
-                            revenueGraphData.length > 0 &&
-                            revenueGraphData[0].data2 && (
-                              <div className='col-lg-12 mt-3'>
-                                <ResponsiveContainer
-                                  width='100%'
-                                  aspect={1}
-                                  maxHeight={400}
-                                >
-                                  <ComposedChart
-                                    data={revenueGraphData}
-                                    tick={false}
-                                  >
-                                    <XAxis
-                                      dataKey='year'
-                                      axisLine={false}
-                                      domain={['auto', 'auto']}
-                                      // ticks={ticks}
-                                      tick={{
-                                        fill: '#212121',
-                                        fontSize: '12px',
-                                      }}
-                                    />
-                                    <YAxis
-                                      axisLine={false}
-                                      domain={['auto', 'auto']}
-                                      tick={{
-                                        fill: '#212121',
-                                        fontSize: '12px',
-                                      }}
-                                    />
-                                    <Tooltip />
-
-                                    <Bar
-                                      fill='#F8DF86'
-                                      dataKey='data2'
-                                      barSize={35}
-                                    >
-                                      <LabelList
-                                        dataKey='data2'
-                                        content={renderCustomizedLabel}
-                                      />
-                                    </Bar>
-
-                                    <Line
-                                      type='monotone'
-                                      dataKey='data'
-                                      stroke='#4162FE'
-                                    />
-                                  </ComposedChart>
-                                </ResponsiveContainer>
-                              </div>
-                            )}
-                        </div>
-                      </div>
-                      <div className='mt-5'>
-                        <div className='row'>
-                          <div className='col-lg-3'>
-                            <h6 className='mb-0'>
-                              <strong>Operating Income</strong>
-                            </h6>
-                            <small>All values are in Billion</small>
-                          </div>
-                          {operatingIncomeData && (
+                          {expectedGrowthRate && expectedGrowthRate.length > 0 && (
                             <div className='col-lg-12 mt-3'>
                               <ResponsiveContainer
                                 width='100%'
@@ -973,7 +904,7 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                                 maxHeight={400}
                               >
                                 <ComposedChart
-                                  data={operatingIncomeData}
+                                  data={expectedGrowthRate}
                                   tick={false}
                                 >
                                   <XAxis
@@ -981,6 +912,68 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                                     axisLine={false}
                                     domain={['auto', 'auto']}
                                     // ticks={ticks}
+                                    tick={{
+                                      fill: '#212121',
+                                      fontSize: '12px',
+                                    }}
+                                  />
+                                  <YAxis
+                                    axisLine={false}
+                                    domain={['auto', 'auto']}
+                                    tick={{
+                                      fill: '#212121',
+                                      fontSize: '12px',
+                                    }}
+                                  />
+                                  <Tooltip />
+
+                                  <Bar
+                                    fill='#F8DF86'
+                                    dataKey='data2'
+                                    barSize={35}
+                                  >
+                                    <LabelList
+                                      dataKey='data2'
+                                      content={renderCustomizedLabel}
+                                    />
+                                  </Bar>
+
+                                  <Line
+                                    type='monotone'
+                                    dataKey='data'
+                                    stroke='#4162FE'
+                                  />
+                                </ComposedChart>
+                              </ResponsiveContainer>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className='mt-5'>
+                        <div className='row'>
+                          <div className='col-lg-3'>
+                            <h6 className='mb-0'>
+                              <strong>
+                                Payout Ratio and Dividend Per Share
+                              </strong>
+                            </h6>
+                            <small>All values are in Billion</small>
+                          </div>
+                          {payoutRatioGraph && (
+                            <div className='col-lg-12 mt-3'>
+                              <ResponsiveContainer
+                                width='100%'
+                                aspect={1}
+                                maxHeight={400}
+                              >
+                                <ComposedChart
+                                  data={payoutRatioGraph}
+                                  tick={false}
+                                >
+                                  <XAxis
+                                    dataKey='year'
+                                    axisLine={false}
+                                    domain={['auto', 'auto']}
                                     tick={{ fill: '#212121', fontSize: '12px' }}
                                   />
                                   <YAxis
@@ -1018,202 +1011,43 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                         <div className='row'>
                           <div className='col-lg-3'>
                             <h6 className='mb-0'>
-                              <strong>Reinvestments</strong>
-                            </h6>
-                            <small>All values are in Billion</small>
-                          </div>
-                          {reinvestmentData && (
-                            <div className='col-lg-12 mt-3'>
-                              <ResponsiveContainer
-                                width='100%'
-                                aspect={1}
-                                maxHeight={400}
-                              >
-                                <BarChart data={reinvestmentData} tick={false}>
-                                  <XAxis
-                                    dataKey='year'
-                                    axisLine={false}
-                                    domain={['auto', 'auto']}
-                                    // ticks={ticks}
-                                    tick={{ fill: '#212121', fontSize: '12px' }}
-                                  />
-                                  <YAxis
-                                    axisLine={false}
-                                    tick={{
-                                      fill: '#212121',
-                                      fontSize: '12px',
-                                    }}
-                                  />
-                                  <Tooltip />
-
-                                  <Bar
-                                    fill='#F8DF86'
-                                    dataKey='data'
-                                    barSize={35}
-                                  >
-                                    <LabelList
-                                      dataKey='data'
-                                      content={renderCustomizedLabel}
-                                    />
-                                  </Bar>
-                                </BarChart>
-                              </ResponsiveContainer>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className='mt-5'>
-                        <div className='row'>
-                          <div className='col-lg-3'>
-                            <h6 className='mb-0'>
-                              <strong>Free Cash Flow To Firm</strong>
-                            </h6>
-                            <small>All values are in Billion</small>
-                          </div>
-                          {freeCashFlowData && (
-                            <div className='col-lg-12 mt-3'>
-                              <ResponsiveContainer
-                                width='100%'
-                                aspect={1}
-                                maxHeight={400}
-                              >
-                                <BarChart data={freeCashFlowData} tick={false}>
-                                  <XAxis
-                                    dataKey='year'
-                                    axisLine={false}
-                                    domain={['auto', 'auto']}
-                                    // ticks={ticks}
-                                    tick={{ fill: '#212121', fontSize: '12px' }}
-                                  />
-                                  <YAxis
-                                    axisLine={false}
-                                    tick={{
-                                      fill: '#212121',
-                                      fontSize: '12px',
-                                    }}
-                                  />
-                                  <Tooltip />
-
-                                  <Bar
-                                    fill='#F8DF86'
-                                    dataKey='data'
-                                    barSize={35}
-                                  >
-                                    <LabelList
-                                      dataKey='data'
-                                      content={renderCustomizedLabel}
-                                    />
-                                  </Bar>
-                                </BarChart>
-                              </ResponsiveContainer>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className='mt-5'>
-                        <div className='row'>
-                          <div className='col-lg-3'>
-                            <h6 className='mb-0'>
-                              <strong>
-                                Invested Capitals &amp; Implied ROIC
-                              </strong>
-                            </h6>
-                            <small>All values are in Billion</small>
-                          </div>
-                          {investedCapitalData && (
-                            <div className='col-lg-12 mt-3'>
-                              <ResponsiveContainer
-                                width='100%'
-                                aspect={1}
-                                maxHeight={400}
-                              >
-                                <BarChart
-                                  data={investedCapitalData}
-                                  tick={false}
-                                >
-                                  <XAxis
-                                    dataKey='year'
-                                    axisLine={false}
-                                    domain={['auto', 'auto']}
-                                    // ticks={ticks}
-                                    tick={{ fill: '#212121', fontSize: '12px' }}
-                                  />
-                                  <YAxis
-                                    axisLine={false}
-                                    tick={{
-                                      fill: '#212121',
-                                      fontSize: '12px',
-                                    }}
-                                  />
-                                  <Tooltip />
-
-                                  <Bar
-                                    fill='#F8DF86'
-                                    dataKey='data'
-                                    barSize={35}
-                                  >
-                                    <LabelList
-                                      dataKey='data'
-                                      content={renderCustomizedLabel}
-                                    />
-                                  </Bar>
-                                </BarChart>
-                              </ResponsiveContainer>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className='mt-5'>
-                        <div className='row'>
-                          <div className='col-lg-3'>
-                            <h6 className='mb-0'>
                               <strong>Price Target</strong>
                             </h6>
                             <small>All values are in Billion</small>
                           </div>
-                          {priceTargetData &&
-                            Array.isArray(priceTargetData) &&
-                            priceTargetData.length > 0 && (
-                              <div className='col-lg-12 mt-3'>
-                                <ResponsiveContainer
-                                  width='100%'
-                                  aspect={1}
-                                  maxHeight={400}
-                                >
-                                  <BarChart data={priceTargetData}>
-                                    <XAxis
-                                      dataKey='year'
-                                      axisLine={false}
-                                      domain={['auto', 'auto']}
-                                      // ticks={ticks}
-                                      tick={{
-                                        fill: '#212121',
-                                        fontSize: '12px',
-                                      }}
-                                    />
-                                    <YAxis
-                                      axisLine={false}
-                                      tick={{
-                                        fill: '#212121',
-                                        fontSize: '12px',
-                                      }}
-                                    />
-                                    <Tooltip />
+                          {priceTarget && (
+                            <div className='col-lg-12 mt-3'>
+                              <ResponsiveContainer
+                                width='100%'
+                                aspect={1}
+                                maxHeight={400}
+                              >
+                                <LineChart data={priceTarget} tick={false}>
+                                  <XAxis
+                                    dataKey='year'
+                                    axisLine={false}
+                                    domain={['auto', 'auto']}
+                                    // ticks={ticks}
+                                    tick={{ fill: '#212121', fontSize: '12px' }}
+                                  />
+                                  <YAxis
+                                    axisLine={false}
+                                    tick={{
+                                      fill: '#212121',
+                                      fontSize: '12px',
+                                    }}
+                                  />
+                                  <Tooltip />
 
-                                    <Bar
-                                      fill='#F8DF86'
-                                      dataKey='data'
-                                      barSize={35}
-                                    >
-                                      <LabelList
-                                        dataKey='data'
-                                        content={renderCustomizedLabel}
-                                      />
-                                    </Bar>
-                                  </BarChart>
-                                </ResponsiveContainer>
-                              </div>
-                            )}
+                                  <Line
+                                    fill='#4162FE'
+                                    dataKey='data'
+                                    label={<CustomizedLabel />}
+                                  ></Line>
+                                </LineChart>
+                              </ResponsiveContainer>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
