@@ -6,7 +6,7 @@ import { CircularProgress } from '@material-ui/core';
 const CompanyView = ({ Company, KeyStatus, Loading, logo }) => {
   return (
     <div className='row'>
-      <div class='col-lg-12 mb-4'>
+      <div class='col-lg-12'>
         <div className='card companyviewblk compny_left_detail'>
           <div className='card-body'>
             <div className='description-para  justify-content-between'>

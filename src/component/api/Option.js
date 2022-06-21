@@ -21,3 +21,8 @@ export const getTradingIdeasOpenInterest = async (params) => {
   var { data } = await ServiceV2.post(`/open_interest`, params);
   return data;
 };
+
+export const getOptionsChainData = async (params) => {
+  var { data } = await ServiceV2.post(`/option_chain`, params);
+  return data;
+};
