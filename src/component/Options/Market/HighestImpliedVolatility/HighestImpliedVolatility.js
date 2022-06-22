@@ -77,8 +77,8 @@ const HighestImpliedVolatility = ({ values }) => {
                         <td>{data?.volume && data?.volume[index]}</td>
                         <td>
                           <span className={'up'}>
-                            {data['1_day_change'] &&
-                              `${data['1_day_change'][index]} %`}
+                            {data['Daily_change'] &&
+                              `${data['Daily_change'][index]} %`}
                           </span>
                         </td>
                         <td>

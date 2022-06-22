@@ -127,8 +127,8 @@ const Imploding = ({ values }) => {
                               orderFilter === 'Daily_change' ? 'down' : 'up'
                             }
                           >
-                            {data['1_day_change'] &&
-                              `${data['1_day_change'][index]} %`}
+                            {data['Daily_change'] &&
+                              `${data['Daily_change'][index]} %`}
                           </span>
                         </td>
                         <td>
