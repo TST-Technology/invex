@@ -75,6 +75,6 @@ const MostActiveOptions = ({ values }) => {
       </>
     </div>
   );
-};;;;;;
+};
 
 export default MostActiveOptions;
