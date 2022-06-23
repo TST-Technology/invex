@@ -22,9 +22,14 @@ const replaceEmpty = (value) => {
   }
 };
 
+const millionToBillionConvert = (number) => {
+  return number ? `${(number / 1000).toFixed(2)} B` : '-';
+};
+
 export {
   getCurrentDate,
   getOneDayBeforeDate,
   capitalizeFirstLetter,
   replaceEmpty,
+  millionToBillionConvert,
 };

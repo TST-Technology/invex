@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { NormalFormat } from '../Common/NumberFormat';
 import CompanyView from '../Options/Quote/CompanyView/CompanyView';
 import {
+  millionToBillionConvert,
+  replaceEmpty,
+} from '../Common/commonFunctions';
+import {
   ComposedChart,
   Line,
   XAxis,
@@ -13,6 +17,7 @@ import {
   Legend,
   LabelList,
 } from 'recharts';
+import moment from 'moment';
 
 const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
   const [data, setData] = useState();
@@ -80,7 +85,6 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
         switch (valuation?.field_name) {
           case 'Revenue growth rate':
             const revenueGrowthData = getGraphData(valuation);
-            console.log(revenueGrowthData);
             setRevenueGraphData(revenueGrowthData);
             break;
 
@@ -149,7 +153,6 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
   }, [valuationOutput]);
 
   useEffect(() => {
-    console.log(allData);
     (async () => {
       if (allData) {
         setData(allData);
@@ -181,6 +184,8 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
             tempObj.worst = worst;
             tempObj.base = base;
             tempObj.actualPrice = actualPrice;
+            tempObj.filterYear = val.fiscal_year;
+            tempObj.filterQuarter = val.quarter && val.quarter[1];
 
             return tempObj;
           });
@@ -189,26 +194,32 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
             pastPrediction = pastPrediction.slice(0, 4);
           }
 
+          pastPrediction.sort(function (a, b) {
+            return (
+              b.filterYear - a.filterYear || b.filterQuarter - a.filterQuarter
+            );
+          });
+
           setPastPredictionGraphData(pastPrediction);
-          console.log(pastPrediction);
         }
       }
     })();
   }, []);
 
   const getGraphData = (valuation) => {
-    let year = new Date().getFullYear();
+    const publishDate = new Date(companyValuation?.publish_date);
+    let year = moment(publishDate).format('YYYY');
     let tempArr = [];
     Object.keys(valuation).forEach((key) => {
       if (yearArr.includes(key)) {
+        year = parseInt(year) + 1;
         let newObj = {};
-        newObj.year = year + 1;
+        newObj.year = year;
         newObj.data = valuation[key];
-        year += 1;
+        // year += 1;
         tempArr.push(newObj);
       }
     });
-    console.log(tempArr);
     return tempArr;
   };
 
@@ -248,7 +259,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
           dominantBaseline='middle'
           fontSize={10}
         >
-          ${value}
+          {`$${millionToBillionConvert(value)}`}
         </text>
       </g>
     );
@@ -394,7 +405,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                               <a href='javascript:void(0)'>Revenues</a>{' '}
                               <span>
                                 {companyValuation?.revenues
-                                  ? `$${NormalFormat(
+                                  ? `$${millionToBillionConvert(
                                       companyValuation?.revenues
                                     )}`
                                   : '-'}
@@ -406,7 +417,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                               </a>{' '}
                               <span>
                                 {companyValuation?.operating_income_ebit
-                                  ? `$${NormalFormat(
+                                  ? `$${millionToBillionConvert(
                                       companyValuation?.operating_income_ebit
                                     )}`
                                   : '-'}
@@ -418,7 +429,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                               </a>{' '}
                               <span>
                                 {companyValuation?.equity_book_value
-                                  ? `$${NormalFormat(
+                                  ? `$${millionToBillionConvert(
                                       companyValuation?.equity_book_value
                                     )}`
                                   : '-'}
@@ -428,7 +439,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                               <a href='javascript:void(0)'>Total Debt</a>{' '}
                               <span>
                                 {companyValuation?.debit_book_value
-                                  ? `$${NormalFormat(
+                                  ? `$${millionToBillionConvert(
                                       companyValuation?.debit_book_value
                                     )}`
                                   : '-'}
@@ -437,7 +448,9 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                             <li>
                               <a href='javascript:void(0)'>Invested capital</a>{' '}
                               <span>
-                                {invested ? `$${NormalFormat(invested)}` : '-'}
+                                {invested
+                                  ? `$${millionToBillionConvert(invested)}`
+                                  : '-'}
                               </span>
                             </li>
                           </ul>
@@ -831,47 +844,57 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                       </div>
                     </div>
                     <div className='card-body'>
-                      <div className='top_button_panel mb-3'>
-                        <span className='pe-3 pb-3'>
+                      <div className='top_button_panel mb-3 justify-content-between'>
+                        <div className='d-flex align-items-center'>
+                          <span className='pe-3 pb-3'>
+                            <small>
+                              <strong>Choose the case</strong>
+                            </small>
+                          </span>
+                          <button
+                            type='button'
+                            onClick={() => setValuationOutputFilter('best')}
+                            className={`btn ${
+                              valuationOutputFilter === 'best'
+                                ? 'btn-info'
+                                : 'btn-light'
+                            }`}
+                          >
+                            Best case
+                          </button>
+                          <button
+                            type='button'
+                            onClick={() => setValuationOutputFilter('base')}
+                            className={`btn ${
+                              valuationOutputFilter === 'base'
+                                ? 'btn-info'
+                                : 'btn-light'
+                            }`}
+                          >
+                            {' '}
+                            Base care
+                          </button>
+                          <button
+                            type='button'
+                            onClick={() => setValuationOutputFilter('worst')}
+                            className={`btn ${
+                              valuationOutputFilter === 'worst'
+                                ? 'btn-info'
+                                : 'btn-light'
+                            }`}
+                          >
+                            {' '}
+                            Worst care
+                          </button>
+                        </div>
+                        <div>
                           <small>
-                            <strong>Choose the case</strong>
+                            <strong>Publish date: </strong>
                           </small>
-                        </span>
-                        <button
-                          type='button'
-                          onClick={() => setValuationOutputFilter('best')}
-                          className={`btn ${
-                            valuationOutputFilter === 'best'
-                              ? 'btn-info'
-                              : 'btn-light'
-                          }`}
-                        >
-                          Best case
-                        </button>
-                        <button
-                          type='button'
-                          onClick={() => setValuationOutputFilter('base')}
-                          className={`btn ${
-                            valuationOutputFilter === 'base'
-                              ? 'btn-info'
-                              : 'btn-light'
-                          }`}
-                        >
-                          {' '}
-                          Base care
-                        </button>
-                        <button
-                          type='button'
-                          onClick={() => setValuationOutputFilter('worst')}
-                          className={`btn ${
-                            valuationOutputFilter === 'worst'
-                              ? 'btn-info'
-                              : 'btn-light'
-                          }`}
-                        >
-                          {' '}
-                          Worst care
-                        </button>
+                          <span>
+                            {replaceEmpty(companyValuation?.publish_date)}
+                          </span>
+                        </div>
                       </div>
                       <div className='scenario justify-content-between'>
                         <span className='best_scena'>
@@ -896,9 +919,9 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                         <div className='text-end'>
                           <p className='m-0'>
                             <small>
-                              Value of equity (Millions):{' '}
+                              Value of equity:{' '}
                               {estimatedValue?.value_of_equity
-                                ? `${NormalFormat(
+                                ? `${millionToBillionConvert(
                                     estimatedValue?.value_of_equity
                                   )}`
                                 : '-'}
