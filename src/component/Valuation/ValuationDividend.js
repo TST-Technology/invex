@@ -32,6 +32,7 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
   const [costOfEquity, setCostOfEquity] = useState(null);
   const [payoutRatio, setPayoutRatio] = useState(null);
   const yearArr = [
+    'base_year',
     'year_1',
     'year_2',
     'year_3',
@@ -42,6 +43,7 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
     'year_8',
     'year_9',
     'year_10',
+    'terminal',
   ];
 
   useEffect(() => {
@@ -59,6 +61,16 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
 
           const pastPrediction = allData.DivDisModelInputs.map((val) => {
             let best, base, worst, actualPrice;
+
+            console.log('Before =>', val?.DivdiscountOutputs);
+
+            val &&
+              val?.DivdiscountOutputs.sort(function (a, b) {
+                return b.year - a.year || b.quarter - a.quarter;
+              });
+
+            console.log('After =>', val?.DivdiscountOutputs);
+
             val &&
               val?.DivdiscountOutputs.forEach((ele) => {
                 if (ele.input_case === 'base') {

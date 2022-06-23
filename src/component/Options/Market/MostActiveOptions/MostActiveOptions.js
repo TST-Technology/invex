@@ -1,5 +1,6 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { replaceEmpty } from '../../../Common/commonFunctions';
 import { getMostActiveOptions } from '../../../api/OptionMarket';
 import { CircularProgress } from '@material-ui/core';
 
@@ -37,7 +38,13 @@ const MostActiveOptions = ({ values }) => {
                   return (
                     <tr key={index}>
                       <td>{data.Symbol && data.Symbol[index]}</td>
-                      <td>{data.Last && data.Last[index].toFixed(2)}</td>
+                      <td>
+                        {replaceEmpty(
+                          data.Last &&
+                            data.Last[index] &&
+                            data.Last[index].toFixed(2)
+                        )}
+                      </td>
                       <td>{data.volume && data.volume[index]}</td>
                       <td>
                         <span className='up'>

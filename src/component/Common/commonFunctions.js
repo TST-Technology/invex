@@ -14,4 +14,17 @@ function capitalizeFirstLetter(string) {
   return string ? string.charAt(0).toUpperCase() + string.slice(1) : '';
 }
 
-export { getCurrentDate, getOneDayBeforeDate, capitalizeFirstLetter };
+const replaceEmpty = (value) => {
+  if (value === '' || value === null || value === undefined) {
+    return '-';
+  } else {
+    return value;
+  }
+};
+
+export {
+  getCurrentDate,
+  getOneDayBeforeDate,
+  capitalizeFirstLetter,
+  replaceEmpty,
+};

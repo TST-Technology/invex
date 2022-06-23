@@ -31,6 +31,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
   const [estimatedValue, setEstimatedValue] = useState(null);
   const [percent, setPercent] = useState(null);
   const yearArr = [
+    'base_year',
     'year_1',
     'year_2',
     'year_3',
@@ -41,6 +42,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
     'year_8',
     'year_9',
     'year_10',
+    'terminal',
   ];
 
   useEffect(() => {
@@ -744,7 +746,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                           <td>-</td>
                         </tr>
                         <tr>
-                          <td>Target operting margin</td>
+                          <td>Target operating margin</td>
                           <td>
                             {companyValuation &&
                             companyValuation?.pre_tax_debt_cost
@@ -783,6 +785,34 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                             {companyValuation &&
                             companyValuation?.cost_of_capital
                               ? `${companyValuation?.cost_of_capital}%`
+                              : '-'}
+                          </td>
+                          <td>-</td>
+                        </tr>
+                        <tr>
+                          <td>Risk free rate</td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation?.CompanyGrowths[0] &&
+                            companyValuation?.CompanyGrowths[0]
+                              ?.risk_free_rate_best
+                              ? `${companyValuation?.CompanyGrowths[0]?.risk_free_rate_best}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation?.CompanyGrowths[0] &&
+                            companyValuation?.CompanyGrowths[0]
+                              ?.risk_free_rate_base
+                              ? `${companyValuation?.CompanyGrowths[0]?.risk_free_rate_base}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation?.CompanyGrowths[0] &&
+                            companyValuation?.CompanyGrowths[0]
+                              ?.risk_free_rate_worst
+                              ? `${companyValuation?.CompanyGrowths[0]?.risk_free_rate_worst}%`
                               : '-'}
                           </td>
                           <td>-</td>
