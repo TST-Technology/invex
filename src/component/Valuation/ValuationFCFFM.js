@@ -537,25 +537,25 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                         <Bar fill='#88D1DC' dataKey='best' barSize={35}>
                           <LabelList
                             dataKey='best'
-                            content={renderCustomizedLabel}
+                            content={renderCustomizedLabelWithoutBillion}
                           />
                         </Bar>
                         <Bar fill='#F8DF86' dataKey='base' barSize={35}>
                           <LabelList
                             dataKey='base'
-                            content={renderCustomizedLabel}
+                            content={renderCustomizedLabelWithoutBillion}
                           />
                         </Bar>
                         <Bar fill='#E88190' dataKey='worst' barSize={35}>
                           <LabelList
                             dataKey='worst'
-                            content={renderCustomizedLabel}
+                            content={renderCustomizedLabelWithoutBillion}
                           />
                         </Bar>
                         <Bar fill='#9AA7FE' dataKey='actualPrice' barSize={35}>
                           <LabelList
                             dataKey='actualPrice'
-                            content={renderCustomizedLabel}
+                            content={renderCustomizedLabelWithoutBillion}
                           />
                         </Bar>
                         <Legend />
@@ -1392,143 +1392,21 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                                   {validTableColumns.includes(
                                     row?.field_name
                                   ) && (
-                                    <>
-                                      {' '}
-                                      {row?.field_name ===
-                                      'Revenue growth rate' ? (
-                                        <tr>
-                                          <td>
-                                            {replaceEmpty(row?.field_name)}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.base_year
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_1
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_2
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_3
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_4
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_5
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_6
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_7
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_8
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_9
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_10
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.terminal
-                                            )}
-                                          </td>
-                                        </tr>
-                                      ) : (
-                                        <tr>
-                                          <td>
-                                            {replaceEmpty(row?.field_name)}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.base_year
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_1
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_2
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_3
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_4
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_5
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_6
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_7
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_8
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_9
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_10
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.terminal
-                                            )}
-                                          </td>
-                                        </tr>
-                                      )}
-                                    </>
+                                    <tr>
+                                      <td>{replaceEmpty(row?.field_name)}</td>
+                                      <td>{replaceEmpty(row?.base_year)}</td>
+                                      <td>{replaceEmpty(row?.year_1)}</td>
+                                      <td>{replaceEmpty(row?.year_2)}</td>
+                                      <td>{replaceEmpty(row?.year_3)}</td>
+                                      <td>{replaceEmpty(row?.year_4)}</td>
+                                      <td>{replaceEmpty(row?.year_5)}</td>
+                                      <td>{replaceEmpty(row?.year_6)}</td>
+                                      <td>{replaceEmpty(row?.year_7)}</td>
+                                      <td>{replaceEmpty(row?.year_8)}</td>
+                                      <td>{replaceEmpty(row?.year_9)}</td>
+                                      <td>{replaceEmpty(row?.year_10)}</td>
+                                      <td>{replaceEmpty(row?.terminal)}</td>
+                                    </tr>
                                   )}
                                 </>
                               );

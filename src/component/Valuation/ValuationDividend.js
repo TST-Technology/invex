@@ -121,18 +121,18 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
       getValuationOutput();
       companyValuation?.YearlyDivdiscountOutputs.forEach((element, index) => {
         if (
-          element?.case &&
+          element?.input_case &&
           element?.field_name &&
-          element?.case === 'base' &&
+          element?.input_case === 'base' &&
           element?.field_name === 'Cost of Equity'
         ) {
           setCostOfEquity(element?.base_year);
         }
 
         if (
-          element?.case &&
+          element?.input_case &&
           element?.field_name &&
-          element?.case === 'base' &&
+          element?.input_case === 'base' &&
           element?.field_name === 'Payout Ratio'
         ) {
           setPayoutRatio(element?.base_year);
@@ -243,7 +243,8 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
 
     return (
       <text x={x} y={y} dy={-4} fill={stroke} fontSize={10} textAnchor='middle'>
-        {`$${millionToBillionConvert(value)}`}
+        {/* {`$${millionToBillionConvert(value)}`} */}
+        {`$${value}`}
       </text>
     );
   };
@@ -263,6 +264,26 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
           fontSize={10}
         >
           {`$${millionToBillionConvert(value)}`}
+        </text>
+      </g>
+    );
+  };
+
+  const renderCustomizedLabelWithoutBillion = (props) => {
+    const { x, y, width, height, value } = props;
+    const radius = 10;
+
+    return (
+      <g>
+        <text
+          x={x + width / 2}
+          y={y - radius}
+          fill='#000'
+          textAnchor='middle'
+          dominantBaseline='middle'
+          fontSize={10}
+        >
+          {`$${value}`}
         </text>
       </g>
     );
@@ -415,7 +436,16 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                             </li>
                             <li>
                               <a href='javascript:void(0)'>Return On Equity</a>{' '}
-                              <span>11.3%</span>
+                              <span>
+                                {companyValuation?.net_income &&
+                                companyValuation?.prev_equity_book_value
+                                  ? `${parseFloat(
+                                      (companyValuation?.net_income /
+                                        companyValuation?.prev_equity_book_value) *
+                                        100
+                                    ).toFixed(2)}%`
+                                  : '-'}
+                              </span>
                             </li>
                             <li>
                               <a href='javascript:void(0)'>Payout Ratio</a>{' '}
@@ -425,7 +455,16 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                             </li>
                             <li>
                               <a href='javascript:void(0)'>Retention Ratio</a>{' '}
-                              <span>78.2%</span>
+                              <span>
+                                {companyValuation?.current_dividends_per_share &&
+                                companyValuation?.current_earning_per_share
+                                  ? `${parseFloat(
+                                      (companyValuation?.current_dividends_per_share /
+                                        companyValuation?.current_earning_per_share) *
+                                        100
+                                    ).toFixed(2)}%`
+                                  : '-'}
+                              </span>
                             </li>
                           </ul>
                         </div>
@@ -477,25 +516,25 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                         <Bar fill='#88D1DC' dataKey='best' barSize={35}>
                           <LabelList
                             dataKey='best'
-                            content={renderCustomizedLabel}
+                            content={renderCustomizedLabelWithoutBillion}
                           />
                         </Bar>
                         <Bar fill='#F8DF86' dataKey='base' barSize={35}>
                           <LabelList
                             dataKey='base'
-                            content={renderCustomizedLabel}
+                            content={renderCustomizedLabelWithoutBillion}
                           />
                         </Bar>
                         <Bar fill='#E88190' dataKey='worst' barSize={35}>
                           <LabelList
                             dataKey='worst'
-                            content={renderCustomizedLabel}
+                            content={renderCustomizedLabelWithoutBillion}
                           />
                         </Bar>
                         <Bar fill='#9AA7FE' dataKey='actualPrice' barSize={35}>
                           <LabelList
                             dataKey='actualPrice'
-                            content={renderCustomizedLabel}
+                            content={renderCustomizedLabelWithoutBillion}
                           />
                         </Bar>
                         <Legend />
@@ -1023,7 +1062,9 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                                         >
                                           <LabelList
                                             dataKey='data2'
-                                            content={renderCustomizedLabel}
+                                            content={
+                                              renderCustomizedLabelWithoutBillion
+                                            }
                                           />
                                         </Bar>
 
@@ -1084,7 +1125,9 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                                       >
                                         <LabelList
                                           dataKey='data2'
-                                          content={renderCustomizedLabel}
+                                          content={
+                                            renderCustomizedLabelWithoutBillion
+                                          }
                                         />
                                       </Bar>
 
@@ -1174,143 +1217,21 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                                   {validTableColumns.includes(
                                     row?.field_name
                                   ) && (
-                                    <>
-                                      {' '}
-                                      {row?.field_name ===
-                                      'Expected Growth Rate' ? (
-                                        <tr>
-                                          <td>
-                                            {replaceEmpty(row?.field_name)}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.base_year
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_1
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_2
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_3
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_4
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_5
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_6
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_7
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_8
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_9
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.year_10
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithPostFix(
-                                              row?.terminal
-                                            )}
-                                          </td>
-                                        </tr>
-                                      ) : (
-                                        <tr>
-                                          <td>
-                                            {replaceEmpty(row?.field_name)}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.base_year
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_1
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_2
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_3
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_4
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_5
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_6
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_7
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_8
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_9
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.year_10
-                                            )}
-                                          </td>
-                                          <td>
-                                            {replaceEmptyWithNumberPreFix(
-                                              row?.terminal
-                                            )}
-                                          </td>
-                                        </tr>
-                                      )}
-                                    </>
+                                    <tr>
+                                      <td>{replaceEmpty(row?.field_name)}</td>
+                                      <td>{replaceEmpty(row?.base_year)}</td>
+                                      <td>{replaceEmpty(row?.year_1)}</td>
+                                      <td>{replaceEmpty(row?.year_2)}</td>
+                                      <td>{replaceEmpty(row?.year_3)}</td>
+                                      <td>{replaceEmpty(row?.year_4)}</td>
+                                      <td>{replaceEmpty(row?.year_5)}</td>
+                                      <td>{replaceEmpty(row?.year_6)}</td>
+                                      <td>{replaceEmpty(row?.year_7)}</td>
+                                      <td>{replaceEmpty(row?.year_8)}</td>
+                                      <td>{replaceEmpty(row?.year_9)}</td>
+                                      <td>{replaceEmpty(row?.year_10)}</td>
+                                      <td>{replaceEmpty(row?.terminal)}</td>
+                                    </tr>
                                   )}
                                 </>
                               );

@@ -10,7 +10,7 @@ const EconomicData = () => {
             <div className='col-lg-4'>
               <div className='leftsidefilter mb-5'>
                 <div className='new_scenr_btn'>
-                  <h4 className='m-0'>All Sectors</h4>
+                  <h4 className='m-0'>Macro Economics</h4>
                 </div>
                 <div className='accordion' id='acc_sidefilter'>
                   <div className='in_acc_item'>
