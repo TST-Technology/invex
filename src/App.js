@@ -10,23 +10,23 @@ import Market from "./component/Market/Market";
 import Sectors from "./component/Sectors";
 import News from "./component/News/News";
 import Options from "./component/Options/Options";
-import EconomicData from "./component/EconomicData/EconomicData";
-import Dashboard from "./component/Dashboard/Dashboard";
-import SymbolPage from "./component/Symbol/SymbolPage";
-import VideoResource from "./component/VideoResource/VideoResource";
-import LogIn from "./component/Authentication/LogIn/LogIn";
-import GoToTop from "./ScrollToTop";
-import BidTable from "./component/NewComps/BidTable";
-import CPIIndexHome from "./component/CPIndex/CPIIndexHome";
-import NonManufacture from "./component/CPIndex/nonManufacture";
-import SignUp from "./component/Authentication/LogIn/SignUp";
-import Price from "./component/Price/Price";
-import FinancialStatistics from './component/FinancialStatistics'
+import MacroEconomics from './component/MacroEconomics/MacroEconomics';
+import Dashboard from './component/Dashboard/Dashboard';
+import SymbolPage from './component/Symbol/SymbolPage';
+import VideoResource from './component/VideoResource/VideoResource';
+import LogIn from './component/Authentication/LogIn/LogIn';
+import GoToTop from './ScrollToTop';
+import BidTable from './component/NewComps/BidTable';
+import CPIIndexHome from './component/CPIndex/CPIIndexHome';
+import NonManufacture from './component/CPIndex/nonManufacture';
+import SignUp from './component/Authentication/LogIn/SignUp';
+import Price from './component/Price/Price';
+import FinancialStatistics from './component/FinancialStatistics';
 // import BalanceSheet from "./component/Financials/BalanceSheet";
 // import CashFlow from "./component/CashFlow";
-import ValuationReport from "./component/ValuationReport";
-import Financials from "./component/Financials";
-import FinancialShareInfo from "./component/FinancialsShareInfo";
+import ValuationReport from './component/ValuationReport';
+import Financials from './component/Financials';
+import FinancialShareInfo from './component/FinancialsShareInfo';
 import Valuation from './component/Valuation/Valuation';
 import SymbolOption from './component/Symbol/SymbolOption/SymbolOption';
 import NotFound from './component/404/404';
@@ -67,8 +67,8 @@ function App() {
           <Route exact path={InvexRoutes.Options.path} element={<Options />} />
           <Route
             exact
-            path={InvexRoutes.EcomData.path}
-            element={<EconomicData />}
+            path={InvexRoutes.MacroEconomics.path}
+            element={<MacroEconomics />}
           />
           <Route
             exact

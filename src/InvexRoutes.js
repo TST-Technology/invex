@@ -8,7 +8,7 @@ const InvexRoutes = {
   News: { path: '/news' },
   Price: { path: '/price' },
   Options: { path: '/options' },
-  EcomData: { path: '/economic-data' },
+  MacroEconomics: { path: '/macro-economics' },
   Resources: { path: '/resources' },
   Dashboard: { path: '/dashboard' },
   Symbol: { path: '/symbol' },

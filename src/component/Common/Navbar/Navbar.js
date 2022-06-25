@@ -122,9 +122,11 @@ const Navbar = (props) => {
             </li>
             <li>
               <Link
-                to={InvexRoutes.EcomData.path}
+                to={InvexRoutes.MacroEconomics.path}
                 className={
-                  path.pathname === InvexRoutes.EcomData.path ? 'active' : ''
+                  path.pathname === InvexRoutes.MacroEconomics.path
+                    ? 'active'
+                    : ''
                 }
               >
                 Macro Economics
@@ -260,9 +262,11 @@ const Navbar = (props) => {
             </li>
             <li>
               <Link
-                to={InvexRoutes.EcomData.path}
+                to={InvexRoutes.MacroEconomics.path}
                 className={
-                  path.pathname === InvexRoutes.EcomData.path ? 'active' : ''
+                  path.pathname === InvexRoutes.MacroEconomics.path
+                    ? 'active'
+                    : ''
                 }
               >
                 Economic Data
