@@ -105,6 +105,7 @@ function PriceChart({ CompanyName }) {
               return el.open && el.close && el.high && el.low;
             })
             .map((el) => {
+              console.log(el);
               let newObj = {};
               newObj.x = el.date;
               newObj.y = [el.open, el.high, el.low, el.close];

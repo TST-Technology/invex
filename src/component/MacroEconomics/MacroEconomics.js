@@ -6,7 +6,7 @@ import {
 import { allDropdownOptions } from './Data';
 import { CircularProgress } from '@material-ui/core';
 import MacroImg from '../Common/Images/options-aapl-2.png';
-import { ConnectorLineSettings } from '@syncfusion/ej2/maps';
+import moment from 'moment';
 
 const MacroEconomics = () => {
   const [macroEconomics, setMacroEconomics] = useState(null);
@@ -65,10 +65,20 @@ const MacroEconomics = () => {
         const param = `?symbol=${chartParam.symbol}&range=${chartParam.range}&category=${chartParam.category}`;
 
         const data = await getMacroEconomicsChartData(param);
+        console.log(data);
         if (data && data.status === 200) {
+          const tempData = data.data.map((row) => {
+            let newObj = {};
+            const convertedDate = moment
+              .unix(row.date / 1000)
+              .format('DD MMM YYYY');
+            newObj.val = row.value;
+            newObj.date = convertedDate;
+            return newObj;
+          });
+          console.log(tempData);
           setChartData(data.data);
         }
-        console.log(data);
 
         economicData.options.map((row) => {
           if (row.label === chartParam.symbol) {
