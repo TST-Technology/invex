@@ -30,6 +30,7 @@ import FinancialShareInfo from "./component/FinancialsShareInfo";
 import Valuation from './component/Valuation/Valuation';
 import SymbolOption from './component/Symbol/SymbolOption/SymbolOption';
 import NotFound from './component/404/404';
+import SymbolNotPublished from './component/Valuation/SymbolNotPublished';
 import 'primereact/resources/themes/lara-light-indigo/theme.css'; //theme
 import 'primereact/resources/primereact.min.css'; //core css
 import 'primeicons/primeicons.css';
@@ -131,6 +132,12 @@ function App() {
             exact
             path={InvexRoutes.SymbolOption.path}
             element={<SymbolOption />}
+          />
+
+          <Route
+            exact
+            path={InvexRoutes.SymbolNotPublished.path}
+            element={<SymbolNotPublished />}
           />
 
           <Route path='*' element={<NotFound />} />

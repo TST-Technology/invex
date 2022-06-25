@@ -4,6 +4,8 @@ import CompanyView from '../Options/Quote/CompanyView/CompanyView';
 import {
   millionToBillionConvert,
   replaceEmpty,
+  replaceEmptyWithNumberPreFix,
+  replaceEmptyWithPostFix,
 } from '../Common/commonFunctions';
 import {
   ComposedChart,
@@ -35,6 +37,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
   const [pastPredictionGraphData, setPastPredictionGraphData] = useState(null);
   const [estimatedValue, setEstimatedValue] = useState(null);
   const [percent, setPercent] = useState(null);
+  const [viewAs, setViewAs] = useState('chart');
   const yearArr = [
     'base_year',
     'year_1',
@@ -48,6 +51,16 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
     'year_9',
     'year_10',
     'terminal',
+  ];
+  const validTableColumns = [
+    'Revenue growth rate',
+    'Revenues',
+    'EBIT (Operating) margin',
+    'EBIT (Operating income)',
+    'Reinvestment',
+    'FCFF',
+    'Invested capital',
+    'Price Target',
   ];
 
   useEffect(() => {
@@ -80,6 +93,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
   }, [valuationOutputFilter]);
 
   useEffect(() => {
+    console.log(valuationOutput);
     if (valuationOutput) {
       valuationOutput.forEach((valuation, index) => {
         switch (valuation?.field_name) {
@@ -260,6 +274,26 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
           fontSize={10}
         >
           {`$${millionToBillionConvert(value)}`}
+        </text>
+      </g>
+    );
+  };
+
+  const renderCustomizedLabelWithoutBillion = (props) => {
+    const { x, y, width, height, value } = props;
+    const radius = 10;
+
+    return (
+      <g>
+        <text
+          x={x + width / 2}
+          y={y - radius}
+          fill='#000'
+          textAnchor='middle'
+          dominantBaseline='middle'
+          fontSize={10}
+        >
+          {`$${value}`}
         </text>
       </g>
     );
@@ -528,6 +562,29 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                       </BarChart>
                     </ResponsiveContainer>
                   )}
+
+                  <div className='card companyviewblk compprofile_block mb-5'>
+                    <div className='card-header'>
+                      <div className='d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0'>
+                        <h6 className='m-0'>
+                          <strong>Risk</strong>
+                        </h6>
+                      </div>
+                    </div>
+                    <div className='card-body'>
+                      <div>
+                        <div className='key_status'>
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: companyValuation?.risk
+                                ? companyValuation?.risk
+                                : '-',
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
                   <div className='card companyviewblk compprofile_block mb-5'>
                     <div className='card-header'>
@@ -835,12 +892,38 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                   </div>
                   <div className='card companyviewblk compprofile_block mt-5 mb-4'>
                     <div className='card-header'>
-                      <div className='d-flex align-items-center justify-content-left bg-light p-2 border-bottom-0'>
+                      <div className='d-flex align-items-center justify-content-between bg-light p-2 border-bottom-0'>
                         <h6 className='m-0'>
                           <strong>
                             Valuation Output <base />
                           </strong>
                         </h6>
+
+                        <div className='top_button_panel d-flex align-items-center'>
+                          <span className='pe-3 pb-3'>
+                            <small>
+                              <strong>View as</strong>
+                            </small>
+                          </span>
+                          <button
+                            type='button'
+                            onClick={() => setViewAs('chart')}
+                            className={`btn ${
+                              viewAs === 'chart' ? 'btn-info' : 'btn-light'
+                            }`}
+                          >
+                            Chart
+                          </button>
+                          <button
+                            type='button'
+                            onClick={() => setViewAs('table')}
+                            className={`btn ${
+                              viewAs === 'table' ? 'btn-info' : 'btn-light'
+                            }`}
+                          >
+                            Table
+                          </button>
+                        </div>
                       </div>
                     </div>
                     <div className='card-body'>
@@ -937,340 +1020,525 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                           </p>
                         </div>
                       </div>
-                      <div className='mt-5'>
-                        <div className='row'>
-                          <div className='col-lg-3'>
-                            <h6 className='mb-0'>
-                              <strong>Revenue (Future Expectation)</strong>
-                            </h6>
-                            <small>All values are in Billion</small>
-                          </div>
-
-                          {revenueGraphData && revenueGraphData.length > 0 && (
-                            <div className='col-lg-12 mt-3'>
-                              <ResponsiveContainer
-                                width='100%'
-                                aspect={1}
-                                maxHeight={400}
-                              >
-                                <ComposedChart
-                                  data={revenueGraphData}
-                                  tick={false}
-                                >
-                                  <XAxis
-                                    dataKey='year'
-                                    axisLine={false}
-                                    domain={['auto', 'auto']}
-                                    // ticks={ticks}
-                                    tick={{
-                                      fill: '#212121',
-                                      fontSize: '12px',
-                                    }}
-                                  />
-                                  <YAxis
-                                    axisLine={false}
-                                    domain={['auto', 'auto']}
-                                    tick={{
-                                      fill: '#212121',
-                                      fontSize: '12px',
-                                    }}
-                                  />
-                                  <Tooltip />
-
-                                  <Bar
-                                    fill='#F8DF86'
-                                    dataKey='data2'
-                                    barSize={35}
-                                  >
-                                    <LabelList
-                                      dataKey='data2'
-                                      content={renderCustomizedLabel}
-                                    />
-                                  </Bar>
-
-                                  <Line
-                                    type='monotone'
-                                    dataKey='data'
-                                    stroke='#4162FE'
-                                  />
-                                </ComposedChart>
-                              </ResponsiveContainer>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className='mt-5'>
-                        <div className='row'>
-                          <div className='col-lg-3'>
-                            <h6 className='mb-0'>
-                              <strong>Operating Income</strong>
-                            </h6>
-                            <small>All values are in Billion</small>
-                          </div>
-                          {operatingIncomeData && (
-                            <div className='col-lg-12 mt-3'>
-                              <ResponsiveContainer
-                                width='100%'
-                                aspect={1}
-                                maxHeight={400}
-                              >
-                                <ComposedChart
-                                  data={operatingIncomeData}
-                                  tick={false}
-                                >
-                                  <XAxis
-                                    dataKey='year'
-                                    axisLine={false}
-                                    domain={['auto', 'auto']}
-                                    // ticks={ticks}
-                                    tick={{ fill: '#212121', fontSize: '12px' }}
-                                  />
-                                  <YAxis
-                                    axisLine={false}
-                                    tick={{
-                                      fill: '#212121',
-                                      fontSize: '12px',
-                                    }}
-                                  />
-                                  <Tooltip />
-
-                                  <Bar
-                                    fill='#F8DF86'
-                                    dataKey='data2'
-                                    barSize={35}
-                                  >
-                                    <LabelList
-                                      dataKey='data2'
-                                      content={renderCustomizedLabel}
-                                    />
-                                  </Bar>
-
-                                  <Line
-                                    type='monotone'
-                                    dataKey='data'
-                                    stroke='#4162FE'
-                                  />
-                                </ComposedChart>
-                              </ResponsiveContainer>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className='mt-5'>
-                        <div className='row'>
-                          <div className='col-lg-3'>
-                            <h6 className='mb-0'>
-                              <strong>Reinvestments</strong>
-                            </h6>
-                            <small>All values are in Billion</small>
-                          </div>
-                          {reinvestmentData && (
-                            <div className='col-lg-12 mt-3'>
-                              <ResponsiveContainer
-                                width='100%'
-                                aspect={1}
-                                maxHeight={400}
-                              >
-                                <BarChart data={reinvestmentData} tick={false}>
-                                  <XAxis
-                                    dataKey='year'
-                                    axisLine={false}
-                                    domain={['auto', 'auto']}
-                                    // ticks={ticks}
-                                    tick={{ fill: '#212121', fontSize: '12px' }}
-                                  />
-                                  <YAxis
-                                    axisLine={false}
-                                    tick={{
-                                      fill: '#212121',
-                                      fontSize: '12px',
-                                    }}
-                                  />
-                                  <Tooltip />
-
-                                  <Bar
-                                    fill='#F8DF86'
-                                    dataKey='data'
-                                    barSize={35}
-                                  >
-                                    <LabelList
-                                      dataKey='data'
-                                      content={renderCustomizedLabel}
-                                    />
-                                  </Bar>
-                                </BarChart>
-                              </ResponsiveContainer>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className='mt-5'>
-                        <div className='row'>
-                          <div className='col-lg-3'>
-                            <h6 className='mb-0'>
-                              <strong>Free Cash Flow To Firm</strong>
-                            </h6>
-                            <small>All values are in Billion</small>
-                          </div>
-                          {freeCashFlowData && (
-                            <div className='col-lg-12 mt-3'>
-                              <ResponsiveContainer
-                                width='100%'
-                                aspect={1}
-                                maxHeight={400}
-                              >
-                                <BarChart data={freeCashFlowData} tick={false}>
-                                  <XAxis
-                                    dataKey='year'
-                                    axisLine={false}
-                                    domain={['auto', 'auto']}
-                                    // ticks={ticks}
-                                    tick={{ fill: '#212121', fontSize: '12px' }}
-                                  />
-                                  <YAxis
-                                    axisLine={false}
-                                    tick={{
-                                      fill: '#212121',
-                                      fontSize: '12px',
-                                    }}
-                                  />
-                                  <Tooltip />
-
-                                  <Bar
-                                    fill='#F8DF86'
-                                    dataKey='data'
-                                    barSize={35}
-                                  >
-                                    <LabelList
-                                      dataKey='data'
-                                      content={renderCustomizedLabel}
-                                    />
-                                  </Bar>
-                                </BarChart>
-                              </ResponsiveContainer>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className='mt-5'>
-                        <div className='row'>
-                          <div className='col-lg-3'>
-                            <h6 className='mb-0'>
-                              <strong>
-                                Invested Capitals &amp; Implied ROIC
-                              </strong>
-                            </h6>
-                            <small>All values are in Billion</small>
-                          </div>
-                          {investedCapitalData && (
-                            <div className='col-lg-12 mt-3'>
-                              <ResponsiveContainer
-                                width='100%'
-                                aspect={1}
-                                maxHeight={400}
-                              >
-                                <BarChart
-                                  data={investedCapitalData}
-                                  tick={false}
-                                >
-                                  <XAxis
-                                    dataKey='year'
-                                    axisLine={false}
-                                    domain={['auto', 'auto']}
-                                    // ticks={ticks}
-                                    tick={{ fill: '#212121', fontSize: '12px' }}
-                                  />
-                                  <YAxis
-                                    axisLine={false}
-                                    tick={{
-                                      fill: '#212121',
-                                      fontSize: '12px',
-                                    }}
-                                  />
-                                  <Tooltip />
-
-                                  <Bar
-                                    fill='#F8DF86'
-                                    dataKey='data'
-                                    barSize={35}
-                                  >
-                                    <LabelList
-                                      dataKey='data'
-                                      content={renderCustomizedLabel}
-                                    />
-                                  </Bar>
-                                </BarChart>
-                              </ResponsiveContainer>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className='mt-5'>
-                        <div className='row'>
-                          <div className='col-lg-3'>
-                            <h6 className='mb-0'>
-                              <strong>Price Target</strong>
-                            </h6>
-                            <small>All values are in Billion</small>
-                          </div>
-                          {priceTargetData &&
-                            Array.isArray(priceTargetData) &&
-                            priceTargetData.length > 0 && (
-                              <div className='col-lg-12 mt-3'>
-                                <ResponsiveContainer
-                                  width='100%'
-                                  aspect={1}
-                                  maxHeight={400}
-                                >
-                                  <BarChart data={priceTargetData}>
-                                    <XAxis
-                                      dataKey='year'
-                                      axisLine={false}
-                                      domain={['auto', 'auto']}
-                                      // ticks={ticks}
-                                      tick={{
-                                        fill: '#212121',
-                                        fontSize: '12px',
-                                      }}
-                                    />
-                                    <YAxis
-                                      axisLine={false}
-                                      tick={{
-                                        fill: '#212121',
-                                        fontSize: '12px',
-                                      }}
-                                    />
-                                    <Tooltip />
-
-                                    <Bar
-                                      fill='#F8DF86'
-                                      dataKey='data'
-                                      barSize={35}
-                                    >
-                                      <LabelList
-                                        dataKey='data'
-                                        content={renderCustomizedLabel}
-                                      />
-                                    </Bar>
-                                  </BarChart>
-                                </ResponsiveContainer>
+                      {viewAs && viewAs === 'chart' && (
+                        <>
+                          <div className='mt-5'>
+                            <div className='row'>
+                              <div className='col-lg-3'>
+                                <h6 className='mb-0'>
+                                  <strong>Revenue (Future Expectation)</strong>
+                                </h6>
+                                <small>All values are in Billion</small>
                               </div>
-                            )}
-                        </div>
-                      </div>
+
+                              {revenueGraphData && revenueGraphData.length > 0 && (
+                                <div className='col-lg-12 mt-3'>
+                                  <ResponsiveContainer
+                                    width='100%'
+                                    aspect={1}
+                                    maxHeight={400}
+                                  >
+                                    <ComposedChart
+                                      data={revenueGraphData}
+                                      tick={false}
+                                    >
+                                      <XAxis
+                                        dataKey='year'
+                                        axisLine={false}
+                                        domain={['auto', 'auto']}
+                                        // ticks={ticks}
+                                        tick={{
+                                          fill: '#212121',
+                                          fontSize: '12px',
+                                        }}
+                                      />
+                                      <YAxis
+                                        axisLine={false}
+                                        domain={['auto', 'auto']}
+                                        tick={{
+                                          fill: '#212121',
+                                          fontSize: '12px',
+                                        }}
+                                      />
+                                      <Tooltip />
+
+                                      <Bar
+                                        fill='#9AA7FE'
+                                        dataKey='data2'
+                                        barSize={35}
+                                      >
+                                        <LabelList
+                                          dataKey='data2'
+                                          content={renderCustomizedLabel}
+                                        />
+                                      </Bar>
+
+                                      <Line
+                                        type='monotone'
+                                        dataKey='data'
+                                        stroke='#4162FE'
+                                      />
+                                    </ComposedChart>
+                                  </ResponsiveContainer>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <div className='mt-5'>
+                            <div className='row'>
+                              <div className='col-lg-3'>
+                                <h6 className='mb-0'>
+                                  <strong>Operating Income</strong>
+                                </h6>
+                                <small>All values are in Billion</small>
+                              </div>
+                              {operatingIncomeData && (
+                                <div className='col-lg-12 mt-3'>
+                                  <ResponsiveContainer
+                                    width='100%'
+                                    aspect={1}
+                                    maxHeight={400}
+                                  >
+                                    <ComposedChart
+                                      data={operatingIncomeData}
+                                      tick={false}
+                                    >
+                                      <XAxis
+                                        dataKey='year'
+                                        axisLine={false}
+                                        domain={['auto', 'auto']}
+                                        // ticks={ticks}
+                                        tick={{
+                                          fill: '#212121',
+                                          fontSize: '12px',
+                                        }}
+                                      />
+                                      <YAxis
+                                        axisLine={false}
+                                        tick={{
+                                          fill: '#212121',
+                                          fontSize: '12px',
+                                        }}
+                                      />
+                                      <Tooltip />
+
+                                      <Bar
+                                        fill='#9AA7FE'
+                                        dataKey='data2'
+                                        barSize={35}
+                                      >
+                                        <LabelList
+                                          dataKey='data2'
+                                          content={renderCustomizedLabel}
+                                        />
+                                      </Bar>
+
+                                      <Line
+                                        type='monotone'
+                                        dataKey='data'
+                                        stroke='#4162FE'
+                                      />
+                                    </ComposedChart>
+                                  </ResponsiveContainer>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <div className='mt-5'>
+                            <div className='row'>
+                              <div className='col-lg-3'>
+                                <h6 className='mb-0'>
+                                  <strong>Reinvestments</strong>
+                                </h6>
+                                <small>All values are in Billion</small>
+                              </div>
+                              {reinvestmentData && (
+                                <div className='col-lg-12 mt-3'>
+                                  <ResponsiveContainer
+                                    width='100%'
+                                    aspect={1}
+                                    maxHeight={400}
+                                  >
+                                    <BarChart
+                                      data={reinvestmentData}
+                                      tick={false}
+                                    >
+                                      <XAxis
+                                        dataKey='year'
+                                        axisLine={false}
+                                        domain={['auto', 'auto']}
+                                        // ticks={ticks}
+                                        tick={{
+                                          fill: '#212121',
+                                          fontSize: '12px',
+                                        }}
+                                      />
+                                      <YAxis
+                                        axisLine={false}
+                                        tick={{
+                                          fill: '#212121',
+                                          fontSize: '12px',
+                                        }}
+                                      />
+                                      <Tooltip />
+
+                                      <Bar
+                                        fill='#9AA7FE'
+                                        dataKey='data'
+                                        barSize={35}
+                                      >
+                                        <LabelList
+                                          dataKey='data'
+                                          content={renderCustomizedLabel}
+                                        />
+                                      </Bar>
+                                    </BarChart>
+                                  </ResponsiveContainer>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <div className='mt-5'>
+                            <div className='row'>
+                              <div className='col-lg-3'>
+                                <h6 className='mb-0'>
+                                  <strong>Free Cash Flow To Firm</strong>
+                                </h6>
+                                <small>All values are in Billion</small>
+                              </div>
+                              {freeCashFlowData && (
+                                <div className='col-lg-12 mt-3'>
+                                  <ResponsiveContainer
+                                    width='100%'
+                                    aspect={1}
+                                    maxHeight={400}
+                                  >
+                                    <BarChart
+                                      data={freeCashFlowData}
+                                      tick={false}
+                                    >
+                                      <XAxis
+                                        dataKey='year'
+                                        axisLine={false}
+                                        domain={['auto', 'auto']}
+                                        // ticks={ticks}
+                                        tick={{
+                                          fill: '#212121',
+                                          fontSize: '12px',
+                                        }}
+                                      />
+                                      <YAxis
+                                        axisLine={false}
+                                        tick={{
+                                          fill: '#212121',
+                                          fontSize: '12px',
+                                        }}
+                                      />
+                                      <Tooltip />
+
+                                      <Bar
+                                        fill='#9AA7FE'
+                                        dataKey='data'
+                                        barSize={35}
+                                      >
+                                        <LabelList
+                                          dataKey='data'
+                                          content={renderCustomizedLabel}
+                                        />
+                                      </Bar>
+                                    </BarChart>
+                                  </ResponsiveContainer>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <div className='mt-5'>
+                            <div className='row'>
+                              <div className='col-lg-3'>
+                                <h6 className='mb-0'>
+                                  <strong>
+                                    Invested Capitals &amp; Implied ROIC
+                                  </strong>
+                                </h6>
+                                <small>All values are in Billion</small>
+                              </div>
+                              {investedCapitalData && (
+                                <div className='col-lg-12 mt-3'>
+                                  <ResponsiveContainer
+                                    width='100%'
+                                    aspect={1}
+                                    maxHeight={400}
+                                  >
+                                    <BarChart
+                                      data={investedCapitalData}
+                                      tick={false}
+                                    >
+                                      <XAxis
+                                        dataKey='year'
+                                        axisLine={false}
+                                        domain={['auto', 'auto']}
+                                        // ticks={ticks}
+                                        tick={{
+                                          fill: '#212121',
+                                          fontSize: '12px',
+                                        }}
+                                      />
+                                      <YAxis
+                                        axisLine={false}
+                                        tick={{
+                                          fill: '#212121',
+                                          fontSize: '12px',
+                                        }}
+                                      />
+                                      <Tooltip />
+
+                                      <Bar
+                                        fill='#9AA7FE'
+                                        dataKey='data'
+                                        barSize={35}
+                                      >
+                                        <LabelList
+                                          dataKey='data'
+                                          content={renderCustomizedLabel}
+                                        />
+                                      </Bar>
+                                    </BarChart>
+                                  </ResponsiveContainer>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <div className='mt-5'>
+                            <div className='row'>
+                              <div className='col-lg-3'>
+                                <h6 className='mb-0'>
+                                  <strong>Price Target</strong>
+                                </h6>
+                                <small>All values are in Billion</small>
+                              </div>
+                              {priceTargetData &&
+                                Array.isArray(priceTargetData) &&
+                                priceTargetData.length > 0 && (
+                                  <div className='col-lg-12 mt-3'>
+                                    <ResponsiveContainer
+                                      width='100%'
+                                      aspect={1}
+                                      maxHeight={400}
+                                    >
+                                      <BarChart data={priceTargetData}>
+                                        <XAxis
+                                          dataKey='year'
+                                          axisLine={false}
+                                          domain={['auto', 'auto']}
+                                          // ticks={ticks}
+                                          tick={{
+                                            fill: '#212121',
+                                            fontSize: '12px',
+                                          }}
+                                        />
+                                        <YAxis
+                                          axisLine={false}
+                                          tick={{
+                                            fill: '#212121',
+                                            fontSize: '12px',
+                                          }}
+                                        />
+                                        <Tooltip />
+
+                                        <Bar
+                                          fill='#9AA7FE'
+                                          dataKey='data'
+                                          barSize={35}
+                                        >
+                                          <LabelList
+                                            dataKey='data'
+                                            content={
+                                              renderCustomizedLabelWithoutBillion
+                                            }
+                                          />
+                                        </Bar>
+                                      </BarChart>
+                                    </ResponsiveContainer>
+                                  </div>
+                                )}
+                            </div>
+                          </div>
+                        </>
+                      )}
+
+                      {valuationOutput && viewAs && viewAs === 'table' && (
+                        <table className='table table-bordered m-0 most_tables'>
+                          <thead className='table-light'>
+                            <tr>
+                              <th scope='col'>-</th>
+                              <th scope='col'>Base Year</th>
+                              <th scope='col'>1</th>
+                              <th scope='col'>2</th>
+                              <th scope='col'>3</th>
+                              <th scope='col'>4</th>
+                              <th scope='col'>5</th>
+                              <th scope='col'>6</th>
+                              <th scope='col'>7</th>
+                              <th scope='col'>8</th>
+                              <th scope='col'>9</th>
+                              <th scope='col'>10</th>
+                              <th scope='col'>Terminal Value</th>
+                            </tr>
+                          </thead>
+                          <tbody className='border-top-0'>
+                            {valuationOutput.map((row) => {
+                              return (
+                                <>
+                                  {validTableColumns.includes(
+                                    row?.field_name
+                                  ) && (
+                                    <>
+                                      {' '}
+                                      {row?.field_name ===
+                                      'Revenue growth rate' ? (
+                                        <tr>
+                                          <td>
+                                            {replaceEmpty(row?.field_name)}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithPostFix(
+                                              row?.base_year
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithPostFix(
+                                              row?.year_1
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithPostFix(
+                                              row?.year_2
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithPostFix(
+                                              row?.year_3
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithPostFix(
+                                              row?.year_4
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithPostFix(
+                                              row?.year_5
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithPostFix(
+                                              row?.year_6
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithPostFix(
+                                              row?.year_7
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithPostFix(
+                                              row?.year_8
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithPostFix(
+                                              row?.year_9
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithPostFix(
+                                              row?.year_10
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithPostFix(
+                                              row?.terminal
+                                            )}
+                                          </td>
+                                        </tr>
+                                      ) : (
+                                        <tr>
+                                          <td>
+                                            {replaceEmpty(row?.field_name)}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithNumberPreFix(
+                                              row?.base_year
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithNumberPreFix(
+                                              row?.year_1
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithNumberPreFix(
+                                              row?.year_2
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithNumberPreFix(
+                                              row?.year_3
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithNumberPreFix(
+                                              row?.year_4
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithNumberPreFix(
+                                              row?.year_5
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithNumberPreFix(
+                                              row?.year_6
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithNumberPreFix(
+                                              row?.year_7
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithNumberPreFix(
+                                              row?.year_8
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithNumberPreFix(
+                                              row?.year_9
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithNumberPreFix(
+                                              row?.year_10
+                                            )}
+                                          </td>
+                                          <td>
+                                            {replaceEmptyWithNumberPreFix(
+                                              row?.terminal
+                                            )}
+                                          </td>
+                                        </tr>
+                                      )}
+                                    </>
+                                  )}
+                                </>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      )}
                     </div>
                   </div>
                   <div className='mb-5'>
-                    <h6 className='mb-4 mt-5'>
-                      <strong>Risk</strong>
-                    </h6>
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: companyValuation?.risk
-                          ? companyValuation?.risk
-                          : '-',
-                      }}
-                    />
                     <h6 className='mb-4 mt-5'>
                       <strong>Additional Notes</strong>
                     </h6>

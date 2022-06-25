@@ -315,7 +315,7 @@ const VolatilityIndex = ({ Options, Loading }) => {
         <div className='row'>
           <div className='table-responsive mb-4'>
             <h6 className='m-0 mb-3'>
-              <strong>Implied Volatility Index</strong>
+              <strong>Historical Volatility Index</strong>
             </h6>
             <table className='table table-bordered m-0 most_tables normal_table'>
               <thead className='table-light'>
@@ -368,7 +368,7 @@ const VolatilityIndex = ({ Options, Loading }) => {
           </div>
           <div className='table-responsive mb-4'>
             <h6 className='m-0 mb-3'>
-              <strong>Implied Volatility Index</strong>
+              <strong>Historical Volatility Index</strong>
             </h6>
             <table className='table table-bordered mt-4 most_tables'>
               <thead className='table-light'>

@@ -21,6 +21,7 @@ const InvexRoutes = {
   ValuationReport: { path: '/valuation-report' },
   Valuation: { path: '/valuation/:symbol' },
   SymbolOption: { path: '/symbol/option/:symbol' },
+  SymbolNotPublished: { path: '/not-published' },
 };
 
 export default InvexRoutes;

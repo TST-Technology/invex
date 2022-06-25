@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getValuationData } from '../api/valuation';
 import { getSectorAndIndustryBySymbol } from '../api/sectors';
 import { getBookKeyStatus } from '../api/commonApi';
@@ -8,9 +8,11 @@ import { getCompanyDataBySymbol } from '../api/commonApi';
 import { getCompanyLogo } from '../api/company';
 import ValuationFCFFM from './ValuationFCFFM';
 import ValuationDividend from './ValuationDividend';
+import InvexRoutes from '../../InvexRoutes';
 
 const Valuation = () => {
   const { symbol } = useParams();
+  const navigate = useNavigate();
   const [data, setData] = useState();
   const [type, setType] = useState('DIVIDEND'); //DIVIDEND, FCFFM
   const [sector, setSector] = useState(null);
@@ -20,21 +22,26 @@ const Valuation = () => {
   const [Loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log(type);
-  }, [type]);
-
-  useEffect(() => {
     (async () => {
       if (symbol) {
         setLoading(true);
         var data = await getValuationData(symbol);
         if (data && data.type) {
-          console.log('in');
           setType(data.type);
+
+          if (data.type === 'DIVIDEND') {
+            if (data.data[0]['DivDisModelInputs'][0].is_published === false) {
+              navigate(InvexRoutes.SymbolNotPublished);
+            }
+          }
+          if (data.type === 'FCFFM') {
+            if (data.data[0]['CompanyValuations'][0].is_published === false) {
+              navigate(InvexRoutes.SymbolNotPublished);
+            }
+          }
         }
         if (data && data.data) {
           setData(data.data[0]);
-          console.log(data);
         }
 
         const sector = await getSectorAndIndustryBySymbol(symbol);

@@ -25,6 +25,7 @@ const OptionsChain = () => {
   const [Loading, setLoading] = useState(false);
 
   const currentDate = getOneDayBeforeDate();
+  const excludeColumnList = ['Strike', 'Symbol', 'Change'];
 
   useEffect(() => {
     (async () => {
@@ -100,7 +101,7 @@ const OptionsChain = () => {
       console.log(temp);
       const keys = Object.keys(temp[0]).filter((val) => {
         if (firstIsUppercase(val)) {
-          if (val === 'Strike') {
+          if (excludeColumnList.includes(val)) {
             return false;
           } else {
             return true;
@@ -128,18 +129,22 @@ const OptionsChain = () => {
       const temp = values.map((row) => row.value);
       console.log(temp);
       setSelectedDates([...temp]);
+    } else {
+      setSelectedDates([...values]);
+      setSelectedDatesOption(values);
     }
   };
 
   const handleExpandDetails = (value) => {
     console.log(value);
-    if (value) {
+    if (value && !selectedDates.includes(value)) {
       const temp = selectedDates;
       temp.push(value);
       console.log(temp);
       setSelectedDates([...temp]);
 
       const tempOptions = selectedDatesOption;
+      console.log(selectedDatesOption);
       tempOptions.push({ label: value, value: value });
       console.log(tempOptions);
       setSelectedDatesOption([...tempOptions]);
@@ -257,7 +262,7 @@ const OptionsChain = () => {
                   classNamePrefix='select'
                   placeholder='Select Date'
                   width='100%'
-                  isClearable={false}
+                  // isClearable={false}
                   onChange={handleChange}
                   hideSelectedOptions={false}
                 />
@@ -288,6 +293,38 @@ const OptionsChain = () => {
                 Object.values(optionChainData).map((row, index) => {
                   return (
                     <>
+                      {index === 0 && (
+                        <thead className='border-top-0'>
+                          <tr>
+                            {/* {columnList.includes('Symbol') && <th>Symbol</th>} */}
+                            {columnList.includes('Last') && <th>Last</th>}
+                            {/* {columnList.includes('Change') && <th>Change</th>} */}
+                            {columnList.includes('Bid') && <th>Bid</th>}
+                            {columnList.includes('Ask') && <th>Ask</th>}
+                            {columnList.includes('Volume') && <th>Volume</th>}
+                            {columnList.includes('OpenInterest') && (
+                              <th>Open Int</th>
+                            )}
+                            {columnList.includes('IVMean') && <th>Imp Vol</th>}
+                            {columnList.includes('Delta') && <th>Delta</th>}
+                            {columnList.includes('Theta') && <th>Theta</th>}
+                            <th>Strike</th>
+                            {/* {columnList.includes('Symbol') && <th>Symbol</th>} */}
+                            {columnList.includes('Last') && <th>Last</th>}
+                            {/* {columnList.includes('Change') && <th>Change</th>} */}
+                            {columnList.includes('Bid') && <th>Bid</th>}
+                            {columnList.includes('Ask') && <th>Ask</th>}
+                            {columnList.includes('Volume') && <th>Volume</th>}
+                            {columnList.includes('OpenInterest') && (
+                              <th>Open Int</th>
+                            )}
+                            {columnList.includes('IVMean') && <th>Imp Vol</th>}
+                            {columnList.includes('Delta') && <th>Delta</th>}
+                            {columnList.includes('Theta') && <th>Theta</th>}
+                          </tr>
+                        </thead>
+                      )}
+
                       <thead className='labels'>
                         <tr>
                           <th
@@ -319,35 +356,6 @@ const OptionsChain = () => {
                           </th>
                         </tr>
                       </thead>
-                      <thead className='border-top-0 '>
-                        <tr>
-                          {columnList.includes('Symbol') && <th>Symbol</th>}
-                          {columnList.includes('Last') && <th>Last</th>}
-                          {columnList.includes('Change') && <th>Change</th>}
-                          {columnList.includes('Bid') && <th>Bid</th>}
-                          {columnList.includes('Ask') && <th>Ask</th>}
-                          {columnList.includes('Volume') && <th>Volume</th>}
-                          {columnList.includes('OpenInterest') && (
-                            <th>Open Int</th>
-                          )}
-                          {columnList.includes('IVMean') && <th>Imp Vol</th>}
-                          {columnList.includes('Delta') && <th>Data</th>}
-                          {columnList.includes('Theta') && <th>Theta</th>}
-                          <th />
-                          {columnList.includes('Symbol') && <th>Symbol</th>}
-                          {columnList.includes('Last') && <th>Last</th>}
-                          {columnList.includes('Change') && <th>Change</th>}
-                          {columnList.includes('Bid') && <th>Bid</th>}
-                          {columnList.includes('Ask') && <th>Ask</th>}
-                          {columnList.includes('Volume') && <th>Volume</th>}
-                          {columnList.includes('OpenInterest') && (
-                            <th>Open Int</th>
-                          )}
-                          {columnList.includes('IVMean') && <th>Imp Vol</th>}
-                          {columnList.includes('Delta') && <th>Data</th>}
-                          {columnList.includes('Theta') && <th>Theta</th>}
-                        </tr>
-                      </thead>
 
                       <tbody className='hide border-top-0'>
                         {row &&
@@ -357,21 +365,21 @@ const OptionsChain = () => {
                             return (
                               <>
                                 <tr>
-                                  {columnList.includes('Symbol') && (
+                                  {/* {columnList.includes('Symbol') && (
                                     <td className='lup'>
                                       {row?.Symbol[i] ? row?.Symbol[i] : '-'}
                                     </td>
-                                  )}
+                                  )} */}
                                   {columnList.includes('Last') && (
                                     <td className='lup'>
                                       {row?.Last[i] ? row?.Last[i] : '-'}
                                     </td>
                                   )}
-                                  {columnList.includes('Change') && (
+                                  {/* {columnList.includes('Change') && (
                                     <td className='lup'>
                                       {row?.Change[i] ? row?.Change[i] : '-'}
                                     </td>
-                                  )}
+                                  )} */}
                                   {columnList.includes('Bid') && (
                                     <td className='lup'>
                                       {row?.Bid[i] ? row?.Bid[i] : '-'}
@@ -414,19 +422,19 @@ const OptionsChain = () => {
                                   <td className='text-center'>
                                     {row?.Strike[i] ? row?.Strike[i] : '-'}
                                   </td>
-                                  {columnList.includes('Symbol') && (
+                                  {/* {columnList.includes('Symbol') && (
                                     <td>
                                       {row?.symbol[i] ? row?.symbol[i] : '-'}
                                     </td>
-                                  )}
+                                  )} */}
                                   {columnList.includes('Last') && (
                                     <td>{row?.last[i] ? row?.last[i] : '-'}</td>
                                   )}
-                                  {columnList.includes('Change') && (
+                                  {/* {columnList.includes('Change') && (
                                     <td>
                                       {row?.change[i] ? row?.change[i] : '-'}
                                     </td>
-                                  )}
+                                  )} */}
                                   {columnList.includes('Bid') && (
                                     <td>{row?.bid[i] ? row?.bid[i] : '-'}</td>
                                   )}
