@@ -7,6 +7,7 @@ import {
   replaceEmptyWithNumberPreFix,
   replaceEmptyWithPostFix,
 } from '../Common/commonFunctions';
+import { getManualValuationFCFFMData } from '../api/valuation';
 import {
   ComposedChart,
   Line,
@@ -38,6 +39,9 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
   const [estimatedValue, setEstimatedValue] = useState(null);
   const [percent, setPercent] = useState(null);
   const [viewAs, setViewAs] = useState('chart');
+  const [manualParam, setManualParam] = useState(null);
+  const [manualChartData, setManualChartData] = useState(null);
+  const [manualButtonVisible, setManualButtonVisible] = useState(false);
   const yearArr = [
     'base_year',
     'year_1',
@@ -220,6 +224,20 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
     })();
   }, []);
 
+  useEffect(() => {
+    console.log(manualParam);
+    if (manualParam) {
+      getManualParamData();
+    }
+  }, [manualParam]);
+
+  useEffect(() => {
+    if (manualChartData) {
+      console.log(manualChartData);
+      setValuationOutput([...manualChartData]);
+    }
+  }, [manualChartData]);
+
   const getGraphData = (valuation) => {
     const publishDate = new Date(companyValuation?.publish_date);
     let year = moment(publishDate).format('YYYY');
@@ -238,25 +256,28 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
   };
 
   const getValuationOutput = () => {
-    const tempValuationOutput = companyValuation?.YearlyValuationOutputs.filter(
-      (element) => {
-        return element.case === valuationOutputFilter;
-      }
-    );
+    if (valuationOutputFilter === 'manual') {
+      setValuationOutput(manualChartData);
+    } else {
+      const tempValuationOutput =
+        companyValuation?.YearlyValuationOutputs.filter((element) => {
+          return element.case === valuationOutputFilter;
+        });
 
-    setValuationOutput(tempValuationOutput);
+      setValuationOutput(tempValuationOutput);
 
-    companyValuation?.ValuationOutputs.forEach((element) => {
-      if (element.case === valuationOutputFilter) {
-        setEstimatedValue(element);
-        setPercent(
-          (
-            ((element?.estimated_share - element?.price) / element?.price) *
-            100
-          ).toFixed(2)
-        );
-      }
-    });
+      companyValuation?.ValuationOutputs.forEach((element) => {
+        if (element.case === valuationOutputFilter) {
+          setEstimatedValue(element);
+          setPercent(
+            (
+              ((element?.estimated_share - element?.price) / element?.price) *
+              100
+            ).toFixed(2)
+          );
+        }
+      });
+    }
   };
 
   const renderCustomizedLabel = (props) => {
@@ -297,6 +318,24 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
         </text>
       </g>
     );
+  };
+
+  const handleManualParamChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setManualParam({ ...manualParam, [name]: parseInt(value) });
+  };
+
+  const getManualParamData = async () => {
+    const manualData = await getManualValuationFCFFMData({
+      ...manualParam,
+      valuation_id: companyValuation.id,
+    });
+    console.log(manualData);
+    if (manualData?.yearlyValuationOutput) {
+      setManualChartData([...manualData?.yearlyValuationOutput]);
+      setManualButtonVisible(true);
+    }
   };
 
   return (
@@ -671,7 +710,14 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation.CompanyGrowths[0]?.gr_this_year_worst}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='gr_this_year_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                         <tr>
                           <td>Growth next year</td>
@@ -699,7 +745,14 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation.CompanyGrowths[0]?.gr_next_year_worst}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='gr_next_year_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                         <tr>
                           <td>
@@ -729,7 +782,14 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation.CompanyGrowths[0]?.compounded_revenue_growth_worst}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='compounded_revenue_growth_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                         <tr>
                           <td>Operating margin this year/he</td>
@@ -757,7 +817,14 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation.CompanyGrowths[0]?.op_margin_first_year_worst}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='op_margin_first_year_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                         <tr>
                           <td>Operating margin next year</td>
@@ -785,7 +852,14 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation.CompanyGrowths[0]?.op_margin_next_year_worst}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='op_margin_next_year_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                         <tr>
                           <td>Opratiing margin year 3-5</td>
@@ -813,7 +887,14 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation.CompanyGrowths[0]?.op_margin_five_year_worst}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='op_margin_five_year_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                         <tr>
                           <td>Target operating margin</td>
@@ -835,7 +916,14 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation?.pre_tax_debt_cost}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='pre_tax_op_margin_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                         <tr>
                           <td>Cost of capital</td>
@@ -857,7 +945,14 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation?.cost_of_capital}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='cost_of_capital'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                         <tr>
                           <td>Risk free rate</td>
@@ -885,7 +980,14 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation?.CompanyGrowths[0]?.risk_free_rate_worst}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='risk_free_rate_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -969,6 +1071,19 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                             {' '}
                             Worst care
                           </button>
+                          {manualButtonVisible && (
+                            <button
+                              type='button'
+                              onClick={() => setValuationOutputFilter('manual')}
+                              className={`btn ${
+                                valuationOutputFilter === 'manual'
+                                  ? 'btn-info'
+                                  : 'btn-light'
+                              }`}
+                            >
+                              Manual
+                            </button>
+                          )}
                         </div>
                         <div>
                           <small>

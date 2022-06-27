@@ -7,6 +7,7 @@ import {
   replaceEmptyWithNumberPreFix,
   replaceEmptyWithPostFix,
 } from '../Common/commonFunctions';
+import { getManualValuationDividendData } from '../api/valuation';
 import {
   ComposedChart,
   Line,
@@ -29,9 +30,6 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
   const [expectedGrowthRate, setExpectedGrowthRate] = useState(null);
   const [payoutRatioGraph, setPayoutRatioGraph] = useState(null);
   const [priceTarget, setPriceTarget] = useState(null);
-  const [freeCashFlowData, setFreeCashFlowData] = useState(null);
-  const [investedCapitalData, setInvestedCapital] = useState(null);
-  const [priceTargetData, setPriceTargetCapital] = useState(null);
   const [valuationOutputFilter, setValuationOutputFilter] = useState('best');
   const [pastPredictionGraphData, setPastPredictionGraphData] = useState(null);
   const [estimatedValue, setEstimatedValue] = useState(null);
@@ -39,6 +37,9 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
   const [costOfEquity, setCostOfEquity] = useState(null);
   const [payoutRatio, setPayoutRatio] = useState(null);
   const [viewAs, setViewAs] = useState('chart');
+  const [manualParam, setManualParam] = useState(null);
+  const [manualChartData, setManualChartData] = useState(null);
+  const [manualButtonVisible, setManualButtonVisible] = useState(false);
   const yearArr = [
     'base_year',
     'year_1',
@@ -200,6 +201,20 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
     }
   }, [valuationOutput]);
 
+  useEffect(() => {
+    console.log(manualParam);
+    if (manualParam) {
+      getManualParamData();
+    }
+  }, [manualParam]);
+
+  useEffect(() => {
+    if (manualChartData) {
+      console.log(manualChartData);
+      setValuationOutput([...manualChartData]);
+    }
+  }, [manualChartData]);
+
   const getGraphData = (valuation) => {
     const publishDate = new Date(companyValuation?.publish_date);
     let year = moment(publishDate).format('YYYY');
@@ -217,25 +232,29 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
   };
 
   const getValuationOutput = () => {
-    const tempValuationOutput =
-      companyValuation?.YearlyDivdiscountOutputs.filter((element) => {
-        return element.input_case === valuationOutputFilter;
+    if (valuationOutputFilter === 'manual') {
+      setValuationOutput(manualChartData);
+    } else {
+      const tempValuationOutput =
+        companyValuation?.YearlyDivdiscountOutputs.filter((element) => {
+          return element.input_case === valuationOutputFilter;
+        });
+
+      setValuationOutput(tempValuationOutput);
+
+      companyValuation?.DivdiscountOutputs.forEach((element) => {
+        if (element.input_case === valuationOutputFilter) {
+          setEstimatedValue(element);
+          setPercent(
+            (
+              ((element?.stock_value - element?.current_price) /
+                element?.current_price) *
+              100
+            ).toFixed(2)
+          );
+        }
       });
-
-    setValuationOutput(tempValuationOutput);
-
-    companyValuation?.DivdiscountOutputs.forEach((element) => {
-      if (element.input_case === valuationOutputFilter) {
-        setEstimatedValue(element);
-        setPercent(
-          (
-            ((element?.stock_value - element?.current_price) /
-              element?.current_price) *
-            100
-          ).toFixed(2)
-        );
-      }
-    });
+    }
   };
 
   const CustomizedLabel = (props) => {
@@ -287,6 +306,24 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
         </text>
       </g>
     );
+  };
+
+  const handleManualParamChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setManualParam({ ...manualParam, [name]: parseInt(value) });
+  };
+
+  const getManualParamData = async () => {
+    const manualData = await getManualValuationDividendData({
+      ...manualParam,
+      valuation_id: companyValuation.id,
+    });
+    console.log(manualData);
+    if (manualData?.yearlyOutput) {
+      setManualChartData([...manualData?.yearlyOutput]);
+      setManualButtonVisible(true);
+    }
   };
 
   return (
@@ -650,7 +687,14 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation.DivdiscModelGrowths[0]?.gr_this_year_worst}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='gr_this_year_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                         <tr>
                           <td>EPS Growth next year</td>
@@ -678,7 +722,14 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation.DivdiscModelGrowths[0]?.gr_next_year_worst}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='gr_next_year_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                         <tr>
                           <td>
@@ -708,7 +759,14 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation.DivdiscModelGrowths[0]?.comp_annu_eps_gr_rate_worst}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='comp_annu_eps_gr_rate_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                         <tr>
                           <td>Payout Ratio First Year</td>
@@ -736,7 +794,14 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation.DivdiscModelGrowths[0]?.payout_ratio_first_year_worst}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='payout_ratio_first_year_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                         <tr>
                           <td>Payout Ratio Next Year</td>
@@ -764,7 +829,14 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation.DivdiscModelGrowths[0]?.payout_ratio_next_year_worst}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='payout_ratio_next_year_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                         <tr>
                           <td>Payout Ratio Year 3-5</td>
@@ -792,7 +864,14 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation.DivdiscModelGrowths[0]?.payout_ratio_five_year_worst}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='payout_ratio_five_year_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                         <tr>
                           <td>Target Payout Ratio</td>
@@ -820,7 +899,14 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation.DivdiscModelGrowths[0]?.target_payout_ratio_worst}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='target_payout_ratio_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                         <tr>
                           <td>Growth Phase ROE</td>
@@ -848,7 +934,14 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation.DivdiscModelGrowths[0]?.gr_phase_roe_worst}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='gr_phase_roe_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                         <tr>
                           <td>Stable Phase ROE</td>
@@ -876,7 +969,49 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                               ? `${companyValuation.DivdiscModelGrowths[0]?.stable_phase_roe_worst}%`
                               : '-'}
                           </td>
-                          <td>-</td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='stable_phase_roe_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Risk free rate</td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.DivdiscModelGrowths[0] &&
+                            companyValuation.DivdiscModelGrowths[0]
+                              ?.risk_free_rate_best
+                              ? `${companyValuation.DivdiscModelGrowths[0]?.risk_free_rate_best}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.DivdiscModelGrowths[0] &&
+                            companyValuation.DivdiscModelGrowths[0]
+                              ?.risk_free_rate_base
+                              ? `${companyValuation.DivdiscModelGrowths[0]?.risk_free_rate_base}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            {companyValuation &&
+                            companyValuation.DivdiscModelGrowths[0] &&
+                            companyValuation.DivdiscModelGrowths[0]
+                              ?.risk_free_rate_worst
+                              ? `${companyValuation.DivdiscModelGrowths[0]?.risk_free_rate_worst}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            <input
+                              style={{ width: '50px' }}
+                              type='number'
+                              name='risk_free_rate_man'
+                              onChange={handleManualParamChange}
+                            />
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -960,6 +1095,19 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                             {' '}
                             Worst care
                           </button>
+                          {manualButtonVisible && (
+                            <button
+                              type='button'
+                              onClick={() => setValuationOutputFilter('manual')}
+                              className={`btn ${
+                                valuationOutputFilter === 'manual'
+                                  ? 'btn-info'
+                                  : 'btn-light'
+                              }`}
+                            >
+                              Manual
+                            </button>
+                          )}
                         </div>
                         <div>
                           <small>

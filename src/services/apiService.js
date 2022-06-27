@@ -4,6 +4,7 @@ import {
   MarketbashUrls,
   BASE_URL_V2,
   VALUATION_URL,
+  BASE_URL_V3,
 } from '../config/urls';
 
 export const Services = axios.create({
@@ -33,6 +34,13 @@ export const ServiceV2 = axios.create({
 
 export const ValuationService = axios.create({
   baseURL: VALUATION_URL,
+  headers: {
+    Accept: 'application/json',
+  },
+});
+
+export const ServiceV3 = axios.create({
+  baseURL: BASE_URL_V3,
   headers: {
     Accept: 'application/json',
   },
