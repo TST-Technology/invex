@@ -5,6 +5,14 @@ import {
 } from '../api/MacroEconomicsApi';
 import { allDropdownOptions } from './Data';
 import { CircularProgress } from '@material-ui/core';
+import {
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  LineChart,
+} from 'recharts';
 import MacroImg from '../Common/Images/options-aapl-2.png';
 import moment from 'moment';
 
@@ -45,9 +53,11 @@ const MacroEconomics = () => {
                 setEconomicData(row);
                 const param = {
                   symbol: allDropdownOptions[row?.sub_category][0].label,
-                  range: '3m',
                   category: getCategoryParam(activeTab),
                 };
+                if (!chartParam?.range) {
+                  param.range = '3m';
+                }
                 console.log(param);
                 setChartParam({ ...chartParam, ...param });
                 setHelperText(allDropdownOptions[row?.sub_category][0].value);
@@ -77,7 +87,7 @@ const MacroEconomics = () => {
             return newObj;
           });
           console.log(tempData);
-          setChartData(data.data);
+          setChartData(tempData);
         }
 
         economicData.options.map((row) => {
@@ -318,7 +328,6 @@ const MacroEconomics = () => {
                                       symbol: e.target.value,
                                     });
                                   }}
-                                  // onChange={(e) => setView(e.target.value)}
                                 >
                                   {economicData?.options.map((option, i) => {
                                     return (
@@ -330,11 +339,39 @@ const MacroEconomics = () => {
                                 </select>
                               </div>
                             </div>
-                            <img
-                              src={MacroImg}
-                              alt='chart'
-                              className='img-fluid'
-                            />
+
+                            {chartData &&
+                              Array.isArray(chartData) &&
+                              chartData.length > 0 && (
+                                <ResponsiveContainer
+                                  width='100%'
+                                  aspect={1}
+                                  maxHeight={400}
+                                >
+                                  <LineChart data={chartData} tick={false}>
+                                    <XAxis
+                                      dataKey='date'
+                                      axisLine={false}
+                                      domain={['auto', 'auto']}
+                                      // ticks={ticks}
+                                      tick={{
+                                        fill: '#212121',
+                                        fontSize: '10px',
+                                      }}
+                                    />
+                                    <YAxis
+                                      axisLine={false}
+                                      tick={{
+                                        fill: '#212121',
+                                        fontSize: '10px',
+                                      }}
+                                    />
+                                    <Tooltip />
+
+                                    <Line fill='#7D8EFE' dataKey='val'></Line>
+                                  </LineChart>
+                                </ResponsiveContainer>
+                              )}
 
                             <div className='d-flex justify-content-end mt-4'>
                               <p>*{helperText}</p>
