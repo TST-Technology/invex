@@ -31,15 +31,6 @@ const MacroEconomics = () => {
   }, []);
 
   useEffect(() => {
-    if (macroEconomics) {
-      console.log(typeof macroEconomics);
-      macroEconomics.map((data) => {
-        console.log(data);
-      });
-    }
-  }, [macroEconomics]);
-
-  useEffect(() => {
     if (activeTab) {
       macroEconomics &&
         Object.entries(macroEconomics).map((data, index) => {
@@ -48,7 +39,6 @@ const MacroEconomics = () => {
           if (name === activeTab) {
             values.map((row) => {
               if (row?.sub_category === subActiveTab) {
-                console.log(row);
                 row.options = allDropdownOptions[row?.sub_category];
                 setEconomicData(row);
                 const param = {
@@ -58,7 +48,6 @@ const MacroEconomics = () => {
                 if (!chartParam?.range) {
                   param.range = '3m';
                 }
-                console.log(param);
                 setChartParam({ ...chartParam, ...param });
                 setHelperText(allDropdownOptions[row?.sub_category][0].value);
               }
@@ -69,13 +58,11 @@ const MacroEconomics = () => {
   }, [activeTab, subActiveTab, macroEconomics]);
 
   useEffect(() => {
-    console.log(chartParam);
     (async () => {
       if (chartParam) {
         const param = `?symbol=${chartParam.symbol}&range=${chartParam.range}&category=${chartParam.category}`;
 
         const data = await getMacroEconomicsChartData(param);
-        console.log(data);
         if (data && data.status === 200) {
           const tempData = data.data.map((row) => {
             let newObj = {};
@@ -86,7 +73,6 @@ const MacroEconomics = () => {
             newObj.date = convertedDate;
             return newObj;
           });
-          console.log(tempData);
           setChartData(tempData);
         }
 
@@ -118,7 +104,6 @@ const MacroEconomics = () => {
           tempData[row?.main_category] = temp;
         }
       });
-      console.log(tempData);
       setMacroEconomics(tempData);
     }
     setIsLoading(false);
