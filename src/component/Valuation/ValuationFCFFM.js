@@ -248,7 +248,15 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
         let newObj = {};
         newObj.year = year;
         newObj.data = valuation[key];
-        // year += 1;
+
+        if (key === 'base_year') {
+          newObj.year = 'Base';
+        }
+
+        if (key === 'terminal') {
+          newObj.year = 'Terminal';
+        }
+
         tempArr.push(newObj);
       }
     });
@@ -900,20 +908,26 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                           <td>Target operating margin</td>
                           <td>
                             {companyValuation &&
-                            companyValuation?.pre_tax_debt_cost
-                              ? `${companyValuation?.pre_tax_debt_cost}%`
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.pre_tax_op_margin_best
+                              ? `${companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_best}%`
                               : '-'}
                           </td>
                           <td>
                             {companyValuation &&
-                            companyValuation?.pre_tax_debt_cost
-                              ? `${companyValuation?.pre_tax_debt_cost}%`
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.pre_tax_op_margin_base
+                              ? `${companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_base}%`
                               : '-'}
                           </td>
                           <td>
                             {companyValuation &&
-                            companyValuation?.pre_tax_debt_cost
-                              ? `${companyValuation?.pre_tax_debt_cost}%`
+                            companyValuation.CompanyGrowths[0] &&
+                            companyValuation.CompanyGrowths[0]
+                              ?.pre_tax_op_margin_worst
+                              ? `${companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_worst}%`
                               : '-'}
                           </td>
                           <td>

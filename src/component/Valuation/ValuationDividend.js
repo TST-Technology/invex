@@ -225,6 +225,14 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
         let newObj = {};
         newObj.year = year;
         newObj.data = valuation[key];
+        if (key === 'base_year') {
+          newObj.year = 'Base';
+        }
+
+        if (key === 'terminal') {
+          newObj.year = 'Terminal';
+        }
+
         tempArr.push(newObj);
       }
     });

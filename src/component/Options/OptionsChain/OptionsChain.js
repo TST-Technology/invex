@@ -340,9 +340,9 @@ const OptionsChain = () => {
                           >
                             <b className='text-danger font-lbd'>Puts</b>
                             <span className='font-md font14 float-end'>
-                              <label htmlFor='accounting'>
+                              {/* <label htmlFor='accounting'>
                                 Atribute selectior
-                              </label>
+                              </label> */}
                               <img
                                 style={{ cursor: 'pointer' }}
                                 src={ArrowDownImg}
