@@ -148,6 +148,19 @@ const OptionsChain = () => {
       tempOptions.push({ label: value, value: value });
       console.log(tempOptions);
       setSelectedDatesOption([...tempOptions]);
+    } else {
+      console.log('else');
+      const temp = selectedDates.filter((date) => date !== value);
+      console.log('After =>', temp);
+      // temp.push(value);
+      setSelectedDates([...temp]);
+
+      const tempOptions = selectedDatesOption.filter(
+        (option) => option.value !== value
+      );
+      console.log('After =>', tempOptions);
+      // tempOptions.push({ label: value, value: value });
+      setSelectedDatesOption([...tempOptions]);
     }
   };
 
@@ -257,6 +270,7 @@ const OptionsChain = () => {
                 <Select
                   isMulti
                   defaultValue={selectedDatesOption}
+                  value={selectedDatesOption}
                   name='expDate'
                   options={expDateOption}
                   classNamePrefix='select'
