@@ -26,3 +26,10 @@ export const getOptionsChainData = async (params) => {
   var { data } = await ServiceV2.post(`/option_chain`, params);
   return data;
 };
+
+export const getOptionsChainGraph = async (params) => {
+  var { data } = await ServiceV2.post(`/option_chain_graph`, params);
+  return data;
+};
+
+

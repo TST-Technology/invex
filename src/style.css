@@ -2502,3 +2502,29 @@ div#savescannermodal .btn {
   404 page css end
    ######################
 */
+
+
+/* Begin: Option Chain Page */
+
+.sticky-table-container{
+  height: 50vh;
+  overflow: auto;
+  border-top: 1px solid black;
+}
+
+.sticky-table-container thead tr th{
+  position: sticky;
+  top: 0;
+  background-color: white;
+}
+
+.dialogContent{
+  padding: 20px;
+}
+
+.dialogContent b{
+  display: block;
+  padding-bottom: 30px;
+}
+
+/* End: Option Chain Page */

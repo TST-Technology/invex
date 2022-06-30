@@ -1,13 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, PureComponent } from 'react';
 import { useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { getBookKeyStatus, getCompanyDataBySymbol } from '../../api/commonApi';
 import { getCompanyLogo } from '../../api/company';
-import { getOptionsChainData } from '../../api/Option';
+import { getOptionsChainData, getOptionsChainGraph } from '../../api/Option';
 import { getOneDayBeforeDate } from '../../Common/commonFunctions';
 import CompanyView from '../Quote/CompanyView/CompanyView';
 import ArrowDownImg from '../../Common/Images/arrow-down.svg';
 import { CircularProgress } from '@material-ui/core';
+import Dialog from '@mui/material/Dialog';
+import {
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  LineChart,
+} from 'recharts';
 
 const OptionsChain = () => {
   const { symbol } = useParams();
@@ -23,13 +32,15 @@ const OptionsChain = () => {
   const [selectedColumnOption, setSelectedColumnOption] = useState(null);
   const [logo, setLogo] = useState();
   const [Loading, setLoading] = useState(false);
+  const [isChartDialogVisible, setChartDialogVisible] = useState(false);
+  const [chartData, setChartData] = useState([]);
+  const [isChartLoading, setChartLoading] = useState(false);
 
   const currentDate = getOneDayBeforeDate();
   const excludeColumnList = ['Strike', 'Symbol', 'Change'];
 
   useEffect(() => {
     (async () => {
-      console.log(symbol);
       if (symbol) {
         setLoading(true);
         const param = {
@@ -37,7 +48,6 @@ const OptionsChain = () => {
           symbol: symbol,
         };
         var chainData = await getOptionsChainData(param);
-        console.log(chainData);
         setExpDates(chainData?.exp_date);
         setOptionChainData(chainData?.data);
 
@@ -97,8 +107,6 @@ const OptionsChain = () => {
   useEffect(() => {
     if (optionChainData) {
       const temp = Object.values(optionChainData).map((val) => val);
-
-      console.log(temp);
       const keys = Object.keys(temp[0]).filter((val) => {
         if (firstIsUppercase(val)) {
           if (excludeColumnList.includes(val)) {
@@ -110,7 +118,6 @@ const OptionsChain = () => {
           return false;
         }
       });
-      console.log(keys);
       setColumnList(keys);
 
       const tempList = keys.map((column) => {
@@ -183,6 +190,53 @@ const OptionsChain = () => {
     }
 
     return false;
+  }
+
+  const showOptionSymbolChart = async (symbol) => {
+    if (symbol) {
+      setChartDialogVisible(true);
+      setChartLoading(true);
+      const param = {
+        date: currentDate,
+        option_symbol: symbol,
+      };
+      const data = await getOptionsChainGraph(param);
+
+      if (data && data?.Dates && data?.Dates.length > 0) {
+        const tempChartData = data?.Dates.map((date, index) => {
+          const tempObj = {};
+          tempObj.call = data?.Calls_mid && data?.Calls_mid[index];
+          tempObj.put = data?.Puts_mid && data?.Puts_mid[index];
+          tempObj.date = date;
+          return tempObj;
+        });
+        setChartData(tempChartData);
+      } else {
+        setChartData([]);
+      }
+      setChartLoading(false);
+    }
+  };
+
+  class CustomizedXAxisTick extends PureComponent {
+    render() {
+      const { x, y, stroke, payload } = this.props;
+
+      return (
+        <g transform={`translate(${x},${y})`}>
+          <text
+            x={60}
+            y={2}
+            textAnchor='end'
+            fill='#212121'
+            fontSize={'10px'}
+            transform='rotate(90)'
+          >
+            {payload.value}
+          </text>
+        </g>
+      );
+    }
   }
 
   return (
@@ -302,197 +356,196 @@ const OptionsChain = () => {
 
         {!Loading && optionChainData && (
           <div className='table-responsive mt-4'>
-            <table className='table table-bordered m-0 cmplx-tbl'>
-              {optionChainData &&
-                Object.values(optionChainData).map((row, index) => {
-                  return (
-                    <>
-                      {index === 0 && (
-                        <thead className='border-top-0'>
+            <div className='sticky-table-container'>
+              <table className='table table-bordered m-0 cmplx-tbl'>
+                <thead className='border-top-0'>
+                  <tr>
+                    {/* {columnList.includes('Symbol') && <th>Symbol</th>} */}
+                    {columnList.includes('Last') && <th>Last</th>}
+                    {/* {columnList.includes('Change') && <th>Change</th>} */}
+                    {columnList.includes('Bid') && <th>Bid</th>}
+                    {columnList.includes('Ask') && <th>Ask</th>}
+                    {columnList.includes('Volume') && <th>Volume</th>}
+                    {columnList.includes('OpenInterest') && <th>Open Int</th>}
+                    {columnList.includes('IVMean') && <th>Imp Vol</th>}
+                    {columnList.includes('Delta') && <th>Delta</th>}
+                    {columnList.includes('Theta') && <th>Theta</th>}
+                    <th>Strike</th>
+                    {/* {columnList.includes('Symbol') && <th>Symbol</th>} */}
+                    {columnList.includes('Last') && <th>Last</th>}
+                    {/* {columnList.includes('Change') && <th>Change</th>} */}
+                    {columnList.includes('Bid') && <th>Bid</th>}
+                    {columnList.includes('Ask') && <th>Ask</th>}
+                    {columnList.includes('Volume') && <th>Volume</th>}
+                    {columnList.includes('OpenInterest') && <th>Open Int</th>}
+                    {columnList.includes('IVMean') && <th>Imp Vol</th>}
+                    {columnList.includes('Delta') && <th>Delta</th>}
+                    {columnList.includes('Theta') && <th>Theta</th>}
+                  </tr>
+                </thead>
+                <tbody className='hide border-top-0'>
+                  {optionChainData &&
+                    Object.values(optionChainData).map((row, index) => {
+                      return (
+                        <>
                           <tr>
-                            {/* {columnList.includes('Symbol') && <th>Symbol</th>} */}
-                            {columnList.includes('Last') && <th>Last</th>}
-                            {/* {columnList.includes('Change') && <th>Change</th>} */}
-                            {columnList.includes('Bid') && <th>Bid</th>}
-                            {columnList.includes('Ask') && <th>Ask</th>}
-                            {columnList.includes('Volume') && <th>Volume</th>}
-                            {columnList.includes('OpenInterest') && (
-                              <th>Open Int</th>
-                            )}
-                            {columnList.includes('IVMean') && <th>Imp Vol</th>}
-                            {columnList.includes('Delta') && <th>Delta</th>}
-                            {columnList.includes('Theta') && <th>Theta</th>}
-                            <th>Strike</th>
-                            {/* {columnList.includes('Symbol') && <th>Symbol</th>} */}
-                            {columnList.includes('Last') && <th>Last</th>}
-                            {/* {columnList.includes('Change') && <th>Change</th>} */}
-                            {columnList.includes('Bid') && <th>Bid</th>}
-                            {columnList.includes('Ask') && <th>Ask</th>}
-                            {columnList.includes('Volume') && <th>Volume</th>}
-                            {columnList.includes('OpenInterest') && (
-                              <th>Open Int</th>
-                            )}
-                            {columnList.includes('IVMean') && <th>Imp Vol</th>}
-                            {columnList.includes('Delta') && <th>Delta</th>}
-                            {columnList.includes('Theta') && <th>Theta</th>}
-                          </tr>
-                        </thead>
-                      )}
-
-                      <thead className='labels'>
-                        <tr>
-                          <th
-                            colSpan={columnList.length}
-                            className='text-center'
-                          >
-                            <b className='text-success font-lbd'>Calls</b>
-                          </th>
-                          <th className='text-center'>{expDates[index]}</th>
-                          <th
-                            colSpan={columnList.length}
-                            className='text-center'
-                          >
-                            <b className='text-danger font-lbd'>Puts</b>
-                            <span className='font-md font14 float-end'>
-                              {/* <label htmlFor='accounting'>
+                            <th
+                              colSpan={columnList.length}
+                              className='text-center'
+                            >
+                              <b className='text-success font-lbd'>Calls</b>
+                            </th>
+                            <th className='text-center'>{expDates[index]}</th>
+                            <th
+                              colSpan={columnList.length}
+                              className='text-center'
+                            >
+                              <b className='text-danger font-lbd'>Puts</b>
+                              <span className='font-md font14 float-end'>
+                                {/* <label htmlFor='accounting'>
                                 Atribute selectior
                               </label> */}
-                              <img
-                                style={{ cursor: 'pointer' }}
-                                src={ArrowDownImg}
-                                className='img-fluid'
-                                alt='Toggle'
-                                onClick={() =>
-                                  handleExpandDetails(expDates[index])
-                                }
-                              />
-                            </span>
-                          </th>
-                        </tr>
-                      </thead>
-
-                      <tbody className='hide border-top-0'>
-                        {row &&
-                          row?.Symbol &&
-                          selectedDates.includes(expDates[index]) &&
-                          Object.values(row?.Symbol).map((ele, i) => {
-                            return (
-                              <>
-                                <tr>
-                                  {/* {columnList.includes('Symbol') && (
+                                <img
+                                  style={{ cursor: 'pointer' }}
+                                  src={ArrowDownImg}
+                                  className='img-fluid'
+                                  alt='Toggle'
+                                  onClick={() =>
+                                    handleExpandDetails(expDates[index])
+                                  }
+                                />
+                              </span>
+                            </th>
+                          </tr>
+                          {row &&
+                            row?.Symbol &&
+                            selectedDates.includes(expDates[index]) &&
+                            Object.values(row?.Symbol).map((ele, i) => {
+                              return (
+                                <>
+                                  <tr
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() =>
+                                      showOptionSymbolChart(row?.Symbol[i])
+                                    }
+                                  >
+                                    {/* {columnList.includes('Symbol') && (
                                     <td className='lup'>
                                       {row?.Symbol[i] ? row?.Symbol[i] : '-'}
                                     </td>
                                   )} */}
-                                  {columnList.includes('Last') && (
-                                    <td className='lup'>
-                                      {row?.Last[i] ? row?.Last[i] : '-'}
-                                    </td>
-                                  )}
-                                  {/* {columnList.includes('Change') && (
+                                    {columnList.includes('Last') && (
+                                      <td className='lup'>
+                                        {row?.Last[i] ? row?.Last[i] : '-'}
+                                      </td>
+                                    )}
+                                    {/* {columnList.includes('Change') && (
                                     <td className='lup'>
                                       {row?.Change[i] ? row?.Change[i] : '-'}
                                     </td>
                                   )} */}
-                                  {columnList.includes('Bid') && (
-                                    <td className='lup'>
-                                      {row?.Bid[i] ? row?.Bid[i] : '-'}
+                                    {columnList.includes('Bid') && (
+                                      <td className='lup'>
+                                        {row?.Bid[i] ? row?.Bid[i] : '-'}
+                                      </td>
+                                    )}
+                                    {columnList.includes('Ask') && (
+                                      <td className='lup'>
+                                        {row?.Ask[i] ? row?.Ask[i] : '-'}
+                                      </td>
+                                    )}
+                                    {columnList.includes('Volume') && (
+                                      <td className='lup'>
+                                        {row?.Volume[i] ? row?.Volume[i] : '-'}
+                                      </td>
+                                    )}
+                                    {columnList.includes('OpenInterest') && (
+                                      <td className='lup'>
+                                        {row?.OpenInterest[i]
+                                          ? row?.OpenInterest[i]
+                                          : '-'}
+                                      </td>
+                                    )}
+                                    {columnList.includes('IVMean') && (
+                                      <td className='lup'>
+                                        {row?.IVMean[i]
+                                          ? `${row?.IVMean[i]}%`
+                                          : '-'}
+                                      </td>
+                                    )}
+                                    {columnList.includes('Delta') && (
+                                      <td className='lup'>
+                                        {row?.Delta[i] ? row?.Delta[i] : '-'}
+                                      </td>
+                                    )}
+                                    {columnList.includes('Theta') && (
+                                      <td className='lup'>
+                                        {row?.Theta[i] ? row?.Theta[i] : '-'}
+                                      </td>
+                                    )}
+                                    <td className='text-center'>
+                                      {row?.Strike[i] ? row?.Strike[i] : '-'}
                                     </td>
-                                  )}
-                                  {columnList.includes('Ask') && (
-                                    <td className='lup'>
-                                      {row?.Ask[i] ? row?.Ask[i] : '-'}
-                                    </td>
-                                  )}
-                                  {columnList.includes('Volume') && (
-                                    <td className='lup'>
-                                      {row?.Volume[i] ? row?.Volume[i] : '-'}
-                                    </td>
-                                  )}
-                                  {columnList.includes('OpenInterest') && (
-                                    <td className='lup'>
-                                      {row?.OpenInterest[i]
-                                        ? row?.OpenInterest[i]
-                                        : '-'}
-                                    </td>
-                                  )}
-                                  {columnList.includes('IVMean') && (
-                                    <td className='lup'>
-                                      {row?.IVMean[i]
-                                        ? `${row?.IVMean[i]}%`
-                                        : '-'}
-                                    </td>
-                                  )}
-                                  {columnList.includes('Delta') && (
-                                    <td className='lup'>
-                                      {row?.Delta[i] ? row?.Delta[i] : '-'}
-                                    </td>
-                                  )}
-                                  {columnList.includes('Theta') && (
-                                    <td className='lup'>
-                                      {row?.Theta[i] ? row?.Theta[i] : '-'}
-                                    </td>
-                                  )}
-                                  <td className='text-center'>
-                                    {row?.Strike[i] ? row?.Strike[i] : '-'}
-                                  </td>
-                                  {/* {columnList.includes('Symbol') && (
+                                    {/* {columnList.includes('Symbol') && (
                                     <td>
                                       {row?.symbol[i] ? row?.symbol[i] : '-'}
                                     </td>
                                   )} */}
-                                  {columnList.includes('Last') && (
-                                    <td>{row?.last[i] ? row?.last[i] : '-'}</td>
-                                  )}
-                                  {/* {columnList.includes('Change') && (
+                                    {columnList.includes('Last') && (
+                                      <td>
+                                        {row?.last[i] ? row?.last[i] : '-'}
+                                      </td>
+                                    )}
+                                    {/* {columnList.includes('Change') && (
                                     <td>
                                       {row?.change[i] ? row?.change[i] : '-'}
                                     </td>
                                   )} */}
-                                  {columnList.includes('Bid') && (
-                                    <td>{row?.bid[i] ? row?.bid[i] : '-'}</td>
-                                  )}
-                                  {columnList.includes('Ask') && (
-                                    <td>{row?.ask[i] ? row?.ask[i] : '-'}</td>
-                                  )}
-                                  {columnList.includes('Volume') && (
-                                    <td>
-                                      {row?.volume[i] ? row?.volume[i] : '-'}
-                                    </td>
-                                  )}
-                                  {columnList.includes('OpenInterest') && (
-                                    <td>
-                                      {row?.openInterest[i]
-                                        ? row?.openInterest[i]
-                                        : '-'}
-                                    </td>
-                                  )}
-                                  {columnList.includes('IVMean') && (
-                                    <td>
-                                      {row?.iVMean[i]
-                                        ? `${row?.iVMean[i]}%`
-                                        : '-'}
-                                    </td>
-                                  )}
-                                  {columnList.includes('Delta') && (
-                                    <td>
-                                      {row?.delta[i] ? row?.delta[i] : '-'}
-                                    </td>
-                                  )}
-                                  {columnList.includes('Theta') && (
-                                    <td>
-                                      {row?.theta[i] ? row?.theta[i] : '-'}
-                                    </td>
-                                  )}
-                                </tr>
-                              </>
-                            );
-                          })}
-                      </tbody>
-                    </>
-                  );
-                })}
-            </table>
+                                    {columnList.includes('Bid') && (
+                                      <td>{row?.bid[i] ? row?.bid[i] : '-'}</td>
+                                    )}
+                                    {columnList.includes('Ask') && (
+                                      <td>{row?.ask[i] ? row?.ask[i] : '-'}</td>
+                                    )}
+                                    {columnList.includes('Volume') && (
+                                      <td>
+                                        {row?.volume[i] ? row?.volume[i] : '-'}
+                                      </td>
+                                    )}
+                                    {columnList.includes('OpenInterest') && (
+                                      <td>
+                                        {row?.openInterest[i]
+                                          ? row?.openInterest[i]
+                                          : '-'}
+                                      </td>
+                                    )}
+                                    {columnList.includes('IVMean') && (
+                                      <td>
+                                        {row?.iVMean[i]
+                                          ? `${row?.iVMean[i]}%`
+                                          : '-'}
+                                      </td>
+                                    )}
+                                    {columnList.includes('Delta') && (
+                                      <td>
+                                        {row?.delta[i] ? row?.delta[i] : '-'}
+                                      </td>
+                                    )}
+                                    {columnList.includes('Theta') && (
+                                      <td>
+                                        {row?.theta[i] ? row?.theta[i] : '-'}
+                                      </td>
+                                    )}
+                                  </tr>
+                                </>
+                              );
+                            })}
+                        </>
+                      );
+                    })}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
 
@@ -509,6 +562,62 @@ const OptionsChain = () => {
             <CircularProgress />
           </div>
         )}
+
+        <Dialog
+          open={isChartDialogVisible}
+          onClose={() => setChartDialogVisible(false)}
+          fullWidth={true}
+          maxWidth='md'
+          sx={{ m: 3 }}
+        >
+          {isChartLoading && (
+            <div
+              style={{
+                height: 450,
+                textAlign: 'center',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <CircularProgress />
+            </div>
+          )}
+          {!isChartLoading && (
+            <div className='dialogContent'>
+              <b>MID Chart</b>
+              <ResponsiveContainer width='100%' aspect={1} maxHeight={400}>
+                <LineChart data={chartData} tick={false}>
+                  <XAxis
+                    dataKey='date'
+                    axisLine={false}
+                    domain={['auto', 'auto']}
+                    // ticks={ticks}
+                    tick={{
+                      fill: '#212121',
+                      fontSize: '10px',
+                    }}
+                    // angle={70}
+                    tick={<CustomizedXAxisTick />}
+                    interval={0}
+                    height={80}
+                  />
+                  <YAxis
+                    axisLine={false}
+                    tick={{
+                      fill: '#212121',
+                      fontSize: '10px',
+                    }}
+                  />
+                  <Tooltip />
+
+                  <Line fill='#7D8EFE' dataKey='call'></Line>
+                  <Line fill='#FD8EFE' dataKey='put'></Line>
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          )}
+        </Dialog>
       </div>
     </>
   );
