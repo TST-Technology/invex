@@ -20,6 +20,7 @@ import {
   Legend,
   LabelList,
 } from 'recharts';
+import { CustomizedGrowthRateLabel } from '../Common/Chart/Recharts';
 import moment from 'moment';
 
 const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
@@ -302,7 +303,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
           dominantBaseline='middle'
           fontSize={10}
         >
-          {`$${millionToBillionConvert(value)}`}
+          {value ? `$${millionToBillionConvert(value)}` : ''}
         </text>
       </g>
     );
@@ -322,7 +323,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
           dominantBaseline='middle'
           fontSize={10}
         >
-          {`$${value}`}
+          {value ? `$${value}` : ''}
         </text>
       </g>
     );
@@ -1201,11 +1202,15 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                                           content={renderCustomizedLabel}
                                         />
                                       </Bar>
-
                                       <Line
                                         type='monotone'
-                                        dataKey='data'
+                                        dataKey='data2'
                                         stroke='#4162FE'
+                                        label={
+                                          <CustomizedGrowthRateLabel
+                                            data={revenueGraphData}
+                                          />
+                                        }
                                       />
                                     </ComposedChart>
                                   </ResponsiveContainer>
@@ -1236,7 +1241,6 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                                         dataKey='year'
                                         axisLine={false}
                                         domain={['auto', 'auto']}
-                                        // ticks={ticks}
                                         tick={{
                                           fill: '#212121',
                                           fontSize: '12px',
@@ -1264,8 +1268,13 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
 
                                       <Line
                                         type='monotone'
-                                        dataKey='data'
+                                        dataKey='data2'
                                         stroke='#4162FE'
+                                        label={
+                                          <CustomizedGrowthRateLabel
+                                            data={operatingIncomeData}
+                                          />
+                                        }
                                       />
                                     </ComposedChart>
                                   </ResponsiveContainer>

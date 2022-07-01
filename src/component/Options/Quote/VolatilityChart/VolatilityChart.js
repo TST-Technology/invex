@@ -8,6 +8,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { CircularProgress } from '@material-ui/core';
+import { RemoveDot } from '../../../Common/Chart/Recharts';
 import moment from 'moment';
 
 class CustomizedAxisTick extends PureComponent {
@@ -370,10 +371,20 @@ const VolatilityChart = ({ Options, Loading }) => {
             />
             <Tooltip />
             {/* <Legend /> */}
-            <Line type='monotone' dataKey='percentage' stroke='#8F9DFE' />
+            <Line
+              type='monotone'
+              dataKey='percentage'
+              stroke='#8F9DFE'
+              dot={<RemoveDot />}
+            />
 
             {volume === 'INDEX_CALL_PUT' && (
-              <Line type='monotone' dataKey='put' stroke='#64AA28' />
+              <Line
+                type='monotone'
+                dataKey='put'
+                stroke='#64AA28'
+                dot={<RemoveDot />}
+              />
             )}
             {/* <Line type='monotone' dataKey='uv' stroke='#82ca9d' /> */}
           </LineChart>

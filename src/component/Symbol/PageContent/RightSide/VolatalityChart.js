@@ -10,6 +10,7 @@ import {
 import { CircularProgress } from '@material-ui/core';
 import moment from 'moment';
 import { Link, useSearchParams } from 'react-router-dom';
+import { RemoveDot } from '../../../Common/Chart/Recharts';
 
 class CustomizedAxisTick extends PureComponent {
   render() {
@@ -394,10 +395,20 @@ const VolatalityChart = ({ Options, Loading }) => {
               padding={{ paddingLeft: '20px' }}
             />
             <Tooltip />
-            <Line type='monotone' dataKey='percentage' stroke='#8F9DFE' />
+            <Line
+              type='monotone'
+              dataKey='percentage'
+              stroke='#8F9DFE'
+              dot={<RemoveDot />}
+            />
 
             {volume === 'INDEX_CALL_PUT' && (
-              <Line type='monotone' dataKey='put' stroke='#64AA28' />
+              <Line
+                type='monotone'
+                dataKey='put'
+                stroke='#64AA28'
+                dot={<RemoveDot />}
+              />
             )}
           </LineChart>
         </ResponsiveContainer>

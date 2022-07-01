@@ -13,7 +13,7 @@ import {
   ResponsiveContainer,
   LineChart,
 } from 'recharts';
-import MacroImg from '../Common/Images/options-aapl-2.png';
+import { RemoveDot } from '../Common/Chart/Recharts';
 import moment from 'moment';
 
 const MacroEconomics = () => {
@@ -338,7 +338,6 @@ const MacroEconomics = () => {
                                       dataKey='date'
                                       axisLine={false}
                                       domain={['auto', 'auto']}
-                                      // ticks={ticks}
                                       tick={{
                                         fill: '#212121',
                                         fontSize: '10px',
@@ -353,7 +352,11 @@ const MacroEconomics = () => {
                                     />
                                     <Tooltip />
 
-                                    <Line fill='#7D8EFE' dataKey='val'></Line>
+                                    <Line
+                                      fill='#7D8EFE'
+                                      dataKey='val'
+                                      dot={<RemoveDot />}
+                                    ></Line>
                                   </LineChart>
                                 </ResponsiveContainer>
                               )}

@@ -21,6 +21,7 @@ import {
   LabelList,
   LineChart,
 } from 'recharts';
+import { CustomizedGrowthRateLabel } from '../Common/Chart/Recharts';
 import moment from 'moment';
 
 const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
@@ -1226,8 +1227,13 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
 
                                         <Line
                                           type='monotone'
-                                          dataKey='data'
+                                          dataKey='data2'
                                           stroke='#4162FE'
+                                          label={
+                                            <CustomizedGrowthRateLabel
+                                              data={expectedGrowthRate}
+                                            />
+                                          }
                                         />
                                       </ComposedChart>
                                     </ResponsiveContainer>
@@ -1289,8 +1295,13 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
 
                                       <Line
                                         type='monotone'
-                                        dataKey='data'
+                                        dataKey='data2'
                                         stroke='#4162FE'
+                                        label={
+                                          <CustomizedGrowthRateLabel
+                                            data={payoutRatioGraph}
+                                          />
+                                        }
                                       />
                                     </ComposedChart>
                                   </ResponsiveContainer>

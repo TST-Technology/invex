@@ -17,6 +17,7 @@ import {
   ResponsiveContainer,
   LineChart,
 } from 'recharts';
+import { RemoveDot } from '../../Common/Chart/Recharts';
 
 const OptionsChain = () => {
   const { symbol } = useParams();
@@ -35,6 +36,7 @@ const OptionsChain = () => {
   const [isChartDialogVisible, setChartDialogVisible] = useState(false);
   const [chartData, setChartData] = useState([]);
   const [isChartLoading, setChartLoading] = useState(false);
+  const [isNoChartData, setNoChartData] = useState(false);
 
   const currentDate = getOneDayBeforeDate();
   const excludeColumnList = ['Strike', 'Symbol', 'Change'];
@@ -211,7 +213,9 @@ const OptionsChain = () => {
           return tempObj;
         });
         setChartData(tempChartData);
+        setNoChartData(false);
       } else {
+        setNoChartData(true);
         setChartData([]);
       }
       setChartLoading(false);
@@ -422,8 +426,8 @@ const OptionsChain = () => {
                             selectedDates.includes(expDates[index]) &&
                             Object.values(row?.Symbol).map((ele, i) => {
                               return (
-                                <>
                                   <tr
+                                    key={i}
                                     style={{ cursor: 'pointer' }}
                                     onClick={() =>
                                       showOptionSymbolChart(row?.Symbol[i])
@@ -537,7 +541,6 @@ const OptionsChain = () => {
                                       </td>
                                     )}
                                   </tr>
-                                </>
                               );
                             })}
                         </>
@@ -586,35 +589,50 @@ const OptionsChain = () => {
           {!isChartLoading && (
             <div className='dialogContent'>
               <b>MID Chart</b>
-              <ResponsiveContainer width='100%' aspect={1} maxHeight={400}>
-                <LineChart data={chartData} tick={false}>
-                  <XAxis
-                    dataKey='date'
-                    axisLine={false}
-                    domain={['auto', 'auto']}
-                    // ticks={ticks}
-                    tick={{
-                      fill: '#212121',
-                      fontSize: '10px',
-                    }}
-                    // angle={70}
-                    tick={<CustomizedXAxisTick />}
-                    interval={0}
-                    height={80}
-                  />
-                  <YAxis
-                    axisLine={false}
-                    tick={{
-                      fill: '#212121',
-                      fontSize: '10px',
-                    }}
-                  />
-                  <Tooltip />
+              {isNoChartData && (
+                <div className='height400 d-flex align-items-center justify-content-center'>
+                  <h2>No Data Available.</h2>
+                </div>
+              )}
+              {!isNoChartData && (
+                <ResponsiveContainer width='100%' aspect={1} maxHeight={400}>
+                  <LineChart data={chartData} tick={false}>
+                    <XAxis
+                      dataKey='date'
+                      axisLine={false}
+                      domain={['auto', 'auto']}
+                      // ticks={ticks}
+                      tick={{
+                        fill: '#212121',
+                        fontSize: '10px',
+                      }}
+                      // angle={70}
+                      tick={<CustomizedXAxisTick />}
+                      interval={0}
+                      height={80}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      tick={{
+                        fill: '#212121',
+                        fontSize: '10px',
+                      }}
+                    />
+                    <Tooltip />
 
-                  <Line fill='#7D8EFE' dataKey='call'></Line>
-                  <Line fill='#FD8EFE' dataKey='put'></Line>
-                </LineChart>
-              </ResponsiveContainer>
+                    <Line
+                      fill='#7D8EFE'
+                      dataKey='call'
+                      dot={<RemoveDot />}
+                    ></Line>
+                    <Line
+                      fill='#FD8EFE'
+                      dataKey='put'
+                      dot={<RemoveDot />}
+                    ></Line>
+                  </LineChart>
+                </ResponsiveContainer>
+              )}
             </div>
           )}
         </Dialog>
