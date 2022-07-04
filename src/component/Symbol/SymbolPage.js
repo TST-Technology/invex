@@ -36,6 +36,7 @@ const SymbolPage = (props) => {
         } else {
           setCompany(null);
         }
+        console.log(symbol);
         var res = await getBookKeyStatus(symbol);
         if (res && res?.status === 200) {
           setKeyStatus(res?.data?.quote);

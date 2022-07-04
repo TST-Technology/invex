@@ -1947,7 +1947,8 @@ div#savescannermodal .btn {
 }
 @media (min-width: 1400px){
   .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
-      max-width: 1280px;
+      /* max-width: 1280px; */
+      max-width: 1380px;
   }
 }
 @media (max-width: 1366px){
@@ -2529,6 +2530,74 @@ div#savescannermodal .btn {
 
 .height400 {
   height: 400px;
+}
+
+.option-chain-table .table>:not(:first-child) {
+    border-top: none;
+}
+
+/* .option-chain-table .table tbody tr{
+  border-top: none;
+  border-bottom: none;
+}
+
+.option-chain-table .table thead tr{
+  border-top-color: #D5D5D5;
+} */
+
+.option-chain-table .table tbody td, th{
+  border-left: none;
+  border-right: none;
+}
+
+.option-chain-table .table .border-left-right{
+  border-left: 1px solid #dfdfdf;
+  border-right: 1px solid #dfdfdf;
+}
+
+.option-chain-table .table .border-top-bottom-0{
+  border-top: none;
+  border-bottom: none;
+}
+
+.option-chain-table .table{
+  border: 1px solid #dfdfdf;
+}
+
+.option-chain-table .table thead th{
+  border-top: 1px solid #dfdfdf;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.option-chain-table .table thead tr{
+  border-top: none;
+  border-bottom: none;
+}
+
+.option-chain-table .table tbody td{
+  border-top: 1px solid #dfdfdf;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.option-chain-table .table tbody tr{
+  border-top: none;
+  border-bottom: none;
+}
+
+.option-chain-table .table>:not(:last-child)>:last-child>*{
+  border-color: #dfdfdf;
+}
+
+.border-bottom-0{
+  border-bottom: none
+}
+
+.option-chain-table .table tbody td.bg-green{
+  background-color: #1987541c;
+}
+
+.option-chain-table .table tbody td.bg-red{
+  background-color: #9b0c0c1c;
 }
 
 /* End: Option Chain Page */

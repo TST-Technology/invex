@@ -18,6 +18,7 @@ import {
   LineChart,
 } from 'recharts';
 import { RemoveDot } from '../../Common/Chart/Recharts';
+import moment from 'moment';
 
 const OptionsChain = () => {
   const { symbol } = useParams();
@@ -25,9 +26,9 @@ const OptionsChain = () => {
   const [KeyStatus, setKeyStatus] = useState(null);
   const [optionChainData, setOptionChainData] = useState(null);
   const [expDates, setExpDates] = useState([]);
-  const [expDateOption, setExpDateOption] = useState(null);
-  const [selectedDatesOption, setSelectedDatesOption] = useState(null);
-  const [selectedDates, setSelectedDates] = useState(null);
+  const [expDateOption, setExpDateOption] = useState(null); // option list to load in select library
+  const [selectedDatesOption, setSelectedDatesOption] = useState(null); // list of selected dates in form for {label: "", value: ""}
+  const [selectedDates, setSelectedDates] = useState(null); // list of selected dates values
   const [columnList, setColumnList] = useState(null);
   const [columnOption, setColumnOption] = useState(null);
   const [selectedColumnOption, setSelectedColumnOption] = useState(null);
@@ -39,7 +40,7 @@ const OptionsChain = () => {
   const [isNoChartData, setNoChartData] = useState(false);
 
   const currentDate = getOneDayBeforeDate();
-  const excludeColumnList = ['Strike', 'Symbol', 'Change'];
+  const excludeColumnList = ['Strike', 'Symbol', 'Change', 'Mid', 'Gamma'];
 
   useEffect(() => {
     (async () => {
@@ -83,15 +84,15 @@ const OptionsChain = () => {
     if (expDates) {
       const allDates = expDates.map((exp) => {
         const newObj = {
-          label: exp,
+          label: convertDate(exp),
           value: exp,
         };
         return newObj;
       });
 
       setExpDateOption(allDates);
-      setSelectedDatesOption(allDates);
-      setSelectedDates(expDates);
+      setSelectedDatesOption([allDates[0]]);
+      setSelectedDates([expDates[0]]);
     }
   }, [expDates]);
 
@@ -120,6 +121,7 @@ const OptionsChain = () => {
           return false;
         }
       });
+      console.log('columns =>', keys);
       setColumnList(keys);
 
       const tempList = keys.map((column) => {
@@ -130,6 +132,10 @@ const OptionsChain = () => {
       setSelectedColumnOption(tempList);
     }
   }, [optionChainData]);
+
+  const convertDate = (date) => {
+    return moment(date).format('MMM, DD YY');
+  };
 
   const handleChange = (values) => {
     console.log(values);
@@ -154,7 +160,10 @@ const OptionsChain = () => {
 
       const tempOptions = selectedDatesOption;
       console.log(selectedDatesOption);
-      tempOptions.push({ label: value, value: value });
+      tempOptions.push({
+        label: convertDate(value),
+        value: value,
+      });
       console.log(tempOptions);
       setSelectedDatesOption([...tempOptions]);
     } else {
@@ -359,196 +368,220 @@ const OptionsChain = () => {
         </div>
 
         {!Loading && optionChainData && (
-          <div className='table-responsive mt-4'>
-            <div className='sticky-table-container'>
-              <table className='table table-bordered m-0 cmplx-tbl'>
-                <thead className='border-top-0'>
-                  <tr>
-                    {/* {columnList.includes('Symbol') && <th>Symbol</th>} */}
-                    {columnList.includes('Last') && <th>Last</th>}
-                    {/* {columnList.includes('Change') && <th>Change</th>} */}
-                    {columnList.includes('Bid') && <th>Bid</th>}
-                    {columnList.includes('Ask') && <th>Ask</th>}
-                    {columnList.includes('Volume') && <th>Volume</th>}
-                    {columnList.includes('OpenInterest') && <th>Open Int</th>}
-                    {columnList.includes('IVMean') && <th>Imp Vol</th>}
-                    {columnList.includes('Delta') && <th>Delta</th>}
-                    {columnList.includes('Theta') && <th>Theta</th>}
-                    <th>Strike</th>
-                    {/* {columnList.includes('Symbol') && <th>Symbol</th>} */}
-                    {columnList.includes('Last') && <th>Last</th>}
-                    {/* {columnList.includes('Change') && <th>Change</th>} */}
-                    {columnList.includes('Bid') && <th>Bid</th>}
-                    {columnList.includes('Ask') && <th>Ask</th>}
-                    {columnList.includes('Volume') && <th>Volume</th>}
-                    {columnList.includes('OpenInterest') && <th>Open Int</th>}
-                    {columnList.includes('IVMean') && <th>Imp Vol</th>}
-                    {columnList.includes('Delta') && <th>Delta</th>}
-                    {columnList.includes('Theta') && <th>Theta</th>}
-                  </tr>
-                </thead>
-                <tbody className='hide border-top-0'>
-                  {optionChainData &&
-                    Object.values(optionChainData).map((row, index) => {
-                      return (
-                        <>
-                          <tr>
-                            <th
-                              colSpan={columnList.length}
-                              className='text-center'
-                            >
-                              <b className='text-success font-lbd'>Calls</b>
-                            </th>
-                            <th className='text-center'>{expDates[index]}</th>
-                            <th
-                              colSpan={columnList.length}
-                              className='text-center'
-                            >
-                              <b className='text-danger font-lbd'>Puts</b>
-                              <span className='font-md font14 float-end'>
-                                {/* <label htmlFor='accounting'>
+          <div className='table-responsive mt-4 option-chain-table'>
+            <table className='table table-bordered m-0 cmplx-tbl'>
+              {optionChainData &&
+                Object.values(optionChainData).map((row, index) => {
+                  return (
+                    <>
+                      <thead className='labels'>
+                        <tr>
+                          <th
+                            colSpan={columnList.length}
+                            className='text-center'
+                          >
+                            <b className='text-success font-lbd'>Calls</b>
+                            <span className='font-md font14 float-start'>
+                              {/* <label htmlFor='accounting'>
                                 Atribute selectior
                               </label> */}
-                                <img
-                                  style={{ cursor: 'pointer' }}
-                                  src={ArrowDownImg}
-                                  className='img-fluid'
-                                  alt='Toggle'
-                                  onClick={() =>
-                                    handleExpandDetails(expDates[index])
-                                  }
-                                />
-                              </span>
+                              <img
+                                style={{ cursor: 'pointer' }}
+                                src={ArrowDownImg}
+                                className='img-fluid'
+                                alt='Toggle'
+                                onClick={() =>
+                                  handleExpandDetails(expDates[index])
+                                }
+                              />
+                            </span>
+                          </th>
+                          <th className='text-center border-left-right border-bottom-0'>
+                            {expDates[index]
+                              ? convertDate(expDates[index])
+                              : '-'}
+                          </th>
+                          <th
+                            colSpan={columnList.length}
+                            className='text-center'
+                          >
+                            <b className='text-danger font-lbd'>Puts</b>
+                            <span className='font-md font14 float-end'>
+                              {/* <label htmlFor='accounting'>
+                                Atribute selectior
+                              </label> */}
+                              <img
+                                style={{ cursor: 'pointer' }}
+                                src={ArrowDownImg}
+                                className='img-fluid'
+                                alt='Toggle'
+                                onClick={() =>
+                                  handleExpandDetails(expDates[index])
+                                }
+                              />
+                            </span>
+                          </th>
+                        </tr>
+                      </thead>
+
+                      {/* {index === 0 && ( */}
+                      {selectedDates.includes(expDates[index]) && (
+                        <thead>
+                          <tr>
+                            {/* {columnList.includes('Symbol') && <th>Symbol</th>} */}
+                            {columnList.includes('Last') && <th>Last</th>}
+                            {/* {columnList.includes('Change') && <th>Change</th>} */}
+                            {columnList.includes('Bid') && <th>Bid</th>}
+                            {columnList.includes('Ask') && <th>Ask</th>}
+                            {columnList.includes('Volume') && <th>Volume</th>}
+                            {columnList.includes('OpenInterest') && (
+                              <th>Open Int</th>
+                            )}
+                            {columnList.includes('IVMean') && <th>Imp Vol</th>}
+                            {columnList.includes('Delta') && <th>Delta</th>}
+                            {columnList.includes('Theta') && <th>Theta</th>}
+                            <th className='text-center border-left-right border-top-bottom-0'>
+                              Strike
                             </th>
+                            {/* {columnList.includes('Symbol') && <th>Symbol</th>} */}
+                            {columnList.includes('Last') && <th>Last</th>}
+                            {/* {columnList.includes('Change') && <th>Change</th>} */}
+                            {columnList.includes('Bid') && <th>Bid</th>}
+                            {columnList.includes('Ask') && <th>Ask</th>}
+                            {columnList.includes('Volume') && <th>Volume</th>}
+                            {columnList.includes('OpenInterest') && (
+                              <th>Open Int</th>
+                            )}
+                            {columnList.includes('IVMean') && <th>Imp Vol</th>}
+                            {columnList.includes('Delta') && <th>Delta</th>}
+                            {columnList.includes('Theta') && <th>Theta</th>}
                           </tr>
-                          {row &&
-                            row?.Symbol &&
-                            selectedDates.includes(expDates[index]) &&
-                            Object.values(row?.Symbol).map((ele, i) => {
-                              return (
-                                  <tr
-                                    key={i}
-                                    style={{ cursor: 'pointer' }}
-                                    onClick={() =>
-                                      showOptionSymbolChart(row?.Symbol[i])
-                                    }
-                                  >
-                                    {/* {columnList.includes('Symbol') && (
+                        </thead>
+                      )}
+                      {/* )} */}
+
+                      <tbody className='hide'>
+                        {row &&
+                          row?.Symbol &&
+                          selectedDates.includes(expDates[index]) &&
+                          Object.values(row?.Symbol).map((ele, i) => {
+                            return (
+                              <>
+                                <tr>
+                                  {/* {columnList.includes('Symbol') && (
                                     <td className='lup'>
                                       {row?.Symbol[i] ? row?.Symbol[i] : '-'}
                                     </td>
                                   )} */}
-                                    {columnList.includes('Last') && (
-                                      <td className='lup'>
-                                        {row?.Last[i] ? row?.Last[i] : '-'}
-                                      </td>
-                                    )}
-                                    {/* {columnList.includes('Change') && (
+                                  {columnList.includes('Last') && (
+                                    <td className='lup'>
+                                      {row?.Last[i] ? row?.Last[i] : '-'}
+                                    </td>
+                                  )}
+                                  {/* {columnList.includes('Change') && (
                                     <td className='lup'>
                                       {row?.Change[i] ? row?.Change[i] : '-'}
                                     </td>
                                   )} */}
-                                    {columnList.includes('Bid') && (
-                                      <td className='lup'>
-                                        {row?.Bid[i] ? row?.Bid[i] : '-'}
-                                      </td>
-                                    )}
-                                    {columnList.includes('Ask') && (
-                                      <td className='lup'>
-                                        {row?.Ask[i] ? row?.Ask[i] : '-'}
-                                      </td>
-                                    )}
-                                    {columnList.includes('Volume') && (
-                                      <td className='lup'>
-                                        {row?.Volume[i] ? row?.Volume[i] : '-'}
-                                      </td>
-                                    )}
-                                    {columnList.includes('OpenInterest') && (
-                                      <td className='lup'>
-                                        {row?.OpenInterest[i]
-                                          ? row?.OpenInterest[i]
-                                          : '-'}
-                                      </td>
-                                    )}
-                                    {columnList.includes('IVMean') && (
-                                      <td className='lup'>
-                                        {row?.IVMean[i]
-                                          ? `${row?.IVMean[i]}%`
-                                          : '-'}
-                                      </td>
-                                    )}
-                                    {columnList.includes('Delta') && (
-                                      <td className='lup'>
-                                        {row?.Delta[i] ? row?.Delta[i] : '-'}
-                                      </td>
-                                    )}
-                                    {columnList.includes('Theta') && (
-                                      <td className='lup'>
-                                        {row?.Theta[i] ? row?.Theta[i] : '-'}
-                                      </td>
-                                    )}
-                                    <td className='text-center'>
-                                      {row?.Strike[i] ? row?.Strike[i] : '-'}
+                                  {columnList.includes('Bid') && (
+                                    <td className='lup'>
+                                      {row?.Bid[i] ? row?.Bid[i] : '-'}
                                     </td>
-                                    {/* {columnList.includes('Symbol') && (
+                                  )}
+                                  {columnList.includes('Ask') && (
+                                    <td className='lup'>
+                                      {row?.Ask[i] ? row?.Ask[i] : '-'}
+                                    </td>
+                                  )}
+                                  {columnList.includes('Volume') && (
+                                    <td className='lup'>
+                                      {row?.Volume[i] ? row?.Volume[i] : '-'}
+                                    </td>
+                                  )}
+                                  {columnList.includes('OpenInterest') && (
+                                    <td className='lup'>
+                                      {row?.OpenInterest[i]
+                                        ? row?.OpenInterest[i]
+                                        : '-'}
+                                    </td>
+                                  )}
+                                  {columnList.includes('IVMean') && (
+                                    <td className='lup'>
+                                      {row?.IVMean[i]
+                                        ? `${row?.IVMean[i]}%`
+                                        : '-'}
+                                    </td>
+                                  )}
+                                  {columnList.includes('Delta') && (
+                                    <td className='lup'>
+                                      {row?.Delta[i] ? row?.Delta[i] : '-'}
+                                    </td>
+                                  )}
+                                  {columnList.includes('Theta') && (
+                                    <td className='lup'>
+                                      {row?.Theta[i] ? row?.Theta[i] : '-'}
+                                    </td>
+                                  )}
+                                  <td className='text-center border-left-right border-top-bottom-0'>
+                                    {row?.Strike[i] ? row?.Strike[i] : '-'}
+                                  </td>
+                                  {/* {columnList.includes('Symbol') && (
                                     <td>
                                       {row?.symbol[i] ? row?.symbol[i] : '-'}
                                     </td>
                                   )} */}
-                                    {columnList.includes('Last') && (
-                                      <td>
-                                        {row?.last[i] ? row?.last[i] : '-'}
-                                      </td>
-                                    )}
-                                    {/* {columnList.includes('Change') && (
+                                  {columnList.includes('Last') && (
+                                    <td>{row?.last[i] ? row?.last[i] : '-'}</td>
+                                  )}
+                                  {/* {columnList.includes('Change') && (
                                     <td>
                                       {row?.change[i] ? row?.change[i] : '-'}
                                     </td>
                                   )} */}
-                                    {columnList.includes('Bid') && (
-                                      <td>{row?.bid[i] ? row?.bid[i] : '-'}</td>
-                                    )}
-                                    {columnList.includes('Ask') && (
-                                      <td>{row?.ask[i] ? row?.ask[i] : '-'}</td>
-                                    )}
-                                    {columnList.includes('Volume') && (
-                                      <td>
-                                        {row?.volume[i] ? row?.volume[i] : '-'}
-                                      </td>
-                                    )}
-                                    {columnList.includes('OpenInterest') && (
-                                      <td>
-                                        {row?.openInterest[i]
-                                          ? row?.openInterest[i]
-                                          : '-'}
-                                      </td>
-                                    )}
-                                    {columnList.includes('IVMean') && (
-                                      <td>
-                                        {row?.iVMean[i]
-                                          ? `${row?.iVMean[i]}%`
-                                          : '-'}
-                                      </td>
-                                    )}
-                                    {columnList.includes('Delta') && (
-                                      <td>
-                                        {row?.delta[i] ? row?.delta[i] : '-'}
-                                      </td>
-                                    )}
-                                    {columnList.includes('Theta') && (
-                                      <td>
-                                        {row?.theta[i] ? row?.theta[i] : '-'}
-                                      </td>
-                                    )}
-                                  </tr>
-                              );
-                            })}
-                        </>
-                      );
-                    })}
-                </tbody>
-              </table>
-            </div>
+                                  {columnList.includes('Bid') && (
+                                    <td>{row?.bid[i] ? row?.bid[i] : '-'}</td>
+                                  )}
+                                  {columnList.includes('Ask') && (
+                                    <td>{row?.ask[i] ? row?.ask[i] : '-'}</td>
+                                  )}
+                                  {columnList.includes('Volume') && (
+                                    <td>
+                                      {row?.volume[i] ? row?.volume[i] : '-'}
+                                    </td>
+                                  )}
+                                  {columnList.includes('OpenInterest') && (
+                                    <td>
+                                      {row?.openInterest[i]
+                                        ? row?.openInterest[i]
+                                        : '-'}
+                                    </td>
+                                  )}
+                                  {columnList.includes('IVMean') && (
+                                    <td>
+                                      {row?.iVMean[i]
+                                        ? `${row?.iVMean[i]}%`
+                                        : '-'}
+                                    </td>
+                                  )}
+                                  {columnList.includes('Delta') && (
+                                    <td>
+                                      {row?.delta[i] ? row?.delta[i] : '-'}
+                                    </td>
+                                  )}
+                                  {columnList.includes('Theta') && (
+                                    <td>
+                                      {row?.theta[i] ? row?.theta[i] : '-'}
+                                    </td>
+                                  )}
+                                </tr>
+                              </>
+                            );
+                          })}
+                      </tbody>
+                    </>
+                  );
+                })}
+            </table>
           </div>
         )}
 
@@ -639,6 +672,6 @@ const OptionsChain = () => {
       </div>
     </>
   );
-};
+};;;;;;;;;;
 
 export default OptionsChain;
