@@ -9,3 +9,5 @@ export const VALUATION_URL = 'https://backend.invexwealth.com/';
 
 export const BASE_URL_V3 = 'https://cp3.invexwealth.com';
 
+export const CP1_V2_URL = 'https://cp1.invexwealth.com/api/v2';
+

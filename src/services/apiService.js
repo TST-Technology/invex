@@ -5,6 +5,7 @@ import {
   BASE_URL_V2,
   VALUATION_URL,
   BASE_URL_V3,
+  CP1_V2_URL,
 } from '../config/urls';
 
 export const Services = axios.create({
@@ -41,6 +42,13 @@ export const ValuationService = axios.create({
 
 export const ServiceV3 = axios.create({
   baseURL: BASE_URL_V3,
+  headers: {
+    Accept: 'application/json',
+  },
+});
+
+export const ServiceCP1V2 = axios.create({
+  baseURL: CP1_V2_URL,
   headers: {
     Accept: 'application/json',
   },

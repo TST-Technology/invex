@@ -33,9 +33,32 @@ body a {
   background-color: #332b4b;
   border-color: #332b4b;
 }
+.form-check-input:checked[type=checkbox], 
+.form-check-input {
+  padding: 10px;
+}
+.form-check-input:checked {
+  background-color: #3751fe;
+  border-color: #3751fe;
+}
+.form-check .form-check-input {
+  border-color: #3751fe;
+}
 .bg-base{
   background-color: #332b4b;
   color:#fff;
+}
+.font14{
+  font-size: 14px;
+}
+.font-md{
+  font-weight: 400;
+}
+.font-bd{
+  font-weight: 500;
+}
+.font-lbd{
+  font-weight: 600;
 }
 /* ######################
    Navbar CSS
@@ -185,6 +208,90 @@ body a {
   height: 40px;
   object-fit: cover;
 }
+
+/*new header css start*/
+.laptopNav.light-nav .upperNavbar {
+  background: #fff;
+  border: 1px solid #EFEFEF;
+}
+.laptopNav.light-nav .upperNavbar .search-blk {
+  width: 25%;
+}
+.laptopNav.light-nav .upperNavbar .input-group{
+  background: #F8F8F8;
+}
+.laptopNav.light-nav .upperNavbar .input-group input,
+.laptopNav.light-nav .upperNavbar .input-group input::placeholder {
+  color: #808080;
+}
+.laptopNav.light-nav .upperNavbar .signup-btn{
+  color: #fff;
+  background-color: #332b4b;
+  border: 1px solid #332b4b;
+}
+.laptopNav.light-nav .upperNavbar .login-btn {
+  background: #fff;
+  color: #332b4b !important;
+  border: 1px solid #332b4b;
+}
+.laptopNav.light-nav .upperNavbar .login-btn:hover {
+  background: #332b4b;
+  color: #fff !important;
+}
+.laptopNav.light-nav .upperNavbar .signup-btn:hover {
+  background: #fff;
+  color: #332b4b;
+  border: 1px solid #332b4b;
+}
+.laptopNav.light-nav .mainNavbar .newUser {
+  background: #F8F8F8;
+  color: #0F062B;
+}
+.laptopNav.light-nav {
+  background: #fff;
+  box-shadow: none;
+  border: 1px solid #EFEFEF;
+}
+
+
+/*top marquee css start*/
+.marquee,.marquee2 {
+  position: relative;
+  width: 100vw;
+  max-width: 100%;
+  height: 40px;
+  overflow-x: hidden;
+  margin-top: 110px;
+  background: #F8F8F8;
+  display: flex;
+  align-items: center;
+}
+.marquee2 {
+  margin-top: 0;
+  background: transparent;
+  border-bottom: 1px solid #EFEFEF;
+}
+.track {
+  position: absolute;
+  white-space: nowrap;
+  will-change: transform;
+  animation: marquee 32s linear infinite;
+}
+.marquee .list-inline li,
+.marquee2 .list-inline li {
+  font-size: 14px;
+}
+.marquee2 > span {
+  z-index: 1;
+  padding: 8px 30px 8px 20px;
+  background: linear-gradient(90deg, #ffffff, #ffffffe0);
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+/*top marquee css end*/
+
 
 /*mobile menu css*/
 .phoneNav {
@@ -456,6 +563,7 @@ button.newUser {
 }
 .companyviewblk .chart {
   display: flex;
+  flex-direction: column;
 }
 .companyviewblk .chart .chart-text {
   margin-top: 1rem;
@@ -1242,7 +1350,7 @@ small > .circle {
 .most_tables>:not(caption)>*>*:nth-child(1) {
   text-align: left;
   font-weight: 700;
-  width: 140px;
+  width: 240px;
 }
 .up {
   color: #13A41B;
@@ -1903,9 +2011,201 @@ div#savescannermodal .btn {
   pricing page css end
    ######################
 */
+/* ######################
+  financial statistics page css start
+   ######################
+*/
+.financial_statc .top_market_carousel.owl-carousel .owl-item {
+  width: auto !important;
+}
+.financial_statc .top_carosuel_sec {
+  padding: 0;
+}
+.financial_statc .top_market_carousel.owl-carousel .owl-item .top_button_panel .btn {
+  margin: 7px 0 5px;
+}
+.financial_statc .owl-carousel .owl-nav button.owl-prev {
+  left: -30px;
+  top: 5px;
+}
+.financial_statc .owl-carousel .owl-nav button.owl-prev:after {
+  left: -15px;
+  background: transparent;
+}
+.financial_statc .owl-carousel .owl-nav button.owl-next {
+  right: -30px;
+  top: 5px;
+}
+.financial_statc .owl-carousel .owl-nav button.owl-next:after {
+  background: transparent;
+}
+/* ######################
+  financial statistics page css end
+   ######################
+*/
+
+/* ######################
+  options aapl page css start
+   ######################
+*/
+.normal_table>:not(caption)>*>* {
+  border: 1px solid #c5c5c5;
+  border-bottom: none;
+  text-align: center;
+}
+.normal_table>:not(caption)>*>*:nth-child(1) {
+  width: auto;
+}
+.normal_table thead tr + tr th {
+  text-align: center !important;
+  font-weight: normal !important;
+}
+/* ######################
+  options aapl page css end
+   ######################
+*/
+
+/* ######################
+  symbol page css start
+   ######################
+*/
+.title-lt {
+  font-size: 14px;
+  color: #808080;
+}
+.title-lt + span {
+  margin-bottom: 20px;
+  display: block;
+  color: #212121;
+  font-size: 14px;
+  font-weight: 500;
+}
+/* ######################
+  symbol page css end
+   ######################
+*/
+
+/* ######################
+  404 page css start
+   ######################
+*/
+.main.pagenotfound_sec {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding-top: 120px;
+}
+.pagenotfound .title {
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 20px;
+}
+.pagenotfound p {
+  font-style: normal;
+  font-weight: 400;
+  color: #000;
+  padding: 10px 280px 20px;
+  font-size: 14px;
+}
+.pagenotfound a {
+  font-size: 20px;
+  color: #000;
+  padding: 10px 60px;
+  border: 2px solid #000;
+  border-radius: 10px;
+  font-weight: 600;
+}
+/* ######################
+  404 page css end
+   ######################
+*/
+
+/* ######################
+  option chain page css start
+   ######################
+*/
+td.lup {
+  background: rgb(19 164 27 / 5%);
+}
+.cmplx-tbl thead th {
+  font-weight: 600;
+  font-size: 14px;
+}
+/* ######################
+  option chain page css end
+   ######################
+*/
 
 
 
+
+/*new h*/
+.companyviewblk.v2 .logo .title1 {
+  display: inline-flex;
+  align-items: center;
+}
+.companyviewblk.v2 .logo .title1 {
+  margin-left: 0;
+}
+.companyviewblk.v2 .card-title {
+  margin-right: 10px;
+  margin-bottom: 0;
+}
+.companyviewblk.v2.compny_left_detail .chart .card-text {
+  font-size: 20px;
+  line-height: 30px;
+  margin-right: 10px;
+  padding-left: 10px;
+}
+.companyviewblk.v2.compny_left_detail .chart .chart-text + span {
+  color: #808080;
+  font-size: 12px;
+}
+.companyviewblk.v2.compny_left_detail .chart .chart-text {
+  margin-top: 0;
+}
+.companyviewblk.v2 .realtimeprice {
+  font-size: 12px;
+  color: #d5d5d5;
+}
+.companyviewblk.v2 .sector_industry .badge label {
+  color: #808080;
+}
+
+
+.page_main_tab li button {
+  padding: 5px 10px;
+  font-size: 14px;
+  color: #212121;
+}
+body .page_main_tab li button.active {
+  background: rgba(55, 81, 255, 0.05) !important;
+  color: #3751FF !important;
+  font-weight: 500;
+  border: none;
+  border-radius: 0;
+  border-bottom: 2px solid #3751FF !important;
+}
+
+.top_button_panel.v2 {
+  position: relative;
+  margin: 0;
+  padding-top: 15px;
+  width: 100%;
+  white-space: nowrap;
+  overflow-x: auto;
+  cursor: grab;
+}
+.top_button_panel.v2 .btn {
+  padding: 6px 20px;
+  border-radius: 0;
+  margin-right: 0;
+  margin-bottom: 10px;
+}
+.symfinstatcs.company_details {
+  padding: 50px 0 0;
+}
 
 
 
@@ -1947,8 +2247,7 @@ div#savescannermodal .btn {
 }
 @media (min-width: 1400px){
   .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
-      /* max-width: 1280px; */
-      max-width: 1380px;
+      max-width: 85%;
   }
 }
 @media (max-width: 1366px){
@@ -2317,6 +2616,12 @@ div#savescannermodal .btn {
   .ism_non_manfuc {
     margin-top: 40px;
   }
+  .pagenotfound p {
+    padding: 0;
+  }
+  .main.pagenotfound_sec {
+    padding-top: 0;
+  } 
 }
 
 
@@ -2424,6 +2729,10 @@ div#savescannermodal .btn {
   }
   .ism_non_manfuc {
     margin-top: 40px;
+  }
+
+  .pagenotfound p {
+    padding: 10px 20px 20px;
   }
 }
 
@@ -2601,3 +2910,5 @@ div#savescannermodal .btn {
 }
 
 /* End: Option Chain Page */
+
+@import url("./index.css");
