@@ -2,35 +2,57 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getFinancialStatisticsV2 } from '../api/financialStatistics';
 import { TYPE, PERIOD_FILTER, YEAR_FILTER } from './Data/Constants';
+import CapitalStructure from './Data/CapitalStructure';
 import Navbar from '../Common/Navbar/NewNavbar';
 import Marquee from '../Common/Navbar/Marquee';
 import AppleLogo from '../Common/Images/image1.png';
+import moment from 'moment';
 
 const FinancialStatistics = () => {
   console.log(TYPE);
   const [activeTab, setActiveTab] = useState(TYPE.capitalStructure.value);
-  const [period, setPeriod] = useState(PERIOD_FILTER[0].value);
-  const [view, setView] = useState(YEAR_FILTER[0].value);
-  const [financialStatisticsData, setFinancialStatisticsData] = useState([]);
-
   const { symbol } = useParams();
+  const [filter, setFilter] = useState({
+    period: PERIOD_FILTER[0].value,
+    last: YEAR_FILTER[0].value,
+    symbol: symbol,
+  });
+  const [financialStatisticsData, setFinancialStatisticsData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
       if (symbol) {
-        const param = {
-          symbol: symbol,
-          period: period,
-          last: view,
-        };
-        var res = await getFinancialStatisticsV2(param);
-        if (res && res.status === 200 && res?.data?.length > 0) {
-          console.log(res.data);
-          setFinancialStatisticsData(res?.data);
+        setLoading(true);
+        var res = await getFinancialStatisticsV2(filter);
+        console.log(res);
+        if (res && res.status === 200 && res?.data) {
+          console.log(res?.data);
+          const statistics = res?.data?.data.map((row) => {
+            row.column =
+              filter.period === PERIOD_FILTER[0].value
+                ? moment(row?.date).format('YYYY')
+                : `${row?.period} ${moment(row?.date).format('YYYY')}`;
+            row.year = moment(row?.date).format('YYYY');
+            row.quarter =
+              filter.period === PERIOD_FILTER[0].value
+                ? moment(row?.date).format('YYYY')
+                : row?.period[1];
+            return row;
+          });
+          const ttm = res?.data?.ttmData;
+          ttm.column = 'TTM';
+          statistics.unshift(ttm);
+          statistics.sort(function (a, b) {
+            return b.year - a.year || b.quarter - a.quarter;
+          });
+          console.log(statistics);
+          setFinancialStatisticsData(statistics);
         }
+        setLoading(false);
       }
     })();
-  }, []);
+  }, [filter]);
 
   return (
     <>
@@ -260,7 +282,12 @@ const FinancialStatistics = () => {
                               <select
                                 className='form-select me-3'
                                 aria-label='Default select example'
-                                onChange={(e) => setPeriod(e.target.value)}
+                                onChange={(e) =>
+                                  setFilter({
+                                    ...filter,
+                                    period: e.target.value,
+                                  })
+                                }
                               >
                                 {PERIOD_FILTER.map((period, index) => {
                                   return (
@@ -276,7 +303,12 @@ const FinancialStatistics = () => {
                               <select
                                 className='form-select me-0'
                                 aria-label='Default select example'
-                                onChange={(e) => setView(e.target.value)}
+                                onChange={(e) =>
+                                  setFilter({
+                                    ...filter,
+                                    last: e.target.value,
+                                  })
+                                }
                               >
                                 {YEAR_FILTER.map((year, index) => {
                                   return (
@@ -310,7 +342,7 @@ const FinancialStatistics = () => {
                           })}
                         </div>
                       </div>
-                      <div className='col-lg-12'>
+                      <div className='col-lg-12' style={{ display: 'none' }}>
                         <div className='top_competitors'>
                           <div className='mb-5'>
                             <div className='table-responsive'>
@@ -667,9 +699,16 @@ const FinancialStatistics = () => {
                           </div>
                         </div>
                       </div>
+
+                      {activeTab === TYPE.capitalStructure.value && (
+                        <CapitalStructure
+                          data={financialStatisticsData}
+                          Loading={loading}
+                        />
+                      )}
                     </div>
                   </div>
-                  <div
+                  {/* <div
                     className='tab-pane fade'
                     id='dcfvalue'
                     role='tabpanel'
@@ -732,7 +771,7 @@ const FinancialStatistics = () => {
                     aria-labelledby='chart-tab'
                   >
                     Chart
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
