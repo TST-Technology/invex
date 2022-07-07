@@ -96,17 +96,6 @@ const OptionsChain = () => {
     }
   }, [expDates]);
 
-  // useEffect(() => {
-  //   console.log('columnList =>', columnList);
-  //   if (columnList) {
-  //     const tempList = columnList.map((column) => {
-  //       return { label: column, value: column };
-  //     });
-  //     setColumnOption(tempList);
-  //     setSelectedColumnOption(tempList);
-  //   }
-  // }, [columnList]);
-
   useEffect(() => {
     if (optionChainData) {
       const temp = Object.values(optionChainData).map((val) => val);
@@ -121,7 +110,6 @@ const OptionsChain = () => {
           return false;
         }
       });
-      console.log('columns =>', keys);
       setColumnList(keys);
 
       const tempList = keys.map((column) => {
@@ -138,11 +126,9 @@ const OptionsChain = () => {
   };
 
   const handleChange = (values) => {
-    console.log(values);
     if (values && values.length > 0) {
       setSelectedDatesOption(values);
       const temp = values.map((row) => row.value);
-      console.log(temp);
       setSelectedDates([...temp]);
     } else {
       setSelectedDates([...values]);
@@ -151,33 +137,24 @@ const OptionsChain = () => {
   };
 
   const handleExpandDetails = (value) => {
-    console.log(value);
     if (value && !selectedDates.includes(value)) {
       const temp = selectedDates;
       temp.push(value);
-      console.log(temp);
       setSelectedDates([...temp]);
 
       const tempOptions = selectedDatesOption;
-      console.log(selectedDatesOption);
       tempOptions.push({
         label: convertDate(value),
         value: value,
       });
-      console.log(tempOptions);
       setSelectedDatesOption([...tempOptions]);
     } else {
-      console.log('else');
       const temp = selectedDates.filter((date) => date !== value);
-      console.log('After =>', temp);
-      // temp.push(value);
       setSelectedDates([...temp]);
 
       const tempOptions = selectedDatesOption.filter(
         (option) => option.value !== value
       );
-      console.log('After =>', tempOptions);
-      // tempOptions.push({ label: value, value: value });
       setSelectedDatesOption([...tempOptions]);
     }
   };
@@ -186,7 +163,6 @@ const OptionsChain = () => {
     if (values) {
       setSelectedColumnOption(values);
       const temp = values.map((row) => row.value);
-      console.log(temp);
       setColumnList([...temp]);
     }
   };

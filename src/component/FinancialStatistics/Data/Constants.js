@@ -115,431 +115,342 @@ The percentage of income that an individual or corporation pays in taxes is know
   },
 ];
 
-export const CAPITAL_STRUCTURE_COLUMNS_1 = [
+export const PRICING_COLUMNS = [
   {
-    key: '',
-    label: 'Book Value Per Share',
-    tooltip: `The ratio of equity available to common shareholders divided by the total number of existing shares is known as book value per share (BVPS). This number calculates a company's book value per share and serves as the minimal measure of its equity.`,
+    key: 'enterpriseValueMultiple',
+    label: 'Enterprise Value Multiple',
+    tooltip: `=EntrepriseValue/EBITDA
+In general, this measurement enables investors to evaluate a business using the same criteria as an acquirer. Enterprise value multiple can be used as an approximate estimate of the number of years it would take for an acquisition to generate enough funds to pay its costs (assuming no change in EBITDA).`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'evToFreeCashFlow',
+    label: 'EV To Free Cash Flow',
+    tooltip: `Enterprise Value to Free Cash Flow compares the total valuation of the company with its ability to generate cashflow. The lower the ratio of enterprise value to the free cash flow figures, the faster a company can pay back the cost of its acquisition or generate cash to reinvest in its business.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'evToOperatingCashFlow',
+    label: 'EV To Operating Cash Flow',
+    tooltip: `=EV/OCF`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'evToSales',
+    label: 'EV To Sales',
+    tooltip: `(EV/sales) is a financial metric that assesses the price required to acquire a company's worth in terms of sales. An investment in a firm is more desirable if the EV/sales multiple is lower since the company may be relatively undervalued.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'grahamNumber',
+    label: 'Graham Number',
+    tooltip: `The Graham number (or Benjamin Graham's number) measures a stock's fundamental value by taking into account the company's earnings per share (EPS) and book value per share (BVPS). The Graham number is the upper bound of the price range that a defensive investor should pay for the stock.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'priceEarningsRatio',
+    label: 'Price Earnings Ratio',
+    tooltip: `The price-to-earnings ratio essentially tells investors how much money they need put into a firm in order to get $1 of earnings from that company. Because it demonstrates the price that investors are prepared to pay for every dollar of earnings, the P/E is also sometimes referred to as the price multiple.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'priceEarningsToGrowthRatio',
+    label: 'Price Earnings To Growth Ratio',
+    tooltip: `The PEG ratio is an improvement on the P/E ratio that takes into account the anticipated earnings growth of a firm when determining its present valuation. According to common consensus, if the PEG ratio shows a value of 1, it signifies that the stock's present P/E ratio accurately reflects the stock's expected future growth in profits per share. When the PEG ratio falls below 1, it indicates that EPS growth may be greater than the market's current valuation. The stock price is, in other words, being undervalued. Stocks with high PEG ratios, on the other hand, may be an indication that the company is now overvalued.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'priceToBookRatio',
+    label: 'Price To Book Ratio',
+    tooltip: `The price-to-book value ratio, which is a measure of how much shareholders are paying for a company's net assets and is stated as a multiple (i.e., how many times a company's stock is trading per share compared to a company's book value per share), is one way to do this.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'priceToFreeCashFlowsRatio',
+    label: 'Price To Free Cash Flows Ratio',
+    tooltip: `Price to free cash flow is an equity valuation metric that indicates a company's ability to generate additional revenues. It is calculated by dividing its market capitalization by free cash flow values.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'priceToOperatingCashFlowsRatio',
+    label: 'Price To Operating Cash Flows Ratio',
+    tooltip: `Investors use the price to operating cash flow ratio to assess the shares of a company's investment appeal from a value perspective.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-];
-
-export const CAPITAL_STRUCTURE_COLUMNS_2 = [
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'priceToSalesRatio',
+    label: 'Price To Sales Ratio',
+    tooltip: `The price-to-sales (P/S) ratio is a measure of a company's value that contrasts its stock price with its sales. It serves as a gauge for the worth that the financial markets have assigned to each dollar of a company's sales or revenues.`,
   },
 ];
 
-export const CAPITAL_STRUCTURE_COLUMNS_3 = [
+export const EFFICIENCY_RATIO_COLUMNS = [
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'assetTurnover',
+    label: 'Asset Turnover',
+    tooltip: `=Revenue/Total Average Assets
+The asset turnover ratio is frequently used as a gauge of how effectively a business uses its assets to generate revenue.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'fixedAssetTurnover',
+    label: 'Fixed Asset Turnover',
+    tooltip: `=Revenue/Net PPE
+Calculates the effectiveness of a company's machinery and equipment in generating sales.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'inventoryTurnover',
+    label: 'Inventory Turnover',
+    tooltip: `The inventory turnover ratio calculates how frequently inventory is sold and replaced during a specific time frame. Cost of Goods Sold divided by Average Inventory is the inventory turnover ratio.
+Comments above copied from original document`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'payablesTurnover',
+    label: 'Payables Turnover',
+    tooltip: `The accounts payable turnover ratio shows investors how many times per period a company pays its accounts payable. In other words, the ratio measures the speed at which a company pays its suppliers. Accounts payable is listed on the balance sheet under current liabilities.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'receivablesTurnover',
+    label: 'Receivables Turnover',
+    tooltip: `Receivables turnover ratio is the name of an accounting metric that measures how well a business collects its accounts receivable. This ratio assesses the efficiency with which a business uses and manages the credit it lends to consumers, as well as the speed at which short-term debt is collected or paid.`,
   },
 ];
 
-export const CAPITAL_STRUCTURE_COLUMNS_4 = [
+export const RETURN_COLUMNS = [
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'returnOnAssets',
+    label: 'Return On Assets',
+    tooltip: `=Net Income/Average Total Assets
+Return on assets (ROA) is the name of a financial ratio that describes how profitable a business is in comparison to its total assets.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'returnOnCapitalEmployed',
+    label: 'Return On Capital Employed',
+    tooltip: `ROCE shows to investors how much profit each dollar of invested capital produces.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'returnOnEquity',
+    label: 'Return On Equity',
+    tooltip: `Return on equity (ROE) is the measure of a company's net income divided by its shareholders' equity. ROE is a gauge of a corporation's profitability and how efficiently it generates those profits.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'returnOnTangibleAssets',
+    label: 'Return On Tangible Assets',
+    tooltip: `Return-on-Tangible-Asset is calculated as Net Income divided by its average total tangible assets. Total tangible assets equals to Total Assets minus Intangible Assets.`,
   },
 ];
 
-export const CAPITAL_STRUCTURE_COLUMNS_5 = [
+export const MARGIN_COLUMNS = [
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'ebtPerEbit',
+    label: 'EBT Per Ebit',
+    tooltip: `=EBT/EBIT`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'grossProfitMargin',
+    label: 'Gross Profit Margin',
+    tooltip: `=Gross Profit/Revenue
+It can be thought of as the remaining revenue from sales after all direct expenses for producing the product have been covered.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'netIncomePerEBT',
+    label: 'Net Income Per EBT',
+    tooltip: `=Net Income/EBT`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'netProfitMargin',
+    label: 'Net Profit Margin',
+    tooltip: `=Net Income/Revenue
+Profit margin, which is calculated by dividing income by revenues, effectively measures how profitable a firm or business activity is. Profit margin, expressed as a percentage, shows how many cents of profit were made for every dollar of sales.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'operatingProfitMargin',
+    label: 'Operating Profit Margin',
+    tooltip: `=Operating Income(EBIT)/Revenue
+The operating margin measures how much profit a company makes on a dollar of sales after paying for variable costs of production, such as wages and raw materials, but before paying interest or tax.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'pretaxProfitMargin',
+    label: 'Pretax Profit Margin',
+    tooltip: `=Income Before Tax/Revenue`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'researchAndDdevelopementToRevenue',
+    label: 'Research And Development To Revenue',
+    tooltip: `=R&D Expense/Revenue
+It represents what part of it's sales a company spends in Research & Development.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'salesGeneralAndAdministrativeToRevenue',
+    label: 'Sales General And Administrative To Revenue',
+    tooltip: `=SG&A Expense/Revenue`,
   },
 ];
 
-export const CAPITAL_STRUCTURE_COLUMNS_6 = [
+export const LEVERAGE_RATIO_COLUMNS = [
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'cashFlowCoverageRatios',
+    label: 'Cash Flow Coverage Ratios',
+    tooltip: `=Operating Cash Flow/Total Debt
+The cash flow coverage ratio is a financial metric that calculates the amount of cash flow generated by the company from its main operations available to cover debt payments.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'debtEquityRatio',
+    label: 'Debt Equity Ratio',
+    tooltip: `=Total Debt/Total Equity
+The debt-to-equity (D/E) ratio assesses how much leverage a company is using by comparing its total liabilities to shareholder equity. A corporation or stock with a higher leverage ratio typically poses a greater risk to shareholders.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'debtToAssets',
+    label: 'Debt To Assets',
+    tooltip: `=Total Debt/Total Assets
+A debt ratio calculates a company's leverage by comparing its total debt to its total assets. Since this ratio varies greatly between industries, capital-intensive enterprises typically have significantly larger debt ratios than other types of businesses.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'interestCoverage',
+    label: 'Interest Coverage',
+    tooltip: `=EBIT/Interest Expense
+The interest coverage ratio is a debt and profitability ratio used to determine how easily a company can pay interest on its outstanding debt.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'interestDebtPerShare',
+    label: 'Interest Debt Per Share',
+    tooltip: `=(debt + shortTermdebt + interestExpense)/
+shareNumber`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'longTermDebtToCapitalization',
+    label: 'Long Term Debt To Capitalization',
+    tooltip: `=LongTermDebt/(LongTermDebt+ ShareholdersEquity)`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'netDebtToEBITDA',
+    label: 'Net Debt To EBITDA',
+    tooltip: `=(totalDebt - cashAndCashEquivalents)/
+ebitda`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'shortTermCoverageRatios',
+    label: 'Short Term Coverage Ratios',
+    tooltip: `=OperatingCashFlow/ShortTermDebt
+The short-term debt coverage ratio evaluates a company's operating cash flow against the total of its short-term debt and the current component of its long-term debt.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-];
-
-export const CAPITAL_STRUCTURE_COLUMNS_7 = [
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
-  },
-  {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'totalDebtToCapitalization',
+    label: 'Total Debt To Capitalization',
+    tooltip: `=TotalDebt/(TotalDebt+ShareholdersEquity)
+The capitalization ratio explains to investors how much debt a company is employing to finance its operations and expansion plans.`,
   },
 ];
 
-export const CAPITAL_STRUCTURE_COLUMNS_8 = [
+export const LIQUIDITY_RATIO_COLUMNS = [
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'cashConversionCycle',
+    label: 'Cash Conversion Cycle (CCC)',
+    tooltip: `=DSO+DIO-DPO
+The cash conversion cycle show the number of days it takes for a company to convert its inventory and other resources into revenue.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'cashPerShare',
+    label: 'Cash Per Share',
+    tooltip: `=Total Cash/Shares Outstanding`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'cashRatio',
+    label: 'Cash Ratio',
+    tooltip: `=cashAndCashEquivalents/
+totalCurrentLiabilities
+The cash ratio is practically a predictor of a company's value in the worst-case situation where the business is likely to fail.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'currentRatio',
+    label: 'Current Ratio',
+    tooltip: `=CurrentAssets/CurrentLiabilities
+The current ratio is a liquidity ratio that assesses a company's capacity to meet short-term financial commitments with a one-year maturity.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'daysOfInventoryOutstanding',
+    label: 'Days Of Inventory Outstanding (DIO)',
+    tooltip: `=[(Inventories(start)+Inventories(end))/2]/(COGS/365)
+The days in inventory ratio shows how quickly, in days, a company is converting its inventory into revenue.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'daysOfPayablesOutstanding',
+    label: 'Days Of Payables Outstanding (DPO)',
+    tooltip: `=[(AccountsPayable(start)+AccountsPayable(end))/2]/(COGS/365)
+Days in accounts payable shows the average number of days it takes a company to pay its bills.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'daysOfSalesOutstanding',
+    label: 'Days Of Sales Outstanding (DSO)',
+    tooltip: `=[(AccountReceivable(start)+AccountReceivable(end))/2]/(revenue/365)
+Days in sales outstanding shows the average number of days it takes a compnay to collect payment after a sale has been made.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'operatingCycle',
+    label: 'Operating Cycle (OC)',
+    tooltip: `=DSO+DIO
+An operating cycle (OC) is the period of time needed for a company to receive goods, sell that inventory, and get paid for the sale of that inventory. This cycle plays a major role in determining the efficiency of a business.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'quickRatio',
+    label: 'Quick Ratio',
+    tooltip: `=(cashAndCashEquivalents + shortTermInvestments + accountReceivables)/totalCurrentLiabilities
+Since inventory and other current assets, which are typically more challenging to convert into cash, are not included, the quick ratio is more cautious than the current ratio. A current position with a greater quick ratio is one that is more liquid.`,
+  },
+];
+
+export const EARNING_DIVIDEND_COLUMNS = [
+  {
+    key: 'dividendPaidAndCapexCoverageRatio',
+    label: 'Dividend Paid And Capex Coverage Ratio',
+    tooltip: `=operatingCashFlow/(capex + dividendPaid)
+Comparing the total of a company's capital expenditures and cash dividends to its operational cash flow is a demanding criterion that puts cash flow to the ultimate test for conservative investors concerned with cash flow coverage. A business is creating what could be referred to as "free cash flow on steroids" if it is able to cover both of these expenditures from internal resources and still have money left over. This situation has excellent investing qualities.`,
   },
   {
-    key: '',
-    label: '',
-    tooltip: ``,
+    key: 'dividendPayoutRatio',
+    label: 'Dividend Payout Ratio',
+    tooltip: `=dividendPaid/netIncome
+The dividend payout ratio is an indicator of how well earnings support the dividend payment.`,
+  },
+  {
+    key: 'dividendYield',
+    label: 'Dividend Yield',
+    tooltip: `=(dividendPaid / shareNumber)/price
+While growth investors are less interested in dividends and would rather realise significant capital gains, income investors favour a stock that pays dividends. Whatever your preferred method of investing, the long-term performance of dividend-paying stocks has consistently outperformed non-paying-dividend equities.`,
+  },
+  {
+    key: 'earningsYield',
+    label: 'Earnings Yield',
+    tooltip: `Earnings Yield = EPS / Price = 1 / (P/E Ratio), expressed as a percentage.`,
+  },
+  {
+    key: 'netIncomePerShare',
+    label: 'Net Income Per Share',
+    tooltip: `=Net Income/Shares Outstanding`,
+  },
+];
+
+export const CASH_FLOW_RATIO_COLUMNS = [
+  {
+    key: 'freeCashFlowOperatingCashFlowRatio',
+    label: 'Free Cash Flow Operating Cash Flow Ratio',
+    tooltip: `=freeCashFlow/operatingCashFlow
+The financial strength of a corporation is inversely correlated with the amount of free cash flow embedded in operating cash flow.`,
+  },
+  {
+    key: 'freeCashFlowPerShare',
+    label: 'Free Cash Flow Per Share',
+    tooltip: `=FCF/Shares Outstanding`,
+  },
+  {
+    key: 'freeCashFlowYield',
+    label: 'Free Cash Flow Yield',
+    tooltip: `=freeCashFlow/marketCap`,
+  },
+  {
+    key: 'incomeQuality',
+    label: 'Income Quality',
+    tooltip: `=operatingCashFlow/netIncome`,
+  },
+  {
+    key: 'operatingCashFlowPerShare',
+    label: 'Operating Cash Flow Per Share',
+    tooltip: `=OCF/Shares Outstanding`,
+  },
+  {
+    key: 'operatingCashFlowSalesRatio',
+    label: 'Operating Cash Flow Sales Ratio',
+    tooltip: `=operatingCashFlow/revenue
+It gives investors a sense of the business's capacity to generate revenue.`,
   },
 ];
