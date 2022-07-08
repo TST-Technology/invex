@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import abbreviateNumber from '../../Common/NumberFormat';
 import CustomChart from '../../Graph/CustomChart';
+import { convertCamelCaseToSpaceSeparatedString } from '../../Common/commonFunctions';
 import { CircularProgress } from '@material-ui/core';
 
 const FinancialStatisticsGenerator = ({ data, Loading, columnList }) => {
@@ -13,8 +14,10 @@ const FinancialStatisticsGenerator = ({ data, Loading, columnList }) => {
     if (data && data.length > 0) {
       const finalData = columnList.map((columns) => {
         let newObj = {};
-        newObj.tooltip = columns.tooltip;
-        newObj.heading = columns.label;
+        if (columns && columns?.tooltip) {
+          newObj.tooltip = columns.tooltip;
+        }
+        newObj.heading = convertCamelCaseToSpaceSeparatedString(columns.key);
         data?.map((row, index) => {
           newObj[`col${index}`] = row[columns.key];
         });
@@ -100,7 +103,7 @@ const FinancialStatisticsGenerator = ({ data, Loading, columnList }) => {
                   <thead>
                     <tr>
                       <th scope='col'>-</th>
-                      <th scope='col'>Historical Visualisation</th>
+                      <th scope='col'>Historical Visualization</th>
                       {data &&
                         data.map((row, index) => {
                           return (

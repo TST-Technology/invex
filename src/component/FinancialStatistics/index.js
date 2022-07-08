@@ -16,9 +16,6 @@ import {
   CASH_FLOW_RATIO_COLUMNS,
 } from './Data/Constants';
 import FinancialStatisticsGenerator from './Data/FinancialStatisticsGenerator';
-import Navbar from '../Common/Navbar/NewNavbar';
-import Marquee from '../Common/Navbar/Marquee';
-import CompanyDetailNew from '../Symbol/CompanyDetails/CompanyDetailNew';
 import moment from 'moment';
 
 const FinancialStatistics = () => {
@@ -100,156 +97,6 @@ const FinancialStatistics = () => {
 
   return (
     <>
-      <Navbar />
-
-      <Marquee />
-
-      {/* mainpage content start */}
-      {/* <div className='main'>
-        <section className='company_details symfinstatcs'>
-          <div className='container'>
-            <div className='row'>
-              <CompanyDetailNew />
-              <div className='col-lg-12'>
-                <ul
-                  className='nav nav-tabs page_main_tab'
-                  id='myTab'
-                  role='tablist'
-                >
-                  <li className='nav-item' role='presentation'>
-                    <button
-                      className='nav-link active'
-                      id='synopsis-tab'
-                      data-bs-toggle='tab'
-                      data-bs-target='#synopsis'
-                      type='button'
-                      role='tab'
-                      aria-controls='synopsis'
-                      aria-selected='true'
-                    >
-                      Synopsis
-                    </button>
-                  </li>
-                  <li className='nav-item' role='presentation'>
-                    <button
-                      className='nav-link'
-                      id='dcfvalue-tab'
-                      data-bs-toggle='tab'
-                      data-bs-target='#dcfvalue'
-                      type='button'
-                      role='tab'
-                      aria-controls='dcfvalue'
-                      aria-selected='false'
-                    >
-                      DCF Valuation
-                    </button>
-                  </li>
-                  <li className='nav-item' role='presentation'>
-                    <button
-                      className='nav-link'
-                      id='relativevalue-tab'
-                      data-bs-toggle='tab'
-                      data-bs-target='#relativevalue'
-                      type='button'
-                      role='tab'
-                      aria-controls='relativevalue'
-                      aria-selected='false'
-                    >
-                      Relative Valuation
-                    </button>
-                  </li>
-                  <li className='nav-item' role='presentation'>
-                    <button
-                      className='nav-link'
-                      id='optionanalys-tab'
-                      data-bs-toggle='tab'
-                      data-bs-target='#optionanalys'
-                      type='button'
-                      role='tab'
-                      aria-controls='optionanalys'
-                      aria-selected='false'
-                    >
-                      Option Analysis
-                    </button>
-                  </li>
-                  <li className='nav-item' role='presentation'>
-                    <button
-                      className='nav-link'
-                      id='finansttics-tab'
-                      data-bs-toggle='tab'
-                      data-bs-target='#finansttics'
-                      type='button'
-                      role='tab'
-                      aria-controls='finansttics'
-                      aria-selected='false'
-                    >
-                      Financial Statistics
-                    </button>
-                  </li>
-                  <li className='nav-item' role='presentation'>
-                    <button
-                      className='nav-link'
-                      id='finansttment-tab'
-                      data-bs-toggle='tab'
-                      data-bs-target='#finansttment'
-                      type='button'
-                      role='tab'
-                      aria-controls='finansttment'
-                      aria-selected='false'
-                    >
-                      Financial Statements
-                    </button>
-                  </li>
-                  <li className='nav-item' role='presentation'>
-                    <button
-                      className='nav-link'
-                      id='techanyls-tab'
-                      data-bs-toggle='tab'
-                      data-bs-target='#techanyls'
-                      type='button'
-                      role='tab'
-                      aria-controls='techanyls'
-                      aria-selected='false'
-                    >
-                      Technical Analysis
-                    </button>
-                  </li>
-                  <li className='nav-item' role='presentation'>
-                    <button
-                      className='nav-link'
-                      id='secfiling-tab'
-                      data-bs-toggle='tab'
-                      data-bs-target='#secfiling'
-                      type='button'
-                      role='tab'
-                      aria-controls='secfiling'
-                      aria-selected='false'
-                    >
-                      SEC Filings
-                    </button>
-                  </li>
-                  <li className='nav-item' role='presentation'>
-                    <button
-                      className='nav-link'
-                      id='chart-tab'
-                      data-bs-toggle='tab'
-                      data-bs-target='#chart'
-                      type='button'
-                      role='tab'
-                      aria-controls='chart'
-                      aria-selected='false'
-                    >
-                      SEC Filings
-                    </button>
-                  </li>
-                </ul>
-                <div className='tab-content' id='myTabContent'>
-                  <div
-                    className='tab-pane fade show active'
-                    id='synopsis'
-                    role='tabpanel'
-                    aria-labelledby='synopsis-tab'
-                  > */}
       <div className='row'>
         <div className='col-lg-12'>
           <div className='d-flex align-items-center justify-content-between mt-5'>
@@ -262,9 +109,7 @@ const FinancialStatistics = () => {
               action
             >
               <div className='d-lg-inline-flex d-md-flex align-items-center float-start'>
-                <label htmlFor className='me-3 font-bd'>
-                  Period
-                </label>
+                <label className='me-3 font-bd'>Period</label>
                 <select
                   className='form-select me-3'
                   aria-label='Default select example'
@@ -283,9 +128,7 @@ const FinancialStatistics = () => {
                     );
                   })}
                 </select>
-                <label htmlFor className='me-3 font-bd'>
-                  View
-                </label>
+                <label className='me-3 font-bd'>View</label>
                 <select
                   className='form-select me-0'
                   aria-label='Default select example'
@@ -333,14 +176,6 @@ const FinancialStatistics = () => {
           columnList={columnList}
         />
       </div>
-      {/* </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div> */}
-      {/* mainpage content end */}
     </>
   );
 };

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import FinancialStatistics from '../FinancialStatistics';
 import Financials from '../Financials';
 import CompanyDetailNew from './CompanyDetails/CompanyDetailNew';
+import Navbar from '../Common/Navbar/NewNavbar';
+import Marquee from '../Common/Navbar/Marquee';
 import { TYPE } from './Constants';
 
 const SymbolDetails = () => {
@@ -9,6 +11,9 @@ const SymbolDetails = () => {
 
   return (
     <>
+      <Navbar />
+
+      <Marquee />
       {/* mainpage content start */}
       <div className='main'>
         <section className='company_details symfinstatcs'>

@@ -51,6 +51,16 @@ const millionToBillionConvert = (number) => {
   return number ? `${(number / 1000).toFixed(2)} B` : '-';
 };
 
+const convertCamelCaseToSpaceSeparatedString = (text) => {
+  if (text) {
+    const result = text.replace(/([A-Z])/g, ' $1');
+    const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
+    return finalResult;
+  } else {
+    return '';
+  }
+};
+
 export {
   getCurrentDate,
   getOneDayBeforeDate,
@@ -60,4 +70,5 @@ export {
   replaceEmptyWithPostFix,
   replaceEmptyWithPreFix,
   replaceEmptyWithNumberPreFix,
+  convertCamelCaseToSpaceSeparatedString,
 };

@@ -454,3 +454,5 @@ The financial strength of a corporation is inversely correlated with the amount 
 It gives investors a sense of the business's capacity to generate revenue.`,
   },
 ];
+
+
