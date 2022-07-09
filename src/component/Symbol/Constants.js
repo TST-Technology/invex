@@ -40,3 +40,14 @@ export const TYPE = {
     value: 'INDUSTRY',
   },
 };
+
+export const TOP_COMPETITOR_COLUMNS = [
+  'Company',
+  'Price',
+  'Market Cap',
+  'Beta',
+  'PE Ratio',
+  'EPS (TTM)',
+  'YTD Change',
+  '52 Week Change',
+];

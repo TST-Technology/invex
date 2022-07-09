@@ -5,6 +5,7 @@ import CompanyDetailNew from './CompanyDetails/CompanyDetailNew';
 import Navbar from '../Common/Navbar/NewNavbar';
 import Marquee from '../Common/Navbar/Marquee';
 import { TYPE } from './Constants';
+import Synopsis from './Synopsis/Synopsis';
 
 const SymbolDetails = () => {
   const [activeTab, setActiveTab] = useState(TYPE.financialStatistics.value);
@@ -44,6 +45,8 @@ const SymbolDetails = () => {
                 </ul>
                 <div className='tab-content' id='myTabContent'>
                   <div className='tab-pane fade show active'>
+                    {activeTab === TYPE.synopsis.value && <Synopsis />}
+
                     {activeTab === TYPE.financialStatistics.value && (
                       <FinancialStatistics />
                     )}
