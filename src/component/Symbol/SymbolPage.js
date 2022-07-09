@@ -11,6 +11,7 @@ import CompetitorsNews from './CompetitorsAndNews/CompetitorsNews'
 import { getSectorAndIndustryBySymbol } from '../api/sectors';
 import { getVolatality } from '../api/Option';
 import { getCompanyLogo } from '../api/company';
+import { getOneDayBeforeDate } from '../Common/commonFunctions';
 
 const SymbolPage = (props) => {
   const [params] = useSearchParams();
@@ -22,8 +23,7 @@ const SymbolPage = (props) => {
   const [sector, setSector] = useState(null);
   const [Options, setOptions] = useState({});
   const [logo, setLogo] = useState();
-  const date = '2022/05/11';
-  // const date = moment(new Date()).format('YYYY/MM/DD');
+  const date = getOneDayBeforeDate();
 
   useEffect(() => {
     (async () => {

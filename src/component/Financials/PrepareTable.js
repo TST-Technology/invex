@@ -38,8 +38,8 @@ const PrepareTable = ({ colData, data, onChange, headingName = '-' }) => {
                         />
                       </div>
                     </td>
-                    {data &&
-                      data.map((value, i) => {
+                    {colData &&
+                      colData.map((value, i) => {
                         return (
                           <td key={i}>{abbreviateNumber(row[`col${i}`])}</td>
                         );

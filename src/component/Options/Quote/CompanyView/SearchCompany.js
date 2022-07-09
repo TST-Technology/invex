@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 const SearchCompany = () => {
   const [SearchResult, setSearchResult] = useState(null);
   const [navbarSearch, setNavbarSearch] = useState(null);
-  const [date, setdate] = useState('2022/05/11');
   const navigate = useNavigate();
   const handleSearch = async (val) => {
     try {
@@ -22,7 +21,6 @@ const SearchCompany = () => {
     }
   };
   const handleClick = (url) => {
-    console.log(url);
     if (url) {
       navigate(url);
       setSearchResult(null);

@@ -69,10 +69,7 @@ const BalanceSheet = ({ data }) => {
   };
 
   const findChartData = (key) => {
-    console.log('key=>', key);
-
     const data = tableData.find((value) => {
-      console.log(value.key);
       return value.key === key;
     });
     if (data) {
@@ -86,11 +83,9 @@ const BalanceSheet = ({ data }) => {
     setDataSets(
       checkedValues &&
         checkedValues.map((index) => {
-          console.log(index);
           const row = Object.values(findChartData(index));
-
           return {
-            label: row[2],
+            label: row[1],
             data: row.slice(1, row.length).reverse(),
             borderColor:
               'rgb(' +
@@ -134,7 +129,7 @@ const BalanceSheet = ({ data }) => {
     <>
       <div className='col-lg-12'>
         <div className='top_competitors'>
-          <h3>Total Current Assets</h3>
+          <h5 className='mb-3'>Total Current Assets</h5>
           <PrepareTable
             data={currentAsset}
             headingName='Current Assets'
@@ -149,6 +144,8 @@ const BalanceSheet = ({ data }) => {
             colData={data}
           />
 
+          <h5 className='mb-3'>LIABILITIES</h5>
+
           <PrepareTable
             data={currentLiabilities}
             headingName='Current Liabilities'
@@ -162,6 +159,8 @@ const BalanceSheet = ({ data }) => {
             onChange={onChange}
             colData={data}
           />
+
+          <h5 className='mb-3'>SHAREHOLDER'S EQUITY</h5>
 
           <PrepareTable
             data={shareholdersEquity}

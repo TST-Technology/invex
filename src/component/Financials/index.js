@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import BalanceSheet from './BalanceSheet'
 import FinancialStatisticsGenerator from '../FinancialStatistics/Data/FinancialStatisticsGenerator';
-import IncomeStatement from './IncomeStatement';
 import { INCOME_STATEMENT_COLUMNS } from './Constants';
 import {
   getBalanceSheetV2,
@@ -16,6 +15,7 @@ import { TYPE } from './Constants';
 import { CircularProgress } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
+import CashFlow from './CashFlow';
 
 const Financials = () => {
   const [activeTab, setActiveTab] = useState(TYPE.balanceSheet.value);
@@ -36,17 +36,14 @@ const Financials = () => {
         switch (activeTab) {
           case TYPE.balanceSheet.value:
             res = await getBalanceSheetV2(filter);
-            console.log(res);
             break;
 
           case TYPE.incomeStatement.value:
             res = await getIncomeStatementsV2(filter);
-            console.log(res);
             break;
 
           case TYPE.cashFlow.value:
             res = await getCashFlowV2(filter);
-            console.log(res);
             break;
         }
 
@@ -71,7 +68,6 @@ const Financials = () => {
           commonData.sort(function (a, b) {
             return b.year - a.year || b.quarter - a.quarter;
           });
-          console.log(commonData);
           setData(commonData);
         }
         setLoading(false);
@@ -177,6 +173,10 @@ const Financials = () => {
           Loading={loading}
           columnList={INCOME_STATEMENT_COLUMNS}
         />
+      )}
+
+      {!loading && activeTab && activeTab === TYPE.cashFlow.value && (
+        <CashFlow data={data} />
       )}
     </div>
   );

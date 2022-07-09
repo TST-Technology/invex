@@ -1,9 +1,15 @@
 import { Services, ServiceV2 } from '../../services/apiService';
 
 export const getVolatality = async (symbol, date) => {
-  var { data } = await Services.get(
-    `/option/quote?symbol=${symbol}&date=${date}`
-  );
+  // var { data } = await Services.get(
+  //   `/option/quote?symbol=${symbol}&date=${date}`
+  // );
+  // return data;
+
+  var { data } = await ServiceV2.post(`/website_quote`, {
+    ticker: symbol,
+    date: date,
+  });
   return data;
 };
 

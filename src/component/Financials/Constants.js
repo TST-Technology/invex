@@ -232,3 +232,52 @@ export const INCOME_STATEMENT_COLUMNS = [
 
   { key: 'weightedAverageShsOutDil', label: 'weighted Average Shs Out Dil' },
 ];
+
+export const OPERATING_CASH_FLOW_COLUMNS = [
+  'netIncome',
+  'depreciationAndAmortization',
+  'deferredIncomeTax',
+  'stockBasedCompensation',
+  'changeInWorkingCapital',
+  'accountsReceivables',
+  'inventory',
+  'accountsPayables',
+  'otherWorkingCapital',
+  'otherNonCashItems',
+  'netCashProvidedByOperatingActivities',
+];
+
+export const INVESTING_CASH_FLOW_COLUMNS = [
+  'investmentsInPropertyPlantAndEquipment',
+  'acquisitionsNet',
+  'purchasesOfInvestments',
+  'salesMaturitiesOfInvestments',
+  'otherInvestingActivites',
+  'netCashUsedForInvestingActivites',
+];
+
+export const FINANCING_CASH_FLOW_COLUMNS = [
+  'debtRepayment',
+  'commonStockIssued',
+  'commonStockRepurchased',
+  'dividendsPaid',
+  'otherFinancingActivites',
+  'netCashUsedProvidedByFinancingActivities',
+];
+
+export const OTHER_CASH_FLOW_COLUMNS = [
+  'effectOfForexChangesOnCash',
+  'netChangeInCash',
+  'cashAtEndOfPeriod',
+  'cashAtBeginningOfPeriod',
+  'operatingCashFlow',
+  'capitalExpenditure',
+  'freeCashFlow',
+];
+
+export const CASH_FLOW_COLUMNS = [
+  ...OPERATING_CASH_FLOW_COLUMNS,
+  ...INVESTING_CASH_FLOW_COLUMNS,
+  ...FINANCING_CASH_FLOW_COLUMNS,
+  ...OTHER_CASH_FLOW_COLUMNS,
+];

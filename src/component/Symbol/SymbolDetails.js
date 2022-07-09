@@ -34,13 +34,7 @@ const SymbolDetails = () => {
                           className={`nav-link ${
                             activeTab === TYPE[key].value ? 'active' : ''
                           }`}
-                          //   id='synopsis-tab'
-                          //   data-bs-toggle='tab'
-                          //   data-bs-target='#synopsis'
                           type='button'
-                          //   role='tab'
-                          //   aria-controls='synopsis'
-                          //   aria-selected='true'
                         >
                           {TYPE[key].label}
                         </button>

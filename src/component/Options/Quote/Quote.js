@@ -12,6 +12,7 @@ import {
   getCompanyDataByAAPL,
   getBookKeyAAPL,
 } from '../../api/commonApi';
+import { getOneDayBeforeDate } from '../../Common/commonFunctions';
 import { getCompanyLogo } from '../../api/company';
 import moment from 'moment';
 
@@ -22,8 +23,7 @@ const Quote = () => {
   const [Loading, setLoading] = useState(false);
   const [Options, setOptions] = useState({});
   const [logo, setLogo] = useState();
-  const date = '2022/05/11';
-  // const date = moment(new Date()).format('YYYY/MM/DD');
+  const date = getOneDayBeforeDate();
 
   useEffect(() => {
     (async () => {
@@ -98,6 +98,6 @@ const Quote = () => {
       <OptionVolume Options={Options} Loading={Loading} />
     </>
   );
-};
+};;
 
 export default Quote;
