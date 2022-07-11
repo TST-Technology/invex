@@ -13,3 +13,10 @@ export const getCompanyStockPeers = async (param) => {
   });
   return data;
 };
+
+export const getHistoricalPriceChart = async (param) => {
+  var { data } = await ServiceCP1V2.get(`/historical-price-chart`, {
+    params: param,
+  });
+  return data;
+};

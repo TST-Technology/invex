@@ -35,6 +35,7 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css'; //theme
 import 'primereact/resources/primereact.min.css'; //core css
 import 'primeicons/primeicons.css';
 import SymbolDetails from './component/Symbol/SymbolDetails';
+import Synopsis from './component/Symbol/Synopsis/Synopsis';
 
 function App() {
   // useEffect(() => {
@@ -104,8 +105,8 @@ function App() {
           <Route
             exact
             path={InvexRoutes.FinancialStatistics.path}
-            element={<SymbolDetails />}
-            // element={<FinancialStatistics />}
+            // element={<SymbolDetails />}
+            element={<FinancialStatistics />}
           />
           <Route
             exact
@@ -129,19 +130,22 @@ function App() {
             path={InvexRoutes.Valuation.path}
             element={<Valuation />}
           />
-
           <Route
             exact
             path={InvexRoutes.SymbolOption.path}
             element={<SymbolOption />}
           />
-
           <Route
             exact
             path={InvexRoutes.SymbolNotPublished.path}
             element={<SymbolNotPublished />}
           />
 
+          <Route
+            exact
+            path={InvexRoutes.Synopsis.path}
+            element={<SymbolDetails />}
+          />
           <Route path='*' element={<NotFound />} />
         </Routes>
         <Footer />

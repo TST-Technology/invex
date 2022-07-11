@@ -1,14 +1,35 @@
-import React, { useState } from 'react';
-import FinancialStatistics from '../FinancialStatistics';
-import Financials from '../Financials';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import FinancialStatistics from '../FinancialStatisticsNew';
+import Financials from '../FinancialStatement';
 import CompanyDetailNew from './CompanyDetails/CompanyDetailNew';
 import Navbar from '../Common/Navbar/NewNavbar';
 import Marquee from '../Common/Navbar/Marquee';
 import { TYPE } from './Constants';
 import Synopsis from './Synopsis/Synopsis';
+import { getCompanyProfileQuote } from '../api/Symbol';
 
 const SymbolDetails = () => {
-  const [activeTab, setActiveTab] = useState(TYPE.financialStatistics.value);
+  const [activeTab, setActiveTab] = useState(TYPE.synopsis.value);
+  const [companyData, setCompanyData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { symbol } = useParams();
+
+  useEffect(() => {
+    if (symbol) {
+      getCompanyDetails();
+    }
+  }, []);
+
+  const getCompanyDetails = async () => {
+    setLoading(true);
+    const data = await getCompanyProfileQuote({ symbol: symbol });
+
+    if (data && data.status == 200 && data.data) {
+      setCompanyData(data.data);
+    }
+    setLoading(false);
+  };
 
   return (
     <>
@@ -20,7 +41,7 @@ const SymbolDetails = () => {
         <section className='company_details symfinstatcs'>
           <div className='container'>
             <div className='row'>
-              <CompanyDetailNew />
+              <CompanyDetailNew data={companyData} />
               <div className='col-lg-12'>
                 <ul
                   className='nav nav-tabs page_main_tab'

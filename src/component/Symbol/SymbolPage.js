@@ -42,10 +42,10 @@ const SymbolPage = (props) => {
           setKeyStatus(res?.data?.quote);
         }
 
-        var volatility = await getVolatality(symbol, date);
-        if (volatility) {
-          setOptions(volatility);
-        }
+        // var volatility = await getVolatality(symbol, date);
+        // if (volatility) {
+        //   setOptions(volatility);
+        // }
 
         const logoData = await getCompanyLogo(symbol);
         if (

@@ -1,185 +1,92 @@
 import React, { useEffect, useState } from 'react'
 import BalanceSheet from './BalanceSheet'
-import FinancialStatisticsGenerator from '../FinancialStatistics/Data/FinancialStatisticsGenerator';
-import { INCOME_STATEMENT_COLUMNS } from './Constants';
-import {
-  getBalanceSheetV2,
-  getIncomeStatementsV2,
-  getCashFlowV2,
-} from '../api/financials';
-import {
-  PERIOD_FILTER,
-  YEAR_FILTER,
-} from '../FinancialStatistics/Data/Constants';
-import { TYPE } from './Constants';
-import { CircularProgress } from '@material-ui/core';
-import { useParams } from 'react-router-dom';
-import moment from 'moment';
-import CashFlow from './CashFlow';
+import IncomeStatement from './IncomeStatement'
+import CashFlow from './CashFlow'
+import image1 from '../Common/Images/image1.png'
+import graph from '../Common/Images/graph.png'
+import search from '../Common/Images/search-b.png'
+import { useParams } from 'react-router-dom'
+import { getBookKeyStatus, getCompanyDataBySymbol } from '../api/commonApi'
 
 const Financials = () => {
-  const [activeTab, setActiveTab] = useState(TYPE.balanceSheet.value);
-  const { symbol } = useParams();
-  const [data, setData] = useState(null);
-  const [filter, setFilter] = useState({
-    period: PERIOD_FILTER[0].value,
-    last: YEAR_FILTER[0].value,
-    symbol: symbol,
-  });
-  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      if (symbol) {
-        setLoading(true);
-        let res = null;
-        switch (activeTab) {
-          case TYPE.balanceSheet.value:
-            res = await getBalanceSheetV2(filter);
-            break;
-
-          case TYPE.incomeStatement.value:
-            res = await getIncomeStatementsV2(filter);
-            break;
-
-          case TYPE.cashFlow.value:
-            res = await getCashFlowV2(filter);
-            break;
-        }
-
-        if (res && res.status === 200 && res?.data) {
-          const commonData = res?.data.map((row, index) => {
-            if (activeTab === TYPE.incomeStatement.value && index === 0) {
-              row.column = 'TTM';
-            } else {
-              row.column =
-                filter.period === PERIOD_FILTER[0].value
-                  ? moment(row?.date).format('YYYY')
-                  : `${row?.period} ${moment(row?.date).format('YYYY')}`;
+    const [company, setCompany] = useState(1)
+    const [companyPrice, setcompanyPrice] = useState(1)
+    const [tab, setTab] = useState(1)
+    const {symbol} = useParams()   
+    
+    useEffect(() => {
+        (async()=>{
+            var res = await getCompanyDataBySymbol(symbol)
+            if(res && res.status == 200 && res.data){
+                setCompany(res.data)
             }
-
-            row.year = moment(row?.date).format('YYYY');
-            row.quarter =
-              filter.period === PERIOD_FILTER[0].value
-                ? moment(row?.date).format('YYYY')
-                : row?.period[1];
-            return row;
-          });
-          commonData.sort(function (a, b) {
-            return b.year - a.year || b.quarter - a.quarter;
-          });
-          setData(commonData);
-        }
-        setLoading(false);
-      }
-    })();
-  }, [symbol, activeTab, filter]);
-
-  return (
-    <div className='row'>
-      <div className='col-lg-12'>
-        <div className='d-flex align-items-center justify-content-between mt-5'>
-          <h4 className='me-auto mb-0'>Financial Statements</h4>
-          <form
-            className='form-group'
-            role='search'
-            method='get'
-            id='searchform'
-            action
-          >
-            <div className='d-lg-inline-flex d-md-flex align-items-center float-start'>
-              <label className='me-3 font-bd'>Period</label>
-              <select
-                className='form-select me-3'
-                aria-label='Default select example'
-                onChange={(e) =>
-                  setFilter({
-                    ...filter,
-                    period: e.target.value,
-                  })
-                }
-              >
-                {PERIOD_FILTER.map((period, index) => {
-                  return (
-                    <option key={index} value={period.value}>
-                      {period.label}
-                    </option>
-                  );
-                })}
-              </select>
-              <label className='me-3 font-bd'>View</label>
-              <select
-                className='form-select me-0'
-                aria-label='Default select example'
-                onChange={(e) =>
-                  setFilter({
-                    ...filter,
-                    last: e.target.value,
-                  })
-                }
-              >
-                {YEAR_FILTER.map((year, index) => {
-                  return (
-                    <option key={index} value={year.value}>
-                      {year.label}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div className='col-lg-12'>
-        <div className='top_button_panel v2 mt-4 mb-3'>
-          {Object.keys(TYPE).map((key, index) => {
-            return (
-              <button
-                key={index}
-                type='button'
-                onClick={() => setActiveTab(TYPE[key].value)}
-                className={`btn ${
-                  activeTab === TYPE[key].value ? 'btn-info' : 'btn-light'
-                }`}
-              >
-                {TYPE[key].label}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {loading && (
-        <div
-          style={{
-            height: 450,
-            textAlign: 'center',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <CircularProgress />
-        </div>
-      )}
-
-      {!loading && activeTab && activeTab === TYPE.balanceSheet.value && (
-        <BalanceSheet data={data} />
-      )}
-
-      {!loading && activeTab && activeTab === TYPE.incomeStatement.value && (
-        <FinancialStatisticsGenerator
-          data={data}
-          Loading={loading}
-          columnList={INCOME_STATEMENT_COLUMNS}
-        />
-      )}
-
-      {!loading && activeTab && activeTab === TYPE.cashFlow.value && (
-        <CashFlow data={data} />
-      )}
-    </div>
-  );
-};
+            var data = await getBookKeyStatus(symbol)
+            if(data && data.status == 200 && data.data){
+                setcompanyPrice(data.data.quote)
+            }
+        })()
+    }, [symbol])
+    console.log('companyPrice',companyPrice);
+    
+    return (
+        <main>
+            <section className="company_details mb-5">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12 mb-4">
+                            <div className="card companyviewblk compny_left_detail">
+                                <div className="card-body">
+                                    <div className="description-para d-flex align-items-center justify-content-between">
+                                        <div className="logo me-5">
+                                            <div className="img">
+                                                <img src={image1} alt="image" />
+                                            </div>
+                                            <div className="title1">
+                                                <h5 className="card-title">{company?.companyName}</h5>
+                                                <p className="company">{company?.symbol}</p>
+                                            </div>
+                                        </div>
+                                        <div className="chart">
+                                            <div className="chart-text mt-0">
+                                                <p className="card-text up">${companyPrice?.latestPrice}</p>
+                                                <p className="text up">{companyPrice?.change} ({companyPrice?.changePercent?.toFixed(2)}%)</p>
+                                            </div>
+                                        </div>
+                                        <div className="chart-img me-5">
+                                            <img src={graph} alt="graph" />
+                                        </div>
+                                        <div className="">
+                                            <form className="form-group common_search mx-auto" role="search" method="get" id="searchform" action="">
+                                                <div className="input-group">
+                                                    <input type="text" value="" name="s" className="form-control" placeholder="Search for Symbol" id="example-search-input" autocomplete="off" />
+                                                    <input type="submit" value="Search" id="search-submit" style={{ display: 'none' }} />
+                                                    <span className="input-group-append d-flex align-items-center">
+                                                        <label htmlFor="search-submit">
+                                                            <img src={search} alt="search-icon" className="img-fluid" height="16" width="16" />
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="top_button_panel mt-4 mb-3">
+                                <label htmlFor="" className="font-bd me-3 mb-2">Financials: </label>
+                                <button type="button" onClick={() => setTab(1)} className={"btn btn-light" + (tab == 1 ? ' active ' : '')}> Balance Sheet</button>
+                                <button type="button" onClick={() => setTab(2)} className={"btn btn-light" + (tab == 2 ? ' active ' : '')}> Income Statement</button>
+                                <button type="button" onClick={() => setTab(3)} className={"btn btn-light" + (tab == 3 ? ' active ' : '')}> Cash Flow</button>
+                            </div>
+                        </div>
+                        {tab === 1 && <BalanceSheet symbol={symbol}/>}
+                        {tab === 2 && <IncomeStatement symbol={symbol}/>}
+                        {tab === 3 && <CashFlow symbol={symbol}/>}
+                    </div>
+                </div>
+            </section>
+        </main>
+    )
+}
 
 export default Financials

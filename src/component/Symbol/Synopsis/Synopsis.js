@@ -1,18 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getCompanyProfileQuote, getCompanyStockPeers } from '../../api/Symbol';
+import {
+  getCompanyProfileQuote,
+  getCompanyStockPeers,
+  getHistoricalPriceChart,
+} from '../../api/Symbol';
 import abbreviateNumber from '../../Common/NumberFormat';
 import ReadMore from '../../Common/ReadMore/ReadMore';
 import { TOP_COMPETITOR_COLUMNS } from '../Constants';
 import { replaceEmpty } from '../../Common/commonFunctions';
 import { CircularProgress } from '@material-ui/core';
 import moment from 'moment';
+import NewsImg from '../../Common/Images/news-1.png';
+import SymbolChart4 from '../../Common/Images/symbol-chart-4.png';
+import SymbolChart5 from '../../Common/Images/symbol-chart-5.png';
+import ArrowRight from '../../Common/Images/arrow-right.png';
+import {
+  Area,
+  AreaChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 
 const Synopsis = () => {
   const { symbol } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(null);
   const [topCompetitors, setTopCompetitors] = useState(null);
+  const [chartPeriod, setChartPeriod] = useState('1d'); //1d,1w,1m,1y,5y,max
+  const [companyEssentialsData, setCompanyEssentialsData] = useState(null);
+  const [ticks, setTicks] = useState([]);
+  const [isChartLoading, setIsChartLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -54,9 +74,98 @@ const Synopsis = () => {
         }
 
         setIsLoading(false);
+
+        const chartResp = await getHistoricalPriceChart({
+          symbol: symbol,
+          period: chartPeriod,
+        });
       }
     })();
   }, []);
+
+  useEffect(() => {
+    if (symbol) {
+      getCompanyEssentialsChartData();
+    }
+  }, [chartPeriod]);
+
+  const getCompanyEssentialsChartData = async () => {
+    setIsChartLoading(true);
+
+    const chartResp = await getHistoricalPriceChart({
+      symbol: symbol,
+      period: chartPeriod,
+    });
+
+    if (chartResp && chartResp.status === 200) {
+      if (chartPeriod === '1d') {
+        const tempTime = [];
+        const tempTicks = [];
+        const chart = chartResp?.data;
+        var tempArr = [];
+        tempArr = chart?.map((el, i) => {
+          const convertedTime = moment(el.date).format('HH:mm');
+          el.minute = convertedTime;
+          if (convertedTime) {
+            const hour = convertedTime.substring(0, 2);
+            if (!tempTime.includes(hour)) {
+              tempTime.push(hour);
+              tempTicks.push(convertedTime);
+            }
+          }
+          return el;
+        });
+
+        tempArr.sort(function (a, b) {
+          // Turn your strings into dates, and then subtract them
+          // to get a value that is either negative, positive, or zero.
+          return new Date(b.date) - new Date(a.date);
+        });
+
+        // const candleData = chart?.data
+        //   ?.filter((el) => {
+        //     return el.open && el.close && el.high && el.low;
+        //   })
+        //   .map((el) => {
+        //     const convertedDate = new Date(`${el.date} ${el.minute}`);
+        //     let newObj = {};
+        //     newObj.x = convertedDate;
+        //     newObj.y = [el.open, el.high, el.low, el.close];
+        //     return newObj;
+        //   });
+        setTicks(tempTicks);
+        setCompanyEssentialsData(tempArr);
+      } else {
+        const chart = chartResp?.data?.historical;
+        const tempTicks = [];
+        var tempArr = [];
+        tempArr = chart?.map((el, i) => {
+          el.marketClose = el.close;
+          const convertedDate = moment(el.date).format('DD MMM YYYY');
+          el.minute = convertedDate;
+          tempTicks.push(convertedDate);
+          return el;
+        });
+        setTicks(tempTicks);
+        setCompanyEssentialsData(tempArr.reverse());
+
+        // const candleData = chart?.data
+        //   ?.filter((el) => {
+        //     return el.open && el.close && el.high && el.low;
+        //   })
+        //   .map((el) => {
+        //     console.log(el);
+        //     let newObj = {};
+        //     newObj.x = el.date;
+        //     newObj.y = [el.open, el.high, el.low, el.close];
+        //     return newObj;
+        //   });
+        // setCompanyEssentialsData(candleData);
+      }
+    }
+
+    setIsChartLoading(false);
+  };
 
   return (
     <>
@@ -75,150 +184,396 @@ const Synopsis = () => {
       )}
 
       {!isLoading && data && (
-        <>
-          <div className='row mt-5'>
-            <div className='col-lg-6'>
-              <div className='mb-4'>
-                <h4 className='me-auto mb-4'>Price Summary & Volume</h4>
-                <div className='row '>
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>Open</div>
-                    <span>{data?.open}</span>
+        <div>
+          <div className='col-lg-12'>
+            <div className='row'>
+              <div className='col-lg-6'>
+                <div className='mt-4 mb-4'>
+                  <h6 className='mb-4'>
+                    <strong>Price Summary & Volume</strong>
+                  </h6>
+                  <div className='row border-bottom mb-3'>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>Open</div>
+                      <span className='down down-light-bg'>
+                        <b>{data?.open}</b>
+                      </span>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>Previous Close</div>
+                      <span>
+                        <b>{data?.previousClose}</b>
+                      </span>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>Today’s Low</div>
+                      <span>
+                        <b>{data?.dayLow}</b>
+                      </span>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>Today’s High</div>
+                      <span>
+                        <b>{data?.dayHigh}</b>
+                      </span>
+                    </div>
                   </div>
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>Previous Close</div>
-                    <span>{data?.previousClose}</span>
+                  <div className='row border-bottom mb-3'>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>52 Week High</div>
+                      <span>
+                        <b>{data?.yearHigh}</b>
+                      </span>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>52 Week Low</div>
+                      <span>
+                        <b>{data?.yearLow}</b>/span&gt;
+                      </span>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt '>Latest Volume</div>
+                      <span className='up up-light-bg'>
+                        <b>{abbreviateNumber(data?.volume)}</b>
+                      </span>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>Previous Volume</div>
+                      <span>
+                        <b>{abbreviateNumber(data?.avgVolume)}</b>
+                      </span>
+                    </div>
                   </div>
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>Today’s Low</div>
-                    <span>{data?.dayLow}</span>
-                  </div>
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>Today’s High</div>
-                    <span>{data?.dayHigh}</span>
-                  </div>
-
-                  <hr />
-
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>52 Week High</div>
-                    <span>{data?.yearHigh}</span>
-                  </div>
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>52 Week Low</div>
-                    <span>{data?.yearLow}</span>
-                  </div>
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>Latest Volume</div>
-                    <span>{abbreviateNumber(data?.volume)}</span>
-                  </div>
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>Previous Volume</div>
-                    <span>{abbreviateNumber(data?.avgVolume)}</span>
-                  </div>
-
-                  <hr />
                 </div>
+                <div className='mt-4 mb-4'>
+                  <h6 className='mb-4'>
+                    <strong>Company Essentials</strong>
+                  </h6>
+                  <div className='row border-bottom mb-3'>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>Market Cap</div>
+                      <span>
+                        <b>{abbreviateNumber(data?.marketCap)}</b>
+                      </span>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>Shares Outstanding</div>
+                      <span>
+                        <b>{data?.sharesOutstanding}</b>
+                      </span>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>Beta</div>
+                      <span>
+                        <b>{parseFloat(data?.beta).toFixed(2)}</b>
+                      </span>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>PE Ratio</div>
+                      <span>
+                        <b>{parseFloat(data?.pe).toFixed(2)}</b>
+                      </span>
+                    </div>
+                  </div>
+                  <div className='row border-bottom mb-3'>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>EPS(TTM)</div>
+                      <span>
+                        <b>{data?.eps}</b>
+                      </span>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>Next Earnings Date</div>
+                      <span>
+                        <b>
+                          {moment(data?.earningsAnnouncement).format(
+                            'YYYY/MM/DD'
+                          )}
+                        </b>
+                      </span>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>Dividend Rate(TTM)</div>
+                      <span>
+                        <b>-</b>
+                      </span>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>Dividend Yield</div>
+                      <span>
+                        <b>-</b>
+                      </span>
+                    </div>
+                  </div>
+                  <div className='row border-bottom mb-3'>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>Ex-Dividend Date</div>
+                      <span>
+                        <b>-</b>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className='col-lg-6'>
+                <div className='price_chart mt-4 mb-5'>
+                  <h6 className='mb-4'>
+                    <strong>Company Essentials</strong>
+                  </h6>
+                  <div className='d-flex align-items-center justify-content-between'>
+                    <div className='mb-3'>
+                      <label htmlFor>Absolute Return</label>
+                      <span className='up up-light-bg p-1 ms-2'>+17.3%</span>
+                    </div>
+                    <div className='top_button_panel top_button_panel_light mb-3'>
+                      <button
+                        type='button'
+                        className={`btn ${
+                          chartPeriod === '1d' ? 'btn-info' : 'btn-light'
+                        } `}
+                        onClick={() => setChartPeriod('1d')}
+                      >
+                        1D
+                      </button>
+                      <button
+                        type='button'
+                        className={`btn ${
+                          chartPeriod === '1w' ? 'btn-info' : 'btn-light'
+                        } `}
+                        onClick={() => setChartPeriod('1w')}
+                      >
+                        {' '}
+                        1W
+                      </button>
+                      <button
+                        type='button'
+                        className={`btn ${
+                          chartPeriod === '1m' ? 'btn-info' : 'btn-light'
+                        } `}
+                        onClick={() => setChartPeriod('1m')}
+                      >
+                        {' '}
+                        1M
+                      </button>
+                      <button
+                        type='button'
+                        className={`btn ${
+                          chartPeriod === '1y' ? 'btn-info' : 'btn-light'
+                        } `}
+                        onClick={() => setChartPeriod('1y')}
+                      >
+                        {' '}
+                        1Y
+                      </button>
+                      <button
+                        type='button'
+                        className={`btn ${
+                          chartPeriod === '5y' ? 'btn-info' : 'btn-light'
+                        } `}
+                        onClick={() => setChartPeriod('5y')}
+                      >
+                        {' '}
+                        5Y
+                      </button>
+                      <button
+                        type='button'
+                        className={`btn ${
+                          chartPeriod === 'max' ? 'btn-info' : 'btn-light'
+                        } `}
+                        onClick={() => setChartPeriod('max')}
+                      >
+                        {' '}
+                        MAX
+                      </button>
+                    </div>
+                  </div>
 
-                <h4 className='me-auto mb-4 mt-3'>Company Essentials</h4>
+                  {isChartLoading && (
+                    <div
+                      style={{
+                        height: 250,
+                        textAlign: 'center',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <CircularProgress />
+                    </div>
+                  )}
 
-                <div className='row '>
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>Market Cap</div>
-                    <span>{abbreviateNumber(data?.marketCap)}</span>
-                  </div>
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>Shares Outstanding</div>
-                    <span>{data?.sharesOutstanding}</span>
-                  </div>
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>Beta</div>
-                    <span>{parseFloat(data?.beta).toFixed(2)}</span>
-                  </div>
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>PE Ratio</div>
-                    <span>{parseFloat(data?.pe).toFixed(2)}</span>
-                  </div>
-
-                  <hr />
-
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>EPS(TTM)</div>
-                    <span>{data?.eps}</span>
-                  </div>
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>Next Earnings Date</div>
-                    <span>
-                      {moment(data?.earningsAnnouncement).format('YYYY/MM/DD')}
-                    </span>
-                  </div>
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>Dividend Rate(TTM)</div>
-                    <span>-</span>
-                  </div>
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>Dividend Yield</div>
-                    <span>-</span>
-                  </div>
-
-                  <hr />
-
-                  <div className='col-lg-3'>
-                    <div className='title-lt mb-2'>Ex-Dividend Date</div>
-                    <span>-</span>
-                  </div>
-
-                  <hr />
+                  {!isChartLoading && (
+                    <ResponsiveContainer
+                      width='100%'
+                      aspect={1}
+                      maxHeight={250}
+                    >
+                      <AreaChart
+                        data={companyEssentialsData}
+                        margin={{ top: 10, right: 30, left: -50, bottom: 0 }}
+                      >
+                        <defs>
+                          <linearGradient
+                            id='colorUv'
+                            x1='0'
+                            y1='0'
+                            x2='0'
+                            y2='1'
+                          >
+                            <stop
+                              offset='5%'
+                              stopColor='#8884d8'
+                              stopOpacity={0.8}
+                            />
+                            <stop
+                              offset='95%'
+                              stopColor='#8884d8'
+                              stopOpacity={0}
+                            />
+                          </linearGradient>
+                          <linearGradient
+                            id='colorPv'
+                            x1='0'
+                            y1='0'
+                            x2='0'
+                            y2='1'
+                          >
+                            <stop
+                              offset='5%'
+                              stopColor='#82ca9d'
+                              stopOpacity={0.8}
+                            />
+                            <stop
+                              offset='95%'
+                              stopColor='#82ca9d'
+                              stopOpacity={0}
+                            />
+                          </linearGradient>
+                        </defs>
+                        <XAxis
+                          dataKey='minute'
+                          axisLine={false}
+                          ticks={ticks}
+                          tick={{ fill: '#212121', fontSize: '12px' }}
+                          padding={{ top: 20 }}
+                          domain={['auto', 'auto']}
+                          interval={chartPeriod === '1d' ? 0 : ''}
+                        />
+                        <YAxis axisLine={false} tick={false} />
+                        <Tooltip />
+                        <Area
+                          connectNulls
+                          type='monotone'
+                          dataKey='close'
+                          stroke='#82ca9d'
+                          fillOpacity={1}
+                          fill='url(#colorPv)'
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  )}
+                  {/* <img
+                    src={CompanyEssentialChart}
+                    className='img-fluid w-100'
+                    alt='symbol'
+                  /> */}
                 </div>
               </div>
             </div>
-
-            <div className='col-lg-6'></div>
           </div>
+          <div className='col-lg-12 mb-5'>
+            <div className='row'>
+              <div className='col-lg-4 border-end pe-4'>
+                {/* company profile box start*/}
+                <div className='mb-4'>
+                  <div className='description-para'>
+                    <h5 className='mb-4'>
+                      <strong>Company Info</strong>
+                    </h5>
+                    <div className='key_status'>
+                      <ReadMore text={data?.description} limit={250} />
 
-          <div className='row'>
-            <div className='col-lg-4'>
-              <div className='mb-4'>
-                <h4 className='me-auto mb-4 mt-3'>Company Info</h4>
-
-                <ReadMore text={data?.description} limit={250} />
-
-                <div className='d-flex justify-content-between'>
-                  <div className='title-lt mb-2'>Website</div>
-                  <span>{data?.website}</span>
+                      <ul className='mt-3'>
+                        <li>
+                          <a href='javascript:void(0)'>Website</a>{' '}
+                          <span>{data?.website}</span>
+                        </li>
+                        <li>
+                          <a href='javascript:void(0)'>Employees</a>{' '}
+                          <span>
+                            abbreviateNumber(data?.fullTimeEmployees)}
+                          </span>
+                        </li>
+                        <li>
+                          <a href='javascript:void(0)'>Country</a>{' '}
+                          <span>{data?.country}</span>
+                        </li>
+                        <li>
+                          <a href='javascript:void(0)'>CEO</a>{' '}
+                          <span>{data?.ceo}</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-
-                <div className='d-flex justify-content-between'>
-                  <div className='title-lt mb-2'>Employees</div>
-                  <span>{abbreviateNumber(data?.fullTimeEmployees)}</span>
+                {/* company profile box end*/}
+              </div>
+              <div className='col-lg-4 border-end pe-4'>
+                <div className='d-flex align-items-center mb-5'>
+                  <h5 className='me-auto'>
+                    <strong>Finantial Performance</strong>
+                  </h5>
+                  <div className='top_button_panel top_button_panel_light'>
+                    <button type='button' className='btn btn-info m-0'>
+                      {' '}
+                      Anual
+                    </button>
+                    <button
+                      type='button'
+                      className='btn btn-light border-0 m-0'
+                    >
+                      {' '}
+                      Quarterly
+                    </button>
+                  </div>
                 </div>
-
-                <div className='d-flex justify-content-between'>
-                  <div className='title-lt mb-2'>Country</div>
-                  <span>{data?.country}</span>
+                <img
+                  src={SymbolChart4}
+                  className='img-fluid w-100'
+                  alt='symbol'
+                />
+              </div>
+              <div className='col-lg-4'>
+                <div className='d-flex align-items-center mb-5'>
+                  <h5 className='me-auto'>
+                    <strong>Dividends &amp; Splits</strong>
+                  </h5>
+                  <div className='top_button_panel top_button_panel_light'>
+                    <a href='#'>
+                      View More <img src={ArrowRight} />
+                    </a>
+                  </div>
                 </div>
-
-                <div className='d-flex justify-content-between'>
-                  <div className='title-lt mb-2'>CEO</div>
-                  <span>{data?.ceo}</span>
-                </div>
+                <img
+                  src={SymbolChart5}
+                  className='img-fluid w-100'
+                  alt='symbol'
+                />
               </div>
             </div>
-
-            <div className='col-lg-8'>
-              <div className='mb-4'></div>
-            </div>
           </div>
-
-          <div className='row'>
-            <div className='col-lg-12'>
-              <h4 className='me-auto mb-4 mt-3'>Top Competitors</h4>
-
+          <div className='col-lg-12'>
+            <div className='top_competitors'>
               <div className='mb-5'>
+                <div className='d-flex align-items-center justify-content-between'>
+                  <h5 className='m-0 mb-3'>
+                    <strong>Top Competitors</strong>
+                  </h5>
+                </div>
                 <div className='table-responsive'>
                   {topCompetitors && (
-                    <table className='table table-bordered table-striped m-0 most_tables'>
-                      <thead>
+                    <table className='table table-bordered m-0 most_tables'>
+                      <thead class='table-light'>
                         <tr>
                           {TOP_COMPETITOR_COLUMNS &&
                             TOP_COMPETITOR_COLUMNS.map((heading, index) => {
@@ -262,10 +617,56 @@ const Synopsis = () => {
               </div>
             </div>
           </div>
-        </>
+          <div className='col-lg-12'>
+            <div className='market_news mb-5'>
+              <div className='d-flex align-items-center justify-content-between'>
+                <h5 className='m-0'>
+                  <strong>Company News</strong>
+                </h5>
+                <a href='javascript:void(0)' className='text-dark viewmore'>
+                  View More
+                </a>
+              </div>
+              <div className='row'>
+                {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((row, index) => {
+                  return (
+                    <div className='col-lg-4' key={index}>
+                      <div className='news_block mt-3 mb-3'>
+                        <div className='news_img'>
+                          <a href='javascript:void(0);'>
+                            <img
+                              src={NewsImg}
+                              className='img-fluid'
+                              alt='news_image'
+                            />
+                          </a>
+                        </div>
+                        <div className='news_content'>
+                          <a href='javascript:void(0);' className='text-dark'>
+                            <h5>
+                              Lucid shares soar on news of first electric sedan
+                              deliveries
+                            </h5>
+                          </a>
+                          <a
+                            href='javascript:void(0);'
+                            className='text-primary'
+                          >
+                            Business
+                          </a>
+                          <span> · Money Wise</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );
-};
+};;;;
 
 export default Synopsis;

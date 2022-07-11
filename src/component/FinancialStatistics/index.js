@@ -1,183 +1,256 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getFinancialStatisticsV2 } from '../api/financialStatistics';
-import {
-  TYPE,
-  PERIOD_FILTER,
-  YEAR_FILTER,
-  CAPITAL_STRUCTURE_COLUMNS,
-  PRICING_COLUMNS,
-  EFFICIENCY_RATIO_COLUMNS,
-  RETURN_COLUMNS,
-  MARGIN_COLUMNS,
-  LEVERAGE_RATIO_COLUMNS,
-  LIQUIDITY_RATIO_COLUMNS,
-  EARNING_DIVIDEND_COLUMNS,
-  CASH_FLOW_RATIO_COLUMNS,
-} from './Data/Constants';
-import FinancialStatisticsGenerator from './Data/FinancialStatisticsGenerator';
-import moment from 'moment';
-
+import React, { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom';
+import { getFinancialStats } from '../api/financialStatistics';
+import { useParams } from 'react-router-dom' 
+import CapitalStructure from './Data/CapitalStructure';
+import Pricing from './Data/Pricing';
+import EfficiencyRatios from './Data/EfficiencyRatios';
+import Growth from './Data/Growth';
+import Returns from './Data/Returns';
+import LeverageRatio from './Data/LeverageRatio';
+import LiquidityRatios from './Data/LiquidityRatios';
+import EarningsDividends from './Data/EarningsDividends';
+import ProfitMargins from './Data/ProfitMargins';
+import CurrentFinancialHighlights from './Data/CurrentFinancialHighlights';
 const FinancialStatistics = () => {
-  const [activeTab, setActiveTab] = useState(TYPE.capitalStructure.value);
-  const { symbol } = useParams();
-  const [filter, setFilter] = useState({
-    period: PERIOD_FILTER[0].value,
-    last: YEAR_FILTER[0].value,
-    symbol: symbol,
-  });
-  const [financialStatisticsData, setFinancialStatisticsData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [columnList, setColumnList] = useState(CAPITAL_STRUCTURE_COLUMNS);
+    
+    const [Period , setPeriod] = useState('quarterly')
+    const [View , setView] = useState(5)
+    const [FinancialStatisticsData , setFinancialStatisticsData] = useState([])
+    const [Loading , setLoading] = useState(false)
+    const [tab, setTab] = useState(1)
 
-  useEffect(() => {
-    (async () => {
-      if (symbol) {
-        setLoading(true);
-        var res = await getFinancialStatisticsV2(filter);
-        if (res && res.status === 200 && res?.data) {
-          const statistics = res?.data?.data.map((row) => {
-            row.column =
-              filter.period === PERIOD_FILTER[0].value
-                ? moment(row?.date).format('YYYY')
-                : `${row?.period} ${moment(row?.date).format('YYYY')}`;
-            row.year = moment(row?.date).format('YYYY');
-            row.quarter =
-              filter.period === PERIOD_FILTER[0].value
-                ? moment(row?.date).format('YYYY')
-                : row?.period[1];
-            return row;
-          });
-          const ttm = res?.data?.ttmData;
-          ttm.column = 'TTM';
-          statistics.unshift(ttm);
-          statistics.sort(function (a, b) {
-            return b.year - a.year || b.quarter - a.quarter;
-          });
-          setFinancialStatisticsData(statistics);
-        }
-        setLoading(false);
-      }
-    })();
-  }, [filter]);
+    const {symbol} = useParams()
+    
+    useEffect(() => {
+        (async()=>{
+            setLoading(true)
+            if(symbol){
+                var res = await getFinancialStats(symbol , Period , View)
+                if(res && res.status === 200 && res?.data?.length > 0){
+                    console.log(res.data)
+                    setFinancialStatisticsData(res?.data)
+                }
+                setLoading(false)
+            }
+        })()
+    }, [symbol, Period , View])
 
-  useEffect(() => {
-    switch (activeTab) {
-      case TYPE.capitalStructure.value:
-        setColumnList(CAPITAL_STRUCTURE_COLUMNS);
-        break;
-      case TYPE.pricing.value:
-        setColumnList(PRICING_COLUMNS);
-        break;
-      case TYPE.efficiencyRatios.value:
-        setColumnList(EFFICIENCY_RATIO_COLUMNS);
-        break;
-      case TYPE.returns.value:
-        setColumnList(RETURN_COLUMNS);
-        break;
-      case TYPE.margins.value:
-        setColumnList(MARGIN_COLUMNS);
-        break;
-      case TYPE.leverageRatios.value:
-        setColumnList(LEVERAGE_RATIO_COLUMNS);
-        break;
-      case TYPE.liquidityRatios.value:
-        setColumnList(LIQUIDITY_RATIO_COLUMNS);
-        break;
-      case TYPE.earningsDividends.value:
-        setColumnList(EARNING_DIVIDEND_COLUMNS);
-        break;
-      case TYPE.cashFlowRatios.value:
-        setColumnList(CASH_FLOW_RATIO_COLUMNS);
-        break;
-      default:
-        setColumnList(CAPITAL_STRUCTURE_COLUMNS);
-    }
-  }, [activeTab]);
+    return (
+      <div className='main'>
+        <section className='top_carosuel_sec financial_statc'>
+          <div className='container'>
+            <div className='row'>
+              <div className='col-lg-12 mb-5'>
+                <div className='card mb-3'>
+                  <div className='card-body bg-base d-lg-flex d-md-flex d-block align-items-center rounded-3 p-4'>
+                    <h5 className='m-0 pe-3'>Financial Statistics</h5>
+                  </div>
+                </div>
+                <div className='card'>
+                  <div className='card-body'>
+                    <div className='top_button_panel top_scroll mt-4 mb-3 wrapperzz'>
+                      <div className='scrollzz'>
+                        <button
+                          type='button'
+                          onClick={() => setTab(1)}
+                          className={
+                            'btn btn-light' + (tab == 1 ? ' active ' : '')
+                          }
+                        >
+                          Capital Structure
+                        </button>
+                        <button
+                          type='button'
+                          onClick={() => setTab(2)}
+                          className={
+                            'btn btn-light' + (tab == 2 ? ' active ' : '')
+                          }
+                        >
+                          Pricing
+                        </button>
+                        <button
+                          type='button'
+                          onClick={() => setTab(3)}
+                          className={
+                            'btn btn-light' + (tab == 3 ? ' active ' : '')
+                          }
+                        >
+                          Efficiency Ratios
+                        </button>
+                        <button
+                          type='button'
+                          onClick={() => setTab(4)}
+                          className={
+                            'btn btn-light' + (tab == 4 ? ' active ' : '')
+                          }
+                        >
+                          Growth
+                        </button>
+                        <button
+                          type='button'
+                          onClick={() => setTab(5)}
+                          className={
+                            'btn btn-light' + (tab == 5 ? ' active ' : '')
+                          }
+                        >
+                          Returns
+                        </button>
+                        <button
+                          type='button'
+                          onClick={() => setTab(6)}
+                          className={
+                            'btn btn-light' + (tab == 6 ? ' active ' : '')
+                          }
+                        >
+                          Profit Margins
+                        </button>
+                        <button
+                          type='button'
+                          onClick={() => setTab(7)}
+                          className={
+                            'btn btn-light' + (tab == 7 ? ' active ' : '')
+                          }
+                        >
+                          Leverage Ratios
+                        </button>
+                        <button
+                          type='button'
+                          onClick={() => setTab(8)}
+                          className={
+                            'btn btn-light' + (tab == 8 ? ' active ' : '')
+                          }
+                        >
+                          Liquidity Ratios
+                        </button>
+                        <button
+                          type='button'
+                          onClick={() => setTab(9)}
+                          className={
+                            'btn btn-light' + (tab == 9 ? ' active ' : '')
+                          }
+                        >
+                          Earnings & Dividends
+                        </button>
+                        <button
+                          type='button'
+                          onClick={() => setTab(10)}
+                          className={
+                            'btn btn-light' + (tab == 10 ? ' active ' : '')
+                          }
+                        >
+                          Current Financial Highlights
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className='card p-3 mr-auto'>
+                  <form
+                    className='form-group'
+                    role='search'
+                    method='get'
+                    id='searchform'
+                    action=''
+                  >
+                    <div className='d-inline-flex align-items-center float-end'>
+                      <label for='' className='me-3 font-bd'>
+                        Period
+                      </label>
+                      <select
+                        className='form-select me-3'
+                        aria-label='Default select example'
+                        onChange={(e) => setPeriod(e.target.value)}
+                      >
+                        <option selected value='quarterly'>
+                          TTM
+                        </option>
+                        <option value='annual'>Annual</option>
+                      </select>
+                      <label for='' className='me-3 font-bd'>
+                        View
+                      </label>
+                      <select
+                        className='form-select me-3'
+                        aria-label='Default select example'
+                        onChange={(e) => setView(e.target.value)}
+                      >
+                        <option selected value='5'>
+                          Last 5 years
+                        </option>
+                        <option value='10'>Last 10 years</option>
+                      </select>
+                    </div>
+                  </form>
+                </div>
 
-  return (
-    <>
-      <div className='row'>
-        <div className='col-lg-12'>
-          <div className='d-flex align-items-center justify-content-between mt-5'>
-            <h4 className='me-auto mb-0'>Financial Statistics</h4>
-            <form
-              className='form-group'
-              role='search'
-              method='get'
-              id='searchform'
-              action
-            >
-              <div className='d-lg-inline-flex d-md-flex align-items-center float-start'>
-                <label className='me-3 font-bd'>Period</label>
-                <select
-                  className='form-select me-3'
-                  aria-label='Default select example'
-                  onChange={(e) =>
-                    setFilter({
-                      ...filter,
-                      period: e.target.value,
-                    })
-                  }
-                >
-                  {PERIOD_FILTER.map((period, index) => {
-                    return (
-                      <option key={index} value={period.value}>
-                        {period.label}
-                      </option>
-                    );
-                  })}
-                </select>
-                <label className='me-3 font-bd'>View</label>
-                <select
-                  className='form-select me-0'
-                  aria-label='Default select example'
-                  onChange={(e) =>
-                    setFilter({
-                      ...filter,
-                      last: e.target.value,
-                    })
-                  }
-                >
-                  {YEAR_FILTER.map((year, index) => {
-                    return (
-                      <option key={index} value={year.value}>
-                        {year.label}
-                      </option>
-                    );
-                  })}
-                </select>
+                {tab === 1 && (
+                  <CapitalStructure
+                    data={FinancialStatisticsData}
+                    Loading={Loading}
+                  />
+                )}
+                {tab === 2 && (
+                  <Pricing data={FinancialStatisticsData} Loading={Loading} />
+                )}
+                {tab === 3 && (
+                  <EfficiencyRatios
+                    data={FinancialStatisticsData}
+                    Loading={Loading}
+                  />
+                )}
+                {tab === 4 && (
+                  <Growth data={FinancialStatisticsData} Loading={Loading} />
+                )}
+                {tab === 5 && (
+                  <Returns data={FinancialStatisticsData} Loading={Loading} />
+                )}
+                {tab === 6 && (
+                  <ProfitMargins
+                    data={FinancialStatisticsData}
+                    Loading={Loading}
+                  />
+                )}
+                {tab === 7 && (
+                  <LeverageRatio
+                    data={FinancialStatisticsData}
+                    Loading={Loading}
+                  />
+                )}
+                {tab === 8 && (
+                  <LiquidityRatios
+                    data={FinancialStatisticsData}
+                    Loading={Loading}
+                  />
+                )}
+                {tab === 9 && (
+                  <EarningsDividends
+                    data={FinancialStatisticsData}
+                    Loading={Loading}
+                  />
+                )}
+                {tab === 10 && (
+                  <CurrentFinancialHighlights
+                    data={FinancialStatisticsData}
+                    Loading={Loading}
+                  />
+                )}
               </div>
-            </form>
+            </div>
           </div>
-        </div>
-        <div className='col-lg-12'>
-          <div className='top_button_panel v2 mt-4 mb-3'>
-            {Object.keys(TYPE).map((key, index) => {
-              return (
-                <button
-                  key={index}
-                  type='button'
-                  onClick={() => setActiveTab(TYPE[key].value)}
-                  className={`btn ${
-                    activeTab === TYPE[key].value ? 'btn-info' : 'btn-light'
-                  }`}
-                >
-                  {TYPE[key].label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <FinancialStatisticsGenerator
-          data={financialStatisticsData}
-          Loading={loading}
-          columnList={columnList}
-        />
+        </section>
       </div>
-    </>
-  );
-};
+      // <section className="company_details">
+      //     <div className="container">
+      //         <div className="row">
+      //             <Sidebar Company={Company} />
+      //             <div className="col-lg-8">
+      //                 <Content Statisticss={Statisticss} />
+      //             </div>
+      //         </div>
+      //     </div>
+      // </section>
+    );
+}
 
-export default FinancialStatistics;
+export default FinancialStatistics
