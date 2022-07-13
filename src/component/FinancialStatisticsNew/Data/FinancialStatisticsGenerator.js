@@ -27,7 +27,9 @@ const FinancialStatisticsGenerator = ({ data, Loading, columnList }) => {
 
       const labels = data?.map((row, index) => row?.column);
 
-      setChartLabel(labels.reverse());
+      const finalLabel = labels.reverse();
+      finalLabel.pop();
+      setChartLabel(finalLabel);
       setCheckedValues([]);
     }
   }, [data, columnList]);
@@ -38,9 +40,26 @@ const FinancialStatisticsGenerator = ({ data, Loading, columnList }) => {
         checkedValues.map((index) => {
           const row = Object.values(tableData[index]);
 
+          const temp = row.slice(2, row.length).reverse();
+
+          const finalData = [];
+          let prevValue = 0;
+
+          temp.map((val, index) => {
+            if (index === 0) {
+              finalData.push(0);
+            } else if (index > 0 && index <= temp.length - 1) {
+              const value =
+                ((temp[index] - temp[index - 1]) / temp[index - 1]) * 100;
+              const finalValue = prevValue + value;
+              prevValue = finalValue;
+              finalData.push(isNaN(finalValue) ? 0 : finalValue);
+            }
+          });
+
           return {
             label: row[1],
-            data: row.slice(2, row.length).reverse(),
+            data: finalData,
             borderColor:
               'rgb(' +
               Math.floor(Math.random() * 255) +
@@ -120,11 +139,13 @@ const FinancialStatisticsGenerator = ({ data, Loading, columnList }) => {
                         <tr key={index}>
                           <td>
                             {row?.heading}{' '}
-                            <i
-                              className='bi bi-info-circle m-1'
-                              data-toggle='tooltip'
-                              title={row?.tooltip}
-                            ></i>
+                            {row?.tooltip && (
+                              <i
+                                className='bi bi-info-circle m-1'
+                                data-toggle='tooltip'
+                                title={row?.tooltip}
+                              ></i>
+                            )}
                           </td>
                           <td>
                             <div className='form-check float-end'>

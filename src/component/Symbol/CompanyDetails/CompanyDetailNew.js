@@ -26,18 +26,17 @@ const CompanyDetailNew = ({ data }) => {
                     <div className='chart-text'>
                       <p
                         className={`card-text ${
-                          data?.price > 0 ? 'up' : 'down'
+                          data?.changesPercentage > 0 ? 'up' : 'down'
                         }`}
                       >
                         $ {data?.price}
                       </p>
-                      <p className={`text ${data?.price > 0 ? 'up' : 'down'}`}>
-                        {data?.change > 0 ? (
-                          <>{data?.change}</>
-                        ) : (
-                          <> {data?.change}</>
-                        )}{' '}
-                        ({data?.changePercent}%)
+                      <p
+                        className={`${
+                          data?.changesPercentage > 0 ? 'up' : 'down'
+                        }`}
+                      >
+                        <> {data?.change}</> ({data?.changesPercentage}%)
                       </p>
                     </div>
                     <span>At close: May 4 04:00PM EDT</span>

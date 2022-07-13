@@ -15,6 +15,7 @@ import NewsImg from '../../Common/Images/news-1.png';
 import SymbolChart4 from '../../Common/Images/symbol-chart-4.png';
 import SymbolChart5 from '../../Common/Images/symbol-chart-5.png';
 import ArrowRight from '../../Common/Images/arrow-right.png';
+import Earnings from '../../Common/Images/earnings.png';
 import {
   Area,
   AreaChart,
@@ -195,7 +196,8 @@ const Synopsis = () => {
                   <div className='row border-bottom mb-3'>
                     <div className='col-lg-3 col-md-3'>
                       <div className='title-lt'>Open</div>
-                      <span className='down down-light-bg'>
+                      <span className='down'>
+                        {/*  down-light-bg */}
                         <b>{data?.open}</b>
                       </span>
                     </div>
@@ -228,17 +230,18 @@ const Synopsis = () => {
                     <div className='col-lg-3 col-md-3'>
                       <div className='title-lt'>52 Week Low</div>
                       <span>
-                        <b>{data?.yearLow}</b>/span&gt;
+                        <b>{data?.yearLow}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
                       <div className='title-lt '>Latest Volume</div>
-                      <span className='up up-light-bg'>
+                      <span className='up'>
+                        {/* up-light-bg */}
                         <b>{abbreviateNumber(data?.volume)}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>Previous Volume</div>
+                      <div className='title-lt'>Average Volume</div>
                       <span>
                         <b>{abbreviateNumber(data?.avgVolume)}</b>
                       </span>
@@ -263,23 +266,23 @@ const Synopsis = () => {
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>EPS(TTM)</div>
+                      <span>
+                        <b>{data?.eps}</b>
+                      </span>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
                       <div className='title-lt'>Beta</div>
                       <span>
                         <b>{parseFloat(data?.beta).toFixed(2)}</b>
                       </span>
                     </div>
-                    <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>PE Ratio</div>
-                      <span>
-                        <b>{parseFloat(data?.pe).toFixed(2)}</b>
-                      </span>
-                    </div>
                   </div>
                   <div className='row border-bottom mb-3'>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>EPS(TTM)</div>
+                      <div className='title-lt'>Enterprise Value</div>
                       <span>
-                        <b>{data?.eps}</b>
+                        <b>-</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
@@ -298,16 +301,35 @@ const Synopsis = () => {
                         <b>-</b>
                       </span>
                     </div>
+
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>Dividend Yield</div>
+                      <div className='title-lt'>PE Ratio</div>
                       <span>
-                        <b>-</b>
+                        <b>{parseFloat(data?.pe).toFixed(2)}</b>
                       </span>
                     </div>
                   </div>
                   <div className='row border-bottom mb-3'>
                     <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>52 Weeks Change</div>
+                      <span>
+                        <b>-</b>
+                      </span>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
                       <div className='title-lt'>Ex-Dividend Date</div>
+                      <span>
+                        <b>-</b>
+                      </span>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>IPO Date</div>
+                      <span>
+                        <b>{moment(data?.ipoDate).format('YYYY/MM/DD')}</b>
+                      </span>
+                    </div>
+                    <div className='col-lg-3 col-md-3'>
+                      <div className='title-lt'>PB Ratio</div>
                       <span>
                         <b>-</b>
                       </span>
@@ -521,7 +543,7 @@ const Synopsis = () => {
               <div className='col-lg-4 border-end pe-4'>
                 <div className='d-flex align-items-center mb-5'>
                   <h5 className='me-auto'>
-                    <strong>Finantial Performance</strong>
+                    <strong>Earnings</strong>
                   </h5>
                   <div className='top_button_panel top_button_panel_light'>
                     <button type='button' className='btn btn-info m-0'>
@@ -537,11 +559,7 @@ const Synopsis = () => {
                     </button>
                   </div>
                 </div>
-                <img
-                  src={SymbolChart4}
-                  className='img-fluid w-100'
-                  alt='symbol'
-                />
+                <img src={Earnings} className='img-fluid w-100' alt='symbol' />
               </div>
               <div className='col-lg-4'>
                 <div className='d-flex align-items-center mb-5'>

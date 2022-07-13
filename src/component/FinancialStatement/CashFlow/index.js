@@ -75,26 +75,44 @@ const CashFlow = ({ data }) => {
       checkedValues &&
         checkedValues.map((index) => {
           const row = Object.values(findChartData(index));
-          return {
-            label: row[1],
-            data: row.slice(1, row.length).reverse(),
-            borderColor:
-              'rgb(' +
-              Math.floor(Math.random() * 255) +
-              ',' +
-              Math.floor(Math.random() * 255) +
-              ',' +
-              Math.floor(Math.random() * 255) +
-              ')',
-            backgroundColor:
-              'rgba(' +
-              Math.floor(Math.random() * 255) +
-              ',' +
-              Math.floor(Math.random() * 255) +
-              ',' +
-              Math.floor(Math.random() * 255) +
-              ', 0.5)',
-          };
+
+           const temp = row.slice(1, row.length).reverse();
+
+           const finalData = [];
+           let prevValue = 0;
+
+           temp.map((val, index) => {
+             if (index === 0) {
+               finalData.push(0);
+             } else if (index > 0 && index <= temp.length - 1) {
+               const value =
+                 ((temp[index] - temp[index - 1]) / temp[index - 1]) * 100;
+               const finalValue = prevValue + value;
+               prevValue = finalValue;
+               finalData.push(isNaN(finalValue) ? 0 : finalValue);
+             }
+           });
+
+           return {
+             label: row[1],
+             data: finalData,
+             borderColor:
+               'rgb(' +
+               Math.floor(Math.random() * 255) +
+               ',' +
+               Math.floor(Math.random() * 255) +
+               ',' +
+               Math.floor(Math.random() * 255) +
+               ')',
+             backgroundColor:
+               'rgba(' +
+               Math.floor(Math.random() * 255) +
+               ',' +
+               Math.floor(Math.random() * 255) +
+               ',' +
+               Math.floor(Math.random() * 255) +
+               ', 0.5)',
+           };
         })
     );
   }, [checkedValues]);

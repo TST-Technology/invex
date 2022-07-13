@@ -169,6 +169,7 @@ export const BALANCE_SHEET_COLUMNS = [
 ];
 
 export const INCOME_STATEMENT_COLUMNS = [
+  { key: 'revenue', label: 'Revenue' },
   { key: 'costOfRevenue', label: 'costOfRevenue' },
 
   { key: 'grossProfit', label: 'grossProfit' },

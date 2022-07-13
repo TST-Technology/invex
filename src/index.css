@@ -20,3 +20,11 @@ code {
 .accordion-button.active span{
   color: #3751FF;
 }
+
+.companyviewblk.v2.compny_left_detail .chart .card-text.up{
+  border-left: 4px solid #13A41B;
+}
+
+.companyviewblk.v2.compny_left_detail .chart .card-text.down{
+  border-left: 4px solid #DF0822;
+}
