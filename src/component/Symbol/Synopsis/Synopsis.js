@@ -591,13 +591,12 @@ const Synopsis = () => {
                   >
                     <XAxis
                       dataKey='date'
-                      ticks={ticks}
-                      tick={{ fill: '#212121', fontSize: '12px' }}
+                      tick={{ fill: '#212121', fontSize: '10px' }}
                       padding={{ top: 20 }}
                       domain={['auto', 'auto']}
                       interval={0}
                     />
-                    <YAxis tick={false} />
+                    <YAxis tick={{ fill: '#212121', fontSize: '10px' }} />
 
                     <Area
                       connectNulls
