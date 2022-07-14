@@ -20,3 +20,24 @@ export const getHistoricalPriceChart = async (param) => {
   });
   return data;
 };
+
+export const getStockDividend = async (param) => {
+  var { data } = await ServiceCP1V2.get(`/stock-dividend`, {
+    params: param,
+  });
+  return data;
+};
+
+export const getEarnings = async (param) => {
+  var { data } = await ServiceCP1V2.get(`/earnings`, {
+    params: param,
+  });
+  return data;
+};
+
+export const getStockMarketActives = async () => {
+  var { data } = await ServiceCP1V2.get(`/stock-market-actives`);
+  return data;
+};
+
+

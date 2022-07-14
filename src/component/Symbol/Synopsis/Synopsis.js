@@ -4,6 +4,8 @@ import {
   getCompanyProfileQuote,
   getCompanyStockPeers,
   getHistoricalPriceChart,
+  getStockDividend,
+  getEarnings,
 } from '../../api/Symbol';
 import abbreviateNumber from '../../Common/NumberFormat';
 import ReadMore from '../../Common/ReadMore/ReadMore';
@@ -23,7 +25,14 @@ import {
   Tooltip,
   XAxis,
   YAxis,
+  Bar,
+  BarChart,
+  ComposedChart,
+  Line,
+  ScatterChart,
+  Scatter,
 } from 'recharts';
+import { RemoveDot } from '../../Common/Chart/Recharts';
 
 const Synopsis = () => {
   const { symbol } = useParams();
@@ -34,6 +43,8 @@ const Synopsis = () => {
   const [companyEssentialsData, setCompanyEssentialsData] = useState(null);
   const [ticks, setTicks] = useState([]);
   const [isChartLoading, setIsChartLoading] = useState(false);
+  const [dividendChart, setDividendChart] = useState(null);
+  const [earningsChart, setEarningsChart] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -80,6 +91,27 @@ const Synopsis = () => {
           symbol: symbol,
           period: chartPeriod,
         });
+
+        const dividend = await getStockDividend({ symbol: symbol });
+        if (
+          dividend.status === 200 &&
+          dividend.data &&
+          dividend.data.historical
+        ) {
+          if (dividend.data.historical.length > 5) {
+            const temp = dividend.data.historical.slice(0, 5);
+            setDividendChart(temp);
+          }
+        }
+
+        const earnings = await getEarnings({ symbol: symbol.toUpperCase() });
+
+        if (earnings && earnings.status === 200 && earnings.data) {
+          if (earnings.data.length > 5) {
+            const temp = earnings.data.slice(0, 5);
+            setEarningsChart(temp);
+          }
+        }
       }
     })();
   }, []);
@@ -559,7 +591,42 @@ const Synopsis = () => {
                     </button>
                   </div>
                 </div>
-                <img src={Earnings} className='img-fluid w-100' alt='symbol' />
+
+                <ResponsiveContainer width='100%' maxHeight={250}>
+                  <ComposedChart
+                    data={earningsChart}
+                    margin={{
+                      top: 20,
+                      right: 20,
+                      bottom: 20,
+                      left: 20,
+                    }}
+                  >
+                    <XAxis
+                      dataKey='date'
+                      ticks={ticks}
+                      tick={{ fill: '#212121', fontSize: '12px' }}
+                      padding={{ top: 20 }}
+                      domain={['auto', 'auto']}
+                      interval={0}
+                    />
+                    <YAxis tick={false} />
+
+                    <Area
+                      connectNulls
+                      type='monotone'
+                      dataKey='actualEarningResult'
+                      stroke='#82ca9d'
+                      fillOpacity={1}
+                      fill='url(#colorPv)'
+                    />
+                    <Scatter
+                      name='expected earning'
+                      dataKey='estimatedEarning'
+                      fill='#8884d8'
+                    />
+                  </ComposedChart>
+                </ResponsiveContainer>
               </div>
               <div className='col-lg-4'>
                 <div className='d-flex align-items-center mb-5'>
@@ -572,11 +639,29 @@ const Synopsis = () => {
                     </a>
                   </div>
                 </div>
-                <img
-                  src={SymbolChart5}
-                  className='img-fluid w-100'
-                  alt='symbol'
-                />
+                <ResponsiveContainer width='100%' aspect={1} maxHeight={250}>
+                  <BarChart data={dividendChart} barSize={25} barGap={20}>
+                    <XAxis
+                      dataKey='date'
+                      tickFormatter={(date) => {
+                        return moment(date).format('YYYY/MM/DD');
+                      }}
+                      axisLine={false}
+                      tick={{ fill: '#212121', fontSize: '10px' }}
+                      interval={0}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      tick={{ fill: '#212121', fontSize: '10px' }}
+                    />
+                    <Tooltip />
+                    {/* <Legend /> */}
+                    <Bar dataKey='dividend' fill='#3751FF' />
+                    {/* {volume === 'VOLUME_CALL_PUT' && (
+                      <Bar dataKey='put' fill='#82ca9d' />
+                    )} */}
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </div>
           </div>

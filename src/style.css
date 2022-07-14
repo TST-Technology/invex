@@ -2644,7 +2644,13 @@ body .page_main_tab li button.active {
   }
   .main.pagenotfound_sec {
     padding-top: 0;
-  } 
+  }
+  .marquee, .marquee2 {
+    margin-top: 0;
+  }
+  .phoneNav.lightNav {
+    background-color: #ffffff;
+  }
 }
 
 
@@ -2756,6 +2762,24 @@ body .page_main_tab li button.active {
 
   .pagenotfound p {
     padding: 10px 20px 20px;
+  }
+  .marquee, .marquee2 {
+    margin-top: 0;
+  }
+  .phoneNav.lightNav {
+    background-color: #ffffff;
+  }
+  .offcanvaslightNav {
+    background: #fff;
+  }
+  .offcanvaslightNav .offcanvas-body ul li a {
+    color: #212121;
+  }
+  .offcanvaslightNav button.newUser {
+    background: #ededed;
+  }
+  .offcanvas-header button svg {
+    fill: #212121;
   }
 }
 
