@@ -577,19 +577,6 @@ const Synopsis = () => {
                   <h5 className='me-auto'>
                     <strong>Earnings</strong>
                   </h5>
-                  <div className='top_button_panel top_button_panel_light'>
-                    <button type='button' className='btn btn-info m-0'>
-                      {' '}
-                      Anual
-                    </button>
-                    <button
-                      type='button'
-                      className='btn btn-light border-0 m-0'
-                    >
-                      {' '}
-                      Quarterly
-                    </button>
-                  </div>
                 </div>
 
                 <ResponsiveContainer width='100%' maxHeight={250}>
@@ -597,7 +584,7 @@ const Synopsis = () => {
                     data={earningsChart}
                     margin={{
                       top: 20,
-                      right: 20,
+                      right: 40,
                       bottom: 20,
                       left: 20,
                     }}
