@@ -28,3 +28,7 @@ code {
 .companyviewblk.v2.compny_left_detail .chart .card-text.down{
   border-left: 4px solid #DF0822;
 }
+
+.description-para.read-more-container{
+  overflow-y: auto;
+}

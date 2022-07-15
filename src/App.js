@@ -36,6 +36,9 @@ import 'primereact/resources/primereact.min.css'; //core css
 import 'primeicons/primeicons.css';
 import SymbolDetails from './component/Symbol/SymbolDetails';
 import Synopsis from './component/Symbol/Synopsis/Synopsis';
+import NewNavbar from './component/Common/Navbar/NewNavbar';
+import Marquee from './component/Common/Navbar/Marquee';
+import Dividents from './component/Dividents/Dividents';
 
 function App() {
   // useEffect(() => {
@@ -144,7 +147,37 @@ function App() {
           <Route
             exact
             path={InvexRoutes.Synopsis.path}
-            element={<SymbolDetails />}
+            element={
+              <>
+                <NewNavbar />
+                <Marquee />
+                <SymbolDetails />
+              </>
+            }
+          />
+
+          <Route
+            exact
+            path={InvexRoutes.Synopsis.path}
+            element={
+              <>
+                <NewNavbar />
+                <Marquee />
+                <SymbolDetails />
+              </>
+            }
+          />
+
+          <Route
+            exact
+            path={InvexRoutes.Divident.path}
+            element={
+              <>
+                <NewNavbar />
+                <Marquee />
+                <Dividents />
+              </>
+            }
           />
           <Route path='*' element={<NotFound />} />
         </Routes>

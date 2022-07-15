@@ -29,14 +29,15 @@ const CompanyDetailNew = ({ data }) => {
                           data?.changesPercentage > 0 ? 'up' : 'down'
                         }`}
                       >
-                        $ {data?.price}
+                        $ {data?.price.toFixed(2)}
                       </p>
                       <p
                         className={`${
                           data?.changesPercentage > 0 ? 'up' : 'down'
                         }`}
                       >
-                        <> {data?.change}</> ({data?.changesPercentage}%)
+                        <> {data?.change.toFixed(2)}</> (
+                        {data?.changesPercentage.toFixed(2)}%)
                       </p>
                     </div>
                     <span>At close: May 4 04:00PM EDT</span>

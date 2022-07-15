@@ -23,6 +23,7 @@ const InvexRoutes = {
   SymbolOption: { path: '/symbol/option/:symbol' },
   SymbolNotPublished: { path: '/not-published' },
   Synopsis: { path: '/synopsis/:symbol' },
+  Divident: { path: '/synopsis/divident/:symbol' },
 };
 
 export default InvexRoutes;

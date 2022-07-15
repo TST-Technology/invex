@@ -8,6 +8,7 @@ import Marquee from '../Common/Navbar/Marquee';
 import { TYPE } from './Constants';
 import Synopsis from './Synopsis/Synopsis';
 import { getCompanyProfileQuote } from '../api/Symbol';
+import Chart from './Chart/Chart';
 
 const SymbolDetails = () => {
   const [activeTab, setActiveTab] = useState(TYPE.synopsis.value);
@@ -31,11 +32,12 @@ const SymbolDetails = () => {
     setLoading(false);
   };
 
+  const handleTabChange = (value) => {
+    setActiveTab(value);
+  };
+
   return (
     <>
-      <Navbar />
-
-      <Marquee />
       {/* mainpage content start */}
       <div className='main'>
         <section className='company_details symfinstatcs'>
@@ -66,7 +68,9 @@ const SymbolDetails = () => {
                 </ul>
                 <div className='tab-content' id='myTabContent'>
                   <div className='tab-pane fade show active'>
-                    {activeTab === TYPE.synopsis.value && <Synopsis />}
+                    {activeTab === TYPE.synopsis.value && (
+                      <Synopsis onChangeTab={handleTabChange} />
+                    )}
 
                     {activeTab === TYPE.financialStatistics.value && (
                       <FinancialStatistics />
@@ -75,6 +79,8 @@ const SymbolDetails = () => {
                     {activeTab === TYPE.financialStatements.value && (
                       <Financials />
                     )}
+
+                    {activeTab === TYPE.chart.value && <Chart />}
                   </div>
                 </div>
               </div>

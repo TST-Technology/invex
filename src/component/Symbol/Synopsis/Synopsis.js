@@ -31,10 +31,14 @@ import {
   Line,
   ScatterChart,
   Scatter,
+  Legend,
+  ZAxis,
 } from 'recharts';
-import { RemoveDot } from '../../Common/Chart/Recharts';
+import InvexRoutes from '../../../InvexRoutes';
+import { CHART_TIME_DURATION } from '../../Common/Constants';
+import { TYPE } from '../Constants';
 
-const Synopsis = () => {
+const Synopsis = ({ onChangeTab }) => {
   const { symbol } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(null);
@@ -45,6 +49,8 @@ const Synopsis = () => {
   const [isChartLoading, setIsChartLoading] = useState(false);
   const [dividendChart, setDividendChart] = useState(null);
   const [earningsChart, setEarningsChart] = useState(null);
+  const [dividendChartLoading, setDividendChartLoading] = useState(false);
+  const [earningsChartLoading, setEarningsChartLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -68,29 +74,24 @@ const Synopsis = () => {
           data2.data[0] &&
           data2.data[0].peersList
         ) {
-          setIsLoading(true);
           Promise.all(
             data2.data[0].peersList.map((company) => {
               return getCompanyProfileQuote({ symbol: company });
             })
-          )
-            .then((values) => {
-              const tableData = values.map((value) => {
-                return value.data;
-              });
-              setTopCompetitors(tableData);
-            })
-            .finally(() => {
-              setIsLoading(false);
+          ).then((values) => {
+            const tableData = values.map((value) => {
+              return value.data;
             });
+            setTopCompetitors(tableData);
+          });
         }
-
-        setIsLoading(false);
 
         const chartResp = await getHistoricalPriceChart({
           symbol: symbol,
           period: chartPeriod,
         });
+
+        setDividendChartLoading(true);
 
         const dividend = await getStockDividend({ symbol: symbol });
         if (
@@ -104,6 +105,10 @@ const Synopsis = () => {
           }
         }
 
+        setDividendChartLoading(false);
+
+        setEarningsChartLoading(true);
+
         const earnings = await getEarnings({ symbol: symbol.toUpperCase() });
 
         if (earnings && earnings.status === 200 && earnings.data) {
@@ -112,6 +117,10 @@ const Synopsis = () => {
             setEarningsChart(temp);
           }
         }
+
+        setIsLoading(false);
+
+        setEarningsChartLoading(false);
       }
     })();
   }, []);
@@ -294,7 +303,7 @@ const Synopsis = () => {
                     <div className='col-lg-3 col-md-3'>
                       <div className='title-lt'>Shares Outstanding</div>
                       <span>
-                        <b>{data?.sharesOutstanding}</b>
+                        <b>{abbreviateNumber(data?.sharesOutstanding)}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
@@ -371,74 +380,43 @@ const Synopsis = () => {
               </div>
               <div className='col-lg-6'>
                 <div className='price_chart mt-4 mb-5'>
-                  <h6 className='mb-4'>
-                    <strong>Company Essentials</strong>
-                  </h6>
+                  <div className='d-flex align-items-center mb-5'>
+                    <h5 className='me-auto'>
+                      <strong>Company Essentials</strong>
+                    </h5>
+                    <div className='top_button_panel top_button_panel_light'>
+                      <a
+                        href='javascript:void(0)'
+                        onClick={() => {
+                          onChangeTab(TYPE.chart.value);
+                        }}
+                      >
+                        View More <img src={ArrowRight} />
+                      </a>
+                    </div>
+                  </div>
                   <div className='d-flex align-items-center justify-content-between'>
                     <div className='mb-3'>
                       <label htmlFor>Absolute Return</label>
                       <span className='up up-light-bg p-1 ms-2'>+17.3%</span>
                     </div>
                     <div className='top_button_panel top_button_panel_light mb-3'>
-                      <button
-                        type='button'
-                        className={`btn ${
-                          chartPeriod === '1d' ? 'btn-info' : 'btn-light'
-                        } `}
-                        onClick={() => setChartPeriod('1d')}
-                      >
-                        1D
-                      </button>
-                      <button
-                        type='button'
-                        className={`btn ${
-                          chartPeriod === '1w' ? 'btn-info' : 'btn-light'
-                        } `}
-                        onClick={() => setChartPeriod('1w')}
-                      >
-                        {' '}
-                        1W
-                      </button>
-                      <button
-                        type='button'
-                        className={`btn ${
-                          chartPeriod === '1m' ? 'btn-info' : 'btn-light'
-                        } `}
-                        onClick={() => setChartPeriod('1m')}
-                      >
-                        {' '}
-                        1M
-                      </button>
-                      <button
-                        type='button'
-                        className={`btn ${
-                          chartPeriod === '1y' ? 'btn-info' : 'btn-light'
-                        } `}
-                        onClick={() => setChartPeriod('1y')}
-                      >
-                        {' '}
-                        1Y
-                      </button>
-                      <button
-                        type='button'
-                        className={`btn ${
-                          chartPeriod === '5y' ? 'btn-info' : 'btn-light'
-                        } `}
-                        onClick={() => setChartPeriod('5y')}
-                      >
-                        {' '}
-                        5Y
-                      </button>
-                      <button
-                        type='button'
-                        className={`btn ${
-                          chartPeriod === 'max' ? 'btn-info' : 'btn-light'
-                        } `}
-                        onClick={() => setChartPeriod('max')}
-                      >
-                        {' '}
-                        MAX
-                      </button>
+                      {CHART_TIME_DURATION.map((duration, index) => {
+                        return (
+                          <button
+                            key={index}
+                            type='button'
+                            className={`btn ${
+                              chartPeriod === duration.value
+                                ? 'btn-info'
+                                : 'btn-light'
+                            } `}
+                            onClick={() => setChartPeriod(duration.value)}
+                          >
+                            {duration.label}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
 
@@ -526,11 +504,6 @@ const Synopsis = () => {
                       </AreaChart>
                     </ResponsiveContainer>
                   )}
-                  {/* <img
-                    src={CompanyEssentialChart}
-                    className='img-fluid w-100'
-                    alt='symbol'
-                  /> */}
                 </div>
               </div>
             </div>
@@ -540,7 +513,7 @@ const Synopsis = () => {
               <div className='col-lg-4 border-end pe-4'>
                 {/* company profile box start*/}
                 <div className='mb-4'>
-                  <div className='description-para'>
+                  <div className='description-para read-more-container'>
                     <h5 className='mb-4'>
                       <strong>Company Info</strong>
                     </h5>
@@ -579,40 +552,63 @@ const Synopsis = () => {
                   </h5>
                 </div>
 
-                <ResponsiveContainer width='100%' maxHeight={250}>
-                  <ComposedChart
-                    data={earningsChart}
-                    margin={{
-                      top: 20,
-                      right: 40,
-                      bottom: 20,
-                      left: 20,
+                {earningsChartLoading && (
+                  <div
+                    style={{
+                      height: 200,
+                      textAlign: 'center',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                     }}
                   >
-                    <XAxis
-                      dataKey='date'
-                      tick={{ fill: '#212121', fontSize: '10px' }}
-                      padding={{ top: 20 }}
-                      domain={['auto', 'auto']}
-                      interval={0}
-                    />
-                    <YAxis tick={{ fill: '#212121', fontSize: '10px' }} />
+                    <CircularProgress />
+                  </div>
+                )}
 
-                    <Area
-                      connectNulls
-                      type='monotone'
-                      dataKey='actualEarningResult'
-                      stroke='#82ca9d'
-                      fillOpacity={1}
-                      fill='url(#colorPv)'
-                    />
-                    <Scatter
-                      name='expected earning'
-                      dataKey='estimatedEarning'
-                      fill='#8884d8'
-                    />
-                  </ComposedChart>
-                </ResponsiveContainer>
+                {!earningsChartLoading && (
+                  <ResponsiveContainer width='100%' aspect={1} maxHeight={250}>
+                    <ComposedChart
+                      data={earningsChart}
+                      margin={{
+                        top: 20,
+                        right: 40,
+                        bottom: 20,
+                        left: 20,
+                      }}
+                    >
+                      <XAxis
+                        axisLine={false}
+                        dataKey='date'
+                        tick={{ fill: '#212121', fontSize: '10px' }}
+                        padding={{ top: 20 }}
+                        domain={['auto', 'auto']}
+                        interval={0}
+                      />
+                      <YAxis
+                        axisLine={false}
+                        tick={{ fill: '#212121', fontSize: '10px' }}
+                      />
+                      <Tooltip />
+                      <Legend wrapperStyle={{ bottom: -20, left: 25 }} />
+                      <Area
+                        connectNulls
+                        type='monotone'
+                        name='Actual Value'
+                        dataKey='actualEarningResult'
+                        stroke='#82ca9d'
+                        fillOpacity={1}
+                        fill='url(#colorPv)'
+                      />
+                      <Scatter
+                        name='Assumption'
+                        dataKey='estimatedEarning'
+                        fill='#3751FF'
+                      />
+                      <ZAxis range={[250, 250]} />
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                )}
               </div>
               <div className='col-lg-4'>
                 <div className='d-flex align-items-center mb-5'>
@@ -620,34 +616,55 @@ const Synopsis = () => {
                     <strong>Dividends &amp; Splits</strong>
                   </h5>
                   <div className='top_button_panel top_button_panel_light'>
-                    <a href='#'>
+                    <Link
+                      to={InvexRoutes.Divident.path.replace(':symbol', symbol)}
+                    >
                       View More <img src={ArrowRight} />
-                    </a>
+                    </Link>
                   </div>
                 </div>
-                <ResponsiveContainer width='100%' aspect={1} maxHeight={250}>
-                  <BarChart data={dividendChart} barSize={25} barGap={20}>
-                    <XAxis
-                      dataKey='date'
-                      tickFormatter={(date) => {
-                        return moment(date).format('YYYY/MM/DD');
-                      }}
-                      axisLine={false}
-                      tick={{ fill: '#212121', fontSize: '10px' }}
-                      interval={0}
-                    />
-                    <YAxis
-                      axisLine={false}
-                      tick={{ fill: '#212121', fontSize: '10px' }}
-                    />
-                    <Tooltip />
-                    {/* <Legend /> */}
-                    <Bar dataKey='dividend' fill='#3751FF' />
-                    {/* {volume === 'VOLUME_CALL_PUT' && (
+
+                {dividendChartLoading && (
+                  <div
+                    style={{
+                      height: 200,
+                      textAlign: 'center',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <CircularProgress />
+                  </div>
+                )}
+
+                {!dividendChartLoading && (
+                  <ResponsiveContainer width='100%' aspect={1} maxHeight={250}>
+                    <BarChart data={dividendChart} barSize={25} barGap={20}>
+                      <XAxis
+                        dataKey='date'
+                        tickFormatter={(date) => {
+                          return moment(date).format('YYYY/MM/DD');
+                        }}
+                        axisLine={false}
+                        tick={{ fill: '#212121', fontSize: '10px' }}
+                        interval={0}
+                      />
+                      <YAxis
+                        axisLine={false}
+                        tick={{ fill: '#212121', fontSize: '10px' }}
+                      />
+                      <Tooltip />
+
+                      <Legend wrapperStyle={{ bottom: -20, left: 25 }} />
+
+                      <Bar dataKey='dividend' fill='#3751FF' name='Dividend' />
+                      {/* {volume === 'VOLUME_CALL_PUT' && (
                       <Bar dataKey='put' fill='#82ca9d' />
                     )} */}
-                  </BarChart>
-                </ResponsiveContainer>
+                    </BarChart>
+                  </ResponsiveContainer>
+                )}
               </div>
             </div>
           </div>
@@ -679,7 +696,9 @@ const Synopsis = () => {
                           return (
                             <tr key={index}>
                               <td>{replaceEmpty(row?.symbol)}</td>
-                              <td>{replaceEmpty(row?.price)}</td>
+                              <td>
+                                {row?.price ? row?.price.toFixed(2) : '-'}
+                              </td>
                               <td>
                                 {row?.marketCap
                                   ? abbreviateNumber(row?.marketCap)

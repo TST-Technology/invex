@@ -32,7 +32,7 @@ const Navbar = () => {
               <div className='input-group'>
                 <input
                   type='text'
-                  defaultValue
+                  // defaultValue
                   name='s'
                   className='form-control'
                   placeholder='Search for symbol'
