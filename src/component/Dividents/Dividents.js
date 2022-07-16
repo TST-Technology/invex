@@ -8,6 +8,7 @@ import CompanyDetailNew from '../Symbol/CompanyDetails/CompanyDetailNew';
 import InvexRoutes from '../../InvexRoutes';
 import Image1 from '../Common/Images/image1.png';
 import ArrowLeft from '../Common/Images/arrow-left.svg';
+import { replaceEmpty } from '../Common/CommonFunctions';
 
 const Dividents = () => {
   const [dividentData, setDividentData] = useState(null);
@@ -22,6 +23,7 @@ const Dividents = () => {
     'Cash Amount',
     'Record Date',
     'Pay Date',
+    'Declaration Date',
   ];
 
   useEffect(() => {
@@ -102,19 +104,30 @@ const Dividents = () => {
                       <div className='col-lg-4 col-md-3'>
                         <div className='title-lt'>Divident Yield</div>
                         <span className='down'>
-                          <b>0.64%</b>
+                          <b>-</b>
                         </span>
                       </div>
                       <div className='col-lg-4 col-md-3'>
                         <div className='title-lt'>Annual Dividend</div>
                         <span>
-                          <b>$0.89</b>
+                          <b>-</b>
                         </span>
                       </div>
                       <div className='col-lg-4 col-md-3'>
                         <div className='title-lt'>Ex-Dividend Date</div>
                         <span>
-                          <b>May 6, 2022</b>
+                          <b>
+                            {dividentData &&
+                            dividentData[0] &&
+                            dividentData[0].date
+                              ? convertDateFormat(
+                                  dividentData &&
+                                    dividentData[0] &&
+                                    dividentData[0].date,
+                                  DATE_FORMAT[2]
+                                )
+                              : '-'}
+                          </b>
                         </span>
                       </div>
                     </div>
@@ -122,19 +135,19 @@ const Dividents = () => {
                       <div className='col-lg-4 col-md-3'>
                         <div className='title-lt'>Payout Frequency</div>
                         <span>
-                          <b>Quarterly</b>
+                          <b>-</b>
                         </span>
                       </div>
                       <div className='col-lg-4 col-md-3'>
                         <div className='title-lt'>Payout Ratio</div>
                         <span>
-                          <b>14.20%</b>
+                          <b>-</b>
                         </span>
                       </div>
                       <div className='col-lg-4 col-md-3'>
                         <div className='title-lt '>Dividend Growth</div>
                         <span className='up'>
-                          <b>6.59%</b>
+                          <b>-</b>
                         </span>
                       </div>
                     </div>
@@ -181,6 +194,12 @@ const Dividents = () => {
                                     <td>
                                       {convertDateFormat(
                                         dividend?.paymentDate,
+                                        DATE_FORMAT[2]
+                                      )}
+                                    </td>
+                                    <td>
+                                      {convertDateFormat(
+                                        dividend?.declarationDate,
                                         DATE_FORMAT[2]
                                       )}
                                     </td>

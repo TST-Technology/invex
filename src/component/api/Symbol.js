@@ -41,3 +41,13 @@ export const getStockMarketActives = async () => {
 };
 
 
+export const getSynopsisCompanyNews = async (param) => {
+  var { data } = await ServiceCP1V2.get(`/company-news`, {
+    params: param,
+  });
+  return data;
+};
+
+
+
+

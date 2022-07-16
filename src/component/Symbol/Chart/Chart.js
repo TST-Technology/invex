@@ -75,6 +75,7 @@ const ChartComponent = () => {
         const chart = chartResp?.data;
         var tempArr = [];
         tempArr = chart?.map((el, i) => {
+          el.close = el?.close ? el?.close.toFixed(2) : '';
           const convertedTime = convertDateFormat(el.date, DATE_FORMAT[3]);
           el.minute = convertedTime;
           if (convertedTime) {
@@ -112,6 +113,7 @@ const ChartComponent = () => {
         const tempTicks = [];
         var tempArr = [];
         tempArr = chart?.map((el, i) => {
+          el.close = el?.close ? el?.close.toFixed(2) : '';
           el.marketClose = el.close;
           const convertedDate = convertDateFormat(el.date, DATE_FORMAT[4]);
           el.minute = convertedDate;
@@ -230,7 +232,15 @@ const ChartComponent = () => {
                   domain={['auto', 'auto']}
                   interval={chartPeriod === '1d' ? 0 : ''}
                 />
-                <YAxis axisLine={false} tick={false} />
+                <YAxis
+                  axisLine={false}
+                  tick={false}
+                  domain={
+                    chartPeriod === '5y' || chartPeriod === 'max'
+                      ? [0, 'dataMax + 100']
+                      : ['dataMin', 'dataMax']
+                  }
+                />
                 <Tooltip />
                 <Area
                   connectNulls

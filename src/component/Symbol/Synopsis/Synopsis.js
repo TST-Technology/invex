@@ -38,6 +38,7 @@ import InvexRoutes from '../../../InvexRoutes';
 import { CHART_TIME_DURATION, DATE_FORMAT } from '../../Common/Constants';
 import { TYPE } from '../Constants';
 import { convertDateFormat } from '../../Common/DateFunctions';
+import SynopsisNews from './SynopsisNews';
 
 const Synopsis = ({ onChangeTab }) => {
   const { symbol } = useParams();
@@ -124,7 +125,7 @@ const Synopsis = ({ onChangeTab }) => {
         setEarningsChartLoading(false);
       }
     })();
-  }, []);
+  }, [symbol]);
 
   useEffect(() => {
     if (symbol) {
@@ -147,6 +148,7 @@ const Synopsis = ({ onChangeTab }) => {
         const chart = chartResp?.data;
         var tempArr = [];
         tempArr = chart?.map((el, i) => {
+          el.close = el?.close ? el?.close.toFixed(2) : '';
           const convertedTime = convertDateFormat(el.date, DATE_FORMAT[3]);
           el.minute = convertedTime;
           if (convertedTime) {
@@ -164,18 +166,6 @@ const Synopsis = ({ onChangeTab }) => {
           // to get a value that is either negative, positive, or zero.
           return new Date(b.date) - new Date(a.date);
         });
-
-        // const candleData = chart?.data
-        //   ?.filter((el) => {
-        //     return el.open && el.close && el.high && el.low;
-        //   })
-        //   .map((el) => {
-        //     const convertedDate = new Date(`${el.date} ${el.minute}`);
-        //     let newObj = {};
-        //     newObj.x = convertedDate;
-        //     newObj.y = [el.open, el.high, el.low, el.close];
-        //     return newObj;
-        //   });
         setTicks(tempTicks);
         setCompanyEssentialsData(tempArr);
       } else {
@@ -183,6 +173,7 @@ const Synopsis = ({ onChangeTab }) => {
         const tempTicks = [];
         var tempArr = [];
         tempArr = chart?.map((el, i) => {
+          el.close = el?.close ? el?.close.toFixed(2) : '';
           el.marketClose = el.close;
           const convertedDate = convertDateFormat(el.date, DATE_FORMAT[4]);
           el.minute = convertedDate;
@@ -190,20 +181,7 @@ const Synopsis = ({ onChangeTab }) => {
           return el;
         });
         setTicks(tempTicks);
-        setCompanyEssentialsData(tempArr.reverse());
-
-        // const candleData = chart?.data
-        //   ?.filter((el) => {
-        //     return el.open && el.close && el.high && el.low;
-        //   })
-        //   .map((el) => {
-        //     console.log(el);
-        //     let newObj = {};
-        //     newObj.x = el.date;
-        //     newObj.y = [el.open, el.high, el.low, el.close];
-        //     return newObj;
-        //   });
-        // setCompanyEssentialsData(candleData);
+        setCompanyEssentialsData(tempArr && tempArr.reverse());
       }
     }
 
@@ -447,7 +425,7 @@ const Synopsis = ({ onChangeTab }) => {
                     <ResponsiveContainer
                       width='100%'
                       aspect={1}
-                      maxHeight={250}
+                      maxHeight={320}
                     >
                       <AreaChart
                         data={companyEssentialsData}
@@ -500,12 +478,21 @@ const Synopsis = ({ onChangeTab }) => {
                           domain={['auto', 'auto']}
                           interval={chartPeriod === '1d' ? 0 : ''}
                         />
-                        <YAxis axisLine={false} tick={false} />
+                        <YAxis
+                          axisLine={false}
+                          tick={false}
+                          domain={
+                            chartPeriod === '5y' || chartPeriod === 'max'
+                              ? [0, 'dataMax + 100']
+                              : ['dataMin', 'dataMax']
+                          }
+                        />
                         <Tooltip />
                         <Area
                           connectNulls
                           type='monotone'
                           dataKey='close'
+                          name='Price'
                           stroke='#82ca9d'
                           fillOpacity={1}
                           fill='url(#colorPv)'
@@ -737,52 +724,7 @@ const Synopsis = ({ onChangeTab }) => {
               </div>
             </div>
           </div>
-          <div className='col-lg-12'>
-            <div className='market_news mb-5'>
-              <div className='d-flex align-items-center justify-content-between'>
-                <h5 className='m-0'>
-                  <strong>Company News</strong>
-                </h5>
-                <a href='javascript:void(0)' className='text-dark viewmore'>
-                  View More
-                </a>
-              </div>
-              <div className='row'>
-                {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((row, index) => {
-                  return (
-                    <div className='col-lg-4' key={index}>
-                      <div className='news_block mt-3 mb-3'>
-                        <div className='news_img'>
-                          <a href='javascript:void(0);'>
-                            <img
-                              src={NewsImg}
-                              className='img-fluid'
-                              alt='news_image'
-                            />
-                          </a>
-                        </div>
-                        <div className='news_content'>
-                          <a href='javascript:void(0);' className='text-dark'>
-                            <h5>
-                              Lucid shares soar on news of first electric sedan
-                              deliveries
-                            </h5>
-                          </a>
-                          <a
-                            href='javascript:void(0);'
-                            className='text-primary'
-                          >
-                            Business
-                          </a>
-                          <span> · Money Wise</span>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
+          <SynopsisNews />
         </div>
       )}
     </>

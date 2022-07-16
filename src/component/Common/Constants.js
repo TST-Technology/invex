@@ -10,7 +10,7 @@ export const CHART_TIME_DURATION = [
   { label: '1W', value: '1w' },
   { label: '1M', value: '1m' },
   { label: '1Y', value: '1y' },
-  { label: '5D', value: '5d' },
+  { label: '5Y', value: '5y' },
   { label: 'MAX', value: 'max' },
 ];
 
