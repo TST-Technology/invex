@@ -7,7 +7,7 @@ import {
 import {
   getOneDayBeforeDate,
   capitalizeFirstLetter,
-} from '../../Common/commonFunctions';
+} from '../../Common/CommonFunctions';
 import { CircularProgress } from '@material-ui/core';
 import { NormalFormat } from '../../Common/NumberFormat';
 

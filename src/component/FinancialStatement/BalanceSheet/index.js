@@ -9,7 +9,7 @@ import {
   SHAREHOLDERS_EQUITY_COLUMNS,
   OTHER_BALANCE_COLUMN,
 } from '../Constants';
-import { convertCamelCaseToSpaceSeparatedString } from '../../Common/commonFunctions';
+import { convertCamelCaseToSpaceSeparatedString } from '../../Common/CommonFunctions';
 import PrepareTable from '../PrepareTable';
 
 const BalanceSheet = ({ data }) => {

@@ -8,7 +8,7 @@ import {
   DATE_FORMAT,
 } from '../../Common/Constants';
 import { getHistoricalPriceChart } from '../../api/Symbol';
-import { convertDateFormat } from '../../Common/dateFunctions';
+import { convertDateFormat } from '../../Common/DateFunctions';
 import {
   Area,
   AreaChart,

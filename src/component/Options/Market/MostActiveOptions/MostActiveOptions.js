@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { replaceEmpty } from '../../../Common/commonFunctions';
+import { replaceEmpty } from '../../../Common/CommonFunctions';
 import { getMostActiveOptions } from '../../../api/OptionMarket';
 import { CircularProgress } from '@material-ui/core';
 

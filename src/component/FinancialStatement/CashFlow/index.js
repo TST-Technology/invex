@@ -7,7 +7,7 @@ import {
   FINANCING_CASH_FLOW_COLUMNS,
   OTHER_CASH_FLOW_COLUMNS,
 } from '../Constants';
-import { convertCamelCaseToSpaceSeparatedString } from '../../Common/commonFunctions';
+import { convertCamelCaseToSpaceSeparatedString } from '../../Common/CommonFunctions';
 import PrepareTable from '../PrepareTable';
 
 const CashFlow = ({ data }) => {

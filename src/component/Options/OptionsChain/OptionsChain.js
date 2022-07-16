@@ -4,7 +4,7 @@ import Select from 'react-select';
 import { getBookKeyStatus, getCompanyDataBySymbol } from '../../api/commonApi';
 import { getCompanyLogo } from '../../api/company';
 import { getOptionsChainData, getOptionsChainGraph } from '../../api/Option';
-import { getOneDayBeforeDate } from '../../Common/commonFunctions';
+import { getOneDayBeforeDate } from '../../Common/CommonFunctions';
 import CompanyView from '../Quote/CompanyView/CompanyView';
 import ArrowDownImg from '../../Common/Images/arrow-down.svg';
 import { CircularProgress } from '@material-ui/core';

@@ -11,7 +11,7 @@ import RightSideSection from './RightSideSection/RightSideSection';
 import { getDefaultMarketOption } from '../../api/OptionMarket';
 import { CircularProgress } from '@material-ui/core';
 import moment from 'moment';
-import { getOneDayBeforeDate } from '../../Common/commonFunctions';
+import { getOneDayBeforeDate } from '../../Common/CommonFunctions';
 
 const Market = () => {
   const [data, setData] = useState([]);

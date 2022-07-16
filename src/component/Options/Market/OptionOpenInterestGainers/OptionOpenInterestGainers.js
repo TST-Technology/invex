@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getOptionOpenInterestGainers } from '../../../api/OptionMarket';
-import { replaceEmpty } from '../../../Common/commonFunctions';
+import { replaceEmpty } from '../../../Common/CommonFunctions';
 import moment from 'moment';
 import { CircularProgress } from '@material-ui/core';
 

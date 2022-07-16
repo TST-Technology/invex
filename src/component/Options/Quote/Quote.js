@@ -12,7 +12,7 @@ import {
   getCompanyDataByAAPL,
   getBookKeyAAPL,
 } from '../../api/commonApi';
-import { getOneDayBeforeDate } from '../../Common/commonFunctions';
+import { getOneDayBeforeDate } from '../../Common/CommonFunctions';
 import { getCompanyLogo } from '../../api/company';
 import moment from 'moment';
 

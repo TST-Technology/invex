@@ -6,7 +6,7 @@ import {
   replaceEmpty,
   replaceEmptyWithNumberPreFix,
   replaceEmptyWithPostFix,
-} from '../Common/commonFunctions';
+} from '../Common/CommonFunctions';
 import { getManualValuationDividendData } from '../api/valuation';
 import {
   ComposedChart,

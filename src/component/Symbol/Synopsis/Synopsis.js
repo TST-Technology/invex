@@ -10,7 +10,7 @@ import {
 import abbreviateNumber from '../../Common/NumberFormat';
 import ReadMore from '../../Common/ReadMore/ReadMore';
 import { TOP_COMPETITOR_COLUMNS } from '../Constants';
-import { replaceEmpty } from '../../Common/commonFunctions';
+import { replaceEmpty } from '../../Common/CommonFunctions';
 import { CircularProgress } from '@material-ui/core';
 import moment from 'moment';
 import NewsImg from '../../Common/Images/news-1.png';

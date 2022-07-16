@@ -11,7 +11,7 @@ import CompetitorsNews from './CompetitorsAndNews/CompetitorsNews'
 import { getSectorAndIndustryBySymbol } from '../api/sectors';
 import { getVolatality } from '../api/Option';
 import { getCompanyLogo } from '../api/company';
-import { getOneDayBeforeDate } from '../Common/commonFunctions';
+import { getOneDayBeforeDate } from '../Common/CommonFunctions';
 
 const SymbolPage = (props) => {
   const [params] = useSearchParams();
@@ -42,10 +42,10 @@ const SymbolPage = (props) => {
           setKeyStatus(res?.data?.quote);
         }
 
-        // var volatility = await getVolatality(symbol, date);
-        // if (volatility) {
-        //   setOptions(volatility);
-        // }
+        var volatility = await getVolatality(symbol, date);
+        if (volatility) {
+          setOptions(volatility);
+        }
 
         const logoData = await getCompanyLogo(symbol);
         if (

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import { getStockDividend, getCompanyProfileQuote } from '../api/Symbol';
-import { convertDateFormat } from '../Common/dateFunctions';
+import { convertDateFormat } from '../Common/DateFunctions';
 import { DATE_FORMAT } from '../Common/Constants';
 import CompanyDetailNew from '../Symbol/CompanyDetails/CompanyDetailNew';
 import InvexRoutes from '../../InvexRoutes';

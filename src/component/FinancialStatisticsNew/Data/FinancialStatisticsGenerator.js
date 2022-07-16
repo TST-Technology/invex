@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import abbreviateNumber from '../../Common/NumberFormat';
 import CustomChart from '../../Graph/CustomChart';
-import { convertCamelCaseToSpaceSeparatedString } from '../../Common/commonFunctions';
+import { convertCamelCaseToSpaceSeparatedString } from '../../Common/CommonFunctions';
 import { CircularProgress } from '@material-ui/core';
 
 const FinancialStatisticsGenerator = ({ data, Loading, columnList }) => {

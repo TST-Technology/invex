@@ -15,6 +15,8 @@ import {
 } from 'recharts';
 import { RemoveDot } from '../Common/Chart/Recharts';
 import moment from 'moment';
+import { convertDateFormat } from '../Common/DateFunctions';
+import { DATE_FORMAT } from '../Common/Constants';
 
 const MacroEconomics = () => {
   const [macroEconomics, setMacroEconomics] = useState(null);
@@ -66,9 +68,7 @@ const MacroEconomics = () => {
         if (data && data.status === 200) {
           const tempData = data.data.map((row) => {
             let newObj = {};
-            const convertedDate = moment
-              .unix(row.date / 1000)
-              .format('DD MMM YYYY');
+            const convertedDate = convertDateFormat(row?.date, DATE_FORMAT[4]);
             newObj.val = row.value;
             newObj.date = convertedDate;
             return newObj;
