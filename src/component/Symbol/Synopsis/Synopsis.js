@@ -35,8 +35,9 @@ import {
   ZAxis,
 } from 'recharts';
 import InvexRoutes from '../../../InvexRoutes';
-import { CHART_TIME_DURATION } from '../../Common/Constants';
+import { CHART_TIME_DURATION, DATE_FORMAT } from '../../Common/Constants';
 import { TYPE } from '../Constants';
+import { convertDateFormat } from '../../Common/DateFunctions';
 
 const Synopsis = ({ onChangeTab }) => {
   const { symbol } = useParams();
@@ -146,7 +147,7 @@ const Synopsis = ({ onChangeTab }) => {
         const chart = chartResp?.data;
         var tempArr = [];
         tempArr = chart?.map((el, i) => {
-          const convertedTime = moment(el.date).format('HH:mm');
+          const convertedTime = convertDateFormat(el.date, DATE_FORMAT[3]);
           el.minute = convertedTime;
           if (convertedTime) {
             const hour = convertedTime.substring(0, 2);
@@ -183,7 +184,7 @@ const Synopsis = ({ onChangeTab }) => {
         var tempArr = [];
         tempArr = chart?.map((el, i) => {
           el.marketClose = el.close;
-          const convertedDate = moment(el.date).format('DD MMM YYYY');
+          const convertedDate = convertDateFormat(el.date, DATE_FORMAT[4]);
           el.minute = convertedDate;
           tempTicks.push(convertedDate);
           return el;
@@ -323,23 +324,27 @@ const Synopsis = ({ onChangeTab }) => {
                     <div className='col-lg-3 col-md-3'>
                       <div className='title-lt'>Enterprise Value</div>
                       <span>
-                        <b>-</b>
+                        <b>
+                          {data?.enterpriseValueMultipleTTM
+                            ? data?.enterpriseValueMultipleTTM.toFixed(2)
+                            : '-'}
+                        </b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
                       <div className='title-lt'>Next Earnings Date</div>
                       <span>
-                        <b>
-                          {moment(data?.earningsAnnouncement).format(
-                            'YYYY/MM/DD'
-                          )}
-                        </b>
+                        <b>{convertDateFormat(data?.earningsAnnouncement)}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
                       <div className='title-lt'>Dividend Rate(TTM)</div>
                       <span>
-                        <b>-</b>
+                        <b>
+                          {data?.dividendPerShareTTM
+                            ? data?.dividendPerShareTTM.toFixed(2)
+                            : '-'}
+                        </b>
                       </span>
                     </div>
 
@@ -360,19 +365,23 @@ const Synopsis = ({ onChangeTab }) => {
                     <div className='col-lg-3 col-md-3'>
                       <div className='title-lt'>Ex-Dividend Date</div>
                       <span>
-                        <b>-</b>
+                        <b>{convertDateFormat(data?.exDividendDate)}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
                       <div className='title-lt'>IPO Date</div>
                       <span>
-                        <b>{moment(data?.ipoDate).format('YYYY/MM/DD')}</b>
+                        <b>{convertDateFormat(data?.ipoDate)}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
                       <div className='title-lt'>PB Ratio</div>
                       <span>
-                        <b>-</b>
+                        <b>
+                          {data?.priceToBookRatioTTM
+                            ? data?.priceToBookRatioTTM.toFixed(2)
+                            : '-'}
+                        </b>
                       </span>
                     </div>
                   </div>
@@ -581,6 +590,9 @@ const Synopsis = ({ onChangeTab }) => {
                         axisLine={false}
                         dataKey='date'
                         tick={{ fill: '#212121', fontSize: '10px' }}
+                        tickFormatter={(date) => {
+                          return convertDateFormat(date);
+                        }}
                         padding={{ top: 20 }}
                         domain={['auto', 'auto']}
                         interval={0}
@@ -644,7 +656,7 @@ const Synopsis = ({ onChangeTab }) => {
                       <XAxis
                         dataKey='date'
                         tickFormatter={(date) => {
-                          return moment(date).format('YYYY/MM/DD');
+                          return convertDateFormat(date);
                         }}
                         axisLine={false}
                         tick={{ fill: '#212121', fontSize: '10px' }}

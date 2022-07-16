@@ -16,6 +16,7 @@ const FinancialStatisticsGenerator = ({ data, Loading, columnList }) => {
         let newObj = {};
         if (columns && columns?.tooltip) {
           newObj.tooltip = columns.tooltip;
+          newObj.type = columns?.type ? columns?.type : '';
         }
         newObj.heading = convertCamelCaseToSpaceSeparatedString(columns.key);
         data?.map((row, index) => {
@@ -29,6 +30,8 @@ const FinancialStatisticsGenerator = ({ data, Loading, columnList }) => {
 
       const finalLabel = labels.reverse();
       finalLabel.pop();
+      finalLabel.shift();
+
       setChartLabel(finalLabel);
       setCheckedValues([]);
     }
@@ -43,16 +46,12 @@ const FinancialStatisticsGenerator = ({ data, Loading, columnList }) => {
           const temp = row.slice(2, row.length).reverse();
 
           const finalData = [];
-          let prevValue = 0;
 
           temp.map((val, index) => {
-            if (index === 0) {
-              finalData.push(0);
-            } else if (index > 0 && index <= temp.length - 1) {
+            if (index > 0 && index <= temp.length - 1) {
               const value =
                 ((temp[index] - temp[index - 1]) / temp[index - 1]) * 100;
-              const finalValue = prevValue + value;
-              prevValue = finalValue;
+              const finalValue = value;
               finalData.push(isNaN(finalValue) ? 0 : finalValue);
             }
           });
@@ -163,7 +162,11 @@ const FinancialStatisticsGenerator = ({ data, Loading, columnList }) => {
                             data.map((value, i) => {
                               return (
                                 <td key={i}>
-                                  {abbreviateNumber(row[`col${i}`])}
+                                  {row[`col${i}`]
+                                    ? row?.type === 'CURRENCY'
+                                      ? abbreviateNumber(row[`col${i}`])
+                                      : row[`col${i}`].toFixed(2)
+                                    : '-'}
                                 </td>
                               );
                             })}

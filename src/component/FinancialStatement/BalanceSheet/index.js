@@ -31,7 +31,11 @@ const BalanceSheet = ({ data }) => {
 
       const labels = data?.map((row, index) => row?.column);
 
-      setChartLabel(labels.reverse());
+      const finalLabel = labels.reverse();
+      finalLabel.shift();
+
+      setChartLabel(finalLabel);
+
       setCheckedValues([]);
 
       const curAsset = prepareData(CURRENT_ASSETS_COLUMNS);
@@ -88,16 +92,12 @@ const BalanceSheet = ({ data }) => {
           const temp = row.slice(1, row.length).reverse();
 
           const finalData = [];
-          let prevValue = 0;
 
           temp.map((val, index) => {
-            if (index === 0) {
-              finalData.push(0);
-            } else if (index > 0 && index <= temp.length - 1) {
+            if (index > 0 && index <= temp.length - 1) {
               const value =
                 ((temp[index] - temp[index - 1]) / temp[index - 1]) * 100;
-              const finalValue = prevValue + value;
-              prevValue = finalValue;
+              const finalValue = value;
               finalData.push(isNaN(finalValue) ? 0 : finalValue);
             }
           });

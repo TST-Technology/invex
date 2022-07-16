@@ -29,11 +29,13 @@ export const CAPITAL_STRUCTURE_COLUMNS = [
   {
     key: 'bookValuePerShare',
     label: 'Book Value Per Share',
+    type: 'CURRENCY',
     tooltip: `The ratio of equity available to common shareholders divided by the total number of existing shares is known as book value per share (BVPS). This number calculates a company's book value per share and serves as the minimal measure of its equity.`,
   },
   {
     key: 'capexPerShare',
     label: 'Capex Per Share',
+    type: 'CURRENCY',
     tooltip: `The amount of capital expenditure per share incurred by the corporation to maintain its operating assets is known as capital expenditure per share. It is determined by dividing the capital expenditure from the statement of cash flows by the typical number of outstanding shares for the same time period.`,
   },
   {
@@ -66,6 +68,7 @@ The percentage of income that an individual or corporation pays in taxes is know
   {
     key: 'enterpriseValue',
     label: 'Enterprise Value',
+    type: 'CURRENCY',
     tooltip: `An alternative to stock market capitalization that is more comprehensive is enterprise value (EV), a measurement of a company's whole worth. EV calculates a company's market capitalization as well as its short- and long-term debt, as well as any cash on its balance sheet.`,
   },
   {
@@ -76,21 +79,25 @@ The percentage of income that an individual or corporation pays in taxes is know
   {
     key: 'investedCapital',
     label: 'Invested Capital',
+    type: 'CURRENCY',
     tooltip: `The total amount of money raised by a company through the sale of securities to equity investors and debt to bondholders is known as invested capital, and it is calculated by adding the total amount of debt and capital lease obligations to the amount of equity given to investors.`,
   },
   {
     key: 'marketCap',
     label: 'Market Cap',
+    type: 'CURRENCY',
     tooltip: `Market cap—or market capitalization—refers to the total value of all a company's shares of stock. It is calculated by multiplying the price of a stock by its total number of outstanding shares.`,
   },
   {
     key: 'netCurrentAssetValue',
     label: 'Net Current Asset Value',
+    type: 'CURRENCY',
     tooltip: `The total of all current assets minus the total of all current liabilities equals net current assets. Net current assets should be positive because this means that there are enough current assets on hand to cover all current liabilities. A business may be experiencing financial troubles and will likely require new capital soon if the net amount is negative.`,
   },
   {
     key: 'revenuePerShare',
     label: 'Revenue Per Share',
+    type: 'CURRENCY',
     tooltip: `Revenue per share is a ratio that determines the total sales made per share for a certain time period, such as the preceding twelve months, quarterly, semi-annually, or annually (TTM). It is determined by dividing total income by the average number of outstanding shares. Another name for it is "revenue per share."`,
   },
   {
@@ -101,16 +108,19 @@ The percentage of income that an individual or corporation pays in taxes is know
   {
     key: 'tangibleAssetValue',
     label: 'Tangible Asset Value',
+    type: 'CURRENCY',
     tooltip: `Cash, inventory, vehicles, equipment, buildings, and investments are examples of tangible assets that are physical in nature. Accounts receivable, pre-paid expenses, patents, and goodwill are examples of intangible assets that do not have a physical form.`,
   },
   {
     key: 'tangibleBookValuePerShare',
     label: 'Tangible Book Value Per Share',
+    type: 'CURRENCY',
     tooltip: `The value of a company's tangible assets divided by the number of shares it currently has outstanding results in tangible book value per share (TBVPS). TBVPS calculates a company's possible share price in the event that it has to sell its assets. Tangible assets include things like machinery and real estate.`,
   },
   {
     key: 'workingCapital',
     label: 'Working Capital',
+    type: 'CURRENCY',
     tooltip: `The difference between a company's current assets—such as cash, accounts receivable/unpaid invoices from customers, and inventories of raw materials and completed goods—and its current liabilities—such as debts and accounts payable—is known as working capital, sometimes known as net working capital (NWC).`,
   },
 ];
@@ -304,6 +314,7 @@ The interest coverage ratio is a debt and profitability ratio used to determine 
   {
     key: 'interestDebtPerShare',
     label: 'Interest Debt Per Share',
+    type: 'CURRENCY',
     tooltip: `=(debt + shortTermdebt + interestExpense)/
 shareNumber`,
   },
@@ -416,6 +427,7 @@ While growth investors are less interested in dividends and would rather realise
   {
     key: 'netIncomePerShare',
     label: 'Net Income Per Share',
+    type: 'CURRENCY',
     tooltip: `=Net Income/Shares Outstanding`,
   },
 ];
@@ -430,6 +442,7 @@ The financial strength of a corporation is inversely correlated with the amount 
   {
     key: 'freeCashFlowPerShare',
     label: 'Free Cash Flow Per Share',
+    type: 'CURRENCY',
     tooltip: `=FCF/Shares Outstanding`,
   },
   {
@@ -445,6 +458,7 @@ The financial strength of a corporation is inversely correlated with the amount 
   {
     key: 'operatingCashFlowPerShare',
     label: 'Operating Cash Flow Per Share',
+    type: 'CURRENCY',
     tooltip: `=OCF/Shares Outstanding`,
   },
   {
