@@ -369,7 +369,7 @@ const Synopsis = ({ onChangeTab }) => {
                 <div className='price_chart mt-4 mb-5'>
                   <div className='d-flex align-items-center mb-5'>
                     <h5 className='me-auto'>
-                      <strong>Company Essentials</strong>
+                      <strong>Price Chart</strong>
                     </h5>
                     <div className='top_button_panel top_button_panel_light'>
                       <a

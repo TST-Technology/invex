@@ -11,6 +11,12 @@ const getOneDayBeforeDate = () => {
   return moment(yesterday).tz('America/Los_Angeles').format('YYYY/MM/DD');
 };
 
+const getNDayBeforeDate = (dayBefore) => {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - dayBefore);
+  return moment(yesterday).tz('America/Los_Angeles').format('YYYY/MM/DD');
+};
+
 function capitalizeFirstLetter(string) {
   return string ? string.charAt(0).toUpperCase() + string.slice(1) : '';
 }
@@ -71,4 +77,5 @@ export {
   replaceEmptyWithPreFix,
   replaceEmptyWithNumberPreFix,
   convertCamelCaseToSpaceSeparatedString,
+  getNDayBeforeDate,
 };

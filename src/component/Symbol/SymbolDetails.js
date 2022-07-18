@@ -10,6 +10,7 @@ import Synopsis from './Synopsis/Synopsis';
 import { getCompanyProfileQuote } from '../api/Symbol';
 import Chart from './Chart/Chart';
 import OptionAnalysis from './OptionAnalysis/OptionAnalysis';
+import Valuation from '../V2/Valuation/Valuation';
 
 const SymbolDetails = () => {
   const [activeTab, setActiveTab] = useState(TYPE.synopsis.value);
@@ -86,6 +87,8 @@ const SymbolDetails = () => {
                     {activeTab === TYPE.optionAnalysis.value && (
                       <OptionAnalysis />
                     )}
+
+                    {activeTab === TYPE.dcfValuation.value && <Valuation />}
                   </div>
                 </div>
               </div>

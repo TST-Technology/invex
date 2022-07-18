@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { getVolatality } from '../../../api/Option';
+
 const CompanyData = ({ Company, KeyStatus, logo }) => {
   return (
     <>

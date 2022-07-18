@@ -98,7 +98,6 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
   }, [valuationOutputFilter]);
 
   useEffect(() => {
-    console.log(valuationOutput);
     if (valuationOutput) {
       valuationOutput.forEach((valuation, index) => {
         switch (valuation?.field_name) {

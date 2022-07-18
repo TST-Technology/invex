@@ -12,7 +12,10 @@ import {
   getCompanyDataByAAPL,
   getBookKeyAAPL,
 } from '../../api/commonApi';
-import { getOneDayBeforeDate } from '../../Common/CommonFunctions';
+import {
+  getOneDayBeforeDate,
+  getNDayBeforeDate,
+} from '../../Common/CommonFunctions';
 import { getCompanyLogo } from '../../api/company';
 import moment from 'moment';
 
@@ -40,10 +43,21 @@ const Quote = () => {
         if (res && res?.status === 200) {
           setKeyStatus(res?.data?.quote);
         }
-        var volatility = await getVolatality(symbol, date);
-        if (volatility) {
-          setOptions(volatility);
-        }
+        let i = 1;
+
+        do {
+          try {
+            const tempDate = getNDayBeforeDate(i);
+            var volatility = await getVolatality(symbol, tempDate);
+            if (volatility) {
+              setOptions(volatility);
+              break;
+            }
+          } catch (error) {
+            setOptions(null);
+            i++;
+          }
+        } while (i <= 15 && !Options);
 
         const logoData = await getCompanyLogo(symbol);
         if (
@@ -66,10 +80,22 @@ const Quote = () => {
         if (res && res?.status === 200) {
           setKeyStatus(res?.data?.quote);
         }
-        var volatility = await getVolatality('aapl', date);
-        if (volatility) {
-          setOptions(volatility);
-        }
+
+        let i = 1;
+        do {
+          try {
+            const tempDate = getNDayBeforeDate(i);
+            var volatility = await getVolatality('aapl', tempDate);
+            if (volatility) {
+              setOptions(volatility);
+              break;
+            }
+          } catch (error) {
+            setOptions(null);
+            i++;
+          }
+        } while (i <= 15 && !Options);
+
         const logoData = await getCompanyLogo('aapl');
         if (
           logoData &&

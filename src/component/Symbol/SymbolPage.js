@@ -11,7 +11,10 @@ import CompetitorsNews from './CompetitorsAndNews/CompetitorsNews'
 import { getSectorAndIndustryBySymbol } from '../api/sectors';
 import { getVolatality } from '../api/Option';
 import { getCompanyLogo } from '../api/company';
-import { getOneDayBeforeDate } from '../Common/CommonFunctions';
+import {
+  getOneDayBeforeDate,
+  getNDayBeforeDate,
+} from '../Common/CommonFunctions';
 
 const SymbolPage = (props) => {
   const [params] = useSearchParams();
@@ -21,7 +24,7 @@ const SymbolPage = (props) => {
   const [DividendData, setDividendData] = useState(false);
   const [NewsData, setNewsData] = useState(null);
   const [sector, setSector] = useState(null);
-  const [Options, setOptions] = useState({});
+  const [Options, setOptions] = useState(null);
   const [logo, setLogo] = useState();
   const date = getOneDayBeforeDate();
 
@@ -41,11 +44,21 @@ const SymbolPage = (props) => {
         if (res && res?.status === 200) {
           setKeyStatus(res?.data?.quote);
         }
+        let i = 1;
 
-        var volatility = await getVolatality(symbol, date);
-        if (volatility) {
-          setOptions(volatility);
-        }
+        do {
+          try {
+            const tempDate = getNDayBeforeDate(i);
+            var volatility = await getVolatality(symbol, tempDate);
+            if (volatility) {
+              setOptions(volatility);
+              break;
+            }
+          } catch (error) {
+            setOptions(null);
+            i++;
+          }
+        } while (i <= 15 && !Options);
 
         const logoData = await getCompanyLogo(symbol);
         if (
