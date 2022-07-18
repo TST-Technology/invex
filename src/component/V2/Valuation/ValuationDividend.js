@@ -335,7 +335,220 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
     }
   };
 
-  return <></>;
+  return (
+    <>
+      <h4 className='mt-4'>
+        Moderna Inc Stock Forecast, Predictions & Price Target
+      </h4>
+      <div className='col-lg-12'>
+        <div className='row'>
+          <div className='col-lg-6'>
+            <div className='mt-4 mb-4'>
+              <h6 className='mb-4'>
+                <strong>Basic Company Facts</strong>
+              </h6>
+              <div className='row border-bottom mb-3'>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Fiscal Year</div>
+                  <span className='down'>
+                    <b>
+                      {companyValuation?.fiscal_year}{' '}
+                      {companyValuation?.quarter}
+                    </b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Company Ticker</div>
+                  <span>
+                    <b>{data?.ticker}</b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Incorporation Cou...</div>
+                  <span>
+                    <b>{data?.incorporation_country}</b>
+                  </span>
+                </div>
+              </div>
+              <div className='row border-bottom mb-3'>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Valuation Currenct</div>
+                  <span className='down'>
+                    {/*  down-light-bg */}
+                    <b>{data?.open}</b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Sector (US)</div>
+                  <span>
+                    <b>{data?.previousClose}</b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Industry (US)</div>
+                  <span>
+                    <b>{data?.dayLow}</b>
+                  </span>
+                </div>
+              </div>
+              <div className='row border-bottom mb-3'>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Market Cap</div>
+                  <span className='down'>
+                    <b>
+                      {keyStatus?.marketCap
+                        ? `$${NormalFormat(keyStatus?.marketCap)}`
+                        : '-'}
+                    </b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Current Stock Price</div>
+                  <span>
+                    <b>
+                      {keyStatus?.latestPrice
+                        ? `$${NormalFormat(keyStatus?.latestPrice)}`
+                        : '-'}
+                    </b>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className='mt-4 mb-4'>
+              <h6 className='mb-4'>
+                <strong>Company’s Current Financials</strong>
+              </h6>
+              <div className='row border-bottom mb-3'>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Net Income</div>
+                  <span className='down'>
+                    <b>-</b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Book Value(Current Year)</div>
+                  <span>
+                    <b>-</b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Current Earnings per share</div>
+                  <span>
+                    <b>-</b>
+                  </span>
+                </div>
+              </div>
+              <div className='row border-bottom mb-3'>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Current Dividends</div>
+                  <span className='down'>
+                    <b>-</b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Cost Of Equity</div>
+                  <span>
+                    <b>-</b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Return On Equity</div>
+                  <span>
+                    <b>-</b>
+                  </span>
+                </div>
+              </div>
+              <div className='row border-bottom mb-3'>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Payout Ratio</div>
+                  <span className='down'>
+                    <b>-</b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Retention Ratio</div>
+                  <span>
+                    <b>-</b>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className='col-lg-6'>
+            <div className='price_chart mt-4 mb-5'>
+              <div className='d-flex align-items-center mb-5'>
+                <h5 className='me-auto'>
+                  <strong>Invex Wealth Past Predictions</strong>
+                </h5>
+              </div>
+
+              {pastPredictionGraphData && (
+                <ResponsiveContainer
+                  width='100%'
+                  aspect={1}
+                  maxHeight={400}
+                  className='mb-5'
+                >
+                  <BarChart
+                    data={pastPredictionGraphData}
+                    tick={false}
+                    margin={{
+                      top: 5,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                    barGap={35}
+                  >
+                    <XAxis
+                      dataKey='year'
+                      axisLine={false}
+                      domain={['auto', 'auto']}
+                      tick={{ fill: '#212121', fontSize: '12px' }}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      tick={{
+                        fill: '#212121',
+                        fontSize: '12px',
+                      }}
+                    />
+                    <Tooltip />
+
+                    <Bar fill='#88D1DC' dataKey='best' barSize={35}>
+                      <LabelList
+                        dataKey='best'
+                        content={renderCustomizedLabelWithoutBillion}
+                      />
+                    </Bar>
+                    <Bar fill='#F8DF86' dataKey='base' barSize={35}>
+                      <LabelList
+                        dataKey='base'
+                        content={renderCustomizedLabelWithoutBillion}
+                      />
+                    </Bar>
+                    <Bar fill='#E88190' dataKey='worst' barSize={35}>
+                      <LabelList
+                        dataKey='worst'
+                        content={renderCustomizedLabelWithoutBillion}
+                      />
+                    </Bar>
+                    <Bar fill='#9AA7FE' dataKey='actualPrice' barSize={35}>
+                      <LabelList
+                        dataKey='actualPrice'
+                        content={renderCustomizedLabelWithoutBillion}
+                      />
+                    </Bar>
+                    <Legend />
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default ValuationDividend;

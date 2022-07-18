@@ -19,6 +19,8 @@ import {
   Bar,
   Legend,
   LabelList,
+  Scatter,
+  ZAxis,
 } from 'recharts';
 import { CustomizedGrowthRateLabel } from '../../Common/Chart/Recharts';
 import moment from 'moment';
@@ -346,7 +348,270 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
     }
   };
 
-  return <></>;
+  return (
+    <>
+      <h4 className='mt-4'>
+        Moderna Inc Stock Forecast, Predictions & Price Target
+      </h4>
+      <div className='col-lg-12'>
+        <div className='row'>
+          <div className='col-lg-6'>
+            <div className='mt-4 mb-4'>
+              <h6 className='mb-4'>
+                <strong>Basic Company Facts</strong>
+              </h6>
+              <div className='row border-bottom mb-3'>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Fiscal Year</div>
+                  <span className='down'>
+                    <b>
+                      {companyValuation?.fiscal_year}{' '}
+                      {companyValuation?.quarter}
+                    </b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Company Ticker</div>
+                  <span>
+                    <b>{data?.ticker}</b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Incorporation Cou...</div>
+                  <span>
+                    <b>{data?.incorporation_country}</b>
+                  </span>
+                </div>
+              </div>
+              <div className='row border-bottom mb-3'>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Valuation Currency</div>
+                  <span className='down'>
+                    <b>{data?.valuation_currency}</b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Sector (US)</div>
+                  <span>
+                    <b>{sector?.SectorWiseIndustry?.Sector?.name}</b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Industry (US)</div>
+                  <span>
+                    <b>{sector?.SectorWiseIndustry?.name}</b>
+                  </span>
+                </div>
+              </div>
+              <div className='row border-bottom mb-3'>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Market Cap</div>
+                  <span className='down'>
+                    <b>
+                      {keyStatus?.marketCap
+                        ? `$${NormalFormat(keyStatus?.marketCap)}`
+                        : '-'}
+                    </b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Current Stock Price</div>
+                  <span>
+                    <b>
+                      {keyStatus?.latestPrice
+                        ? `$${NormalFormat(keyStatus?.latestPrice)}`
+                        : '-'}
+                    </b>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className='mt-4 mb-4'>
+              <h6 className='mb-4'>
+                <strong>Current Fundamental Metrices</strong>
+              </h6>
+              <div className='row border-bottom mb-3'>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Pre-tax operating margin</div>
+                  <span className='down'>
+                    <b>
+                      {companyValuation &&
+                      companyValuation.CompanyGrowths[0] &&
+                      companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_base
+                        ? `${companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_base}%`
+                        : ''}
+                    </b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Sales to capital ratio</div>
+                  <span>
+                    <b>{companyValuation?.sales_capital_ratio}</b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Return on invested capital</div>
+                  <span>
+                    <b>{roic ? `${roic}%` : '-'}</b>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className='mt-4 mb-4'>
+              <h6 className='mb-4'>
+                <strong>Current Financials</strong>
+              </h6>
+              <div className='row border-bottom mb-3'>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Revenues</div>
+                  <span className='down'>
+                    <b>
+                      {companyValuation?.revenues
+                        ? `$${millionToBillionConvert(
+                            companyValuation?.revenues
+                          )}`
+                        : '-'}
+                    </b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Income Before Interest & Tax</div>
+                  <span>
+                    <b>
+                      {companyValuation?.operating_income_ebit
+                        ? `$${millionToBillionConvert(
+                            companyValuation?.operating_income_ebit
+                          )}`
+                        : '-'}
+                    </b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Shareholders Equity</div>
+                  <span>
+                    <b>
+                      {companyValuation?.equity_book_value
+                        ? `$${millionToBillionConvert(
+                            companyValuation?.equity_book_value
+                          )}`
+                        : '-'}
+                    </b>
+                  </span>
+                </div>
+              </div>
+              <div className='row border-bottom mb-3'>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Total Debt</div>
+                  <span className='down'>
+                    <b>
+                      {companyValuation?.debit_book_value
+                        ? `$${millionToBillionConvert(
+                            companyValuation?.debit_book_value
+                          )}`
+                        : '-'}
+                    </b>
+                  </span>
+                </div>
+                <div className='col-lg-4 col-md-4'>
+                  <div className='title-lt'>Invested capital</div>
+                  <span>
+                    <b>
+                      {invested ? `$${millionToBillionConvert(invested)}` : '-'}
+                    </b>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className='col-lg-6'>
+            <div className='price_chart mt-4 mb-5'>
+              <div className='d-flex align-items-center mb-5'>
+                <h5 className='me-auto'>
+                  <strong>Invex Wealth Past Predictions</strong>
+                </h5>
+              </div>
+
+              {pastPredictionGraphData && (
+                <ResponsiveContainer
+                  width='100%'
+                  aspect={1}
+                  maxHeight={500}
+                  //   className='mb-5'
+                >
+                  <ComposedChart
+                    data={pastPredictionGraphData}
+                    tick={false}
+                    margin={{
+                      top: 5,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                  >
+                    <XAxis
+                      dataKey='year'
+                      domain={['auto', 'auto']}
+                      tick={{ fill: '#212121', fontSize: '12px' }}
+                      height={60}
+                      tickLine={false}
+                    />
+                    <YAxis
+                      tick={{
+                        fill: '#212121',
+                        fontSize: '12px',
+                      }}
+                      tickLine={false}
+                    />
+                    <Tooltip />
+
+                    <Scatter name='Best' dataKey='best' fill='#13A41B' />
+                    <Scatter name='Base' dataKey='base' fill='#F3C00E' />
+                    <Scatter name='Worst' dataKey='worst' fill='#DF0822' />
+                    <Scatter
+                      name='Actual Price'
+                      dataKey='actualPrice'
+                      fill='#3751FF'
+                    />
+                    <ZAxis range={[400, 400]} />
+                    <Legend />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className='col-lg-12'>
+        <div className='row'>
+          <h5 className='mb-4'>Risk</h5>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: companyValuation?.risk ? companyValuation?.risk : '-',
+            }}
+          />
+
+          <h5 className='mb-4 mt-4'>Revenue segment performance</h5>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: companyValuation?.revenue_segments
+                ? companyValuation?.revenue_segments
+                : '-',
+            }}
+          />
+
+          <h5 className='mb-4 mt-4'>Analyst Notes</h5>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: companyValuation?.valuation_notes
+                ? companyValuation?.valuation_notes
+                : '-',
+            }}
+          />
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default ValuationFCFFM;
