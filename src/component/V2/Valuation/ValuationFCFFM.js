@@ -732,7 +732,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                       </td>
                       <td>
                         <input
-                          style={{ width: '60px' }}
+                          style={{ width: '50px' }}
                           type='number'
                           name='gr_this_year_man'
                           onChange={handleManualParamChange}
