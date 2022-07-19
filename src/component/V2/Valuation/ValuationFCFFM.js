@@ -21,8 +21,10 @@ import {
   LabelList,
   Scatter,
   ZAxis,
+  Area,
+  AreaChart,
 } from 'recharts';
-import { CustomizedGrowthRateLabel } from '../../Common/Chart/Recharts';
+import { CustomizedGrowthRateLabelV2 } from '../../Common/Chart/Recharts';
 import moment from 'moment';
 
 const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
@@ -45,6 +47,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
   const [manualParam, setManualParam] = useState(null);
   const [manualChartData, setManualChartData] = useState(null);
   const [manualButtonVisible, setManualButtonVisible] = useState(false);
+  const [costOfCapitalGraphData, setCostOfCapitalGraphData] = useState(null);
   const yearArr = [
     'base_year',
     'year_1',
@@ -68,6 +71,16 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
     'FCFF',
     'Invested capital',
     'Price Target',
+    'PV(FCFF)',
+    'ROIC',
+    'Cost of capital',
+  ];
+
+  const CASE_FILTER = [
+    { label: 'Best case', value: 'best' },
+    { label: 'Base care', value: 'base' },
+    { label: 'Worst care', value: 'worst' },
+    { label: 'Manual', value: 'manual' },
   ];
 
   useEffect(() => {
@@ -98,6 +111,10 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
   useEffect(() => {
     getValuationOutput();
   }, [valuationOutputFilter]);
+
+  useEffect(() => {
+    console.log('costOfCapitalGraphData =>', costOfCapitalGraphData);
+  }, [costOfCapitalGraphData]);
 
   useEffect(() => {
     if (valuationOutput) {
@@ -165,7 +182,25 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
               const priceData = getGraphData(valuation);
               setPriceTargetCapital(priceData);
             }
+          case 'PV(FCFF)':
+            const costOfCapitalData = getGraphData(valuation);
+            setCostOfCapitalGraphData(costOfCapitalData);
+            break;
 
+          case 'Cost of capital':
+            if (costOfCapitalGraphData) {
+              let tempArr = [];
+              Object.keys(valuation).forEach((key) => {
+                if (yearArr.includes(key)) {
+                  tempArr.push(valuation[key]);
+                }
+              });
+              const temp = costOfCapitalGraphData.map((row, index) => {
+                row.data2 = tempArr[index];
+                return row;
+              });
+              setCostOfCapitalGraphData(temp);
+            }
             break;
         }
       });
@@ -227,7 +262,6 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
   }, []);
 
   useEffect(() => {
-    console.log(manualParam);
     if (manualParam) {
       getManualParamData();
     }
@@ -310,6 +344,26 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
     );
   };
 
+  const renderCustomizedLabelPrice = (props) => {
+    const { x, y, width, height, value } = props;
+    const radius = 10;
+
+    return (
+      <g>
+        <text
+          x={x}
+          y={y - 20}
+          fill='#000'
+          textAnchor='middle'
+          dominantBaseline='middle'
+          fontSize={10}
+        >
+          {value ? `$${millionToBillionConvert(value)}` : ''}
+        </text>
+      </g>
+    );
+  };
+
   const renderCustomizedLabelWithoutBillion = (props) => {
     const { x, y, width, height, value } = props;
     const radius = 10;
@@ -350,264 +404,1298 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
 
   return (
     <>
-      <h4 className='mt-4'>
-        Moderna Inc Stock Forecast, Predictions & Price Target
-      </h4>
-      <div className='col-lg-12'>
-        <div className='row'>
-          <div className='col-lg-6'>
-            <div className='mt-4 mb-4'>
-              <h6 className='mb-4'>
-                <strong>Basic Company Facts</strong>
-              </h6>
-              <div className='row border-bottom mb-3'>
-                <div className='col-lg-4 col-md-4'>
-                  <div className='title-lt'>Fiscal Year</div>
-                  <span className='down'>
-                    <b>
-                      {companyValuation?.fiscal_year}{' '}
-                      {companyValuation?.quarter}
-                    </b>
-                  </span>
+      <div>
+        <div className='col-lg-12'>
+          <div className='row'>
+            <div className='col-lg-12 mt-4'>
+              <div className='d-flex align-items-center mb-3'>
+                <h4 className='me-auto font-bd'>
+                  Moderna Inc Stock Forecast, Predictions &amp; Price Target
+                </h4>
+              </div>
+            </div>
+            <div className='col-lg-6'>
+              <div className='mt-3 mb-4'>
+                <div className='d-flex align-items-center mb-3'>
+                  <h5 className='me-auto font-bd'>Basic Company Facts</h5>
                 </div>
-                <div className='col-lg-4 col-md-4'>
-                  <div className='title-lt'>Company Ticker</div>
-                  <span>
-                    <b>{data?.ticker}</b>
-                  </span>
+                <div className='row border-bottom mb-3'>
+                  <div className='col-lg-4 col-md-4'>
+                    <div className='title-lt'>Fiscal Year</div>
+                    <span>
+                      <b>
+                        {companyValuation?.fiscal_year}{' '}
+                        {companyValuation?.quarter}
+                      </b>
+                    </span>
+                  </div>
+                  <div className='col-lg-4 col-md-4'>
+                    <div className='title-lt'>Company Ticker</div>
+                    <span>
+                      <b>{data?.ticker}</b>
+                    </span>
+                  </div>
+                  <div className='col-lg-4 col-md-4'>
+                    <div className='title-lt'>Incorporation Cou...</div>
+                    <span>
+                      <b>{data?.incorporation_country}</b>
+                    </span>
+                  </div>
                 </div>
-                <div className='col-lg-4 col-md-4'>
-                  <div className='title-lt'>Incorporation Cou...</div>
-                  <span>
-                    <b>{data?.incorporation_country}</b>
-                  </span>
+                <div className='row border-bottom mb-3'>
+                  <div className='col-lg-4 col-md-4'>
+                    <div className='title-lt'>Valuation Currency</div>
+                    <span>
+                      <b>{data?.valuation_currency}</b>
+                    </span>
+                  </div>
+                  <div className='col-lg-4 col-md-4'>
+                    <div className='title-lt'>Sector (US)</div>
+                    <span>
+                      <b>{sector?.SectorWiseIndustry?.Sector?.name}</b>
+                    </span>
+                  </div>
+                  <div className='col-lg-4 col-md-4'>
+                    <div className='title-lt'>Industry (US)</div>
+                    <span>
+                      <b>{sector?.SectorWiseIndustry?.name}</b>
+                    </span>
+                  </div>
+                </div>
+                <div className='row border-bottom mb-3'>
+                  <div className='col-lg-4 col-md-4'>
+                    <div className='title-lt'>Market Cap</div>
+                    <span>
+                      <b>
+                        {keyStatus?.marketCap
+                          ? `$${NormalFormat(keyStatus?.marketCap)}`
+                          : '-'}
+                      </b>
+                    </span>
+                  </div>
+                  <div className='col-lg-4 col-md-4'>
+                    <div className='title-lt'>Current Stock Price</div>
+                    <span>
+                      <b>
+                        {keyStatus?.latestPrice
+                          ? `$${NormalFormat(keyStatus?.latestPrice)}`
+                          : '-'}
+                      </b>
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className='row border-bottom mb-3'>
-                <div className='col-lg-4 col-md-4'>
-                  <div className='title-lt'>Valuation Currency</div>
-                  <span className='down'>
-                    <b>{data?.valuation_currency}</b>
-                  </span>
+              <div className='mt-4 mb-4'>
+                <div className='d-flex align-items-center mb-3'>
+                  <h5 className='me-auto font-bd'>
+                    Current Fundamental Metrices
+                  </h5>
                 </div>
-                <div className='col-lg-4 col-md-4'>
-                  <div className='title-lt'>Sector (US)</div>
-                  <span>
-                    <b>{sector?.SectorWiseIndustry?.Sector?.name}</b>
-                  </span>
-                </div>
-                <div className='col-lg-4 col-md-4'>
-                  <div className='title-lt'>Industry (US)</div>
-                  <span>
-                    <b>{sector?.SectorWiseIndustry?.name}</b>
-                  </span>
+                <div className='row border-bottom mb-3'>
+                  <div className='col-lg-4 col-md-4'>
+                    <div className='title-lt'>Pre-tax operating margin</div>
+                    <span>
+                      <b>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]
+                          ?.pre_tax_op_margin_base
+                          ? `${companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_base}%`
+                          : ''}
+                      </b>
+                    </span>
+                  </div>
+                  <div className='col-lg-4 col-md-4'>
+                    <div className='title-lt'>Sales to capital ratio</div>
+                    <span>
+                      <b>{companyValuation?.sales_capital_ratio}</b>
+                    </span>
+                  </div>
+                  <div className='col-lg-4 col-md-4'>
+                    <div className='title-lt'>Return on invested capital</div>
+                    <span>
+                      <b>{roic ? `${roic}%` : '-'}</b>
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className='row border-bottom mb-3'>
-                <div className='col-lg-4 col-md-4'>
-                  <div className='title-lt'>Market Cap</div>
-                  <span className='down'>
-                    <b>
-                      {keyStatus?.marketCap
-                        ? `$${NormalFormat(keyStatus?.marketCap)}`
-                        : '-'}
-                    </b>
-                  </span>
+              <div className='mt-4 mb-4'>
+                <div className='d-flex align-items-center mb-3'>
+                  <h5 className='me-auto font-bd'>Current Financials</h5>
                 </div>
-                <div className='col-lg-4 col-md-4'>
-                  <div className='title-lt'>Current Stock Price</div>
-                  <span>
-                    <b>
-                      {keyStatus?.latestPrice
-                        ? `$${NormalFormat(keyStatus?.latestPrice)}`
-                        : '-'}
-                    </b>
-                  </span>
+                <div className='row border-bottom mb-3'>
+                  <div className='col-lg-4 col-md-4'>
+                    <div className='title-lt'>Revenues</div>
+                    <span>
+                      <b>
+                        {companyValuation?.revenues
+                          ? `$${millionToBillionConvert(
+                              companyValuation?.revenues
+                            )}`
+                          : '-'}
+                      </b>
+                    </span>
+                  </div>
+                  <div className='col-lg-4 col-md-4'>
+                    <div className='title-lt'>Income Before Interest & Tax</div>
+                    <span>
+                      <b>
+                        {companyValuation?.operating_income_ebit
+                          ? `$${millionToBillionConvert(
+                              companyValuation?.operating_income_ebit
+                            )}`
+                          : '-'}
+                      </b>
+                    </span>
+                  </div>
+                  <div className='col-lg-4 col-md-4'>
+                    <div className='title-lt'>Shareholders Equity</div>
+                    <span>
+                      <b>
+                        {companyValuation?.equity_book_value
+                          ? `$${millionToBillionConvert(
+                              companyValuation?.equity_book_value
+                            )}`
+                          : '-'}
+                      </b>
+                    </span>
+                  </div>
+                </div>
+                <div className='row border-bottom mb-3'>
+                  <div className='col-lg-4 col-md-4'>
+                    <div className='title-lt'>Total Debt</div>
+                    <span>
+                      <b>
+                        {companyValuation?.debit_book_value
+                          ? `$${millionToBillionConvert(
+                              companyValuation?.debit_book_value
+                            )}`
+                          : '-'}
+                      </b>
+                    </span>
+                  </div>
+                  <div className='col-lg-4 col-md-4'>
+                    <div className='title-lt'>Invested capital</div>
+                    <span>
+                      <b>
+                        {invested
+                          ? `$${millionToBillionConvert(invested)}`
+                          : '-'}
+                      </b>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className='mt-4 mb-4'>
-              <h6 className='mb-4'>
-                <strong>Current Fundamental Metrices</strong>
-              </h6>
-              <div className='row border-bottom mb-3'>
-                <div className='col-lg-4 col-md-4'>
-                  <div className='title-lt'>Pre-tax operating margin</div>
-                  <span className='down'>
-                    <b>
-                      {companyValuation &&
-                      companyValuation.CompanyGrowths[0] &&
-                      companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_base
-                        ? `${companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_base}%`
-                        : ''}
-                    </b>
-                  </span>
+            <div className='col-lg-6'>
+              <div className='price_chart mt-4 mb-5'>
+                <div className='d-flex align-items-center mb-3'>
+                  <h5 className='me-auto font-bd'>
+                    Invex Wealth Past Predictions
+                  </h5>
                 </div>
-                <div className='col-lg-4 col-md-4'>
-                  <div className='title-lt'>Sales to capital ratio</div>
-                  <span>
-                    <b>{companyValuation?.sales_capital_ratio}</b>
-                  </span>
-                </div>
-                <div className='col-lg-4 col-md-4'>
-                  <div className='title-lt'>Return on invested capital</div>
-                  <span>
-                    <b>{roic ? `${roic}%` : '-'}</b>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className='mt-4 mb-4'>
-              <h6 className='mb-4'>
-                <strong>Current Financials</strong>
-              </h6>
-              <div className='row border-bottom mb-3'>
-                <div className='col-lg-4 col-md-4'>
-                  <div className='title-lt'>Revenues</div>
-                  <span className='down'>
-                    <b>
-                      {companyValuation?.revenues
-                        ? `$${millionToBillionConvert(
-                            companyValuation?.revenues
-                          )}`
-                        : '-'}
-                    </b>
-                  </span>
-                </div>
-                <div className='col-lg-4 col-md-4'>
-                  <div className='title-lt'>Income Before Interest & Tax</div>
-                  <span>
-                    <b>
-                      {companyValuation?.operating_income_ebit
-                        ? `$${millionToBillionConvert(
-                            companyValuation?.operating_income_ebit
-                          )}`
-                        : '-'}
-                    </b>
-                  </span>
-                </div>
-                <div className='col-lg-4 col-md-4'>
-                  <div className='title-lt'>Shareholders Equity</div>
-                  <span>
-                    <b>
-                      {companyValuation?.equity_book_value
-                        ? `$${millionToBillionConvert(
-                            companyValuation?.equity_book_value
-                          )}`
-                        : '-'}
-                    </b>
-                  </span>
-                </div>
-              </div>
-              <div className='row border-bottom mb-3'>
-                <div className='col-lg-4 col-md-4'>
-                  <div className='title-lt'>Total Debt</div>
-                  <span className='down'>
-                    <b>
-                      {companyValuation?.debit_book_value
-                        ? `$${millionToBillionConvert(
-                            companyValuation?.debit_book_value
-                          )}`
-                        : '-'}
-                    </b>
-                  </span>
-                </div>
-                <div className='col-lg-4 col-md-4'>
-                  <div className='title-lt'>Invested capital</div>
-                  <span>
-                    <b>
-                      {invested ? `$${millionToBillionConvert(invested)}` : '-'}
-                    </b>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className='col-lg-6'>
-            <div className='price_chart mt-4 mb-5'>
-              <div className='d-flex align-items-center mb-5'>
-                <h5 className='me-auto'>
-                  <strong>Invex Wealth Past Predictions</strong>
-                </h5>
-              </div>
 
-              {pastPredictionGraphData && (
-                <ResponsiveContainer
-                  width='100%'
-                  aspect={1}
-                  maxHeight={500}
-                  //   className='mb-5'
-                >
-                  <ComposedChart
-                    data={pastPredictionGraphData}
-                    tick={false}
-                    margin={{
-                      top: 5,
-                      right: 30,
-                      left: 20,
-                      bottom: 5,
-                    }}
+                {pastPredictionGraphData && (
+                  <ResponsiveContainer
+                    width='100%'
+                    aspect={1}
+                    maxHeight={500}
+                    //   className='mb-5'
                   >
-                    <XAxis
-                      dataKey='year'
-                      domain={['auto', 'auto']}
-                      tick={{ fill: '#212121', fontSize: '12px' }}
-                      height={60}
-                      tickLine={false}
-                    />
-                    <YAxis
-                      tick={{
-                        fill: '#212121',
-                        fontSize: '12px',
+                    <ComposedChart
+                      data={pastPredictionGraphData}
+                      tick={false}
+                      margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
                       }}
-                      tickLine={false}
-                    />
-                    <Tooltip />
+                    >
+                      <XAxis
+                        dataKey='year'
+                        domain={['auto', 'auto']}
+                        tick={{ fill: '#212121', fontSize: '12px' }}
+                        height={60}
+                        tickLine={false}
+                      />
+                      <YAxis
+                        tick={{
+                          fill: '#212121',
+                          fontSize: '12px',
+                        }}
+                        tickLine={false}
+                      />
+                      <Tooltip />
 
-                    <Scatter name='Best' dataKey='best' fill='#13A41B' />
-                    <Scatter name='Base' dataKey='base' fill='#F3C00E' />
-                    <Scatter name='Worst' dataKey='worst' fill='#DF0822' />
-                    <Scatter
-                      name='Actual Price'
-                      dataKey='actualPrice'
-                      fill='#3751FF'
-                    />
-                    <ZAxis range={[400, 400]} />
-                    <Legend />
-                  </ComposedChart>
-                </ResponsiveContainer>
-              )}
+                      <Scatter name='Best' dataKey='best' fill='#13A41B' />
+                      <Scatter name='Base' dataKey='base' fill='#F3C00E' />
+                      <Scatter name='Worst' dataKey='worst' fill='#DF0822' />
+                      <Scatter
+                        name='Actual Price'
+                        dataKey='actualPrice'
+                        fill='#3751FF'
+                      />
+                      <ZAxis range={[400, 400]} />
+                      <Legend />
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        <div className='col-lg-12 mb-5'>
+          <div className='mb-4'>
+            <div className='description-para'>
+              <div className='d-flex align-items-center mb-3'>
+                <h5 className='me-auto font-bd'>Risk</h5>
+              </div>
+              <div
+                className='mt-3'
+                dangerouslySetInnerHTML={{
+                  __html: companyValuation?.risk ? companyValuation?.risk : '-',
+                }}
+              />
+            </div>
+          </div>
+          <div className='mb-4'>
+            <div className='description-para'>
+              <div className='d-flex align-items-center mb-3'>
+                <h5 className='me-auto font-bd'>Revenue segment performance</h5>
+              </div>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: companyValuation?.revenue_segments
+                    ? companyValuation?.revenue_segments
+                    : '-',
+                }}
+              />
+            </div>
+          </div>
+          <div className='mb-4'>
+            <div className='description-para'>
+              <div className='d-flex align-items-center mb-3'>
+                <h5 className='me-auto font-bd'>Analyst Notes</h5>
+              </div>
 
-      <div className='col-lg-12'>
-        <div className='row'>
-          <h5 className='mb-4'>Risk</h5>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: companyValuation?.valuation_notes
+                    ? companyValuation?.valuation_notes
+                    : '-',
+                }}
+              />
+            </div>
+          </div>
+        </div>
+        <div className='col-lg-12'>
+          <div className='top_competitors'>
+            <div className='mb-5'>
+              <div className='d-flex align-items-center justify-content-between mb-3'>
+                <h5 className='me-auto font-bd'>Valuation Assumptions</h5>
+              </div>
+              <div className='table-responsive'>
+                <table className='table table-bordered table-striped m-0 most_tables'>
+                  <thead>
+                    <tr>
+                      <th scope='col'>-</th>
+                      <th scope='col'>Best</th>
+                      <th scope='col'>Base</th>
+                      <th scope='col'>Worst</th>
+                      <th scope='col'>Manual</th>
+                    </tr>
+                  </thead>
+                  <tbody className='border-top-0'>
+                    <tr>
+                      <td>Growth this year</td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]?.gr_this_year_best
+                          ? `${companyValuation.CompanyGrowths[0]?.gr_this_year_best}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]?.gr_this_year_base
+                          ? `${companyValuation.CompanyGrowths[0]?.gr_this_year_base}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]?.gr_this_year_worst
+                          ? `${companyValuation.CompanyGrowths[0]?.gr_this_year_worst}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        <input
+                          style={{ width: '60px' }}
+                          type='number'
+                          name='gr_this_year_man'
+                          onChange={handleManualParamChange}
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Growth next year</td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]?.gr_next_year_best
+                          ? `${companyValuation.CompanyGrowths[0]?.gr_next_year_best}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]?.gr_next_year_base
+                          ? `${companyValuation.CompanyGrowths[0]?.gr_next_year_base}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]?.gr_next_year_worst
+                          ? `${companyValuation.CompanyGrowths[0]?.gr_next_year_worst}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        <input
+                          style={{ width: '50px' }}
+                          type='number'
+                          name='gr_next_year_man'
+                          onChange={handleManualParamChange}
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Compound annual revenue growth rate for Year 3-5</td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]
+                          ?.compounded_revenue_growth_best
+                          ? `${companyValuation.CompanyGrowths[0]?.compounded_revenue_growth_best}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]
+                          ?.compounded_revenue_growth_base
+                          ? `${companyValuation.CompanyGrowths[0]?.compounded_revenue_growth_base}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]
+                          ?.compounded_revenue_growth_worst
+                          ? `${companyValuation.CompanyGrowths[0]?.compounded_revenue_growth_worst}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        <input
+                          style={{ width: '50px' }}
+                          type='number'
+                          name='compounded_revenue_growth_man'
+                          onChange={handleManualParamChange}
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Operating margin this year/he</td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]
+                          ?.op_margin_first_year_best
+                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_first_year_best}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]
+                          ?.op_margin_first_year_base
+                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_first_year_base}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]
+                          ?.op_margin_first_year_worst
+                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_first_year_worst}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        <input
+                          style={{ width: '50px' }}
+                          type='number'
+                          name='op_margin_first_year_man'
+                          onChange={handleManualParamChange}
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Operating margin next year</td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]
+                          ?.op_margin_next_year_best
+                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_next_year_best}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]
+                          ?.op_margin_next_year_base
+                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_next_year_base}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]
+                          ?.op_margin_next_year_worst
+                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_next_year_worst}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        <input
+                          style={{ width: '50px' }}
+                          type='number'
+                          name='op_margin_next_year_man'
+                          onChange={handleManualParamChange}
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Operating margin year 3-5</td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]
+                          ?.op_margin_five_year_best
+                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_five_year_best}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]
+                          ?.op_margin_five_year_base
+                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_five_year_base}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]
+                          ?.op_margin_five_year_worst
+                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_five_year_worst}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        <input
+                          style={{ width: '50px' }}
+                          type='number'
+                          name='op_margin_five_year_man'
+                          onChange={handleManualParamChange}
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Target operating margin</td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]
+                          ?.pre_tax_op_margin_best
+                          ? `${companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_best}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]
+                          ?.pre_tax_op_margin_base
+                          ? `${companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_base}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation.CompanyGrowths[0] &&
+                        companyValuation.CompanyGrowths[0]
+                          ?.pre_tax_op_margin_worst
+                          ? `${companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_worst}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        <input
+                          style={{ width: '50px' }}
+                          type='number'
+                          name='pre_tax_op_margin_man'
+                          onChange={handleManualParamChange}
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Cost of capital</td>
+                      <td>
+                        {companyValuation && companyValuation?.cost_of_capital
+                          ? `${companyValuation?.cost_of_capital}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation && companyValuation?.cost_of_capital
+                          ? `${companyValuation?.cost_of_capital}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation && companyValuation?.cost_of_capital
+                          ? `${companyValuation?.cost_of_capital}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        <input
+                          style={{ width: '50px' }}
+                          type='number'
+                          name='cost_of_capital'
+                          onChange={handleManualParamChange}
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Risk free rate</td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation?.CompanyGrowths[0] &&
+                        companyValuation?.CompanyGrowths[0]?.risk_free_rate_best
+                          ? `${companyValuation?.CompanyGrowths[0]?.risk_free_rate_best}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation?.CompanyGrowths[0] &&
+                        companyValuation?.CompanyGrowths[0]?.risk_free_rate_base
+                          ? `${companyValuation?.CompanyGrowths[0]?.risk_free_rate_base}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        {companyValuation &&
+                        companyValuation?.CompanyGrowths[0] &&
+                        companyValuation?.CompanyGrowths[0]
+                          ?.risk_free_rate_worst
+                          ? `${companyValuation?.CompanyGrowths[0]?.risk_free_rate_worst}%`
+                          : '-'}
+                      </td>
+                      <td>
+                        <input
+                          style={{ width: '50px' }}
+                          type='number'
+                          name='risk_free_rate_man'
+                          onChange={handleManualParamChange}
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='col-lg-12 mb-4'>
+          <div className='d-flex align-items-center justify-content-between mb-3'>
+            <h5 className='me-auto font-bd'>Valuation Output Base</h5>
+          </div>
           <div
-            dangerouslySetInnerHTML={{
-              __html: companyValuation?.risk ? companyValuation?.risk : '-',
-            }}
-          />
+            className={`scenario justify-content-between ${
+              percent >= 0 ? 'up' : 'down'
+            }`}
+          >
+            <span className='best_scena up-down-bg-color'>
+              Estimated value / share
+            </span>
+            <div className='chart-text'>
+              <p className='card-text up-down-color m-0'>
+                <strong>
+                  {estimatedValue?.estimated_share
+                    ? `$${estimatedValue?.estimated_share}`
+                    : '-'}
+                </strong>
+              </p>
+              <p className='text up-down-color m-0 ms-2'>
+                {percent
+                  ? percent >= 0
+                    ? `(+${percent}%)`
+                    : `(${percent}%)`
+                  : ''}
+              </p>
+            </div>
+            <div className='text-end text-black'>
+              <p className='m-0'>
+                <small>
+                  Value of equity (Millions):{' '}
+                  {estimatedValue?.value_of_equity
+                    ? `${millionToBillionConvert(
+                        estimatedValue?.value_of_equity
+                      )}`
+                    : '-'}
+                </small>
+              </p>
+              <p className='m-0'>
+                <small>
+                  Current price:{' '}
+                  {estimatedValue?.price
+                    ? `$${NormalFormat(estimatedValue?.price)}`
+                    : '-'}
+                </small>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className='col-lg-12'>
+          <div className='d-flex align-items-center justify-content-start'>
+            <label className='mb-3 pb-2' htmlFor>
+              Choose the case
+            </label>
+            <div className='top_button_panel top_button_panel_light mb-3'>
+              {CASE_FILTER &&
+                CASE_FILTER.map((caseElement) => {
+                  if (caseElement.value !== 'manual') {
+                    return (
+                      <button
+                        type='button'
+                        onClick={() =>
+                          setValuationOutputFilter(caseElement.value)
+                        }
+                        className={`btn ${
+                          valuationOutputFilter === caseElement.value
+                            ? 'btn-info'
+                            : 'btn-light'
+                        }`}
+                      >
+                        {caseElement.label}
+                      </button>
+                    );
+                  } else if (
+                    caseElement.value === 'manual' &&
+                    manualButtonVisible
+                  ) {
+                    return (
+                      <button
+                        type='button'
+                        onClick={() =>
+                          setValuationOutputFilter(caseElement.value)
+                        }
+                        className={`btn ${
+                          valuationOutputFilter === caseElement.value
+                            ? 'btn-info'
+                            : 'btn-light'
+                        }`}
+                      >
+                        {caseElement.label}
+                      </button>
+                    );
+                  }
+                })}
+            </div>
+          </div>
+        </div>
+        <div className='col-lg-12'>
+          <div className='top_competitors'>
+            <div className='mb-5'>
+              <div className='table-responsive'>
+                {valuationOutput && (
+                  <table className='table table-bordered table-striped m-0 most_tables'>
+                    <thead>
+                      <tr>
+                        <th scope='col'>-</th>
+                        {freeCashFlowData &&
+                          freeCashFlowData.map((heading) => {
+                            if (heading.year !== 'Terminal')
+                              return <th scope='col'>{heading.year}</th>;
+                          })}
+                      </tr>
+                    </thead>
+                    <tbody className='border-top-0'>
+                      {valuationOutput.map((row) => {
+                        return (
+                          <>
+                            {validTableColumns.includes(row?.field_name) && (
+                              <tr>
+                                <td>
+                                  {row?.field_name &&
+                                  row?.field_name === 'PV(FCFF)'
+                                    ? 'FCFF Present Value'
+                                    : replaceEmpty(row?.field_name)}
+                                </td>
+                                {yearArr &&
+                                  yearArr.map((year) => {
+                                    if (year !== 'terminal')
+                                      return <td>{replaceEmpty(row[year])}</td>;
+                                  })}
+                              </tr>
+                            )}
+                          </>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='col-lg-12'>
+          <div className='row'>
+            <div className='col-lg-6'>
+              <div className='price_chart mt-4 mb-5'>
+                <div className='d-flex align-items-center mb-3'>
+                  <h5 className='me-auto font-bd'>Revenue & Growth Rate</h5>
+                </div>
+                {revenueGraphData && revenueGraphData.length > 0 && (
+                  <div className='col-lg-12 mt-3'>
+                    <ResponsiveContainer
+                      width='100%'
+                      aspect={1}
+                      maxHeight={400}
+                    >
+                      <ComposedChart data={revenueGraphData} tick={false}>
+                        <XAxis
+                          dataKey='year'
+                          axisLine={false}
+                          domain={['auto', 'auto']}
+                          tick={{
+                            fill: '#212121',
+                            fontSize: '12px',
+                          }}
+                          interval={0}
+                        />
+                        <YAxis
+                          axisLine={false}
+                          tick={{
+                            fill: '#212121',
+                            fontSize: '12px',
+                          }}
+                          domain={['auto', 'dataMax + 1000']}
+                        />
+                        <Tooltip />
 
-          <h5 className='mb-4 mt-4'>Revenue segment performance</h5>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: companyValuation?.revenue_segments
-                ? companyValuation?.revenue_segments
-                : '-',
-            }}
-          />
+                        <Bar
+                          name='Revenues'
+                          fill='#3751FF'
+                          dataKey='data2'
+                          barSize={25}
+                        >
+                          <LabelList
+                            dataKey='data2'
+                            content={renderCustomizedLabel}
+                          />
+                        </Bar>
+                        <Line
+                          name='Revenue growth rate'
+                          type='monotone'
+                          dataKey='data2'
+                          stroke='#F3C00E'
+                          label={
+                            <CustomizedGrowthRateLabelV2
+                              data={revenueGraphData}
+                            />
+                          }
+                        />
 
-          <h5 className='mb-4 mt-4'>Analyst Notes</h5>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: companyValuation?.valuation_notes
-                ? companyValuation?.valuation_notes
-                : '-',
-            }}
-          />
+                        <Legend
+                          wrapperStyle={{
+                            bottom: -20,
+                            left: 25,
+                            fontSize: '12px',
+                          }}
+                        />
+                      </ComposedChart>
+                    </ResponsiveContainer>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className='col-lg-6'>
+              <div className='price_chart mt-4 mb-5'>
+                <div className='d-flex align-items-center mb-3'>
+                  <h5 className='me-auto font-bd'>
+                    Operating Income & Operating Margin
+                  </h5>
+                </div>
+                {operatingIncomeData && (
+                  <div className='col-lg-12 mt-3'>
+                    <ResponsiveContainer
+                      width='100%'
+                      aspect={1}
+                      maxHeight={400}
+                    >
+                      <ComposedChart data={operatingIncomeData} tick={false}>
+                        <XAxis
+                          dataKey='year'
+                          axisLine={false}
+                          domain={['auto', 'auto']}
+                          tick={{
+                            fill: '#212121',
+                            fontSize: '12px',
+                          }}
+                          interval={0}
+                        />
+                        <YAxis
+                          axisLine={false}
+                          tick={{
+                            fill: '#212121',
+                            fontSize: '12px',
+                          }}
+                          domain={['auto', 'dataMax + 1000']}
+                        />
+                        <Tooltip />
+
+                        <Bar
+                          name='Operating Income'
+                          fill='#3751FF'
+                          dataKey='data2'
+                          barSize={25}
+                        >
+                          <LabelList
+                            dataKey='data2'
+                            content={renderCustomizedLabel}
+                          />
+                        </Bar>
+
+                        <Line
+                          name='Operating Margin'
+                          type='monotone'
+                          dataKey='data2'
+                          stroke='#F3C00E'
+                          label={
+                            <CustomizedGrowthRateLabelV2
+                              data={operatingIncomeData}
+                            />
+                          }
+                        />
+
+                        <Legend
+                          wrapperStyle={{
+                            bottom: -20,
+                            left: 25,
+                            fontSize: '12px',
+                          }}
+                        />
+                      </ComposedChart>
+                    </ResponsiveContainer>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className='col-lg-6'>
+              <div className='price_chart mt-4 mb-5'>
+                <div className='d-flex align-items-center mb-3'>
+                  <h5 className='me-auto font-bd'>Reinvestments</h5>
+                </div>
+                {reinvestmentData && (
+                  <div className='col-lg-12 mt-3'>
+                    <ResponsiveContainer
+                      width='100%'
+                      aspect={1}
+                      maxHeight={400}
+                    >
+                      <BarChart data={reinvestmentData} tick={false}>
+                        <XAxis
+                          dataKey='year'
+                          axisLine={false}
+                          domain={['auto', 'auto']}
+                          // ticks={ticks}
+                          tick={{
+                            fill: '#212121',
+                            fontSize: '12px',
+                          }}
+                          interval={0}
+                        />
+                        <YAxis
+                          axisLine={false}
+                          tick={{
+                            fill: '#212121',
+                            fontSize: '12px',
+                          }}
+                        />
+                        <Tooltip />
+
+                        <Bar
+                          name='Reinvestments'
+                          fill='#3751FF'
+                          dataKey='data'
+                          barSize={25}
+                        >
+                          <LabelList
+                            dataKey='data'
+                            content={renderCustomizedLabel}
+                          />
+                        </Bar>
+
+                        <Legend
+                          wrapperStyle={{
+                            bottom: -20,
+                            left: 25,
+                            fontSize: '12px',
+                          }}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className='col-lg-6'>
+              <div className='price_chart mt-4 mb-5'>
+                <div className='d-flex align-items-center mb-3'>
+                  <h5 className='me-auto font-bd'>
+                    Free Cash Flow To Firm (FCFF)
+                  </h5>
+                </div>
+                {freeCashFlowData && (
+                  <div className='col-lg-12 mt-3'>
+                    <ResponsiveContainer
+                      width='100%'
+                      aspect={1}
+                      maxHeight={400}
+                    >
+                      <BarChart data={freeCashFlowData} tick={false}>
+                        <XAxis
+                          dataKey='year'
+                          axisLine={false}
+                          domain={['auto', 'auto']}
+                          // ticks={ticks}
+                          tick={{
+                            fill: '#212121',
+                            fontSize: '12px',
+                          }}
+                          interval={0}
+                        />
+                        <YAxis
+                          axisLine={false}
+                          tick={{
+                            fill: '#212121',
+                            fontSize: '12px',
+                          }}
+                        />
+                        <Tooltip />
+
+                        <Bar
+                          name='Free Cash Flow To Firm'
+                          fill='#3751FF'
+                          dataKey='data'
+                          barSize={25}
+                        >
+                          <LabelList
+                            dataKey='data'
+                            content={renderCustomizedLabel}
+                          />
+                        </Bar>
+
+                        <Legend
+                          wrapperStyle={{
+                            bottom: -20,
+                            left: 25,
+                            fontSize: '12px',
+                          }}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className='col-lg-6'>
+              <div className='price_chart mt-4 mb-5'>
+                <div className='d-flex align-items-center mb-3'>
+                  <h5 className='me-auto font-bd'>
+                    FCFF Present Value & Cost of capital
+                  </h5>
+                </div>
+                {costOfCapitalGraphData && costOfCapitalGraphData.length > 0 && (
+                  <div className='col-lg-12 mt-3'>
+                    <ResponsiveContainer
+                      width='100%'
+                      aspect={1}
+                      maxHeight={400}
+                    >
+                      <ComposedChart data={costOfCapitalGraphData} tick={false}>
+                        <XAxis
+                          dataKey='year'
+                          axisLine={false}
+                          domain={['auto', 'auto']}
+                          tick={{
+                            fill: '#212121',
+                            fontSize: '12px',
+                          }}
+                          interval={0}
+                        />
+                        <YAxis
+                          axisLine={false}
+                          tick={{
+                            fill: '#212121',
+                            fontSize: '12px',
+                          }}
+                          domain={['auto', 'dataMax + 10']}
+                        />
+                        <Tooltip />
+
+                        <Bar
+                          name='FCFF Present Value'
+                          fill='#3751FF'
+                          dataKey='data'
+                          barSize={25}
+                        >
+                          <LabelList
+                            dataKey='data2'
+                            content={renderCustomizedLabel}
+                          />
+                        </Bar>
+                        <Line
+                          name='Cost of capital'
+                          type='monotone'
+                          dataKey='data2'
+                          stroke='#F3C00E'
+                          label={
+                            <CustomizedGrowthRateLabelV2
+                              data={costOfCapitalGraphData}
+                            />
+                          }
+                        />
+
+                        <Legend
+                          wrapperStyle={{
+                            bottom: -20,
+                            left: 25,
+                            fontSize: '12px',
+                          }}
+                        />
+                      </ComposedChart>
+                    </ResponsiveContainer>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className='col-lg-6'>
+              <div className='price_chart mt-4 mb-5'>
+                <div className='d-flex align-items-center mb-3'>
+                  <h5 className='me-auto font-bd'>
+                    Invested Capitals & Implied ROIC
+                  </h5>
+                </div>
+                {investedCapitalData && (
+                  <div className='col-lg-12 mt-3'>
+                    <ResponsiveContainer
+                      width='100%'
+                      aspect={1}
+                      maxHeight={400}
+                    >
+                      <BarChart data={investedCapitalData} tick={false}>
+                        <XAxis
+                          dataKey='year'
+                          axisLine={false}
+                          domain={['auto', 'auto']}
+                          // ticks={ticks}
+                          tick={{
+                            fill: '#212121',
+                            fontSize: '12px',
+                          }}
+                          interval={0}
+                        />
+                        <YAxis
+                          axisLine={false}
+                          tick={{
+                            fill: '#212121',
+                            fontSize: '12px',
+                          }}
+                        />
+                        <Tooltip />
+
+                        <Bar
+                          name='Invested Capital'
+                          fill='#3751FF'
+                          dataKey='data'
+                          barSize={25}
+                        >
+                          <LabelList
+                            dataKey='data'
+                            content={renderCustomizedLabel}
+                          />
+                        </Bar>
+
+                        <Legend
+                          wrapperStyle={{
+                            bottom: -20,
+                            left: 25,
+                            fontSize: '12px',
+                          }}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className='col-lg-12'>
+              <div className='price_chart mt-4 mb-5'>
+                <div className='d-flex align-items-center mb-3'>
+                  <h5 className='me-auto font-bd'>Price Target</h5>
+                </div>
+                {priceTargetData &&
+                  Array.isArray(priceTargetData) &&
+                  priceTargetData.length > 0 && (
+                    <div className='col-lg-12 mt-3'>
+                      <ResponsiveContainer
+                        width='100%'
+                        aspect={1}
+                        maxHeight={400}
+                      >
+                        <AreaChart
+                          data={priceTargetData}
+                          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                        >
+                          <defs>
+                            <linearGradient
+                              id='colorUv'
+                              x1='0'
+                              y1='0'
+                              x2='0'
+                              y2='1'
+                            >
+                              <stop
+                                offset='5%'
+                                stopColor='#8884d8'
+                                stopOpacity={0.8}
+                              />
+                              <stop
+                                offset='95%'
+                                stopColor='#8884d8'
+                                stopOpacity={0}
+                              />
+                            </linearGradient>
+                            <linearGradient
+                              id='colorPv'
+                              x1='0'
+                              y1='0'
+                              x2='0'
+                              y2='1'
+                            >
+                              <stop
+                                offset='5%'
+                                stopColor='#82ca9d'
+                                stopOpacity={0.8}
+                              />
+                              <stop
+                                offset='95%'
+                                stopColor='#82ca9d'
+                                stopOpacity={0}
+                              />
+                            </linearGradient>
+                          </defs>
+                          <XAxis
+                            dataKey='year'
+                            axisLine={false}
+                            tick={{
+                              fill: '#212121',
+                              fontSize: '12px',
+                            }}
+                            interval={0}
+                          />
+                          <YAxis
+                            axisLine={false}
+                            tick={{
+                              fill: '#212121',
+                              fontSize: '12px',
+                            }}
+                            domain={['auto', 'dataMax + 10']}
+                          />
+                          <Tooltip />
+                          <Area
+                            name='Price Target'
+                            connectNulls
+                            type='monotone'
+                            dataKey='data'
+                            stroke='#82ca9d'
+                            fillOpacity={1}
+                            fill='url(#colorPv)'
+                          >
+                            <LabelList
+                              dataKey='data'
+                              content={renderCustomizedLabelPrice}
+                            />
+                          </Area>
+
+                          <Legend
+                            wrapperStyle={{
+                              bottom: -20,
+                              left: 25,
+                              fontSize: '12px',
+                            }}
+                          />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    </div>
+                  )}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='col-lg-12 mb-5'>
+          <div className='mb-4'>
+            <div className='description-para'>
+              <div className='d-flex align-items-center mb-3'>
+                <h5 className='me-auto font-bd'>Additional Notes</h5>
+              </div>
+              <div
+                className='mt-3'
+                dangerouslySetInnerHTML={{
+                  __html: companyValuation?.additional_notes
+                    ? companyValuation?.additional_notes
+                    : '-',
+                }}
+              />
+            </div>
+          </div>
+          <div className='mb-4'>
+            <div className='description-para'>
+              <div className='d-flex align-items-center mb-3'>
+                <h5 className='me-auto font-bd'>Notes For The Professionals</h5>
+              </div>
+              <ul className='mt-3'>
+                <li>
+                  The above estimations are derived from the Free Cash Flow To
+                  Firm Valuation.
+                </li>
+                <li>
+                  We considered the Research &amp; Development expenses as
+                  Capital Expense rather than operating expense. Hence, we
+                  capitalized the R&amp;D, therefore the current operating
+                  margin shown by us may vary with the margin as reported by the
+                  company.
+                </li>
+                <li>
+                  The company’s Options outstanding(if any) has been taken into
+                  account in the valuation.
+                </li>
+                <li>
+                  Since we cannot estimate cash flows forever, we estimated cash
+                  flows for a “growth period” and then estimated a TERMINAL
+                  VALUE(not shown in cash flow), to capture the value at the end
+                  of the period.
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </>
