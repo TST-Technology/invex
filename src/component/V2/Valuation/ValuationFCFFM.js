@@ -113,53 +113,47 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
   }, [valuationOutputFilter]);
 
   useEffect(() => {
-    console.log('costOfCapitalGraphData =>', costOfCapitalGraphData);
-  }, [costOfCapitalGraphData]);
-
-  useEffect(() => {
     if (valuationOutput) {
       valuationOutput.forEach((valuation, index) => {
         switch (valuation?.field_name) {
           case 'Revenue growth rate':
             const revenueGrowthData = getGraphData(valuation);
-            setRevenueGraphData(revenueGrowthData);
-            break;
 
-          case 'Revenues':
-            if (revenueGraphData) {
-              let tempArr = [];
-              Object.keys(valuation).forEach((key) => {
-                if (yearArr.includes(key)) {
-                  tempArr.push(valuation[key]);
-                }
-              });
-              const temp = revenueGraphData.map((row, index) => {
-                row.data2 = tempArr[index];
-                return row;
-              });
-              setRevenueGraphData(temp);
-            }
+            const revenue = valuationOutput.find(
+              (elem) => elem?.field_name === 'Revenues'
+            );
+
+            let tempArr = [];
+            Object.keys(revenue).forEach((key) => {
+              if (yearArr.includes(key)) {
+                tempArr.push(revenue[key]);
+              }
+            });
+            const temp = revenueGrowthData.map((row, index) => {
+              row.data2 = tempArr[index];
+              return row;
+            });
+            setRevenueGraphData(temp);
             break;
 
           case 'EBIT (Operating) margin':
             const oiData = getGraphData(valuation);
-            setOperatingIncomeData(oiData);
-            break;
 
-          case 'EBIT (Operating income)':
-            if (operatingIncomeData) {
-              let tempArr = [];
-              Object.keys(valuation).forEach((key) => {
-                if (yearArr.includes(key)) {
-                  tempArr.push(valuation[key]);
-                }
-              });
-              const temp = operatingIncomeData.map((row, index) => {
-                row.data2 = tempArr[index];
-                return row;
-              });
-              setOperatingIncomeData(temp);
-            }
+            const operatingIncome = valuationOutput.find(
+              (elem) => elem?.field_name === 'EBIT (Operating income)'
+            );
+
+            let tempIncome = [];
+            Object.keys(operatingIncome).forEach((key) => {
+              if (yearArr.includes(key)) {
+                tempIncome.push(operatingIncome[key]);
+              }
+            });
+            const tempData = oiData.map((row, index) => {
+              row.data2 = tempIncome[index];
+              return row;
+            });
+            setOperatingIncomeData(tempData);
             break;
 
           case 'Reinvestment':
@@ -172,9 +166,25 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
             setFreeCashFlowData(fcffData);
 
             break;
-          case 'Invested capital':
-            const investedData = getGraphData(valuation);
-            setInvestedCapital(investedData);
+          case 'ROIC':
+            const roic = getGraphData(valuation);
+
+            const investedData = valuationOutput.find(
+              (elem) => elem?.field_name === 'Invested capital'
+            );
+
+            let tempRoic = [];
+            Object.keys(investedData).forEach((key) => {
+              if (yearArr.includes(key)) {
+                tempRoic.push(investedData[key]);
+              }
+            });
+            const tempInvestedData = roic.map((row, index) => {
+              row.data2 = tempRoic[index];
+              return row;
+            });
+
+            setInvestedCapital(tempInvestedData);
 
             break;
           case 'Price Target':
@@ -182,25 +192,25 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
               const priceData = getGraphData(valuation);
               setPriceTargetCapital(priceData);
             }
-          case 'PV(FCFF)':
-            const costOfCapitalData = getGraphData(valuation);
-            setCostOfCapitalGraphData(costOfCapitalData);
-            break;
-
           case 'Cost of capital':
-            if (costOfCapitalGraphData) {
-              let tempArr = [];
-              Object.keys(valuation).forEach((key) => {
-                if (yearArr.includes(key)) {
-                  tempArr.push(valuation[key]);
-                }
-              });
-              const temp = costOfCapitalGraphData.map((row, index) => {
-                row.data2 = tempArr[index];
-                return row;
-              });
-              setCostOfCapitalGraphData(temp);
-            }
+            const costOfCapitalData = getGraphData(valuation);
+
+            const fcff = valuationOutput.find(
+              (elem) => elem?.field_name === 'PV(FCFF)'
+            );
+
+            let tempCapitalArr = [];
+            Object.keys(fcff).forEach((key) => {
+              if (yearArr.includes(key)) {
+                tempCapitalArr.push(fcff[key]);
+              }
+            });
+            const temp2 = costOfCapitalData.map((row, index) => {
+              row.data2 = tempCapitalArr[index];
+              return row;
+            });
+            setCostOfCapitalGraphData(temp2);
+
             break;
         }
       });
@@ -613,6 +623,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                       }}
                     >
                       <XAxis
+                        tickLine={false}
                         dataKey='year'
                         domain={['auto', 'auto']}
                         tick={{ fill: '#212121', fontSize: '12px' }}
@@ -620,6 +631,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                         tickLine={false}
                       />
                       <YAxis
+                        tickLine={false}
                         tick={{
                           fill: '#212121',
                           fontSize: '12px',
@@ -647,7 +659,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
         </div>
         <div className='col-lg-12 mb-5'>
           <div className='mb-4'>
-            <div className='description-para'>
+            <div className=''>
               <div className='d-flex align-items-center mb-3'>
                 <h5 className='me-auto font-bd'>Risk</h5>
               </div>
@@ -660,7 +672,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
             </div>
           </div>
           <div className='mb-4'>
-            <div className='description-para'>
+            <div className=''>
               <div className='d-flex align-items-center mb-3'>
                 <h5 className='me-auto font-bd'>Revenue segment performance</h5>
               </div>
@@ -674,7 +686,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
             </div>
           </div>
           <div className='mb-4'>
-            <div className='description-para'>
+            <div className=''>
               <div className='d-flex align-items-center mb-3'>
                 <h5 className='me-auto font-bd'>Analyst Notes</h5>
               </div>
@@ -708,7 +720,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                   </thead>
                   <tbody className='border-top-0'>
                     <tr>
-                      <td>Growth this year</td>
+                      <td>Growth This Year</td>
                       <td>
                         {companyValuation &&
                         companyValuation.CompanyGrowths[0] &&
@@ -740,7 +752,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                       </td>
                     </tr>
                     <tr>
-                      <td>Growth next year</td>
+                      <td>Growth Next Year</td>
                       <td>
                         {companyValuation &&
                         companyValuation.CompanyGrowths[0] &&
@@ -772,7 +784,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                       </td>
                     </tr>
                     <tr>
-                      <td>Compound annual revenue growth rate for Year 3-5</td>
+                      <td>Compound Annual Revenue Growth Rate For Year 3-5</td>
                       <td>
                         {companyValuation &&
                         companyValuation.CompanyGrowths[0] &&
@@ -807,7 +819,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                       </td>
                     </tr>
                     <tr>
-                      <td>Operating margin this year/he</td>
+                      <td>Operating Margin This Year</td>
                       <td>
                         {companyValuation &&
                         companyValuation.CompanyGrowths[0] &&
@@ -842,7 +854,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                       </td>
                     </tr>
                     <tr>
-                      <td>Operating margin next year</td>
+                      <td>Operating Margin Next Year</td>
                       <td>
                         {companyValuation &&
                         companyValuation.CompanyGrowths[0] &&
@@ -877,7 +889,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                       </td>
                     </tr>
                     <tr>
-                      <td>Operating margin year 3-5</td>
+                      <td>Operating Margin Year 3-5</td>
                       <td>
                         {companyValuation &&
                         companyValuation.CompanyGrowths[0] &&
@@ -912,7 +924,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                       </td>
                     </tr>
                     <tr>
-                      <td>Target operating margin</td>
+                      <td>Target Operating Margin</td>
                       <td>
                         {companyValuation &&
                         companyValuation.CompanyGrowths[0] &&
@@ -947,7 +959,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                       </td>
                     </tr>
                     <tr>
-                      <td>Cost of capital</td>
+                      <td>Cost Of Capital</td>
                       <td>
                         {companyValuation && companyValuation?.cost_of_capital
                           ? `${companyValuation?.cost_of_capital}%`
@@ -973,7 +985,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                       </td>
                     </tr>
                     <tr>
-                      <td>Risk free rate</td>
+                      <td>Risk Free Rate</td>
                       <td>
                         {companyValuation &&
                         companyValuation?.CompanyGrowths[0] &&
@@ -1170,8 +1182,8 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                     >
                       <ComposedChart data={revenueGraphData} tick={false}>
                         <XAxis
+                          tickLine={false}
                           dataKey='year'
-                          axisLine={false}
                           domain={['auto', 'auto']}
                           tick={{
                             fill: '#212121',
@@ -1180,7 +1192,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                           interval={0}
                         />
                         <YAxis
-                          axisLine={false}
+                          tickLine={false}
                           tick={{
                             fill: '#212121',
                             fontSize: '12px',
@@ -1241,8 +1253,8 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                     >
                       <ComposedChart data={operatingIncomeData} tick={false}>
                         <XAxis
+                          tickLine={false}
                           dataKey='year'
-                          axisLine={false}
                           domain={['auto', 'auto']}
                           tick={{
                             fill: '#212121',
@@ -1251,7 +1263,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                           interval={0}
                         />
                         <YAxis
-                          axisLine={false}
+                          tickLine={false}
                           tick={{
                             fill: '#212121',
                             fontSize: '12px',
@@ -1311,8 +1323,8 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                     >
                       <BarChart data={reinvestmentData} tick={false}>
                         <XAxis
+                          tickLine={false}
                           dataKey='year'
-                          axisLine={false}
                           domain={['auto', 'auto']}
                           // ticks={ticks}
                           tick={{
@@ -1322,7 +1334,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                           interval={0}
                         />
                         <YAxis
-                          axisLine={false}
+                          tickLine={false}
                           tick={{
                             fill: '#212121',
                             fontSize: '12px',
@@ -1371,8 +1383,8 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                     >
                       <BarChart data={freeCashFlowData} tick={false}>
                         <XAxis
+                          tickLine={false}
                           dataKey='year'
-                          axisLine={false}
                           domain={['auto', 'auto']}
                           // ticks={ticks}
                           tick={{
@@ -1382,7 +1394,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                           interval={0}
                         />
                         <YAxis
-                          axisLine={false}
+                          tickLine={false}
                           tick={{
                             fill: '#212121',
                             fontSize: '12px',
@@ -1431,8 +1443,8 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                     >
                       <ComposedChart data={costOfCapitalGraphData} tick={false}>
                         <XAxis
+                          tickLine={false}
                           dataKey='year'
-                          axisLine={false}
                           domain={['auto', 'auto']}
                           tick={{
                             fill: '#212121',
@@ -1441,19 +1453,19 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                           interval={0}
                         />
                         <YAxis
-                          axisLine={false}
+                          tickLine={false}
                           tick={{
                             fill: '#212121',
                             fontSize: '12px',
                           }}
-                          domain={['auto', 'dataMax + 10']}
+                          domain={['auto', 'dataMax + 3000']}
                         />
                         <Tooltip />
 
                         <Bar
-                          name='FCFF Present Value'
+                          name='Cost of capital'
                           fill='#3751FF'
-                          dataKey='data'
+                          dataKey='data2'
                           barSize={25}
                         >
                           <LabelList
@@ -1462,7 +1474,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                           />
                         </Bar>
                         <Line
-                          name='Cost of capital'
+                          name='FCFF Present Value'
                           type='monotone'
                           dataKey='data2'
                           stroke='#F3C00E'
@@ -1500,12 +1512,11 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                       aspect={1}
                       maxHeight={400}
                     >
-                      <BarChart data={investedCapitalData} tick={false}>
+                      <ComposedChart data={investedCapitalData} tick={false}>
                         <XAxis
+                          tickLine={false}
                           dataKey='year'
-                          axisLine={false}
                           domain={['auto', 'auto']}
-                          // ticks={ticks}
                           tick={{
                             fill: '#212121',
                             fontSize: '12px',
@@ -1513,25 +1524,38 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                           interval={0}
                         />
                         <YAxis
-                          axisLine={false}
+                          tickLine={false}
                           tick={{
                             fill: '#212121',
                             fontSize: '12px',
                           }}
+                          domain={['auto', 'dataMax + 8000']}
                         />
                         <Tooltip />
 
                         <Bar
                           name='Invested Capital'
                           fill='#3751FF'
-                          dataKey='data'
+                          dataKey='data2'
                           barSize={25}
                         >
                           <LabelList
-                            dataKey='data'
+                            dataKey='data2'
                             content={renderCustomizedLabel}
                           />
                         </Bar>
+
+                        <Line
+                          name='Implied ROIC'
+                          type='monotone'
+                          dataKey='data2'
+                          stroke='#F3C00E'
+                          label={
+                            <CustomizedGrowthRateLabelV2
+                              data={investedCapitalData}
+                            />
+                          }
+                        />
 
                         <Legend
                           wrapperStyle={{
@@ -1540,7 +1564,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                             fontSize: '12px',
                           }}
                         />
-                      </BarChart>
+                      </ComposedChart>
                     </ResponsiveContainer>
                   </div>
                 )}
@@ -1603,8 +1627,8 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                             </linearGradient>
                           </defs>
                           <XAxis
+                            tickLine={false}
                             dataKey='year'
-                            axisLine={false}
                             tick={{
                               fill: '#212121',
                               fontSize: '12px',
@@ -1612,7 +1636,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                             interval={0}
                           />
                           <YAxis
-                            axisLine={false}
+                            tickLine={false}
                             tick={{
                               fill: '#212121',
                               fontSize: '12px',
@@ -1652,7 +1676,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
         </div>
         <div className='col-lg-12 mb-5'>
           <div className='mb-4'>
-            <div className='description-para'>
+            <div className=''>
               <div className='d-flex align-items-center mb-3'>
                 <h5 className='me-auto font-bd'>Additional Notes</h5>
               </div>
@@ -1667,7 +1691,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
             </div>
           </div>
           <div className='mb-4'>
-            <div className='description-para'>
+            <div className=''>
               <div className='d-flex align-items-center mb-3'>
                 <h5 className='me-auto font-bd'>Notes For The Professionals</h5>
               </div>

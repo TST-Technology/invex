@@ -23,7 +23,6 @@ const CustomizedGrowthRateLabel = (props) => {
 
 const CustomizedGrowthRateLabelV2 = (props) => {
   const { x, y, stroke, value, index, data } = props;
-
   if (index < data.length - 1) {
     return (
       <text
