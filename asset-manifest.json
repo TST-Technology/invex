@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/invex/static/css/main.21be10c2.chunk.css",
-    "main.js": "/invex/static/js/main.2e067e85.chunk.js",
-    "main.js.map": "/invex/static/js/main.2e067e85.chunk.js.map",
+    "main.js": "/invex/static/js/main.0d079aa2.chunk.js",
+    "main.js.map": "/invex/static/js/main.0d079aa2.chunk.js.map",
     "runtime-main.js": "/invex/static/js/runtime-main.ad0c07dd.js",
     "runtime-main.js.map": "/invex/static/js/runtime-main.ad0c07dd.js.map",
     "static/css/2.0c9f9f70.chunk.css": "/invex/static/css/2.0c9f9f70.chunk.css",
@@ -76,6 +76,6 @@
     "static/css/2.0c9f9f70.chunk.css",
     "static/js/2.d53d575e.chunk.js",
     "static/css/main.21be10c2.chunk.css",
-    "static/js/main.2e067e85.chunk.js"
+    "static/js/main.0d079aa2.chunk.js"
   ]
 }
