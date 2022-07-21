@@ -4,6 +4,7 @@ import CompanyView from '../../Options/Quote/CompanyView/CompanyView';
 import {
   millionToBillionConvert,
   replaceEmpty,
+  capitalizeFirstLetterOfEachWord,
   replaceEmptyWithNumberPreFix,
   replaceEmptyWithPostFix,
 } from '../../Common/CommonFunctions';
@@ -27,7 +28,7 @@ import {
 import { CustomizedGrowthRateLabelV2 } from '../../Common/Chart/Recharts';
 import moment from 'moment';
 
-const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
+const ValuationFCFFM = ({ allData, companyQuote }) => {
   const [data, setData] = useState();
   const [companyValuation, setCompanyValuation] = useState();
   const [roic, setROIC] = useState(null);
@@ -166,6 +167,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
             setFreeCashFlowData(fcffData);
 
             break;
+
           case 'ROIC':
             const roic = getGraphData(valuation);
 
@@ -187,11 +189,17 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
             setInvestedCapital(tempInvestedData);
 
             break;
+
           case 'Price Target':
-            if (!priceTargetData) {
-              const priceData = getGraphData(valuation);
-              setPriceTargetCapital(priceData);
-            }
+            const priceData = getGraphData(valuation);
+            priceData.map((price, index) => {
+              if (index === 0) {
+                price.data = companyQuote?.price;
+              }
+              return price;
+            });
+            setPriceTargetCapital(priceData);
+
           case 'Cost of capital':
             const costOfCapitalData = getGraphData(valuation);
 
@@ -368,7 +376,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
           dominantBaseline='middle'
           fontSize={10}
         >
-          {value ? `$${millionToBillionConvert(value)}` : ''}
+          {value ? `$${value}` : ''}
         </text>
       </g>
     );
@@ -462,13 +470,13 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                   <div className='col-lg-4 col-md-4'>
                     <div className='title-lt'>Sector (US)</div>
                     <span>
-                      <b>{sector?.SectorWiseIndustry?.Sector?.name}</b>
+                      <b>{companyQuote?.sector}</b>
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
                     <div className='title-lt'>Industry (US)</div>
                     <span>
-                      <b>{sector?.SectorWiseIndustry?.name}</b>
+                      <b>{companyQuote?.industry}</b>
                     </span>
                   </div>
                 </div>
@@ -477,8 +485,8 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                     <div className='title-lt'>Market Cap</div>
                     <span>
                       <b>
-                        {keyStatus?.marketCap
-                          ? `$${NormalFormat(keyStatus?.marketCap)}`
+                        {companyQuote?.marketCap
+                          ? `$${NormalFormat(companyQuote?.marketCap)}`
                           : '-'}
                       </b>
                     </span>
@@ -487,8 +495,8 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                     <div className='title-lt'>Current Stock Price</div>
                     <span>
                       <b>
-                        {keyStatus?.latestPrice
-                          ? `$${NormalFormat(keyStatus?.latestPrice)}`
+                        {companyQuote?.price
+                          ? `$${NormalFormat(companyQuote?.price)}`
                           : '-'}
                       </b>
                     </span>
@@ -606,12 +614,7 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                 </div>
 
                 {pastPredictionGraphData && (
-                  <ResponsiveContainer
-                    width='100%'
-                    aspect={1}
-                    maxHeight={500}
-                    //   className='mb-5'
-                  >
+                  <ResponsiveContainer width='100%' aspect={1} maxHeight={550}>
                     <ComposedChart
                       data={pastPredictionGraphData}
                       tick={false}
@@ -649,7 +652,11 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                         fill='#3751FF'
                       />
                       <ZAxis range={[400, 400]} />
-                      <Legend />
+                      <Legend
+                        wrapperStyle={{
+                          fontSize: '12px',
+                        }}
+                      />
                     </ComposedChart>
                   </ResponsiveContainer>
                 )}
@@ -1029,7 +1036,11 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
           </div>
           <div
             className={`scenario justify-content-between ${
-              percent >= 0 ? 'up' : 'down'
+              (estimatedValue?.price - estimatedValue?.estimated_share) /
+                estimatedValue?.price >
+              0
+                ? 'down'
+                : 'up'
             }`}
           >
             <span className='best_scena up-down-bg-color'>
@@ -1046,8 +1057,22 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
               <p className='text up-down-color m-0 ms-2'>
                 {percent
                   ? percent >= 0
-                    ? `(+${percent}%)`
-                    : `(${percent}%)`
+                    ? `(${
+                        (estimatedValue?.price -
+                          estimatedValue?.estimated_share) /
+                          estimatedValue?.price >
+                        0
+                          ? 'Overvalued'
+                          : 'Undervalued'
+                      } +${percent}%)`
+                    : `(${
+                        (estimatedValue?.price -
+                          estimatedValue?.estimated_share) /
+                          estimatedValue?.price >
+                        0
+                          ? 'Overvalued'
+                          : 'Undervalued'
+                      } ${percent}%)`
                   : ''}
               </p>
             </div>
@@ -1147,7 +1172,9 @@ const ValuationFCFFM = ({ allData, sector, keyStatus, logo, Company }) => {
                                   {row?.field_name &&
                                   row?.field_name === 'PV(FCFF)'
                                     ? 'FCFF Present Value'
-                                    : replaceEmpty(row?.field_name)}
+                                    : capitalizeFirstLetterOfEachWord(
+                                        replaceEmpty(row?.field_name)
+                                      )}
                                 </td>
                                 {yearArr &&
                                   yearArr.map((year) => {

@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getValuationData } from '../../api/valuation';
-import { getSectorAndIndustryBySymbol } from '../../api/sectors';
-import { getBookKeyStatus } from '../../api/commonApi';
 import { CircularProgress } from '@material-ui/core';
-import { getCompanyDataBySymbol } from '../../api/commonApi';
-import { getCompanyLogo } from '../../api/company';
+import { getCompanyProfileQuote } from '../../api/Symbol';
 import ValuationFCFFM from './ValuationFCFFM';
 import ValuationDividend from './ValuationDividend';
 import InvexRoutes from '../../../InvexRoutes';
@@ -15,11 +12,9 @@ const Valuation = () => {
   const navigate = useNavigate();
   const [data, setData] = useState();
   const [type, setType] = useState('DIVIDEND'); //DIVIDEND, FCFFM
-  const [sector, setSector] = useState(null);
-  const [keyStatus, setKeyStatus] = useState(null);
-  const [logo, setLogo] = useState();
   const [Company, setCompany] = useState(null);
   const [Loading, setLoading] = useState(false);
+  const [companyQuote, setCompanyQuote] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -49,46 +44,13 @@ const Valuation = () => {
         }
 
         try {
-          const sector = await getSectorAndIndustryBySymbol(symbol);
-          if (sector && sector?.status == 200) {
-            setSector(sector?.data);
-          }
-        } catch (error) {
-          setSector(null);
-        }
+          const data = await getCompanyProfileQuote({ symbol: symbol });
 
-        try {
-          var res = await getBookKeyStatus(symbol);
-          if (res && res?.status === 200) {
-            setKeyStatus(res?.data?.quote);
+          if (data && data.status == 200 && data.data) {
+            setCompanyQuote(data.data);
           }
         } catch (error) {
-          setKeyStatus(null);
-        }
-
-        try {
-          var data = await getCompanyDataBySymbol(symbol);
-          if (data && data.status === 200) {
-            setCompany(data?.data);
-          } else {
-            setCompany(null);
-          }
-        } catch (error) {
-          setCompany(null);
-        }
-
-        try {
-          const logoData = await getCompanyLogo(symbol);
-          if (
-            logoData &&
-            logoData.data &&
-            logoData.data.url &&
-            logoData.status === 200
-          ) {
-            setLogo(logoData.data.url);
-          }
-        } catch (error) {
-          setLogo(null);
+          setCompanyQuote(null);
         }
 
         setLoading(false);
@@ -102,21 +64,9 @@ const Valuation = () => {
         type &&
         !Loading &&
         (type === 'FCFFM' ? (
-          <ValuationFCFFM
-            allData={data}
-            sector={sector}
-            keyStatus={keyStatus}
-            logo={logo}
-            Company={Company}
-          />
+          <ValuationFCFFM allData={data} companyQuote={companyQuote} />
         ) : (
-          <ValuationDividend
-            allData={data}
-            sector={sector}
-            keyStatus={keyStatus}
-            logo={logo}
-            Company={Company}
-          />
+          <ValuationDividend allData={data} companyQuote={companyQuote} />
         ))}
 
       {Loading && (
@@ -134,6 +84,6 @@ const Valuation = () => {
       )}
     </>
   );
-};
+};;;;;
 
 export default Valuation;

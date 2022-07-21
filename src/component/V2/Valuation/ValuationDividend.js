@@ -4,6 +4,7 @@ import CompanyView from '../../Options/Quote/CompanyView/CompanyView';
 import {
   millionToBillionConvert,
   replaceEmpty,
+  capitalizeFirstLetterOfEachWord,
   replaceEmptyWithNumberPreFix,
   replaceEmptyWithPostFix,
 } from '../../Common/CommonFunctions';
@@ -28,7 +29,7 @@ import {
 import { CustomizedGrowthRateLabelV2 } from '../../Common/Chart/Recharts';
 import moment from 'moment';
 
-const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
+const ValuationDividend = ({ allData, companyQuote }) => {
   const [data, setData] = useState();
   const [companyValuation, setCompanyValuation] = useState();
   const [valuationOutput, setValuationOutput] = useState(null);
@@ -205,6 +206,12 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
 
           case 'Price Target':
             const priceTarget = getGraphData(valuation);
+            priceTarget.map((price, index) => {
+              if (index === 0) {
+                price.data = companyQuote?.price;
+              }
+              return price;
+            });
             setPriceTarget(priceTarget);
             break;
 
@@ -441,13 +448,13 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                   <div className='col-lg-4 col-md-4'>
                     <div className='title-lt'>Sector (US)</div>
                     <span>
-                      <b>{sector?.SectorWiseIndustry?.Sector?.name}</b>
+                      <b>{companyQuote?.sector}</b>
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
                     <div className='title-lt'>Industry (US)</div>
                     <span>
-                      <b>{sector?.SectorWiseIndustry?.name}</b>
+                      <b>{companyQuote?.industry}</b>
                     </span>
                   </div>
                 </div>
@@ -456,8 +463,8 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                     <div className='title-lt'>Market Cap</div>
                     <span>
                       <b>
-                        {keyStatus?.marketCap
-                          ? `$${NormalFormat(keyStatus?.marketCap)}`
+                        {companyQuote?.marketCap
+                          ? `$${NormalFormat(companyQuote?.marketCap)}`
                           : '-'}
                       </b>
                     </span>
@@ -466,8 +473,8 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                     <div className='title-lt'>Current Stock Price</div>
                     <span>
                       <b>
-                        {keyStatus?.latestPrice
-                          ? `$${NormalFormat(keyStatus?.latestPrice)}`
+                        {companyQuote?.price
+                          ? `$${NormalFormat(companyQuote?.price)}`
                           : '-'}
                       </b>
                     </span>
@@ -586,7 +593,7 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                   <ResponsiveContainer
                     width='100%'
                     aspect={1}
-                    maxHeight={400}
+                    maxHeight={500}
                     className='mb-5'
                   >
                     <ComposedChart
@@ -627,8 +634,13 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                         fill='#3751FF'
                       />
                       <ZAxis range={[400, 400]} />
-                      <Legend />
-                      <Legend />
+                      <Legend
+                        wrapperStyle={{
+                          bottom: -20,
+                          left: 25,
+                          fontSize: '12px',
+                        }}
+                      />
                     </ComposedChart>
                   </ResponsiveContainer>
                 )}
@@ -698,7 +710,7 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                   </thead>
                   <tbody className='border-top-0'>
                     <tr>
-                      <td>EPS Growth this year</td>
+                      <td>EPS Growth This Year</td>
                       <td>
                         {companyValuation &&
                         companyValuation.DivdiscModelGrowths[0] &&
@@ -733,7 +745,7 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                       </td>
                     </tr>
                     <tr>
-                      <td>EPS Growth next year</td>
+                      <td>EPS Growth Next Year</td>
                       <td>
                         {companyValuation &&
                         companyValuation.DivdiscModelGrowths[0] &&
@@ -769,7 +781,7 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                     </tr>
                     <tr>
                       <td>
-                        EPS Compound anual revenue growth rate for Year 3-5
+                        EPS Compound Annual Revenue Growth Rate For Year 3-5
                       </td>
                       <td>
                         {companyValuation &&
@@ -1015,7 +1027,7 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                       </td>
                     </tr>
                     <tr>
-                      <td>Cost of Equity</td>
+                      <td>Cost Of Equity</td>
                       <td>-</td>
                       <td>-</td>
                       <td>-</td>
@@ -1029,7 +1041,7 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                       </td>
                     </tr>
                     <tr>
-                      <td>Risk free rate</td>
+                      <td>Risk Free Rate</td>
                       <td>
                         {companyValuation &&
                         companyValuation.DivdiscModelGrowths[0] &&
@@ -1075,7 +1087,11 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
           </div>
           <div
             className={`scenario justify-content-between ${
-              percent >= 0 ? 'up' : 'down'
+              (estimatedValue?.price - estimatedValue?.estimated_share) /
+                estimatedValue?.price >
+              0
+                ? 'down'
+                : 'up'
             }`}
           >
             <span className='best_scena up-down-bg-color'>
@@ -1092,8 +1108,22 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
               <p className='text up-down-color m-0 ms-2'>
                 {percent
                   ? percent >= 0
-                    ? `(+${percent}%)`
-                    : `(${percent}%)`
+                    ? `(${
+                        (estimatedValue?.price -
+                          estimatedValue?.estimated_share) /
+                          estimatedValue?.price >
+                        0
+                          ? 'Overvalued'
+                          : 'Undervalued'
+                      } +${percent}%)`
+                    : `(${
+                        (estimatedValue?.price -
+                          estimatedValue?.estimated_share) /
+                          estimatedValue?.price >
+                        0
+                          ? 'Overvalued'
+                          : 'Undervalued'
+                      } ${percent}%)`
                   : ''}
               </p>
             </div>
@@ -1189,7 +1219,9 @@ const ValuationDividend = ({ allData, sector, keyStatus, logo, Company }) => {
                               <tr>
                                 <td>
                                   {row?.field_name &&
-                                    replaceEmpty(row?.field_name)}
+                                    capitalizeFirstLetterOfEachWord(
+                                      replaceEmpty(row?.field_name)
+                                    )}
                                 </td>
                                 {yearArr &&
                                   yearArr.map((year) => {

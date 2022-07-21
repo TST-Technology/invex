@@ -51,7 +51,7 @@ const SynopsisNews = () => {
             </div>
             <div className='row'>
               {newsData &&
-                newsData.map((news, index) => {
+                newsData.slice(0, 15).map((news, index) => {
                   return (
                     <div className='col-lg-4' key={index}>
                       <div className='news_block mt-3 mb-3'>
