@@ -47,6 +47,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
   const [manualChartData, setManualChartData] = useState(null);
   const [manualButtonVisible, setManualButtonVisible] = useState(false);
   const [dpsPresentValue, setDpsPresentValue] = useState(null);
+  const [calculatedPercentage, setCalculatedPercentage] = useState(null);
   const yearArr = [
     'base_year',
     'year_1',
@@ -246,7 +247,6 @@ const ValuationDividend = ({ allData, companyQuote }) => {
   }, [valuationOutput]);
 
   useEffect(() => {
-    console.log(manualParam);
     if (manualParam) {
       getManualParamData();
     }
@@ -254,10 +254,17 @@ const ValuationDividend = ({ allData, companyQuote }) => {
 
   useEffect(() => {
     if (manualChartData) {
-      console.log(manualChartData);
       setValuationOutput([...manualChartData]);
     }
   }, [manualChartData]);
+
+  useEffect(() => {
+    const tempCalculatedPercentage = (
+      (estimatedValue?.current_price - estimatedValue?.stock_value) /
+      estimatedValue?.current_price
+    ).toFixed(2);
+    setCalculatedPercentage(tempCalculatedPercentage);
+  }, [estimatedValue]);
 
   const getGraphData = (valuation) => {
     const publishDate = new Date(companyValuation?.publish_date);
@@ -371,7 +378,6 @@ const ValuationDividend = ({ allData, companyQuote }) => {
       ...manualParam,
       valuation_id: companyValuation.id,
     });
-    console.log(manualData);
     if (manualData?.yearlyOutput) {
       setManualChartData([...manualData?.yearlyOutput]);
       setManualButtonVisible(true);
@@ -1087,11 +1093,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
           </div>
           <div
             className={`scenario justify-content-between ${
-              (estimatedValue?.price - estimatedValue?.estimated_share) /
-                estimatedValue?.price >
-              0
-                ? 'down'
-                : 'up'
+              calculatedPercentage > 0 ? 'down' : 'up'
             }`}
           >
             <span className='best_scena up-down-bg-color'>
@@ -1106,24 +1108,14 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                 </strong>
               </p>
               <p className='text up-down-color m-0 ms-2'>
-                {percent
-                  ? percent >= 0
+                {calculatedPercentage
+                  ? calculatedPercentage >= 0
                     ? `(${
-                        (estimatedValue?.price -
-                          estimatedValue?.estimated_share) /
-                          estimatedValue?.price >
-                        0
-                          ? 'Overvalued'
-                          : 'Undervalued'
-                      } +${percent}%)`
+                        calculatedPercentage > 0 ? 'Overvalued' : 'Undervalued'
+                      } +${calculatedPercentage}%)`
                     : `(${
-                        (estimatedValue?.price -
-                          estimatedValue?.estimated_share) /
-                          estimatedValue?.price >
-                        0
-                          ? 'Overvalued'
-                          : 'Undervalued'
-                      } ${percent}%)`
+                        calculatedPercentage > 0 ? 'Overvalued' : 'Undervalued'
+                      } ${calculatedPercentage}%)`
                   : ''}
               </p>
             </div>

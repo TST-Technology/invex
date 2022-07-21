@@ -6,6 +6,7 @@ import {
   getHistoricalPriceChart,
   getStockDividend,
   getEarnings,
+  getStockPriceChange,
 } from '../../api/Symbol';
 import abbreviateNumber from '../../Common/NumberFormat';
 import ReadMore from '../../Common/ReadMore/ReadMore';
@@ -53,6 +54,8 @@ const Synopsis = ({ onChangeTab }) => {
   const [earningsChart, setEarningsChart] = useState(null);
   const [dividendChartLoading, setDividendChartLoading] = useState(false);
   const [earningsChartLoading, setEarningsChartLoading] = useState(false);
+  const [stockPriceData, setStockPriceData] = useState(null);
+  const [absoluteReturn, setAbsoluteReturn] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -120,6 +123,17 @@ const Synopsis = ({ onChangeTab }) => {
           }
         }
 
+        try {
+          const priceChange = await getStockPriceChange({ symbol: symbol });
+          if (priceChange && priceChange.status === 200 && priceChange?.data) {
+            setStockPriceData(priceChange?.data);
+            const temp = priceChange?.data['1D']
+              ? priceChange?.data['1D'].toFixed(2)
+              : '';
+            setAbsoluteReturn(temp);
+          }
+        } catch (error) {}
+
         setIsLoading(false);
 
         setEarningsChartLoading(false);
@@ -130,6 +144,16 @@ const Synopsis = ({ onChangeTab }) => {
   useEffect(() => {
     if (symbol) {
       getCompanyEssentialsChartData();
+    }
+    if (chartPeriod && stockPriceData) {
+      if (chartPeriod === '1w') {
+        setAbsoluteReturn(null);
+      } else {
+        const tempPeriod =
+          chartPeriod === 'max' ? chartPeriod : chartPeriod.toUpperCase();
+        const tempReturn = stockPriceData[tempPeriod];
+        setAbsoluteReturn(tempReturn);
+      }
     }
   }, [chartPeriod]);
 
@@ -337,7 +361,11 @@ const Synopsis = ({ onChangeTab }) => {
                     <div className='col-lg-3 col-md-3'>
                       <div className='title-lt'>52 Weeks Change</div>
                       <span>
-                        <b>-</b>
+                        <b>
+                          {stockPriceData['1Y']
+                            ? stockPriceData['1Y'].toFixed(2)
+                            : '-'}
+                        </b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
@@ -385,7 +413,21 @@ const Synopsis = ({ onChangeTab }) => {
                   <div className='d-flex align-items-center justify-content-between'>
                     <div className='mb-3'>
                       <label htmlFor>Absolute Return</label>
-                      <span className='up up-light-bg p-1 ms-2'>+17.3%</span>
+                      <span
+                        className={`p-1 ms-2 ${
+                          absoluteReturn
+                            ? absoluteReturn > 0
+                              ? 'up-color up-bg-color'
+                              : 'down-color down-bg-color'
+                            : ''
+                        } `}
+                      >
+                        {absoluteReturn
+                          ? absoluteReturn > 0
+                            ? `+${absoluteReturn}%`
+                            : `${absoluteReturn}%`
+                          : '-'}
+                      </span>
                     </div>
                     <div className='top_button_panel top_button_panel_light mb-3'>
                       {CHART_TIME_DURATION.map((duration, index) => {
@@ -712,8 +754,16 @@ const Synopsis = ({ onChangeTab }) => {
                                 {row?.pe ? parseFloat(row?.pe).toFixed(2) : '-'}
                               </td>
                               <td>{replaceEmpty(row?.eps)}</td>
-                              <td>-</td>
-                              <td>-</td>
+                              <td>
+                                {row?.stockPriceChange?.ytd
+                                  ? row?.stockPriceChange?.ytd.toFixed(2)
+                                  : '-'}
+                              </td>
+                              <td>
+                                {row?.stockPriceChange['1Y']
+                                  ? row?.stockPriceChange['1Y'].toFixed(2)
+                                  : '-'}
+                              </td>
                             </tr>
                           );
                         })}

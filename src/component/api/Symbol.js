@@ -48,6 +48,20 @@ export const getSynopsisCompanyNews = async (param) => {
   return data;
 };
 
+export const getHeaderMarqueeDetails = async (param) => {
+  var { data } = await ServiceCP1V2.get(`/header2`, {
+    params: param,
+  });
+  return data;
+};
+
+export const getStockPriceChange = async (param) => {
+  var { data } = await ServiceCP1V2.get(`/stock-price-change`, {
+    params: param,
+  });
+  return data;
+};
+
 
 
 

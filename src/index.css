@@ -58,3 +58,21 @@ code {
   background-color:rgb(223 8 34 / 90%);
   color: white;
 }
+
+.up-color{
+  color:#13A41B;
+}
+
+.down-color{
+  color:#DF0822;
+}
+
+.up-bg-color{
+  background-color:rgb(19 164 100 / 15%)
+}
+
+.down-bg-color{
+  /* background-color:rgb(254 19 12 / 96%); */
+  background-color:rgb(223 8 34 / 90%);
+  color: white;
+}

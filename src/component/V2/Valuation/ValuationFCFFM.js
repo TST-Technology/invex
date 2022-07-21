@@ -49,6 +49,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
   const [manualChartData, setManualChartData] = useState(null);
   const [manualButtonVisible, setManualButtonVisible] = useState(false);
   const [costOfCapitalGraphData, setCostOfCapitalGraphData] = useState(null);
+  const [calculatedPercentage, setCalculatedPercentage] = useState(null);
   const yearArr = [
     'base_year',
     'year_1',
@@ -287,10 +288,17 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
 
   useEffect(() => {
     if (manualChartData) {
-      console.log(manualChartData);
       setValuationOutput([...manualChartData]);
     }
   }, [manualChartData]);
+
+  useEffect(() => {
+    const tempCalculatedPercentage = (
+      (estimatedValue?.price - estimatedValue?.estimated_share) /
+      estimatedValue?.price
+    ).toFixed(2);
+    setCalculatedPercentage(tempCalculatedPercentage);
+  }, [estimatedValue]);
 
   const getGraphData = (valuation) => {
     const publishDate = new Date(companyValuation?.publish_date);
@@ -413,7 +421,6 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
       ...manualParam,
       valuation_id: companyValuation.id,
     });
-    console.log(manualData);
     if (manualData?.yearlyValuationOutput) {
       setManualChartData([...manualData?.yearlyValuationOutput]);
       setManualButtonVisible(true);
@@ -1036,11 +1043,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
           </div>
           <div
             className={`scenario justify-content-between ${
-              (estimatedValue?.price - estimatedValue?.estimated_share) /
-                estimatedValue?.price >
-              0
-                ? 'down'
-                : 'up'
+              calculatedPercentage > 0 ? 'down' : 'up'
             }`}
           >
             <span className='best_scena up-down-bg-color'>
@@ -1050,29 +1053,19 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
               <p className='card-text up-down-color m-0'>
                 <strong>
                   {estimatedValue?.estimated_share
-                    ? `$${estimatedValue?.estimated_share}`
+                    ? `$${estimatedValue?.estimated_share.toFixed(2)}`
                     : '-'}
                 </strong>
               </p>
               <p className='text up-down-color m-0 ms-2'>
-                {percent
-                  ? percent >= 0
+                {calculatedPercentage
+                  ? calculatedPercentage >= 0
                     ? `(${
-                        (estimatedValue?.price -
-                          estimatedValue?.estimated_share) /
-                          estimatedValue?.price >
-                        0
-                          ? 'Overvalued'
-                          : 'Undervalued'
-                      } +${percent}%)`
+                        calculatedPercentage > 0 ? 'Overvalued' : 'Undervalued'
+                      } +${calculatedPercentage}%)`
                     : `(${
-                        (estimatedValue?.price -
-                          estimatedValue?.estimated_share) /
-                          estimatedValue?.price >
-                        0
-                          ? 'Overvalued'
-                          : 'Undervalued'
-                      } ${percent}%)`
+                        calculatedPercentage > 0 ? 'Overvalued' : 'Undervalued'
+                      } ${calculatedPercentage}%)`
                   : ''}
               </p>
             </div>

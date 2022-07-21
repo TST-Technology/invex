@@ -1,18 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { getStockMarketActives } from '../../api/Symbol';
+import {
+  getStockMarketActives,
+  getHeaderMarqueeDetails,
+} from '../../api/Symbol';
 
 const Marquee = () => {
   const [marketActives, setMarketActives] = useState(null);
+  const [index, setIndex] = useState(null);
+  const [currency, setCurrency] = useState(null);
+  const [commodity, setCommodity] = useState(null);
 
   useEffect(() => {
     getMarketActives();
   }, []);
 
   const getMarketActives = async () => {
-    const data = await getStockMarketActives();
-    if (data && data.status === 200 && data.data) {
-      setMarketActives(data.data);
+    try {
+      const data = await getStockMarketActives();
+      if (data && data.status === 200 && data.data) {
+        setMarketActives(data.data);
+      }
+    } catch (error) {
+      setMarketActives(null);
     }
+
+    try {
+      const data = await getHeaderMarqueeDetails();
+      if (data && data.status === 200 && data.data) {
+        const tempData = data.data;
+        setIndex(tempData?.index);
+        setCurrency(tempData?.currency);
+        setCommodity(tempData?.commodity);
+      }
+    } catch (error) {}
   };
 
   return (
@@ -25,15 +45,17 @@ const Marquee = () => {
                 return (
                   <li className='list-unstyled list-inline-item'>
                     {stock?.symbol}
-                    <span className='mx-2'>${stock?.price}</span>{' '}
+                    <span className='mx-2'>
+                      ${stock?.price.toFixed(2)}
+                    </span>{' '}
                     <span
                       className={`me-3 ${
                         stock?.changesPercentage > 0 ? 'up' : 'down'
                       }`}
                     >
                       {stock?.changesPercentage > 0
-                        ? `+${stock?.changesPercentage}`
-                        : stock?.changesPercentage}
+                        ? `+${stock?.changesPercentage.toFixed(2)}`
+                        : stock?.changesPercentage.toFixed(2)}
                       %
                     </span>
                   </li>
@@ -43,113 +65,99 @@ const Marquee = () => {
         </div>
       </div>
       <div className='marquee2'>
-        <span>
+        {/* <span>
           <b>Currency</b>
-        </span>
-        <div className='track'>
-          <ul className='list-inline m-0'>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='up me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='down me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='up me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='down me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='down me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='up me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='down me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='up me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='down me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='up me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='up me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='down me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='up me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='down me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='up me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='up me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='down me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='up me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='down me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='up me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='down me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='up me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='down me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='down me-3'>+3.91%</span>
-            </li>
-            <li className='list-unstyled list-inline-item'>
-              Symbol<span className='mx-2'>$124.1</span>{' '}
-              <span className='up me-3'>+3.91%</span>
-            </li>
-          </ul>
-        </div>
+        </span> */}
+        {index && currency && commodity && (
+          <div className='track'>
+            <ul className='list-inline m-0'>
+              {index && currency && commodity && (
+                <li className='list-unstyled list-inline-item'>
+                  <b>Index</b>
+                </li>
+              )}
+              <>
+                {index &&
+                  index.map((stock) => {
+                    return (
+                      <li className='list-unstyled list-inline-item'>
+                        {stock?.symbol}
+                        <span className='mx-2'>
+                          ${stock?.price.toFixed(2)}
+                        </span>{' '}
+                        <span
+                          className={`me-3 ${
+                            stock?.changesPercentage > 0 ? 'up' : 'down'
+                          }`}
+                        >
+                          {stock?.changesPercentage > 0
+                            ? `+${stock?.changesPercentage.toFixed(2)}`
+                            : stock?.changesPercentage.toFixed(2)}
+                          %
+                        </span>
+                      </li>
+                    );
+                  })}
+              </>
+              {index && currency && commodity && (
+                <li className='list-unstyled list-inline-item'>
+                  <b>Currency</b>
+                </li>
+              )}
+              <>
+                {currency &&
+                  currency.map((stock) => {
+                    return (
+                      <li className='list-unstyled list-inline-item'>
+                        {stock?.symbol}
+                        <span className='mx-2'>
+                          ${stock?.price.toFixed(2)}
+                        </span>{' '}
+                        <span
+                          className={`me-3 ${
+                            stock?.changesPercentage > 0 ? 'up' : 'down'
+                          }`}
+                        >
+                          {stock?.changesPercentage > 0
+                            ? `+${stock?.changesPercentage.toFixed(2)}`
+                            : stock?.changesPercentage.toFixed(2)}
+                          %
+                        </span>
+                      </li>
+                    );
+                  })}
+              </>
+              {index && currency && commodity && (
+                <li className='list-unstyled list-inline-item'>
+                  <b>Commodity</b>
+                </li>
+              )}
+              <>
+                {commodity &&
+                  commodity.map((stock) => {
+                    return (
+                      <li className='list-unstyled list-inline-item'>
+                        {stock?.name}
+                        <span className='mx-2'>
+                          ${stock?.price.toFixed(2)}
+                        </span>{' '}
+                        <span
+                          className={`me-3 ${
+                            stock?.changesPercentage > 0 ? 'up' : 'down'
+                          }`}
+                        >
+                          {stock?.changesPercentage > 0
+                            ? `+${stock?.changesPercentage.toFixed(2)}`
+                            : stock?.changesPercentage.toFixed(2)}
+                          %
+                        </span>
+                      </li>
+                    );
+                  })}
+              </>
+            </ul>
+          </div>
+        )}
       </div>
     </>
   );
