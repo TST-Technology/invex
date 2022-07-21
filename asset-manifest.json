@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/invex/static/css/main.21be10c2.chunk.css",
-    "main.js": "/invex/static/js/main.7ea6af55.chunk.js",
-    "main.js.map": "/invex/static/js/main.7ea6af55.chunk.js.map",
+    "main.css": "/invex/static/css/main.6b0260fa.chunk.css",
+    "main.js": "/invex/static/js/main.8eeec846.chunk.js",
+    "main.js.map": "/invex/static/js/main.8eeec846.chunk.js.map",
     "runtime-main.js": "/invex/static/js/runtime-main.ad0c07dd.js",
     "runtime-main.js.map": "/invex/static/js/runtime-main.ad0c07dd.js.map",
     "static/css/2.0c9f9f70.chunk.css": "/invex/static/css/2.0c9f9f70.chunk.css",
@@ -10,7 +10,7 @@
     "static/js/2.d53d575e.chunk.js.map": "/invex/static/js/2.d53d575e.chunk.js.map",
     "index.html": "/invex/index.html",
     "static/css/2.0c9f9f70.chunk.css.map": "/invex/static/css/2.0c9f9f70.chunk.css.map",
-    "static/css/main.21be10c2.chunk.css.map": "/invex/static/css/main.21be10c2.chunk.css.map",
+    "static/css/main.6b0260fa.chunk.css.map": "/invex/static/css/main.6b0260fa.chunk.css.map",
     "static/js/2.d53d575e.chunk.js.LICENSE.txt": "/invex/static/js/2.d53d575e.chunk.js.LICENSE.txt",
     "static/media/404.jpeg": "/invex/static/media/404.8caf6d9d.jpeg",
     "static/media/arrow-down.svg": "/invex/static/media/arrow-down.8ec36f5b.svg",
@@ -75,7 +75,7 @@
     "static/js/runtime-main.ad0c07dd.js",
     "static/css/2.0c9f9f70.chunk.css",
     "static/js/2.d53d575e.chunk.js",
-    "static/css/main.21be10c2.chunk.css",
-    "static/js/main.7ea6af55.chunk.js"
+    "static/css/main.6b0260fa.chunk.css",
+    "static/js/main.8eeec846.chunk.js"
   ]
 }
