@@ -294,8 +294,9 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
 
   useEffect(() => {
     const tempCalculatedPercentage = (
-      (estimatedValue?.price - estimatedValue?.estimated_share) /
-      estimatedValue?.price
+      ((estimatedValue?.price - estimatedValue?.estimated_share) /
+        estimatedValue?.price) *
+      100
     ).toFixed(2);
     setCalculatedPercentage(tempCalculatedPercentage);
   }, [estimatedValue]);
@@ -715,327 +716,334 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
             </div>
           </div>
         </div>
-        <div className='col-lg-12'>
-          <div className='top_competitors'>
-            <div className='mb-5'>
-              <div className='d-flex align-items-center justify-content-between mb-3'>
-                <h5 className='me-auto font-bd'>Valuation Assumptions</h5>
-              </div>
-              <div className='table-responsive'>
-                <table className='table table-bordered table-striped m-0 most_tables'>
-                  <thead>
-                    <tr>
-                      <th scope='col'>-</th>
-                      <th scope='col'>Best</th>
-                      <th scope='col'>Base</th>
-                      <th scope='col'>Worst</th>
-                      <th scope='col'>Manual</th>
-                    </tr>
-                  </thead>
-                  <tbody className='border-top-0'>
-                    <tr>
-                      <td>Growth This Year</td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]?.gr_this_year_best
-                          ? `${companyValuation.CompanyGrowths[0]?.gr_this_year_best}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]?.gr_this_year_base
-                          ? `${companyValuation.CompanyGrowths[0]?.gr_this_year_base}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]?.gr_this_year_worst
-                          ? `${companyValuation.CompanyGrowths[0]?.gr_this_year_worst}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        <input
-                          style={{ width: '50px' }}
-                          type='number'
-                          name='gr_this_year_man'
-                          onChange={handleManualParamChange}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Growth Next Year</td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]?.gr_next_year_best
-                          ? `${companyValuation.CompanyGrowths[0]?.gr_next_year_best}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]?.gr_next_year_base
-                          ? `${companyValuation.CompanyGrowths[0]?.gr_next_year_base}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]?.gr_next_year_worst
-                          ? `${companyValuation.CompanyGrowths[0]?.gr_next_year_worst}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        <input
-                          style={{ width: '50px' }}
-                          type='number'
-                          name='gr_next_year_man'
-                          onChange={handleManualParamChange}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Compound Annual Revenue Growth Rate For Year 3-5</td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]
-                          ?.compounded_revenue_growth_best
-                          ? `${companyValuation.CompanyGrowths[0]?.compounded_revenue_growth_best}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]
-                          ?.compounded_revenue_growth_base
-                          ? `${companyValuation.CompanyGrowths[0]?.compounded_revenue_growth_base}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]
-                          ?.compounded_revenue_growth_worst
-                          ? `${companyValuation.CompanyGrowths[0]?.compounded_revenue_growth_worst}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        <input
-                          style={{ width: '50px' }}
-                          type='number'
-                          name='compounded_revenue_growth_man'
-                          onChange={handleManualParamChange}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Operating Margin This Year</td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]
-                          ?.op_margin_first_year_best
-                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_first_year_best}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]
-                          ?.op_margin_first_year_base
-                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_first_year_base}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]
-                          ?.op_margin_first_year_worst
-                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_first_year_worst}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        <input
-                          style={{ width: '50px' }}
-                          type='number'
-                          name='op_margin_first_year_man'
-                          onChange={handleManualParamChange}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Operating Margin Next Year</td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]
-                          ?.op_margin_next_year_best
-                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_next_year_best}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]
-                          ?.op_margin_next_year_base
-                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_next_year_base}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]
-                          ?.op_margin_next_year_worst
-                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_next_year_worst}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        <input
-                          style={{ width: '50px' }}
-                          type='number'
-                          name='op_margin_next_year_man'
-                          onChange={handleManualParamChange}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Operating Margin Year 3-5</td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]
-                          ?.op_margin_five_year_best
-                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_five_year_best}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]
-                          ?.op_margin_five_year_base
-                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_five_year_base}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]
-                          ?.op_margin_five_year_worst
-                          ? `${companyValuation.CompanyGrowths[0]?.op_margin_five_year_worst}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        <input
-                          style={{ width: '50px' }}
-                          type='number'
-                          name='op_margin_five_year_man'
-                          onChange={handleManualParamChange}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Target Operating Margin</td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]
-                          ?.pre_tax_op_margin_best
-                          ? `${companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_best}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]
-                          ?.pre_tax_op_margin_base
-                          ? `${companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_base}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation.CompanyGrowths[0] &&
-                        companyValuation.CompanyGrowths[0]
-                          ?.pre_tax_op_margin_worst
-                          ? `${companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_worst}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        <input
-                          style={{ width: '50px' }}
-                          type='number'
-                          name='pre_tax_op_margin_man'
-                          onChange={handleManualParamChange}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Cost Of Capital</td>
-                      <td>
-                        {companyValuation && companyValuation?.cost_of_capital
-                          ? `${companyValuation?.cost_of_capital}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation && companyValuation?.cost_of_capital
-                          ? `${companyValuation?.cost_of_capital}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation && companyValuation?.cost_of_capital
-                          ? `${companyValuation?.cost_of_capital}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        <input
-                          style={{ width: '50px' }}
-                          type='number'
-                          name='cost_of_capital'
-                          onChange={handleManualParamChange}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Risk Free Rate</td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation?.CompanyGrowths[0] &&
-                        companyValuation?.CompanyGrowths[0]?.risk_free_rate_best
-                          ? `${companyValuation?.CompanyGrowths[0]?.risk_free_rate_best}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation?.CompanyGrowths[0] &&
-                        companyValuation?.CompanyGrowths[0]?.risk_free_rate_base
-                          ? `${companyValuation?.CompanyGrowths[0]?.risk_free_rate_base}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        {companyValuation &&
-                        companyValuation?.CompanyGrowths[0] &&
-                        companyValuation?.CompanyGrowths[0]
-                          ?.risk_free_rate_worst
-                          ? `${companyValuation?.CompanyGrowths[0]?.risk_free_rate_worst}%`
-                          : '-'}
-                      </td>
-                      <td>
-                        <input
-                          style={{ width: '50px' }}
-                          type='number'
-                          name='risk_free_rate_man'
-                          onChange={handleManualParamChange}
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+        <div className='row'>
+          <div className='col-lg-6'>
+            <div className='top_competitors'>
+              <div className='mb-5'>
+                <div className='d-flex align-items-center justify-content-between mb-3'>
+                  <h5 className='me-auto font-bd'>Valuation Assumptions</h5>
+                </div>
+                <div className='table-responsive'>
+                  <table className='table table-bordered table-striped m-0 most_tables normal_table'>
+                    <thead className='bold-heading'>
+                      <tr>
+                        <th scope='col'>-</th>
+                        <th scope='col'>Best</th>
+                        <th scope='col'>Base</th>
+                        <th scope='col'>Worst</th>
+                        <th scope='col'>Manual</th>
+                      </tr>
+                    </thead>
+                    <tbody className='border-top-0'>
+                      <tr>
+                        <td>Growth This Year</td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]?.gr_this_year_best
+                            ? `${companyValuation.CompanyGrowths[0]?.gr_this_year_best}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]?.gr_this_year_base
+                            ? `${companyValuation.CompanyGrowths[0]?.gr_this_year_base}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]?.gr_this_year_worst
+                            ? `${companyValuation.CompanyGrowths[0]?.gr_this_year_worst}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          <input
+                            style={{ width: '50px' }}
+                            type='number'
+                            name='gr_this_year_man'
+                            onChange={handleManualParamChange}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Growth Next Year</td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]?.gr_next_year_best
+                            ? `${companyValuation.CompanyGrowths[0]?.gr_next_year_best}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]?.gr_next_year_base
+                            ? `${companyValuation.CompanyGrowths[0]?.gr_next_year_base}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]?.gr_next_year_worst
+                            ? `${companyValuation.CompanyGrowths[0]?.gr_next_year_worst}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          <input
+                            style={{ width: '50px' }}
+                            type='number'
+                            name='gr_next_year_man'
+                            onChange={handleManualParamChange}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Compound Annual Revenue Growth Rate For Year 3-5
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]
+                            ?.compounded_revenue_growth_best
+                            ? `${companyValuation.CompanyGrowths[0]?.compounded_revenue_growth_best}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]
+                            ?.compounded_revenue_growth_base
+                            ? `${companyValuation.CompanyGrowths[0]?.compounded_revenue_growth_base}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]
+                            ?.compounded_revenue_growth_worst
+                            ? `${companyValuation.CompanyGrowths[0]?.compounded_revenue_growth_worst}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          <input
+                            style={{ width: '50px' }}
+                            type='number'
+                            name='compounded_revenue_growth_man'
+                            onChange={handleManualParamChange}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Operating Margin This Year</td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]
+                            ?.op_margin_first_year_best
+                            ? `${companyValuation.CompanyGrowths[0]?.op_margin_first_year_best}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]
+                            ?.op_margin_first_year_base
+                            ? `${companyValuation.CompanyGrowths[0]?.op_margin_first_year_base}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]
+                            ?.op_margin_first_year_worst
+                            ? `${companyValuation.CompanyGrowths[0]?.op_margin_first_year_worst}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          <input
+                            style={{ width: '50px' }}
+                            type='number'
+                            name='op_margin_first_year_man'
+                            onChange={handleManualParamChange}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Operating Margin Next Year</td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]
+                            ?.op_margin_next_year_best
+                            ? `${companyValuation.CompanyGrowths[0]?.op_margin_next_year_best}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]
+                            ?.op_margin_next_year_base
+                            ? `${companyValuation.CompanyGrowths[0]?.op_margin_next_year_base}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]
+                            ?.op_margin_next_year_worst
+                            ? `${companyValuation.CompanyGrowths[0]?.op_margin_next_year_worst}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          <input
+                            style={{ width: '50px' }}
+                            type='number'
+                            name='op_margin_next_year_man'
+                            onChange={handleManualParamChange}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Operating Margin Year 3-5</td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]
+                            ?.op_margin_five_year_best
+                            ? `${companyValuation.CompanyGrowths[0]?.op_margin_five_year_best}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]
+                            ?.op_margin_five_year_base
+                            ? `${companyValuation.CompanyGrowths[0]?.op_margin_five_year_base}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]
+                            ?.op_margin_five_year_worst
+                            ? `${companyValuation.CompanyGrowths[0]?.op_margin_five_year_worst}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          <input
+                            style={{ width: '50px' }}
+                            type='number'
+                            name='op_margin_five_year_man'
+                            onChange={handleManualParamChange}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Target Operating Margin</td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]
+                            ?.pre_tax_op_margin_best
+                            ? `${companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_best}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]
+                            ?.pre_tax_op_margin_base
+                            ? `${companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_base}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation.CompanyGrowths[0] &&
+                          companyValuation.CompanyGrowths[0]
+                            ?.pre_tax_op_margin_worst
+                            ? `${companyValuation.CompanyGrowths[0]?.pre_tax_op_margin_worst}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          <input
+                            style={{ width: '50px' }}
+                            type='number'
+                            name='pre_tax_op_margin_man'
+                            onChange={handleManualParamChange}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Cost Of Capital</td>
+                        <td>
+                          {companyValuation && companyValuation?.cost_of_capital
+                            ? `${companyValuation?.cost_of_capital}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation && companyValuation?.cost_of_capital
+                            ? `${companyValuation?.cost_of_capital}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation && companyValuation?.cost_of_capital
+                            ? `${companyValuation?.cost_of_capital}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          <input
+                            style={{ width: '50px' }}
+                            type='number'
+                            name='cost_of_capital'
+                            onChange={handleManualParamChange}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Risk Free Rate</td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation?.CompanyGrowths[0] &&
+                          companyValuation?.CompanyGrowths[0]
+                            ?.risk_free_rate_best
+                            ? `${companyValuation?.CompanyGrowths[0]?.risk_free_rate_best}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation?.CompanyGrowths[0] &&
+                          companyValuation?.CompanyGrowths[0]
+                            ?.risk_free_rate_base
+                            ? `${companyValuation?.CompanyGrowths[0]?.risk_free_rate_base}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          {companyValuation &&
+                          companyValuation?.CompanyGrowths[0] &&
+                          companyValuation?.CompanyGrowths[0]
+                            ?.risk_free_rate_worst
+                            ? `${companyValuation?.CompanyGrowths[0]?.risk_free_rate_worst}%`
+                            : '-'}
+                        </td>
+                        <td>
+                          <input
+                            style={{ width: '50px' }}
+                            type='number'
+                            name='risk_free_rate_man'
+                            onChange={handleManualParamChange}
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
+          <div className='col-lg-6'></div>
         </div>
         <div className='col-lg-12 mb-4'>
           <div className='d-flex align-items-center justify-content-between mb-3'>
@@ -1059,20 +1067,18 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
               </p>
               <p className='text up-down-color m-0 ms-2'>
                 {calculatedPercentage
-                  ? calculatedPercentage >= 0
-                    ? `(${
-                        calculatedPercentage > 0 ? 'Overvalued' : 'Undervalued'
-                      } +${calculatedPercentage}%)`
-                    : `(${
-                        calculatedPercentage > 0 ? 'Overvalued' : 'Undervalued'
-                      } ${calculatedPercentage}%)`
+                  ? `(${
+                      calculatedPercentage > 0
+                        ? 'Overvalued by'
+                        : 'Undervalued by'
+                    } ${Math.abs(calculatedPercentage)}%)`
                   : ''}
               </p>
             </div>
             <div className='text-end text-black'>
               <p className='m-0'>
                 <small>
-                  Value of equity (Millions):{' '}
+                  Estimated value of equity:{' '}
                   {estimatedValue?.value_of_equity
                     ? `${millionToBillionConvert(
                         estimatedValue?.value_of_equity
@@ -1083,8 +1089,8 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
               <p className='m-0'>
                 <small>
                   Current price:{' '}
-                  {estimatedValue?.price
-                    ? `$${NormalFormat(estimatedValue?.price)}`
+                  {companyQuote?.price
+                    ? `$${NormalFormat(companyQuote?.price)}`
                     : '-'}
                 </small>
               </p>
@@ -1144,14 +1150,13 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
             <div className='mb-5'>
               <div className='table-responsive'>
                 {valuationOutput && (
-                  <table className='table table-bordered table-striped m-0 most_tables'>
-                    <thead>
+                  <table className='table table-bordered table-striped m-0 most_tables normal_table'>
+                    <thead className='bold-heading'>
                       <tr>
                         <th scope='col'>-</th>
                         {freeCashFlowData &&
                           freeCashFlowData.map((heading) => {
-                            if (heading.year !== 'Terminal')
-                              return <th scope='col'>{heading.year}</th>;
+                            return <th scope='col'>{heading.year}</th>;
                           })}
                       </tr>
                     </thead>
@@ -1171,8 +1176,11 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                                 </td>
                                 {yearArr &&
                                   yearArr.map((year) => {
-                                    if (year !== 'terminal')
-                                      return <td>{replaceEmpty(row[year])}</td>;
+                                    return (
+                                      <td>
+                                        {row[year] ? row[year].toFixed(2) : '-'}
+                                      </td>
+                                    );
                                   })}
                               </tr>
                             )}

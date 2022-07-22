@@ -76,3 +76,7 @@ code {
   background-color:rgb(223 8 34 / 90%);
   color: white;
 }
+
+.most_tables thead.bold-heading tr th{
+  font-weight: bold;
+}
