@@ -62,6 +62,13 @@ export const getStockPriceChange = async (param) => {
   return data;
 };
 
+export const getSearchResult = async (param) => {
+  var { data } = await ServiceCP1V2.get(`/search`, {
+    params: param,
+  });
+  return data;
+};
+
 
 
 

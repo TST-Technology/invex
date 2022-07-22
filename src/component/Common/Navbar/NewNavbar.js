@@ -1,11 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import NewSearch from './NewSearch';
+import { getSearchResult } from '../../api/Symbol';
+// import { getSearchdata } from '../../api/search';
 import InvexBWealth from '../Images/invex-b-wealth.png';
-import KImg from '../Images/⌘Kb.png';
-import SearchBImg from '../Images/search-b.png';
 import InvexWLogo from '../Images/invex-w-logo.png';
 import SearchImg from '../Images/search.png';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const [navbarSearch, setNavbarSearch] = useState(null);
+  const [SearchResult, setSearchResult] = useState(null);
+
+  const debounce = (func, timeout = 300) => {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
+  };
+
+  const handleDebounceSearch = debounce((val) => handleSearch(val), 700);
+
+  const handleSearch = async (val) => {
+    try {
+      if (val) {
+        var data = await getSearchResult({ keyword: val });
+        if (
+          data &&
+          data?.status === 200 &&
+          data?.data &&
+          data?.data.length > 0
+        ) {
+          setSearchResult(data?.data);
+        }
+      }
+    } catch (err) {
+      setSearchResult(null);
+    }
+  };
+  const handleClick = (url) => {
+    if (url) {
+      navigate(url);
+      setSearchResult(null);
+    }
+  };
+
   return (
     <>
       {/* Navbar Start */}
@@ -22,7 +64,14 @@ const Navbar = () => {
                   <a href="#"><img src="assets/images/search.png" class="mx-3" alt="search-icon" height="16" width="16" /></a>
               </span>
           </div*/}
-            <form
+
+            <NewSearch
+              navbarSearch={navbarSearch}
+              handleClick={handleClick}
+              handleSearch={handleDebounceSearch}
+              SearchResult={SearchResult}
+            />
+            {/* <form
               className='form-group search-blk me-auto ms-5'
               role='search'
               method='get'
@@ -62,7 +111,7 @@ const Navbar = () => {
                   </label>
                 </span>
               </div>
-            </form>
+            </form> */}
             <button className='login-btn me-3'>Login</button>
             <button className='signup-btn'>Signup</button>
           </div>
