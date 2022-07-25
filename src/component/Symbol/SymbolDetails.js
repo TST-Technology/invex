@@ -25,12 +25,17 @@ const SymbolDetails = () => {
   }, [symbol]);
 
   const getCompanyDetails = async () => {
-    setLoading(true);
-    const data = await getCompanyProfileQuote({ symbol: symbol });
+    try {
+      setLoading(true);
+      const data = await getCompanyProfileQuote({ symbol: symbol });
 
-    if (data && data.status == 200 && data.data) {
-      setCompanyData(data.data);
+      if (data && data.status == 200 && data.data) {
+        setCompanyData(data.data);
+      }
+    } catch (error) {
+      setCompanyData(null);
     }
+
     setLoading(false);
   };
 

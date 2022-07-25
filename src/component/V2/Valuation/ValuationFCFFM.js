@@ -27,6 +27,7 @@ import {
 } from 'recharts';
 import { CustomizedGrowthRateLabelV2 } from '../../Common/Chart/Recharts';
 import moment from 'moment';
+import { convertDateFormat } from '../../Common/DateFunctions';
 
 const ValuationFCFFM = ({ allData, companyQuote }) => {
   const [data, setData] = useState();
@@ -253,7 +254,9 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                 }
               });
             let tempObj = {};
-            tempObj.year = `${val.fiscal_year} ${val.quarter}`;
+            tempObj.year = `${convertDateFormat(val.publish_date)}(${
+              val.fiscal_year
+            } ${val.quarter})`;
             tempObj.best = best;
             tempObj.worst = worst;
             tempObj.base = base;
@@ -307,7 +310,9 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
     let tempArr = [];
     Object.keys(valuation).forEach((key) => {
       if (yearArr.includes(key)) {
-        year = parseInt(year) + 1;
+        if (key !== 'base_year') {
+          year = parseInt(year) + 1;
+        }
         let newObj = {};
         newObj.year = year;
         newObj.data = valuation[key];
@@ -428,6 +433,18 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
     }
   };
 
+  const CustomizedXAxisTick = (props) => {
+    const { x, y, stroke, payload } = props;
+
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text x={30} y={15} textAnchor='end' fill='#212121' fontSize={'12px'}>
+          {payload.value}
+        </text>
+      </g>
+    );
+  };
+
   return (
     <>
       <div>
@@ -478,13 +495,13 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                   <div className='col-lg-4 col-md-4'>
                     <div className='title-lt'>Sector (US)</div>
                     <span>
-                      <b>{companyQuote?.sector}</b>
+                      <a href='javascript:void(0)'>{companyQuote?.sector}</a>
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
                     <div className='title-lt'>Industry (US)</div>
                     <span>
-                      <b>{companyQuote?.industry}</b>
+                      <a href='javascript:void(0)'>{companyQuote?.industry}</a>
                     </span>
                   </div>
                 </div>
@@ -616,9 +633,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
             <div className='col-lg-6'>
               <div className='price_chart mt-4 mb-5'>
                 <div className='d-flex align-items-center mb-3'>
-                  <h5 className='me-auto font-bd'>
-                    Invex Wealth Past Predictions
-                  </h5>
+                  <h5 className='me-auto font-bd'>InvexAI Past Predictions</h5>
                 </div>
 
                 {pastPredictionGraphData && (
@@ -637,9 +652,9 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                         tickLine={false}
                         dataKey='year'
                         domain={['auto', 'auto']}
-                        tick={{ fill: '#212121', fontSize: '12px' }}
+                        tick={<CustomizedXAxisTick />}
                         height={60}
-                        tickLine={false}
+                        interval={0}
                       />
                       <YAxis
                         tickLine={false}
@@ -649,7 +664,11 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                         }}
                         tickLine={false}
                       />
-                      <Tooltip />
+                      <Tooltip
+                        labelStyle={{ fontSize: '12px' }}
+                        itemStyle={{ fontSize: '12px' }}
+                        contentStyle={{ padding: '10px' }}
+                      />
 
                       <Scatter name='Best' dataKey='best' fill='#13A41B' />
                       <Scatter name='Base' dataKey='base' fill='#F3C00E' />
@@ -1000,7 +1019,86 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
               </div>
             </div>
           </div>
-          <div className='col-lg-6'></div>
+          <div className='col-lg-6'>
+            <div className='top_competitors'>
+              <div className='mb-5'>
+                <div className='d-flex align-items-center justify-content-between mb-3'>
+                  <h5 className='me-auto font-bd'>Valuation Diagnostic</h5>
+                </div>
+                <div className='table-responsive'>
+                  <table className='table table-bordered table-striped m-0 most_tables normal_table'>
+                    <thead className='bold-heading'>
+                      <tr>
+                        <th scope='col'>Total Market Sales Of the Industry</th>
+                        <th scope='col'>2.42T</th>
+                        <th scope='col'></th>
+                        <th scope='col'></th>
+                        <th scope='col'> </th>
+                      </tr>
+                    </thead>
+                    <tbody className='border-top-0'>
+                      <tr>
+                        <td>Current Market Sales Share of the Company</td>
+                        <td>6.54%</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Expected Sales Growth of the Industry</td>
+                        <td>2.80%</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Terminal Market Sales Share of the Company</td>
+                        <td>Best</td>
+                        <td>Base</td>
+                        <td>Worst</td>
+                        <td>Manual</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td>10.02%</td>
+                        <td>6.70%</td>
+                        <td>2.52%</td>
+                        <td>5.00%</td>
+                      </tr>
+                      <tr>
+                        <td>Operating Margin Of the Industry</td>
+                        <td>25th</td>
+                        <td>50th(Median)</td>
+                        <td>75th</td>
+                        <td>90th</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td>15%</td>
+                        <td>25%</td>
+                        <td>30%</td>
+                        <td>40%</td>
+                      </tr>
+                      <tr>
+                        <td>10Y Treasury Rate</td>
+                        <td>3.02%</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Real GDP Of US</td>
+                        <td>2.80%</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div className='col-lg-12 mb-4'>
           <div className='d-flex align-items-center justify-content-between mb-3'>
@@ -1184,7 +1282,11 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                           }}
                           domain={['auto', 'dataMax + 1000']}
                         />
-                        <Tooltip />
+                        <Tooltip
+                          labelStyle={{ fontSize: '12px' }}
+                          itemStyle={{ fontSize: '12px' }}
+                          contentStyle={{ padding: '10px' }}
+                        />
 
                         <Bar
                           name='Revenues'
@@ -1255,7 +1357,11 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                           }}
                           domain={['auto', 'dataMax + 1000']}
                         />
-                        <Tooltip />
+                        <Tooltip
+                          labelStyle={{ fontSize: '12px' }}
+                          itemStyle={{ fontSize: '12px' }}
+                          contentStyle={{ padding: '10px' }}
+                        />
 
                         <Bar
                           name='Operating Income'
@@ -1306,12 +1412,11 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                       aspect={1}
                       maxHeight={400}
                     >
-                      <BarChart data={reinvestmentData} tick={false}>
+                      <ComposedChart data={reinvestmentData} tick={false}>
                         <XAxis
                           tickLine={false}
                           dataKey='year'
                           domain={['auto', 'auto']}
-                          // ticks={ticks}
                           tick={{
                             fill: '#212121',
                             fontSize: '12px',
@@ -1325,7 +1430,11 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                             fontSize: '12px',
                           }}
                         />
-                        <Tooltip />
+                        <Tooltip
+                          labelStyle={{ fontSize: '12px' }}
+                          itemStyle={{ fontSize: '12px' }}
+                          contentStyle={{ padding: '10px' }}
+                        />
 
                         <Bar
                           name='Reinvestments'
@@ -1339,6 +1448,13 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                           />
                         </Bar>
 
+                        <Line
+                          name='Reinvestments'
+                          type='monotone'
+                          dataKey='data'
+                          stroke='#f222f2'
+                        />
+
                         <Legend
                           wrapperStyle={{
                             bottom: -20,
@@ -1346,7 +1462,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                             fontSize: '12px',
                           }}
                         />
-                      </BarChart>
+                      </ComposedChart>
                     </ResponsiveContainer>
                   </div>
                 )}
@@ -1366,7 +1482,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                       aspect={1}
                       maxHeight={400}
                     >
-                      <BarChart data={freeCashFlowData} tick={false}>
+                      <ComposedChart data={freeCashFlowData} tick={false}>
                         <XAxis
                           tickLine={false}
                           dataKey='year'
@@ -1385,7 +1501,11 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                             fontSize: '12px',
                           }}
                         />
-                        <Tooltip />
+                        <Tooltip
+                          labelStyle={{ fontSize: '12px' }}
+                          itemStyle={{ fontSize: '12px' }}
+                          contentStyle={{ padding: '10px' }}
+                        />
 
                         <Bar
                           name='Free Cash Flow To Firm'
@@ -1399,6 +1519,14 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                           />
                         </Bar>
 
+                        <Line
+                          name='Free Cash Flow To Firm'
+                          tooltipType=''
+                          type='monotone'
+                          dataKey='data'
+                          stroke='#f222f2'
+                        />
+
                         <Legend
                           wrapperStyle={{
                             bottom: -20,
@@ -1406,7 +1534,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                             fontSize: '12px',
                           }}
                         />
-                      </BarChart>
+                      </ComposedChart>
                     </ResponsiveContainer>
                   </div>
                 )}
@@ -1445,7 +1573,11 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                           }}
                           domain={['auto', 'dataMax + 3000']}
                         />
-                        <Tooltip />
+                        <Tooltip
+                          labelStyle={{ fontSize: '12px' }}
+                          itemStyle={{ fontSize: '12px' }}
+                          contentStyle={{ padding: '10px' }}
+                        />
 
                         <Bar
                           name='Cost of capital'
@@ -1516,7 +1648,11 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                           }}
                           domain={['auto', 'dataMax + 8000']}
                         />
-                        <Tooltip />
+                        <Tooltip
+                          labelStyle={{ fontSize: '12px' }}
+                          itemStyle={{ fontSize: '12px' }}
+                          contentStyle={{ padding: '10px' }}
+                        />
 
                         <Bar
                           name='Invested Capital'
@@ -1628,7 +1764,11 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                             }}
                             domain={['auto', 'dataMax + 10']}
                           />
-                          <Tooltip />
+                          <Tooltip
+                            labelStyle={{ fontSize: '12px' }}
+                            itemStyle={{ fontSize: '12px' }}
+                            contentStyle={{ padding: '10px' }}
+                          />
                           <Area
                             name='Price Target'
                             connectNulls
@@ -1658,7 +1798,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
               </div>
             </div>
 
-            <div className='col-lg-12 mb-5'>
+            <div className='col-lg-12'>
               <div className='mb-4'>
                 <div className=''>
                   <div className='d-flex align-items-center mb-3'>
