@@ -672,50 +672,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
             </div>
           </div>
         </div>
-        <div className='col-lg-12 mb-5'>
-          <div className='mb-4'>
-            <div className=''>
-              <div className='d-flex align-items-center mb-3'>
-                <h5 className='me-auto font-bd'>Risk</h5>
-              </div>
-              <div
-                className='mt-3'
-                dangerouslySetInnerHTML={{
-                  __html: companyValuation?.risk ? companyValuation?.risk : '-',
-                }}
-              />
-            </div>
-          </div>
-          <div className='mb-4'>
-            <div className=''>
-              <div className='d-flex align-items-center mb-3'>
-                <h5 className='me-auto font-bd'>Revenue segment performance</h5>
-              </div>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: companyValuation?.revenue_segments
-                    ? companyValuation?.revenue_segments
-                    : '-',
-                }}
-              />
-            </div>
-          </div>
-          <div className='mb-4'>
-            <div className=''>
-              <div className='d-flex align-items-center mb-3'>
-                <h5 className='me-auto font-bd'>Analyst Notes</h5>
-              </div>
 
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: companyValuation?.valuation_notes
-                    ? companyValuation?.valuation_notes
-                    : '-',
-                }}
-              />
-            </div>
-          </div>
-        </div>
         <div className='row'>
           <div className='col-lg-6'>
             <div className='top_competitors'>
@@ -1698,6 +1655,56 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                       </ResponsiveContainer>
                     </div>
                   )}
+              </div>
+            </div>
+
+            <div className='col-lg-12 mb-5'>
+              <div className='mb-4'>
+                <div className=''>
+                  <div className='d-flex align-items-center mb-3'>
+                    <h5 className='me-auto font-bd'>
+                      Revenue segment performance
+                    </h5>
+                  </div>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: companyValuation?.revenue_segments
+                        ? companyValuation?.revenue_segments
+                        : '-',
+                    }}
+                  />
+                </div>
+              </div>
+              <div className='mb-4'>
+                <div className=''>
+                  <div className='d-flex align-items-center mb-3'>
+                    <h5 className='me-auto font-bd'>Analyst Notes</h5>
+                  </div>
+
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: companyValuation?.valuation_notes
+                        ? companyValuation?.valuation_notes
+                        : '-',
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className='mb-4'>
+                <div className=''>
+                  <div className='d-flex align-items-center mb-3'>
+                    <h5 className='me-auto font-bd'>Risk</h5>
+                  </div>
+                  <div
+                    className='mt-3'
+                    dangerouslySetInnerHTML={{
+                      __html: companyValuation?.risk
+                        ? companyValuation?.risk
+                        : '-',
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>

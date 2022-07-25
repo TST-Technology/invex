@@ -371,7 +371,11 @@ const Synopsis = ({ onChangeTab }) => {
                     <div className='col-lg-3 col-md-3'>
                       <div className='title-lt'>Ex-Dividend Date</div>
                       <span>
-                        <b>{convertDateFormat(data?.exDividendDate)}</b>
+                        <b>
+                          {data?.exDividendDate
+                            ? convertDateFormat(data?.exDividendDate)
+                            : '-'}
+                        </b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>

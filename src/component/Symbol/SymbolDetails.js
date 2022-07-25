@@ -22,7 +22,7 @@ const SymbolDetails = () => {
     if (symbol) {
       getCompanyDetails();
     }
-  }, []);
+  }, [symbol]);
 
   const getCompanyDetails = async () => {
     setLoading(true);
