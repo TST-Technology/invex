@@ -80,3 +80,19 @@ code {
 .most_tables thead.bold-heading tr th{
   font-weight: bold;
 }
+
+.laptopNav.light-nav .upperNavbar .input-group input.search-input, .laptopNav.light-nav .upperNavbar .input-group input.search-input::placeholder{
+  color: black;
+}
+
+.font-weight-700 {
+  font-weight: 700 !important;
+}
+
+.title-lt.fixed-margin + span{
+  margin-bottom: 5px;
+}
+
+.company_detail_fix.company_details.symfinstatcs {
+  padding: 20px 0 0;
+}

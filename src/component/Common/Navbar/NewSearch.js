@@ -35,7 +35,7 @@ const NewSearch = ({
             value={navbarSearch}
             onChange={(e) => handleSearch(e.target.value)}
             name='s'
-            className='form-control'
+            className='form-control search-input'
             placeholder='Search for symbol'
             id='example-search-input'
             autoComplete='off'

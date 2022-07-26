@@ -25,7 +25,11 @@ import {
   Area,
   AreaChart,
 } from 'recharts';
-import { CustomizedGrowthRateLabelV2 } from '../../Common/Chart/Recharts';
+import {
+  CustomizedGrowthRateLabelV2,
+  CustomizedGrowthRateLabelV2AboveLine,
+  CustomizedGrowthRateLabelV2Middle,
+} from '../../Common/Chart/Recharts';
 import moment from 'moment';
 import { convertDateFormat } from '../../Common/DateFunctions';
 
@@ -85,6 +89,9 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
     { label: 'Worst care', value: 'worst' },
     { label: 'Manual', value: 'manual' },
   ];
+
+  const VALUATION_DIAGNOSTICS_TOOLTIP =
+    'It helps to determine wheather the Assumptions taken in the Valuation is IMPOSSIBLE, IMPLAUSIBLE or IMPROBABLE';
 
   useEffect(() => {
     if (companyValuation) {
@@ -273,7 +280,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
 
           pastPrediction.sort(function (a, b) {
             return (
-              b.filterYear - a.filterYear || b.filterQuarter - a.filterQuarter
+              a.filterYear - b.filterYear || a.filterQuarter - b.filterQuarter
             );
           });
 
@@ -458,13 +465,13 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
               </div>
             </div>
             <div className='col-lg-6'>
-              <div className='mt-3 mb-4'>
-                <div className='d-flex align-items-center mb-3'>
+              <div>
+                <div className='d-flex align-items-center mb-2'>
                   <h5 className='me-auto font-bd'>Basic Company Facts</h5>
                 </div>
                 <div className='row border-bottom mb-3'>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Fiscal Year</div>
+                    <div className='title-lt fixed-margin'>Fiscal Year</div>
                     <span>
                       <b>
                         {companyValuation?.fiscal_year}{' '}
@@ -473,13 +480,15 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Company Ticker</div>
+                    <div className='title-lt fixed-margin'>Company Ticker</div>
                     <span>
                       <b>{data?.ticker}</b>
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Incorporation Cou...</div>
+                    <div className='title-lt fixed-margin'>
+                      Incorporation Cou...
+                    </div>
                     <span>
                       <b>{data?.incorporation_country}</b>
                     </span>
@@ -487,19 +496,21 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                 </div>
                 <div className='row border-bottom mb-3'>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Valuation Currency</div>
+                    <div className='title-lt fixed-margin'>
+                      Valuation Currency
+                    </div>
                     <span>
                       <b>{data?.valuation_currency}</b>
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Sector (US)</div>
+                    <div className='title-lt fixed-margin'>Sector (US)</div>
                     <span>
                       <a href='javascript:void(0)'>{companyQuote?.sector}</a>
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Industry (US)</div>
+                    <div className='title-lt fixed-margin'>Industry (US)</div>
                     <span>
                       <a href='javascript:void(0)'>{companyQuote?.industry}</a>
                     </span>
@@ -507,7 +518,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                 </div>
                 <div className='row border-bottom mb-3'>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Market Cap</div>
+                    <div className='title-lt fixed-margin'>Market Cap</div>
                     <span>
                       <b>
                         {companyQuote?.marketCap
@@ -517,7 +528,9 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Current Stock Price</div>
+                    <div className='title-lt fixed-margin'>
+                      Current Stock Price
+                    </div>
                     <span>
                       <b>
                         {companyQuote?.price
@@ -528,15 +541,17 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                   </div>
                 </div>
               </div>
-              <div className='mt-4 mb-4'>
-                <div className='d-flex align-items-center mb-3'>
+              <div className='mt-2 mb-3'>
+                <div className='d-flex align-items-center mb-2'>
                   <h5 className='me-auto font-bd'>
                     Current Fundamental Metrices
                   </h5>
                 </div>
                 <div className='row border-bottom mb-3'>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Pre-tax operating margin</div>
+                    <div className='title-lt fixed-margin'>
+                      Pre-tax operating margin
+                    </div>
                     <span>
                       <b>
                         {companyValuation &&
@@ -549,26 +564,30 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Sales to capital ratio</div>
+                    <div className='title-lt fixed-margin'>
+                      Sales to capital ratio
+                    </div>
                     <span>
                       <b>{companyValuation?.sales_capital_ratio}</b>
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Return on invested capital</div>
+                    <div className='title-lt fixed-margin'>
+                      Return on invested capital
+                    </div>
                     <span>
                       <b>{roic ? `${roic}%` : '-'}</b>
                     </span>
                   </div>
                 </div>
               </div>
-              <div className='mt-4 mb-4'>
-                <div className='d-flex align-items-center mb-3'>
+              <div className='mt-2 mb-3'>
+                <div className='d-flex align-items-center mb-2'>
                   <h5 className='me-auto font-bd'>Current Financials</h5>
                 </div>
                 <div className='row border-bottom mb-3'>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Revenues</div>
+                    <div className='title-lt fixed-margin'>Revenues</div>
                     <span>
                       <b>
                         {companyValuation?.revenues
@@ -580,7 +599,9 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Income Before Interest & Tax</div>
+                    <div className='title-lt fixed-margin'>
+                      Income Before Interest & Tax
+                    </div>
                     <span>
                       <b>
                         {companyValuation?.operating_income_ebit
@@ -592,7 +613,9 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Shareholders Equity</div>
+                    <div className='title-lt fixed-margin'>
+                      Shareholders Equity
+                    </div>
                     <span>
                       <b>
                         {companyValuation?.equity_book_value
@@ -606,7 +629,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                 </div>
                 <div className='row border-bottom mb-3'>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Total Debt</div>
+                    <div className='title-lt fixed-margin'>Total Debt</div>
                     <span>
                       <b>
                         {companyValuation?.debit_book_value
@@ -618,7 +641,9 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Invested capital</div>
+                    <div className='title-lt fixed-margin'>
+                      Invested capital
+                    </div>
                     <span>
                       <b>
                         {invested
@@ -631,13 +656,13 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
               </div>
             </div>
             <div className='col-lg-6'>
-              <div className='price_chart mt-4 mb-5'>
+              <div className='price_chart mb-5'>
                 <div className='d-flex align-items-center mb-3'>
                   <h5 className='me-auto font-bd'>InvexAI Past Predictions</h5>
                 </div>
 
                 {pastPredictionGraphData && (
-                  <ResponsiveContainer width='100%' aspect={1} maxHeight={550}>
+                  <ResponsiveContainer width='100%' aspect={1} maxHeight={440}>
                     <ComposedChart
                       data={pastPredictionGraphData}
                       tick={false}
@@ -695,7 +720,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
         <div className='row'>
           <div className='col-lg-6'>
             <div className='top_competitors'>
-              <div className='mb-5'>
+              <div className='mb-4'>
                 <div className='d-flex align-items-center justify-content-between mb-3'>
                   <h5 className='me-auto font-bd'>Valuation Assumptions</h5>
                 </div>
@@ -1021,9 +1046,16 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
           </div>
           <div className='col-lg-6'>
             <div className='top_competitors'>
-              <div className='mb-5'>
+              <div className='mb-4'>
                 <div className='d-flex align-items-center justify-content-between mb-3'>
-                  <h5 className='me-auto font-bd'>Valuation Diagnostic</h5>
+                  <h5 className='me-auto font-bd'>
+                    Valuation Diagnostic
+                    <i
+                      className='bi bi-info-circle m-1'
+                      data-toggle='tooltip'
+                      title={VALUATION_DIAGNOSTICS_TOOLTIP}
+                    ></i>
+                  </h5>
                 </div>
                 <div className='table-responsive'>
                   <table className='table table-bordered table-striped m-0 most_tables normal_table'>
@@ -1046,17 +1078,23 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                       </tr>
                       <tr>
                         <td>Expected Sales Growth of the Industry</td>
-                        <td>2.80%</td>
+                        <td>
+                          <input
+                            style={{ width: '60px' }}
+                            type='number'
+                            value='2.80'
+                          />
+                        </td>
                         <td></td>
                         <td></td>
                         <td></td>
                       </tr>
                       <tr>
                         <td>Terminal Market Sales Share of the Company</td>
-                        <td>Best</td>
-                        <td>Base</td>
-                        <td>Worst</td>
-                        <td>Manual</td>
+                        <td className='font-weight-700'>Best</td>
+                        <td className='font-weight-700'>Base</td>
+                        <td className='font-weight-700'>Worst</td>
+                        <td className='font-weight-700'>Manual</td>
                       </tr>
                       <tr>
                         <td></td>
@@ -1067,10 +1105,10 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                       </tr>
                       <tr>
                         <td>Operating Margin Of the Industry</td>
-                        <td>25th</td>
-                        <td>50th(Median)</td>
-                        <td>75th</td>
-                        <td>90th</td>
+                        <td className='font-weight-700'>25th</td>
+                        <td className='font-weight-700'>50th(Median)</td>
+                        <td className='font-weight-700'>75th</td>
+                        <td className='font-weight-700'>90th</td>
                       </tr>
                       <tr>
                         <td></td>
@@ -1202,7 +1240,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
         </div>
         <div className='col-lg-12'>
           <div className='top_competitors'>
-            <div className='mb-5'>
+            <div className='mb-3'>
               <div className='table-responsive'>
                 {valuationOutput && (
                   <table className='table table-bordered table-striped m-0 most_tables normal_table'>
@@ -1252,7 +1290,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
         <div className='col-lg-12'>
           <div className='row'>
             <div className='col-lg-6'>
-              <div className='price_chart mt-4 mb-5'>
+              <div className='price_chart mt-3 mb-5'>
                 <div className='d-flex align-items-center mb-3'>
                   <h5 className='me-auto font-bd'>Revenue & Growth Rate</h5>
                 </div>
@@ -1293,19 +1331,14 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                           fill='#3751FF'
                           dataKey='data2'
                           barSize={25}
-                        >
-                          <LabelList
-                            dataKey='data2'
-                            content={renderCustomizedLabel}
-                          />
-                        </Bar>
+                        ></Bar>
                         <Line
                           name='Revenue growth rate'
                           type='monotone'
                           dataKey='data2'
                           stroke='#F3C00E'
                           label={
-                            <CustomizedGrowthRateLabelV2
+                            <CustomizedGrowthRateLabelV2Middle
                               data={revenueGraphData}
                             />
                           }
@@ -1325,7 +1358,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
               </div>
             </div>
             <div className='col-lg-6'>
-              <div className='price_chart mt-4 mb-5'>
+              <div className='price_chart mt-3 mb-5'>
                 <div className='d-flex align-items-center mb-3'>
                   <h5 className='me-auto font-bd'>
                     Operating Income & Operating Margin
@@ -1368,12 +1401,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                           fill='#3751FF'
                           dataKey='data2'
                           barSize={25}
-                        >
-                          <LabelList
-                            dataKey='data2'
-                            content={renderCustomizedLabel}
-                          />
-                        </Bar>
+                        ></Bar>
 
                         <Line
                           name='Operating Margin'
@@ -1381,7 +1409,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                           dataKey='data2'
                           stroke='#F3C00E'
                           label={
-                            <CustomizedGrowthRateLabelV2
+                            <CustomizedGrowthRateLabelV2AboveLine
                               data={operatingIncomeData}
                             />
                           }
@@ -1401,7 +1429,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
               </div>
             </div>
             <div className='col-lg-6'>
-              <div className='price_chart mt-4 mb-5'>
+              <div className='price_chart mt-1 mb-5'>
                 <div className='d-flex align-items-center mb-3'>
                   <h5 className='me-auto font-bd'>Reinvestments</h5>
                 </div>
@@ -1469,7 +1497,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
               </div>
             </div>
             <div className='col-lg-6'>
-              <div className='price_chart mt-4 mb-5'>
+              <div className='price_chart mt-1 mb-5'>
                 <div className='d-flex align-items-center mb-3'>
                   <h5 className='me-auto font-bd'>
                     Free Cash Flow To Firm (FCFF)
@@ -1541,7 +1569,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
               </div>
             </div>
             <div className='col-lg-6'>
-              <div className='price_chart mt-4 mb-5'>
+              <div className='price_chart mt-1 mb-5'>
                 <div className='d-flex align-items-center mb-3'>
                   <h5 className='me-auto font-bd'>
                     FCFF Present Value & Cost of capital
@@ -1584,19 +1612,14 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                           fill='#3751FF'
                           dataKey='data2'
                           barSize={25}
-                        >
-                          <LabelList
-                            dataKey='data2'
-                            content={renderCustomizedLabel}
-                          />
-                        </Bar>
+                        ></Bar>
                         <Line
                           name='FCFF Present Value'
                           type='monotone'
                           dataKey='data2'
                           stroke='#F3C00E'
                           label={
-                            <CustomizedGrowthRateLabelV2
+                            <CustomizedGrowthRateLabelV2AboveLine
                               data={costOfCapitalGraphData}
                             />
                           }
@@ -1616,7 +1639,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
               </div>
             </div>
             <div className='col-lg-6'>
-              <div className='price_chart mt-4 mb-5'>
+              <div className='price_chart mt-1 mb-5'>
                 <div className='d-flex align-items-center mb-3'>
                   <h5 className='me-auto font-bd'>
                     Invested Capitals & Implied ROIC
@@ -1659,12 +1682,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                           fill='#3751FF'
                           dataKey='data2'
                           barSize={25}
-                        >
-                          <LabelList
-                            dataKey='data2'
-                            content={renderCustomizedLabel}
-                          />
-                        </Bar>
+                        ></Bar>
 
                         <Line
                           name='Implied ROIC'
@@ -1672,7 +1690,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                           dataKey='data2'
                           stroke='#F3C00E'
                           label={
-                            <CustomizedGrowthRateLabelV2
+                            <CustomizedGrowthRateLabelV2AboveLine
                               data={investedCapitalData}
                             />
                           }
@@ -1692,7 +1710,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
               </div>
             </div>
             <div className='col-lg-12'>
-              <div className='price_chart mt-4 mb-5'>
+              <div className='price_chart mt-1 mb-5'>
                 <div className='d-flex align-items-center mb-3'>
                   <h5 className='me-auto font-bd'>Price Target</h5>
                 </div>

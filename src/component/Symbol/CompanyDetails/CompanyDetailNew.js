@@ -7,7 +7,7 @@ const CompanyDetailNew = ({ data }) => {
       {data && (
         <div className='col-lg-12'>
           {/* company left details box start */}
-          <div className='card companyviewblk v2 compny_left_detail border-0 pb-3 border-bottom mb-5'>
+          <div className='card companyviewblk v2 compny_left_detail border-0 pb-3 border-bottom mb-2'>
             <div className='card-body p-0 pb-3'>
               <div className='logo'>
                 <div className='img'>

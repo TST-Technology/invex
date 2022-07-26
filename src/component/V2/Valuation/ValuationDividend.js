@@ -26,7 +26,10 @@ import {
   AreaChart,
   Area,
 } from 'recharts';
-import { CustomizedGrowthRateLabelV2 } from '../../Common/Chart/Recharts';
+import {
+  CustomizedGrowthRateLabelV2,
+  CustomizedGrowthRateLabelV2AboveLine,
+} from '../../Common/Chart/Recharts';
 import moment from 'moment';
 import { convertDateFormat } from '../../Common/DateFunctions';
 
@@ -78,6 +81,9 @@ const ValuationDividend = ({ allData, companyQuote }) => {
     { label: 'Manual', value: 'manual' },
   ];
 
+  const VALUATION_DIAGNOSTICS_TOOLTIP =
+    'It helps to determine wheather the Assumptions taken in the Valuation is IMPOSSIBLE, IMPLAUSIBLE or IMPROBABLE';
+
   useEffect(() => {
     (async () => {
       if (allData) {
@@ -125,7 +131,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
 
           pastPrediction.sort(function (a, b) {
             return (
-              b.filterYear - a.filterYear || b.filterQuarter - a.filterQuarter
+              a.filterYear - b.filterYear || a.filterQuarter - b.filterQuarter
             );
           });
 
@@ -273,7 +279,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
   const getGraphData = (valuation) => {
     const publishDate = new Date(companyValuation?.publish_date);
     let year = moment(publishDate).format('YYYY');
-  
+
     let tempArr = [];
     Object.keys(valuation).forEach((key) => {
       if (yearArr.includes(key)) {
@@ -436,13 +442,13 @@ const ValuationDividend = ({ allData, companyQuote }) => {
               </div>
             </div>
             <div className='col-lg-6'>
-              <div className='mt-3 mb-4'>
-                <div className='d-flex align-items-center mb-3'>
+              <div className='mb-4'>
+                <div className='d-flex align-items-center mb-2'>
                   <h5 className='me-auto font-bd'>Basic Company Facts</h5>
                 </div>
                 <div className='row border-bottom mb-3'>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Fiscal Year</div>
+                    <div className='title-lt fixed-margin'>Fiscal Year</div>
                     <span>
                       <b>
                         {companyValuation?.fiscal_year}{' '}
@@ -451,13 +457,15 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Company Ticker</div>
+                    <div className='title-lt fixed-margin'>Company Ticker</div>
                     <span>
                       <b>{data?.ticker}</b>
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Incorporation Cou...</div>
+                    <div className='title-lt fixed-margin'>
+                      Incorporation Cou...
+                    </div>
                     <span>
                       <b>{data?.incorporation_country}</b>
                     </span>
@@ -465,19 +473,21 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                 </div>
                 <div className='row border-bottom mb-3'>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Valuation Currency</div>
+                    <div className='title-lt fixed-margin'>
+                      Valuation Currency
+                    </div>
                     <span>
                       <b>{data?.valuation_currency}</b>
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Sector (US)</div>
+                    <div className='title-lt fixed-margin'>Sector (US)</div>
                     <span>
                       <a href='javascript:void(0)'>{companyQuote?.sector}</a>
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Industry (US)</div>
+                    <div className='title-lt fixed-margin'>Industry (US)</div>
                     <span>
                       <a href='javascript:void(0)'>{companyQuote?.industry}</a>
                     </span>
@@ -485,7 +495,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                 </div>
                 <div className='row border-bottom mb-3'>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Market Cap</div>
+                    <div className='title-lt fixed-margin'>Market Cap</div>
                     <span>
                       <b>
                         {companyQuote?.marketCap
@@ -495,7 +505,9 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Current Stock Price</div>
+                    <div className='title-lt fixed-margin'>
+                      Current Stock Price
+                    </div>
                     <span>
                       <b>
                         {companyQuote?.price
@@ -506,15 +518,15 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                   </div>
                 </div>
               </div>
-              <div className='mt-4 mb-4'>
-                <div className='d-flex align-items-center mb-3'>
+              <div className='mt-2 mb-4'>
+                <div className='d-flex align-items-center mb-2'>
                   <h5 className='me-auto font-bd'>
                     Company’s Current Finantials
                   </h5>
                 </div>
                 <div className='row border-bottom mb-3'>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Net Income</div>
+                    <div className='title-lt fixed-margin'>Net Income</div>
                     <span>
                       <b>
                         {companyValuation?.net_income
@@ -526,7 +538,9 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Book Value(Current Year)</div>
+                    <div className='title-lt fixed-margin'>
+                      Book Value(Current Year)
+                    </div>
                     <span>
                       <b>
                         {companyValuation?.equity_book_value
@@ -538,7 +552,9 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Current Earnings per share</div>
+                    <div className='title-lt fixed-margin'>
+                      Current Earnings per share
+                    </div>
                     <span>
                       <b>
                         {companyValuation?.current_earning_per_share
@@ -550,7 +566,9 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                 </div>
                 <div className='row border-bottom mb-3'>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Current Dividends</div>
+                    <div className='title-lt fixed-margin'>
+                      Current Dividends
+                    </div>
                     <span>
                       <b>
                         {companyValuation?.current_dividends_per_share
@@ -560,13 +578,15 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Cost Of Equity</div>
+                    <div className='title-lt fixed-margin'>Cost Of Equity</div>
                     <span>
                       <b>{costOfEquity ? `${costOfEquity}%` : '-'}</b>
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Return On Equity</div>
+                    <div className='title-lt fixed-margin'>
+                      Return On Equity
+                    </div>
                     <span>
                       <b>
                         {companyValuation?.net_income &&
@@ -583,13 +603,13 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                 </div>
                 <div className='row border-bottom mb-3'>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Payout Ratio</div>
+                    <div className='title-lt fixed-margin'>Payout Ratio</div>
                     <span>
                       <b>{payoutRatio ? `${payoutRatio}%` : '-'}</b>
                     </span>
                   </div>
                   <div className='col-lg-4 col-md-4'>
-                    <div className='title-lt'>Retention Ratio</div>
+                    <div className='title-lt fixed-margin'>Retention Ratio</div>
                     <span>
                       <b>
                         {companyValuation?.current_dividends_per_share &&
@@ -607,7 +627,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
               </div>
             </div>
             <div className='col-lg-6'>
-              <div className='price_chart mt-4 mb-5'>
+              <div className='price_chart mb-5'>
                 <div className='d-flex align-items-center mb-3'>
                   <h5 className='me-auto font-bd'>InvexAI Past Predictions</h5>
                 </div>
@@ -616,7 +636,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                   <ResponsiveContainer
                     width='100%'
                     aspect={1}
-                    maxHeight={500}
+                    maxHeight={350}
                     className='mb-5'
                   >
                     <ComposedChart
@@ -675,7 +695,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
         <div className='row'>
           <div className='col-lg-6'>
             <div className='top_competitors'>
-              <div className='mb-5'>
+              <div className='mb-4'>
                 <div className='d-flex align-items-center justify-content-between mb-3'>
                   <h5 className='me-auto font-bd'>Valuation Assumptions</h5>
                 </div>
@@ -1065,9 +1085,16 @@ const ValuationDividend = ({ allData, companyQuote }) => {
           </div>
           <div className='col-lg-6'>
             <div className='top_competitors'>
-              <div className='mb-5'>
+              <div className='mb-4'>
                 <div className='d-flex align-items-center justify-content-between mb-3'>
-                  <h5 className='me-auto font-bd'>Valuation Diagnostic</h5>
+                  <h5 className='me-auto font-bd'>
+                    Valuation Diagnostic
+                    <i
+                      className='bi bi-info-circle m-1'
+                      data-toggle='tooltip'
+                      title={VALUATION_DIAGNOSTICS_TOOLTIP}
+                    ></i>
+                  </h5>
                 </div>
                 <div className='table-responsive'>
                   <table className='table table-bordered table-striped m-0 most_tables normal_table'>
@@ -1090,17 +1117,23 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                       </tr>
                       <tr>
                         <td>Expected Sales Growth of the Industry</td>
-                        <td>2.80%</td>
+                        <td>
+                          <input
+                            style={{ width: '60px' }}
+                            type='number'
+                            value='2.80'
+                          />
+                        </td>
                         <td></td>
                         <td></td>
                         <td></td>
                       </tr>
                       <tr>
                         <td>Terminal Market Sales Share of the Company</td>
-                        <td>Best</td>
-                        <td>Base</td>
-                        <td>Worst</td>
-                        <td>Manual</td>
+                        <td className='font-weight-700'>Best</td>
+                        <td className='font-weight-700'>Base</td>
+                        <td className='font-weight-700'>Worst</td>
+                        <td className='font-weight-700'>Manual</td>
                       </tr>
                       <tr>
                         <td></td>
@@ -1111,10 +1144,10 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                       </tr>
                       <tr>
                         <td>Operating Margin Of the Industry</td>
-                        <td>25th</td>
-                        <td>50th(Median)</td>
-                        <td>75th</td>
-                        <td>90th</td>
+                        <td className='font-weight-700'>25th</td>
+                        <td className='font-weight-700'>50th(Median)</td>
+                        <td className='font-weight-700'>75th</td>
+                        <td className='font-weight-700'>90th</td>
                       </tr>
                       <tr>
                         <td></td>
@@ -1244,7 +1277,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
         </div>
         <div className='col-lg-12'>
           <div className='top_competitors'>
-            <div className='mb-5'>
+            <div className='mb-3'>
               <div className='table-responsive'>
                 {valuationOutput && (
                   <table className='table table-bordered table-striped m-0 most_tables normal_table'>
@@ -1292,7 +1325,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
         <div className='col-lg-12'>
           <div className='row'>
             <div className='col-lg-6'>
-              <div className='price_chart mt-4 mb-5'>
+              <div className='price_chart mt-3 mb-5'>
                 <div className='d-flex align-items-center mb-3'>
                   <h5 className='me-auto font-bd'>
                     Earning Per Share & Growth Rate
@@ -1331,12 +1364,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                           fill='#3751FF'
                           dataKey='data2'
                           barSize={25}
-                        >
-                          <LabelList
-                            dataKey='data2'
-                            content={renderCustomizedLabelWithoutBillion}
-                          />
-                        </Bar>
+                        ></Bar>
 
                         <Line
                           name='Growth Rate'
@@ -1344,7 +1372,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                           dataKey='data2'
                           stroke='#F3C00E'
                           label={
-                            <CustomizedGrowthRateLabelV2
+                            <CustomizedGrowthRateLabelV2AboveLine
                               data={expectedGrowthRate}
                             />
                           }
@@ -1364,7 +1392,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
               </div>
             </div>
             <div className='col-lg-6'>
-              <div className='price_chart mt-4 mb-5'>
+              <div className='price_chart mt-3 mb-5'>
                 <div className='d-flex align-items-center mb-3'>
                   <h5 className='me-auto font-bd'>
                     Dividend Per Share(DPS) & Payout Ratio
@@ -1404,12 +1432,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                           fill='#3751FF'
                           dataKey='data2'
                           barSize={25}
-                        >
-                          <LabelList
-                            dataKey='data2'
-                            content={renderCustomizedLabelWithoutBillion}
-                          />
-                        </Bar>
+                        ></Bar>
 
                         <Line
                           name='Payout ratio'
@@ -1417,7 +1440,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                           dataKey='data2'
                           stroke='#F3C00E'
                           label={
-                            <CustomizedGrowthRateLabelV2
+                            <CustomizedGrowthRateLabelV2AboveLine
                               data={payoutRatioGraph}
                             />
                           }
@@ -1437,7 +1460,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
               </div>
             </div>
             <div className='col-lg-6 mx-auto'>
-              <div className='price_chart mt-4 mb-5'>
+              <div className='price_chart mt-1 mb-5'>
                 <div className='d-flex align-items-center mb-3'>
                   <h5 className='me-auto font-bd'>
                     DPS Present Value & Cost of Equity
@@ -1477,12 +1500,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                           fill='#3751FF'
                           dataKey='data2'
                           barSize={25}
-                        >
-                          <LabelList
-                            dataKey='data2'
-                            content={renderCustomizedLabelWithoutBillion}
-                          />
-                        </Bar>
+                        ></Bar>
 
                         <Line
                           name='Payout ratio'
@@ -1490,7 +1508,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
                           dataKey='data2'
                           stroke='#F3C00E'
                           label={
-                            <CustomizedGrowthRateLabelV2
+                            <CustomizedGrowthRateLabelV2AboveLine
                               data={dpsPresentValue}
                             />
                           }
@@ -1510,7 +1528,7 @@ const ValuationDividend = ({ allData, companyQuote }) => {
               </div>
             </div>
             <div className='col-lg-12 text-center'>
-              <div className='price_chart mt-4 mb-5'>
+              <div className='price_chart mt-1 mb-5'>
                 <div className='d-flex align-items-center mb-3'>
                   <h5 className='me-auto font-bd'>Price Target</h5>
                 </div>

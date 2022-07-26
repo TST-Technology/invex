@@ -21,6 +21,28 @@ const CustomizedGrowthRateLabel = (props) => {
   );
 };
 
+const CustomizedGrowthRateLabelV2Middle = (props) => {
+  const { x, y, stroke, value, index, data } = props;
+  if (index < data.length - 1) {
+    return (
+      <text
+        x={x + 15}
+        y={y - 35}
+        dy={+20}
+        fill={stroke}
+        fontSize={10}
+        textAnchor='middle'
+        color={`#13A41B`}
+        style={{ fill: data[index + 1].data > 0 ? '#13A41B' : '#DF0822' }}
+      >
+        {index < data.length - 1 ? `${data[index + 1].data.toFixed(2)}%` : ''}
+      </text>
+    );
+  } else {
+    return <></>;
+  }
+};
+
 const CustomizedGrowthRateLabelV2 = (props) => {
   const { x, y, stroke, value, index, data } = props;
   if (index < data.length - 1) {
@@ -35,7 +57,7 @@ const CustomizedGrowthRateLabelV2 = (props) => {
         color={`#13A41B`}
         style={{ fill: data[index + 1].data > 0 ? '#13A41B' : '#DF0822' }}
       >
-        {index < data.length - 1 ? `${data[index + 1].data}%` : ''}
+        {index < data.length - 1 ? `${data[index + 1].data.toFixed(2)}%` : ''}
       </text>
     );
   } else {
@@ -43,4 +65,30 @@ const CustomizedGrowthRateLabelV2 = (props) => {
   }
 };
 
-export { RemoveDot, CustomizedGrowthRateLabel, CustomizedGrowthRateLabelV2 };
+const CustomizedGrowthRateLabelV2AboveLine = (props) => {
+  const { x, y, stroke, value, index, data } = props;
+  return (
+    <text
+      x={x + 5}
+      y={y - 30}
+      dy={+20}
+      fill={stroke}
+      fontSize={10}
+      textAnchor='middle'
+      color={`#13A41B`}
+      style={{ fill: data[index].data > 0 ? '#13A41B' : '#DF0822' }}
+    >
+      {data[index].data !== null || undefined
+        ? `${data[index].data.toFixed(2)}%`
+        : ''}
+    </text>
+  );
+};
+
+export {
+  RemoveDot,
+  CustomizedGrowthRateLabel,
+  CustomizedGrowthRateLabelV2,
+  CustomizedGrowthRateLabelV2Middle,
+  CustomizedGrowthRateLabelV2AboveLine,
+};

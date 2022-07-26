@@ -47,7 +47,7 @@ const SymbolDetails = () => {
     <>
       {/* mainpage content start */}
       <div className='main'>
-        <section className='company_details symfinstatcs'>
+        <section className='company_details symfinstatcs company_detail_fix'>
           <div className='container'>
             <div className='row'>
               <CompanyDetailNew data={companyData} />
