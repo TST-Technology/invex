@@ -39,6 +39,7 @@ import Synopsis from './component/Symbol/Synopsis/Synopsis';
 import NewNavbar from './component/Common/Navbar/NewNavbar';
 import Marquee from './component/Common/Navbar/Marquee';
 import Dividents from './component/Dividents/Dividents';
+import Earnings from './component/V2/Earnings/Earnings';
 
 function App() {
   // useEffect(() => {
@@ -176,6 +177,18 @@ function App() {
                 <NewNavbar />
                 <Marquee />
                 <Dividents />
+              </>
+            }
+          />
+
+          <Route
+            exact
+            path={InvexRoutes.Earnings.path}
+            element={
+              <>
+                <NewNavbar />
+                <Marquee />
+                <Earnings />
               </>
             }
           />

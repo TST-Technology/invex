@@ -16,14 +16,15 @@ const FinancialStatisticsGenerator = ({ data, Loading, columnList }) => {
         let newObj = {};
         if (columns && columns?.tooltip) {
           newObj.tooltip = columns.tooltip;
-          newObj.type = columns?.type ? columns?.type : '';
         }
+        newObj.type = columns?.type ? columns?.type : '';
         newObj.heading = convertCamelCaseToSpaceSeparatedString(columns.key);
         data?.map((row, index) => {
           newObj[`col${index}`] = row[columns.key];
         });
         return newObj;
       });
+
       setTableData(finalData);
 
       const labels = data?.map((row, index) => row?.column);
@@ -117,7 +118,7 @@ const FinancialStatisticsGenerator = ({ data, Loading, columnList }) => {
                 </div>
               )}
               {!Loading && tableData && (
-                <table className='table table-bordered table-striped m-0 most_tables'>
+                <table className='table table-bordered table-striped m-0 most_tables normal_table'>
                   <thead>
                     <tr>
                       <th scope='col'>-</th>

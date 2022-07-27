@@ -60,11 +60,11 @@ code {
 }
 
 .up-color{
-  color:#13A41B;
+  color:#13A41B !important;
 }
 
 .down-color{
-  color:#DF0822;
+  color:#DF0822 !important;
 }
 
 .up-bg-color{

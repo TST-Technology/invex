@@ -169,69 +169,100 @@ export const BALANCE_SHEET_COLUMNS = [
 ];
 
 export const INCOME_STATEMENT_COLUMNS = [
-  { key: 'revenue', label: 'Revenue' },
-  { key: 'costOfRevenue', label: 'costOfRevenue' },
+  { key: 'revenue', label: 'Revenue', type: 'CURRENCY' },
+  { key: 'costOfRevenue', label: 'costOfRevenue', type: 'CURRENCY' },
 
-  { key: 'grossProfit', label: 'grossProfit' },
+  { key: 'grossProfit', label: 'grossProfit', type: 'CURRENCY' },
 
-  { key: 'grossProfitRatio', label: 'grossProfitRatio' },
+  { key: 'grossProfitRatio', label: 'grossProfitRatio', type: 'CURRENCY' },
 
   {
     key: 'researchAndDevelopmentExpenses',
     label: 'researchAndDevelopmentExpenses',
+    type: 'CURRENCY',
   },
 
   {
     key: 'generalAndAdministrativeExpenses',
     label: 'generalAndAdministrativeExpenses',
+    type: 'CURRENCY',
   },
 
-  { key: 'sellingAndMarketingExpenses', label: 'sellingAndMarketingExpenses' },
+  {
+    key: 'sellingAndMarketingExpenses',
+    label: 'sellingAndMarketingExpenses',
+    type: 'CURRENCY',
+  },
 
   {
     key: 'sellingGeneralAndAdministrativeExpenses',
     label: 'sellingGeneralAndAdministrativeExpenses',
+    type: 'CURRENCY',
   },
 
-  { key: 'otherExpenses', label: 'otherExpenses' },
+  { key: 'otherExpenses', label: 'otherExpenses', type: 'CURRENCY' },
 
-  { key: 'operatingExpenses', label: 'operatingExpenses' },
+  { key: 'operatingExpenses', label: 'operatingExpenses', type: 'CURRENCY' },
 
-  { key: 'costAndExpenses', label: 'costAndExpenses' },
+  { key: 'costAndExpenses', label: 'costAndExpenses', type: 'CURRENCY' },
 
-  { key: 'interestIncome', label: 'interestIncome' },
+  { key: 'interestIncome', label: 'interestIncome', type: 'CURRENCY' },
 
-  { key: 'interestExpense', label: 'interestExpense' },
+  { key: 'interestExpense', label: 'interestExpense', type: 'CURRENCY' },
 
-  { key: 'depreciationAndAmortization', label: 'depreciationAndAmortization' },
+  {
+    key: 'depreciationAndAmortization',
+    label: 'depreciationAndAmortization',
+    type: 'CURRENCY',
+  },
 
-  { key: 'ebitda', label: 'ebitda' },
+  { key: 'ebitda', label: 'ebitda', type: 'CURRENCY' },
 
-  { key: 'ebitdaratio', label: 'ebitdaratio' },
+  { key: 'ebitdaratio', label: 'ebitdaratio', type: 'CURRENCY' },
 
-  { key: 'operatingIncome', label: 'operatingIncome' },
+  { key: 'operatingIncome', label: 'operatingIncome', type: 'CURRENCY' },
 
-  { key: 'operatingIncomeRatio', label: 'operatingIncomeRatio' },
+  {
+    key: 'operatingIncomeRatio',
+    label: 'operatingIncomeRatio',
+    type: 'CURRENCY',
+  },
 
-  { key: 'totalOtherIncomeExpensesNet', label: 'totalOtherIncomeExpensesNet' },
+  {
+    key: 'totalOtherIncomeExpensesNet',
+    label: 'totalOtherIncomeExpensesNet',
+    type: 'CURRENCY',
+  },
 
-  { key: 'incomeBeforeTax', label: 'incomeBeforeTax' },
+  { key: 'incomeBeforeTax', label: 'incomeBeforeTax', type: 'CURRENCY' },
 
-  { key: 'incomeBeforeTaxRatio', label: 'incomeBeforeTaxRatio' },
+  {
+    key: 'incomeBeforeTaxRatio',
+    label: 'incomeBeforeTaxRatio',
+    type: 'CURRENCY',
+  },
 
-  { key: 'incomeTaxExpense', label: 'incomeTaxExpense' },
+  { key: 'incomeTaxExpense', label: 'incomeTaxExpense', type: 'CURRENCY' },
 
-  { key: 'netIncome', label: 'netIncome' },
+  { key: 'netIncome', label: 'netIncome', type: 'CURRENCY' },
 
-  { key: 'netIncomeRatio', label: 'netIncomeRatio' },
+  { key: 'netIncomeRatio', label: 'netIncomeRatio', type: 'CURRENCY' },
 
-  { key: 'eps', label: 'eps' },
+  { key: 'eps', label: 'eps', type: 'CURRENCY' },
 
-  { key: 'epsdiluted', label: 'epsdiluted' },
+  { key: 'epsdiluted', label: 'epsdiluted', type: 'CURRENCY' },
 
-  { key: 'weightedAverageShsOut', label: 'weightedAverage Shs Out' },
+  {
+    key: 'weightedAverageShsOut',
+    label: 'weightedAverage Shs Out',
+    type: 'CURRENCY',
+  },
 
-  { key: 'weightedAverageShsOutDil', label: 'weighted Average Shs Out Dil' },
+  {
+    key: 'weightedAverageShsOutDil',
+    label: 'weighted Average Shs Out Dil',
+    type: 'CURRENCY',
+  },
 ];
 
 export const OPERATING_CASH_FLOW_COLUMNS = [

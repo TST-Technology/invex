@@ -40,6 +40,7 @@ import { CHART_TIME_DURATION, DATE_FORMAT } from '../../Common/Constants';
 import { TYPE } from '../Constants';
 import { convertDateFormat } from '../../Common/DateFunctions';
 import SynopsisNews from './SynopsisNews';
+import { CustomizedScatterRoundShape } from '../../Common/Chart/Recharts';
 
 const Synopsis = ({ onChangeTab }) => {
   const { symbol } = useParams();
@@ -105,7 +106,7 @@ const Synopsis = ({ onChangeTab }) => {
           dividend.data.historical
         ) {
           if (dividend.data.historical.length > 5) {
-            const temp = dividend.data.historical.slice(0, 5);
+            const temp = dividend.data.historical.slice(0, 10);
             setDividendChart(temp);
           }
         }
@@ -212,6 +213,25 @@ const Synopsis = ({ onChangeTab }) => {
     setIsChartLoading(false);
   };
 
+  const CustomizedXAxisTick = (props) => {
+    const { x, y, stroke, payload } = props;
+
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text
+          x={50}
+          y={10}
+          textAnchor='end'
+          fill='#212121'
+          fontSize={'10px'}
+          transform='rotate(60)'
+        >
+          {convertDateFormat(payload.value)}
+        </text>
+      </g>
+    );
+  };
+
   return (
     <>
       {isLoading && (
@@ -239,26 +259,28 @@ const Synopsis = ({ onChangeTab }) => {
                   </h6>
                   <div className='row border-bottom mb-3'>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>Open</div>
+                      <div className='title-lt fixed-margin'>Open</div>
                       <span className='down'>
                         {/*  down-light-bg */}
                         <b>{data?.open}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>Previous Close</div>
+                      <div className='title-lt fixed-margin'>
+                        Previous Close
+                      </div>
                       <span>
                         <b>{data?.previousClose}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>Today’s Low</div>
+                      <div className='title-lt fixed-margin'>Today’s Low</div>
                       <span>
                         <b>{data?.dayLow}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>Today’s High</div>
+                      <div className='title-lt fixed-margin'>Today’s High</div>
                       <span>
                         <b>{data?.dayHigh}</b>
                       </span>
@@ -266,26 +288,30 @@ const Synopsis = ({ onChangeTab }) => {
                   </div>
                   <div className='row border-bottom mb-3'>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>52 Week High</div>
+                      <div className='title-lt fixed-margin'>52 Week High</div>
                       <span>
                         <b>{data?.yearHigh}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>52 Week Low</div>
+                      <div className='title-lt fixed-margin'>52 Week Low</div>
                       <span>
                         <b>{data?.yearLow}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt '>Latest Volume</div>
+                      <div className='title-lt fixed-margin '>
+                        Latest Volume
+                      </div>
                       <span className='up'>
                         {/* up-light-bg */}
                         <b>{abbreviateNumber(data?.volume)}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>Average Volume</div>
+                      <div className='title-lt fixed-margin'>
+                        Average Volume
+                      </div>
                       <span>
                         <b>{abbreviateNumber(data?.avgVolume)}</b>
                       </span>
@@ -298,25 +324,27 @@ const Synopsis = ({ onChangeTab }) => {
                   </h6>
                   <div className='row border-bottom mb-3'>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>Market Cap</div>
+                      <div className='title-lt fixed-margin'>Market Cap</div>
                       <span>
                         <b>{abbreviateNumber(data?.marketCap)}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>Shares Outstanding</div>
+                      <div className='title-lt fixed-margin'>
+                        Shares Outstanding
+                      </div>
                       <span>
                         <b>{abbreviateNumber(data?.sharesOutstanding)}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>EPS(TTM)</div>
+                      <div className='title-lt fixed-margin'>EPS(TTM)</div>
                       <span>
                         <b>{data?.eps}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>Beta</div>
+                      <div className='title-lt fixed-margin'>Beta</div>
                       <span>
                         <b>{parseFloat(data?.beta).toFixed(2)}</b>
                       </span>
@@ -324,7 +352,9 @@ const Synopsis = ({ onChangeTab }) => {
                   </div>
                   <div className='row border-bottom mb-3'>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>Enterprise Value</div>
+                      <div className='title-lt fixed-margin'>
+                        Enterprise Value
+                      </div>
                       <span>
                         <b>
                           {data?.enterpriseValueMultipleTTM
@@ -334,13 +364,17 @@ const Synopsis = ({ onChangeTab }) => {
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>Next Earnings Date</div>
+                      <div className='title-lt fixed-margin'>
+                        Next Earnings Date
+                      </div>
                       <span>
                         <b>{convertDateFormat(data?.earningsAnnouncement)}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>Dividend Rate(TTM)</div>
+                      <div className='title-lt fixed-margin'>
+                        Dividend Rate(TTM)
+                      </div>
                       <span>
                         <b>
                           {data?.dividendPerShareTTM
@@ -351,7 +385,7 @@ const Synopsis = ({ onChangeTab }) => {
                     </div>
 
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>PE Ratio</div>
+                      <div className='title-lt fixed-margin'>PE Ratio</div>
                       <span>
                         <b>{parseFloat(data?.pe).toFixed(2)}</b>
                       </span>
@@ -359,7 +393,9 @@ const Synopsis = ({ onChangeTab }) => {
                   </div>
                   <div className='row border-bottom mb-3'>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>52 Weeks Change</div>
+                      <div className='title-lt fixed-margin'>
+                        52 Weeks Change
+                      </div>
                       <span>
                         <b>
                           {stockPriceData['1Y']
@@ -369,7 +405,9 @@ const Synopsis = ({ onChangeTab }) => {
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>Ex-Dividend Date</div>
+                      <div className='title-lt fixed-margin'>
+                        Ex-Dividend Date
+                      </div>
                       <span>
                         <b>
                           {data?.exDividendDate
@@ -379,13 +417,13 @@ const Synopsis = ({ onChangeTab }) => {
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>IPO Date</div>
+                      <div className='title-lt fixed-margin'>IPO Date</div>
                       <span>
                         <b>{convertDateFormat(data?.ipoDate)}</b>
                       </span>
                     </div>
                     <div className='col-lg-3 col-md-3'>
-                      <div className='title-lt'>PB Ratio</div>
+                      <div className='title-lt fixed-margin'>PB Ratio</div>
                       <span>
                         <b>
                           {data?.priceToBookRatioTTM
@@ -398,21 +436,11 @@ const Synopsis = ({ onChangeTab }) => {
                 </div>
               </div>
               <div className='col-lg-6'>
-                <div className='price_chart mt-4 mb-5'>
-                  <div className='d-flex align-items-center mb-5'>
+                <div className='price_chart mt-4 mb-4'>
+                  <div className='d-flex align-items-center mb-4'>
                     <h5 className='me-auto'>
                       <strong>Price Chart</strong>
                     </h5>
-                    <div className='top_button_panel top_button_panel_light'>
-                      <a
-                        href='javascript:void(0)'
-                        onClick={() => {
-                          onChangeTab(TYPE.chart.value);
-                        }}
-                      >
-                        View More <img src={ArrowRight} />
-                      </a>
-                    </div>
                   </div>
                   <div className='d-flex align-items-center justify-content-between'>
                     <div className='mb-3'>
@@ -487,12 +515,16 @@ const Synopsis = ({ onChangeTab }) => {
                           >
                             <stop
                               offset='5%'
-                              stopColor='#8884d8'
+                              stopColor={`${
+                                data?.price > data?.open ? '#8884d8' : '#DF0822'
+                              }`}
                               stopOpacity={0.8}
                             />
                             <stop
                               offset='95%'
-                              stopColor='#8884d8'
+                              stopColor={`${
+                                data?.price > data?.open ? '#8884d8' : '#DF0822'
+                              }`}
                               stopOpacity={0}
                             />
                           </linearGradient>
@@ -505,12 +537,16 @@ const Synopsis = ({ onChangeTab }) => {
                           >
                             <stop
                               offset='5%'
-                              stopColor='#82ca9d'
+                              stopColor={`${
+                                data?.price > data?.open ? '#82ca9d' : '#DF0822'
+                              }`}
                               stopOpacity={0.8}
                             />
                             <stop
                               offset='95%'
-                              stopColor='#82ca9d'
+                              stopColor={`${
+                                data?.price > data?.open ? '#82ca9d' : '#DF0822'
+                              }`}
                               stopOpacity={0}
                             />
                           </linearGradient>
@@ -539,7 +575,9 @@ const Synopsis = ({ onChangeTab }) => {
                           type='monotone'
                           dataKey='close'
                           name='Price'
-                          stroke='#82ca9d'
+                          stroke={`${
+                            data?.price > data?.open ? '#82ca9d' : '#DF0822'
+                          }`}
                           fillOpacity={1}
                           fill='url(#colorPv)'
                         />
@@ -550,7 +588,7 @@ const Synopsis = ({ onChangeTab }) => {
               </div>
             </div>
           </div>
-          <div className='col-lg-12 mb-5'>
+          <div className='col-lg-12 mb-4'>
             <div className='row'>
               <div className='col-lg-4 border-end pe-4'>
                 {/* company profile box start*/}
@@ -588,10 +626,17 @@ const Synopsis = ({ onChangeTab }) => {
                 {/* company profile box end*/}
               </div>
               <div className='col-lg-4 border-end pe-4'>
-                <div className='d-flex align-items-center mb-5'>
+                <div className='d-flex align-items-center mb-4'>
                   <h5 className='me-auto'>
                     <strong>Earnings</strong>
                   </h5>
+                  <div className='top_button_panel top_button_panel_light'>
+                    <Link
+                      to={InvexRoutes.Earnings.path.replace(':symbol', symbol)}
+                    >
+                      View More <img src={ArrowRight} />
+                    </Link>
+                  </div>
                 </div>
 
                 {earningsChartLoading && (
@@ -649,6 +694,7 @@ const Synopsis = ({ onChangeTab }) => {
                         name='Assumption'
                         dataKey='estimatedEarning'
                         fill='#3751FF'
+                        shape={<CustomizedScatterRoundShape />}
                       />
                       <ZAxis range={[250, 250]} />
                     </ComposedChart>
@@ -656,7 +702,7 @@ const Synopsis = ({ onChangeTab }) => {
                 )}
               </div>
               <div className='col-lg-4'>
-                <div className='d-flex align-items-center mb-5'>
+                <div className='d-flex align-items-center mb-4'>
                   <h5 className='me-auto'>
                     <strong>Dividends &amp; Splits</strong>
                   </h5>
@@ -685,15 +731,16 @@ const Synopsis = ({ onChangeTab }) => {
 
                 {!dividendChartLoading && (
                   <ResponsiveContainer width='100%' aspect={1} maxHeight={250}>
-                    <BarChart data={dividendChart} barSize={25} barGap={20}>
+                    <BarChart data={dividendChart} barSize={15} barGap={15}>
                       <XAxis
                         dataKey='date'
                         tickFormatter={(date) => {
                           return convertDateFormat(date);
                         }}
                         axisLine={false}
-                        tick={{ fill: '#212121', fontSize: '10px' }}
+                        // tick={{ fill: '#212121', fontSize: '10px' }}
                         interval={0}
+                        tick={<CustomizedXAxisTick />}
                       />
                       <YAxis
                         axisLine={false}
@@ -715,7 +762,7 @@ const Synopsis = ({ onChangeTab }) => {
           </div>
           <div className='col-lg-12'>
             <div className='top_competitors'>
-              <div className='mb-5'>
+              <div className='mb-4'>
                 <div className='d-flex align-items-center justify-content-between'>
                   <h5 className='m-0 mb-3'>
                     <strong>Top Competitors</strong>
@@ -723,8 +770,8 @@ const Synopsis = ({ onChangeTab }) => {
                 </div>
                 <div className='table-responsive'>
                   {topCompetitors && (
-                    <table className='table table-bordered m-0 most_tables'>
-                      <thead class='table-light'>
+                    <table className='table table-bordered table-striped m-0 most_tables normal_table'>
+                      <thead>
                         <tr>
                           {TOP_COMPETITOR_COLUMNS &&
                             TOP_COMPETITOR_COLUMNS.map((heading, index) => {
@@ -740,7 +787,11 @@ const Synopsis = ({ onChangeTab }) => {
                         {topCompetitors.map((row, index) => {
                           return (
                             <tr key={index}>
-                              <td>{replaceEmpty(row?.symbol)}</td>
+                              <td>
+                                <a href='javascript:void(0);'>
+                                  {replaceEmpty(row?.symbol)}
+                                </a>
+                              </td>
                               <td>
                                 {row?.price ? row?.price.toFixed(2) : '-'}
                               </td>

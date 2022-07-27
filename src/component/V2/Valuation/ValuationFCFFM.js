@@ -29,6 +29,7 @@ import {
   CustomizedGrowthRateLabelV2,
   CustomizedGrowthRateLabelV2AboveLine,
   CustomizedGrowthRateLabelV2Middle,
+  CustomizedScatterRoundShape,
 } from '../../Common/Chart/Recharts';
 import moment from 'moment';
 import { convertDateFormat } from '../../Common/DateFunctions';
@@ -695,15 +696,30 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
                         contentStyle={{ padding: '10px' }}
                       />
 
-                      <Scatter name='Best' dataKey='best' fill='#13A41B' />
-                      <Scatter name='Base' dataKey='base' fill='#F3C00E' />
-                      <Scatter name='Worst' dataKey='worst' fill='#DF0822' />
+                      <Scatter
+                        name='Best'
+                        dataKey='best'
+                        fill='#13A41B'
+                        shape={<CustomizedScatterRoundShape />}
+                      />
+                      <Scatter
+                        name='Base'
+                        dataKey='base'
+                        fill='#F3C00E'
+                        shape={<CustomizedScatterRoundShape />}
+                      />
+                      <Scatter
+                        name='Worst'
+                        dataKey='worst'
+                        fill='#DF0822'
+                        shape={<CustomizedScatterRoundShape />}
+                      />
                       <Scatter
                         name='Actual Price'
                         dataKey='actualPrice'
                         fill='#3751FF'
                       />
-                      <ZAxis range={[400, 400]} />
+                      <ZAxis range={[540, 540]} />
                       <Legend
                         wrapperStyle={{
                           fontSize: '12px',

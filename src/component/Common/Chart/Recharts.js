@@ -85,10 +85,25 @@ const CustomizedGrowthRateLabelV2AboveLine = (props) => {
   );
 };
 
+const CustomizedScatterRoundShape = (props) => {
+  const { cx, cy, fill } = props;
+  return (
+    <circle
+      cx={cx}
+      cy={cy}
+      r='12'
+      stroke={fill}
+      stroke-width='3'
+      fill='transparent'
+    />
+  );
+};
+
 export {
   RemoveDot,
   CustomizedGrowthRateLabel,
   CustomizedGrowthRateLabelV2,
   CustomizedGrowthRateLabelV2Middle,
   CustomizedGrowthRateLabelV2AboveLine,
+  CustomizedScatterRoundShape,
 };

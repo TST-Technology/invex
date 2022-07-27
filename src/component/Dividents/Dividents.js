@@ -76,7 +76,7 @@ const Dividents = () => {
               <div className='row'>
                 <CompanyDetailNew data={companyData} />
                 <div className='col-lg-12'>
-                  <div className='d-flex justify-content-between mb-5'>
+                  <div className='d-flex justify-content-between mb-5 mt-3'>
                     <div className='d-flex align-items-center'>
                       <img
                         style={{ cursor: 'pointer' }}

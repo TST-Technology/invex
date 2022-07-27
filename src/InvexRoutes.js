@@ -24,6 +24,7 @@ const InvexRoutes = {
   SymbolNotPublished: { path: '/not-published' },
   Synopsis: { path: '/synopsis/:symbol' },
   Divident: { path: '/synopsis/divident/:symbol' },
+  Earnings: { path: '/synopsis/earnings/:symbol' },
 };
 
 export default InvexRoutes;

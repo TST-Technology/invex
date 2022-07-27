@@ -6,7 +6,7 @@ const PrepareTable = ({ colData, data, onChange, headingName = '-' }) => {
     <div className='mb-5'>
       <div className='table-responsive'>
         {data && (
-          <table className='table table-bordered table-striped m-0 most_tables'>
+          <table className='table table-bordered table-striped m-0 most_tables normal_table'>
             <thead>
               <tr>
                 <th scope='col'>{headingName}</th>

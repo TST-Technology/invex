@@ -71,6 +71,30 @@ const Marquee = () => {
         {index && currency && commodity && (
           <div className='track'>
             <ul className='list-inline m-0'>
+              <li className='list-unstyled list-inline-item'>
+                <b>{'     '}</b>
+              </li>
+              <li className='list-unstyled list-inline-item'>
+                <b>{'     '}</b>
+              </li>
+              <li className='list-unstyled list-inline-item'>
+                <b>{'     '}</b>
+              </li>
+              <li className='list-unstyled list-inline-item'>
+                <b>{'     '}</b>
+              </li>
+              <li className='list-unstyled list-inline-item'>
+                <b>{'     '}</b>
+              </li>
+              <li className='list-unstyled list-inline-item'>
+                <b>{'     '}</b>
+              </li>
+              <li className='list-unstyled list-inline-item'>
+                <b>{'     '}</b>
+              </li>
+              <li className='list-unstyled list-inline-item'>
+                <b>{'     '}</b>
+              </li>
               {index && currency && commodity && (
                 <li className='list-unstyled list-inline-item'>
                   <b>Index</b>
