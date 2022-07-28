@@ -11,6 +11,7 @@ import { getCompanyProfileQuote } from '../api/Symbol';
 import Chart from './Chart/Chart';
 import OptionAnalysis from './OptionAnalysis/OptionAnalysis';
 import Valuation from '../V2/Valuation/Valuation';
+import SECFilling from '../V2/SECFilling/SECFilling';
 
 const SymbolDetails = () => {
   const [activeTab, setActiveTab] = useState(TYPE.synopsis.value);
@@ -94,6 +95,8 @@ const SymbolDetails = () => {
                     )}
 
                     {activeTab === TYPE.dcfValuation.value && <Valuation />}
+
+                    {activeTab === TYPE.secFilings.value && <SECFilling />}
                   </div>
                 </div>
               </div>

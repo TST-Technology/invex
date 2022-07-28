@@ -86,18 +86,23 @@ const CustomizedGrowthRateLabelV2AboveLine = (props) => {
 };
 
 const CustomizedScatterRoundShape = (props) => {
-  const { cx, cy, fill } = props;
-  return (
-    <circle
-      cx={cx}
-      cy={cy}
-      r='12'
-      stroke={fill}
-      stroke-width='3'
-      fill='transparent'
-    />
-  );
-};
+  const { cx, cy, fill, payload, index } = props;
+
+  if (Object.keys(payload).length > 0) {
+    return (
+      <circle
+        cx={cx}
+        cy={cy}
+        r='12'
+        stroke={fill}
+        stroke-width='3'
+        fill='transparent'
+      />
+    );
+  } else {
+    return <></>;
+  }
+};;;
 
 export {
   RemoveDot,

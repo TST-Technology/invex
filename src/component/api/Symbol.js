@@ -69,6 +69,13 @@ export const getSearchResult = async (param) => {
   return data;
 };
 
+export const getSecFillings = async (param) => {
+  var { data } = await ServiceCP1V2.get(`/sec-filings`, {
+    params: param,
+  });
+  return data;
+};
+
 
 
 
