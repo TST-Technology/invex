@@ -322,6 +322,29 @@ const Synopsis = ({ onChangeTab }) => {
     );
   };
 
+  const CustomizedDot = (props) => {
+    const { cx, cy, fill, payload, index } = props;
+
+    if (Object.keys(payload).length > 0) {
+      return (
+        <circle
+          cx={cx}
+          cy={cy}
+          r='12'
+          stroke={fill}
+          stroke-width='3'
+          fill={
+            payload.actualEarningResult < payload.estimatedEarning
+              ? '#DF0822'
+              : '#82ca9d'
+          }
+        />
+      );
+    } else {
+      return <></>;
+    }
+  };
+
   return (
     <>
       {isLoading && (
@@ -771,14 +794,13 @@ const Synopsis = ({ onChangeTab }) => {
                       />
                       <Tooltip />
                       <Legend wrapperStyle={{ bottom: -20, left: 25 }} />
-                      <Area
+                      <Line
                         connectNulls
-                        type='monotone'
                         name='Actual Value'
                         dataKey='actualEarningResult'
                         stroke='#82ca9d'
-                        fillOpacity={1}
-                        fill='url(#colorPv)'
+                        strokeWidth={3}
+                        dot={<CustomizedDot />}
                       />
                       <Scatter
                         name='Assumption'
@@ -786,7 +808,7 @@ const Synopsis = ({ onChangeTab }) => {
                         fill='#3751FF'
                         shape={<CustomizedScatterRoundShape />}
                       />
-                      <ZAxis range={[250, 250]} />
+                      <ZAxis range={[400, 400]} />
                     </ComposedChart>
                   </ResponsiveContainer>
                 )}

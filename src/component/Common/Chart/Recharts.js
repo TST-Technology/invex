@@ -102,7 +102,7 @@ const CustomizedScatterRoundShape = (props) => {
   } else {
     return <></>;
   }
-};;;
+};
 
 export {
   RemoveDot,

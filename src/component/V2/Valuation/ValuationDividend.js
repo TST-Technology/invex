@@ -126,8 +126,10 @@ const ValuationDividend = ({ allData, companyQuote }) => {
             return tempObj;
           });
 
-          if (pastPrediction && pastPrediction.length > 4) {
-            pastPrediction = pastPrediction.slice(0, 4);
+          pastPrediction.unshift({});
+
+          if (pastPrediction && pastPrediction.length > 5) {
+            pastPrediction = pastPrediction.slice(0, 5);
           }
 
           pastPrediction.sort(function (a, b) {
