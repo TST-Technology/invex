@@ -7,18 +7,14 @@ import {
   getStockDividend,
   getEarnings,
   getStockPriceChange,
+  getETFStockData,
 } from '../../api/Symbol';
 import abbreviateNumber from '../../Common/NumberFormat';
 import ReadMore from '../../Common/ReadMore/ReadMore';
 import { TOP_COMPETITOR_COLUMNS } from '../Constants';
 import { replaceEmpty } from '../../Common/CommonFunctions';
 import { CircularProgress } from '@material-ui/core';
-import moment from 'moment';
-import NewsImg from '../../Common/Images/news-1.png';
-import SymbolChart4 from '../../Common/Images/symbol-chart-4.png';
-import SymbolChart5 from '../../Common/Images/symbol-chart-5.png';
 import ArrowRight from '../../Common/Images/arrow-right.png';
-import Earnings from '../../Common/Images/earnings.png';
 import {
   Area,
   AreaChart,
@@ -34,10 +30,13 @@ import {
   Scatter,
   Legend,
   ZAxis,
+  PieChart,
+  Cell,
+  Pie,
+  Sector,
 } from 'recharts';
 import InvexRoutes from '../../../InvexRoutes';
 import { CHART_TIME_DURATION, DATE_FORMAT } from '../../Common/Constants';
-import { TYPE } from '../Constants';
 import { convertDateFormat } from '../../Common/DateFunctions';
 import SynopsisNews from './SynopsisNews';
 import { CustomizedScatterRoundShape } from '../../Common/Chart/Recharts';
@@ -57,6 +56,20 @@ const Synopsis = ({ onChangeTab }) => {
   const [earningsChartLoading, setEarningsChartLoading] = useState(false);
   const [stockPriceData, setStockPriceData] = useState(null);
   const [absoluteReturn, setAbsoluteReturn] = useState(null);
+  const [etfData, setEtfData] = useState(null);
+
+  const PIE_CHART_COLORS = [
+    '#12239E',
+    '#E66C37',
+    '#6B007B',
+    '#E044A7',
+    '#744EC2',
+    '#D9B300',
+    '#D64550',
+    '#197278',
+    '#1AAB40',
+    '#118DFF',
+  ];
 
   useEffect(() => {
     (async () => {
@@ -132,6 +145,16 @@ const Synopsis = ({ onChangeTab }) => {
               ? priceChange?.data['1D'].toFixed(2)
               : '';
             setAbsoluteReturn(temp);
+          }
+        } catch (error) {}
+
+        try {
+          const etf = await getETFStockData({ symbol: symbol });
+          console.log(etf);
+          if (etf && etf.data && etf.status === 200) {
+            const tempData = etf.data.slice(0, 10);
+            console.log(tempData);
+            setEtfData(tempData);
           }
         } catch (error) {}
 
@@ -229,6 +252,75 @@ const Synopsis = ({ onChangeTab }) => {
           {convertDateFormat(payload.value)}
         </text>
       </g>
+    );
+  };
+
+  const renderColorfulLegendText = (value, entry) => {
+    return (
+      <span
+        style={{
+          fontSize: 12,
+          color: '#596579',
+          fontWeight: 500,
+          padding: '10px',
+        }}
+      >
+        {entry.payload?.etfSymbol}
+      </span>
+    );
+  };
+  const renderActiveShape = (props) => {
+    const RADIAN = Math.PI / 180;
+    const {
+      cx,
+      cy,
+      midAngle,
+      innerRadius,
+      outerRadius,
+      startAngle,
+      endAngle,
+      fill,
+      payload,
+      percent,
+      value,
+    } = props;
+    const sin = Math.sin(-RADIAN * midAngle);
+    const cos = Math.cos(-RADIAN * midAngle);
+    const sx = cx + outerRadius * cos;
+    const sy = cy + outerRadius * sin;
+    const mx = cx + (outerRadius + 30) * cos;
+    const my = cy + (outerRadius + 30) * sin;
+    const ex = mx + (cos >= 0 ? 1 : -1) * 22;
+    const ey = my;
+    const textAnchor = cos >= 0 ? 'start' : 'end';
+
+    return (
+      <>
+        <g>
+          <Sector
+            cx={cx}
+            cy={cy}
+            innerRadius={innerRadius}
+            outerRadius={outerRadius}
+            startAngle={startAngle}
+            endAngle={endAngle}
+            fill={fill}
+          />
+          <path
+            d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
+            stroke='#000'
+            fill='none'
+          />
+          <text
+            x={ex + (cos >= 0 ? 1 : -1) * 12}
+            y={ey}
+            textAnchor={textAnchor}
+            fill='#333'
+          >
+            {(percent * 100).toFixed(2)}%
+          </text>
+        </g>
+      </>
     );
   };
 
@@ -704,7 +796,7 @@ const Synopsis = ({ onChangeTab }) => {
               <div className='col-lg-4'>
                 <div className='d-flex align-items-center mb-4'>
                   <h5 className='me-auto'>
-                    <strong>Dividends &amp; Splits</strong>
+                    <strong>Dividends & Splits</strong>
                   </h5>
                   <div className='top_button_panel top_button_panel_light'>
                     <Link
@@ -760,6 +852,95 @@ const Synopsis = ({ onChangeTab }) => {
               </div>
             </div>
           </div>
+
+          <div className='col-lg-12'>
+            <div className='row'>
+              <div className='col-lg-6'>
+                <div className='top_competitors'>
+                  <div className='mb-5'>
+                    <div className='d-flex align-items-center justify-content-between mb-3'>
+                      <h5 className='me-auto font-bd'>
+                        Alternative Ways (ETF) to Invest in AAPL
+                      </h5>
+                    </div>
+                    <div className='table-responsive'>
+                      <table className='table table-bordered table-striped m-0 most_tables normal_table'>
+                        <thead>
+                          <tr>
+                            <th scope='col'>ETF Symbol</th>
+                            <th scope='col'>Shares No.</th>
+                            <th scope='col'>Weight Percentage</th>
+                            <th scope='col'>Market Value</th>
+                          </tr>
+                        </thead>
+                        <tbody className='border-top-0'>
+                          {etfData &&
+                            etfData.map((etf, index) => {
+                              return (
+                                <tr key={index}>
+                                  <td>
+                                    <a href='javascript:void(0)'>
+                                      {etf?.etfSymbol}
+                                    </a>
+                                  </td>
+                                  <td>{etf?.sharesNumber}</td>
+                                  <td>
+                                    {etf?.weightPercentage
+                                      ? `${etf?.weightPercentage}%`
+                                      : '-'}
+                                  </td>
+                                  <td>
+                                    {etf?.marketValue
+                                      ? etf?.marketValue.toFixed(2)
+                                      : '-'}
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className='col-lg-6'>
+                {etfData && (
+                  <div className>
+                    <ResponsiveContainer width='100%' height={500}>
+                      <PieChart width={100} height={500}>
+                        <Pie
+                          activeIndex={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}
+                          activeShape={renderActiveShape}
+                          data={etfData}
+                          innerRadius={80}
+                          outerRadius={130}
+                          dataKey='marketValue'
+                        >
+                          {etfData.map((entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={PIE_CHART_COLORS[index]}
+                            />
+                          ))}
+                        </Pie>
+                        <Legend
+                          height={'auto'}
+                          iconType='circle'
+                          layout='vertical'
+                          verticalAlign='middle'
+                          align='right'
+                          iconSize={20}
+                          padding={5}
+                          formatter={renderColorfulLegendText}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
           <div className='col-lg-12'>
             <div className='top_competitors'>
               <div className='mb-4'>

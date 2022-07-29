@@ -40,19 +40,23 @@ const CompanyDetailNew = ({ data }) => {
                         {data?.changesPercentage.toFixed(2)}%)
                       </p>
                     </div>
-                    <span>At close: May 4 04:00PM EDT</span>
+                    <span>At close: -</span>
                   </div>
                   <div className='chart mb-1 mt-2'>
                     <div className='chart-text'>
-                      <p className='card-text border-0 ps-0'>$235.49</p>
-                      <p className='text down'>-0.25 (-0.15%)</p>
+                      <p className='card-text border-0 ps-0'>
+                        {data?.prePostMarketTrade?.price
+                          ? `$${data?.prePostMarketTrade?.price.toFixed(2)}`
+                          : ''}
+                      </p>
+                      <p className='text down'>- (-)</p>
                     </div>
-                    <span>After hours: May 4, 07:59PM EDT</span>
+                    <span>After hours: -</span>
                   </div>
                 </div>
                 <p className='m-0 mt-0 realtimeprice ms-4'>
-                  Nasdaq- Real Time Price. <br />
-                  Currency in USD
+                  {data?.exchange}- Real Time Price. <br />
+                  Currency in {data?.currency}
                 </p>
                 <div>
                   <a href className='btn btn-outline-dark ms-4'>

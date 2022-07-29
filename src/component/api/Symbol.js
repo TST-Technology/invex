@@ -76,6 +76,13 @@ export const getSecFillings = async (param) => {
   return data;
 };
 
+export const getETFStockData = async (param) => {
+  var { data } = await ServiceCP1V2.get(`/etf-stock-exposure`, {
+    params: param,
+  });
+  return data;
+};
+
 
 
 

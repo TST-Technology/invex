@@ -159,8 +159,8 @@ const Earnings = () => {
                                       {earning?.deviation
                                         ? `${
                                             earning?.deviation > 0
-                                              ? `+${earning?.deviation}`
-                                              : `${earning?.deviation}`
+                                              ? `+${earning?.deviation}%`
+                                              : `${earning?.deviation}%`
                                           }`
                                         : '-'}
                                     </td>

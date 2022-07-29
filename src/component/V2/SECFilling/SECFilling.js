@@ -67,7 +67,7 @@ const SECFilling = () => {
       )}
       {!loading && secData && (
         <>
-          <div className='col-lg-12'>
+          <div className='col-lg-12 mt-5'>
             <div className='d-flex justify-content-between mb-5 mt-3'>
               <div className='d-flex align-items-center'>
                 <h3 className='d-inline-block m-0 ms-3'>SEC Fillings</h3>
