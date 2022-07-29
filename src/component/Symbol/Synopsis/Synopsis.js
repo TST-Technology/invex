@@ -150,10 +150,8 @@ const Synopsis = ({ onChangeTab }) => {
 
         try {
           const etf = await getETFStockData({ symbol: symbol });
-          console.log(etf);
           if (etf && etf.data && etf.status === 200) {
             const tempData = etf.data.slice(0, 10);
-            console.log(tempData);
             setEtfData(tempData);
           }
         } catch (error) {}

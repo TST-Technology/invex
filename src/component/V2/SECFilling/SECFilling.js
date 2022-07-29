@@ -4,29 +4,35 @@ import { CircularProgress } from '@material-ui/core';
 import { getSecFillings } from '../../api/Symbol';
 
 const SECFilling = () => {
-  const INIT_PAGE = 0;
+  const PAGE_NUMBER = 0;
   const { symbol } = useParams();
   const [secData, setSecData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [params, setParams] = useState({
     symbol: symbol,
-    page: INIT_PAGE,
-    // type: ''
+    page: PAGE_NUMBER,
   });
+  const [formType, setFormType] = useState(null);
+
+  const INIT_PARAM = {
+    symbol: symbol,
+  };
+
+  const TABLE_HEADINGS = ['Form Type', 'Filling Date', 'Accepted Date', 'Link'];
 
   useEffect(() => {
     if (symbol) {
-      getSecData('INIT');
+      getFormType();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (symbol) {
+      getSecData();
     }
   }, [symbol, params]);
 
-  useEffect(() => {
-    if (symbol) {
-      getSecData('');
-    }
-  }, [params]);
-
-  const getSecData = async (type) => {
+  const getSecData = async () => {
     try {
       setLoading(true);
 
@@ -41,14 +47,27 @@ const SECFilling = () => {
     }
   };
 
-  const TYPE_FILTER = [
-    {
-      label: 'All Forms',
-      value: '',
-    },
-  ];
+  const getFormType = async () => {
+    const data = await getSecFillings(INIT_PARAM);
+    if (data && data.status === 200 && data.data && data.data.length > 0) {
+      const uniqueType = [...new Set(data?.data.map((item) => item.type))];
+      setFormType(uniqueType);
+    }
+  };
 
-  const TABLE_HEADINGS = ['Form Type', 'Filling Date', 'Accepted Date', 'Link'];
+  const handleFormChange = (value) => {
+    if (value === 'ALL') {
+      setParams({
+        page: PAGE_NUMBER,
+        symbol: symbol,
+      });
+    } else {
+      setParams({
+        ...params,
+        type: value,
+      });
+    }
+  };
 
   return (
     <>
@@ -78,20 +97,23 @@ const SECFilling = () => {
                 <select
                   className='form-select me-3'
                   aria-label='Default select example'
-                  onChange={(e) =>
-                    setParams({
-                      ...params,
-                      type: e.target.value,
-                    })
-                  }
+                  onChange={(e) => {
+                    handleFormChange(e.target.value);
+                  }}
                 >
-                  {TYPE_FILTER.map((type, index) => {
-                    return (
-                      <option key={index} value={type.value}>
-                        {type.label}
-                      </option>
-                    );
-                  })}
+                  <option value='ALL'>All Forms</option>
+                  {formType &&
+                    formType.map((type, index) => {
+                      return (
+                        <option
+                          key={index}
+                          value={type}
+                          selected={type === params?.type}
+                        >
+                          {type}
+                        </option>
+                      );
+                    })}
                 </select>
               </div>
             </div>
