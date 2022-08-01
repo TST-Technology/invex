@@ -5,27 +5,25 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { CircularProgress } from '@material-ui/core';
-import { RemoveDot } from '../../../Common/Chart/Recharts';
+import { RemoveDot } from '../../../../Common/Chart/Recharts';
 import moment from 'moment';
 
-class CustomizedAxisTick extends PureComponent {
-  render() {
-    const { x, y, stroke, payload } = this.props;
+const CustomizedAxisTick = (props) => {
+  const { x, y, stroke, payload } = props;
 
-    return (
-      <g transform={`translate(${x},${y})`}>
-        <text x={0} y={0} textAnchor='end' fill='#212121' fontSize={'12px'}>
-          {payload.value}%
-        </text>
-      </g>
-    );
-  }
-}
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text x={0} y={0} textAnchor='end' fill='#212121' fontSize={'12px'}>
+        {payload.value}%
+      </text>
+    </g>
+  );
+};
 
-const VolatilityChart = ({ Options, Loading }) => {
+const VolatilityChart = ({ data }) => {
   const [graphData, setGraphData] = useState([]);
   const [period, setPeriod] = useState('YEAR'); // possible values YEAR, 6MONTHS, 3MONTHS
   const [volume, setVolume] = useState('INDEX_CALL'); //possible values
@@ -42,11 +40,11 @@ const VolatilityChart = ({ Options, Loading }) => {
     } else if (period === '3MONTHS') {
       pastDate = new Date(new Date().setMonth(new Date().getMonth() - 3));
     }
-    if (Options && Options.Graph_data) {
+    if (data && data.Graph_data) {
       const graph = [];
       const tempDate = [];
       const uniqueMonthDates = [];
-      Options.Graph_data.date.map((row, index) => {
+      data.Graph_data.date.map((row, index) => {
         if (new Date(row) > pastDate && new Date(row) < todaysDate) {
           const month = new Date(row).getMonth();
           const year = new Date(row).getFullYear();
@@ -74,7 +72,7 @@ const VolatilityChart = ({ Options, Loading }) => {
       setTicks(uniqueMonthDates);
       setGraphData(graph);
     }
-  }, [Options, period, volume, days]);
+  }, [data, period, volume, days]);
 
   const getDaysData = (volume, index) => {
     let daysData = [];
@@ -82,75 +80,75 @@ const VolatilityChart = ({ Options, Loading }) => {
       case 'INDEX_CALL':
         switch (days) {
           case 30:
-            daysData = Options.Graph_data.iv30call[index];
+            daysData = data.Graph_data.iv30call[index];
             break;
           case 60:
-            daysData = Options.Graph_data.iv60call[index];
+            daysData = data.Graph_data.iv60call[index];
             break;
           case 90:
-            daysData = Options.Graph_data.iv90call[index];
+            daysData = data.Graph_data.iv90call[index];
             break;
           case 120:
-            daysData = Options.Graph_data.iv120call[index];
+            daysData = data.Graph_data.iv120call[index];
             break;
           case 150:
-            daysData = Options.Graph_data.iv150call[index];
+            daysData = data.Graph_data.iv150call[index];
             break;
           case 180:
-            daysData = Options.Graph_data.iv180call[index];
+            daysData = data.Graph_data.iv180call[index];
             break;
           case 360:
-            daysData = Options.Graph_data.iv360call[index];
+            daysData = data.Graph_data.iv360call[index];
             break;
         }
         break;
       case 'INDEX_PUT':
         switch (days) {
           case 30:
-            daysData = Options.Graph_data.iv30put[index];
+            daysData = data.Graph_data.iv30put[index];
             break;
           case 60:
-            daysData = Options.Graph_data.iv60put[index];
+            daysData = data.Graph_data.iv60put[index];
             break;
           case 90:
-            daysData = Options.Graph_data.iv90put[index];
+            daysData = data.Graph_data.iv90put[index];
             break;
           case 120:
-            daysData = Options.Graph_data.iv120put[index];
+            daysData = data.Graph_data.iv120put[index];
             break;
           case 150:
-            daysData = Options.Graph_data.iv150put[index];
+            daysData = data.Graph_data.iv150put[index];
             break;
           case 180:
-            daysData = Options.Graph_data.iv180put[index];
+            daysData = data.Graph_data.iv180put[index];
             break;
           case 360:
-            daysData = Options.Graph_data.iv360put[index];
+            daysData = data.Graph_data.iv360put[index];
             break;
         }
         break;
       case 'INDEX_MEAN':
         switch (days) {
           case 30:
-            daysData = Options.Graph_data.iv30mean[index];
+            daysData = data.Graph_data.iv30mean[index];
             break;
           case 60:
-            daysData = Options.Graph_data.iv60mean[index];
+            daysData = data.Graph_data.iv60mean[index];
             break;
           case 90:
-            daysData = Options.Graph_data.iv90mean[index];
+            daysData = data.Graph_data.iv90mean[index];
             break;
           case 120:
-            daysData = Options.Graph_data.iv120mean[index];
+            daysData = data.Graph_data.iv120mean[index];
             break;
           case 150:
-            daysData = Options.Graph_data.iv150mean[index];
+            daysData = data.Graph_data.iv150mean[index];
             break;
           case 180:
-            daysData = Options.Graph_data.iv180mean[index];
+            daysData = data.Graph_data.iv180mean[index];
             break;
           case 360:
-            daysData = Options.Graph_data.iv360mean[index];
+            daysData = data.Graph_data.iv360mean[index];
             break;
         }
         break;
@@ -158,44 +156,44 @@ const VolatilityChart = ({ Options, Loading }) => {
         switch (days) {
           case 30:
             daysData = [
-              Options.Graph_data.iv30call[index],
-              Options.Graph_data.iv30put[index],
+              data.Graph_data.iv30call[index],
+              data.Graph_data.iv30put[index],
             ];
             break;
           case 60:
             daysData = [
-              Options.Graph_data.iv60call[index],
-              Options.Graph_data.iv60put[index],
+              data.Graph_data.iv60call[index],
+              data.Graph_data.iv60put[index],
             ];
             break;
           case 90:
             daysData = [
-              Options.Graph_data.iv90call[index],
-              Options.Graph_data.iv90put[index],
+              data.Graph_data.iv90call[index],
+              data.Graph_data.iv90put[index],
             ];
             break;
           case 120:
             daysData = [
-              Options.Graph_data.iv120call[index],
-              Options.Graph_data.iv120put[index],
+              data.Graph_data.iv120call[index],
+              data.Graph_data.iv120put[index],
             ];
             break;
           case 150:
             daysData = [
-              Options.Graph_data.iv150call[index],
-              Options.Graph_data.iv150put[index],
+              data.Graph_data.iv150call[index],
+              data.Graph_data.iv150put[index],
             ];
             break;
           case 180:
             daysData = [
-              Options.Graph_data.iv180call[index],
-              Options.Graph_data.iv180put[index],
+              data.Graph_data.iv180call[index],
+              data.Graph_data.iv180put[index],
             ];
             break;
           case 360:
             daysData = [
-              Options.Graph_data.iv360call[index],
-              Options.Graph_data.iv360put[index],
+              data.Graph_data.iv360call[index],
+              data.Graph_data.iv360put[index],
             ];
             break;
         }
@@ -216,7 +214,7 @@ const VolatilityChart = ({ Options, Loading }) => {
         <strong>AAPL: Daily 1 Year Volatility</strong>
       </h6>
       <div className='d-flex align-items-center justify-content-between'>
-        <div className='top_button_panel mb-3'>
+        <div className='top_button_panel top_button_panel_light mb-3'>
           <button
             type='button'
             className={`btn ${days === 30 ? 'btn-info' : 'btn-light'}`}
@@ -269,7 +267,7 @@ const VolatilityChart = ({ Options, Loading }) => {
         </div>
       </div>
       <div className='d-flex align-items-center justify-content-between'>
-        <div className='top_button_panel mb-3'>
+        <div className='top_button_panel top_button_panel_light mb-3'>
           <button
             type='button'
             className={`btn ${
@@ -310,7 +308,7 @@ const VolatilityChart = ({ Options, Loading }) => {
             IV Index Mean
           </button>
         </div>
-        <div className='top_button_panel mb-3'>
+        <div className='top_button_panel top_button_panel_light mb-3'>
           <button
             type='button'
             className={`btn ${period === '3MONTHS' ? 'btn-info' : 'btn-light'}`}
@@ -338,52 +336,39 @@ const VolatilityChart = ({ Options, Loading }) => {
         </div>
       </div>
 
-      {Loading && (
-        <div
-          style={{
-            height: 400,
-            textAlign: 'center',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <CircularProgress />
-        </div>
-      )}
+      <ResponsiveContainer width='100%' aspect={1} maxHeight={400}>
+        <LineChart data={graphData} tick={false}>
+          <XAxis
+            dataKey='date'
+            tickFormatter={(date) => {
+              return moment(date).format('MMM');
+            }}
+            axisLine={false}
+            ticks={ticks}
+            tick={{ fill: '#212121', fontSize: '12px' }}
+          />
+          <YAxis axisLine={false} tick={<CustomizedAxisTick />} />
+          <Tooltip />
+          <Line
+            type='monotone'
+            dataKey='percentage'
+            stroke='#8F9DFE'
+            dot={<RemoveDot />}
+            name='30-Day HV'
+          />
 
-      {!Loading && (
-        <ResponsiveContainer width='100%' aspect={1} maxHeight={400}>
-          <LineChart data={graphData} tick={false}>
-            <XAxis
-              dataKey='date'
-              tickFormatter={(date) => {
-                return moment(date).format('MMM');
-              }}
-              axisLine={false}
-              ticks={ticks}
-              tick={{ fill: '#212121', fontSize: '12px' }}
-            />
-            <YAxis axisLine={false} tick={<CustomizedAxisTick />} />
-            <Tooltip />
+          {volume === 'INDEX_CALL_PUT' && (
             <Line
               type='monotone'
-              dataKey='percentage'
-              stroke='#8F9DFE'
+              dataKey='put'
+              stroke='#64AA28'
               dot={<RemoveDot />}
+              name='IV Index Call'
             />
-
-            {volume === 'INDEX_CALL_PUT' && (
-              <Line
-                type='monotone'
-                dataKey='put'
-                stroke='#64AA28'
-                dot={<RemoveDot />}
-              />
-            )}
-          </LineChart>
-        </ResponsiveContainer>
-      )}
+          )}
+          <Legend />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 };

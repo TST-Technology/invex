@@ -24,14 +24,14 @@ const Quote = () => {
   const [Company, setCompany] = useState(null);
   const [KeyStatus, setKeyStatus] = useState(null);
   const [Loading, setLoading] = useState(false);
-  const [Options, setOptions] = useState({});
+  const [Options, setOptions] = useState(null);
   const [logo, setLogo] = useState();
   const date = getOneDayBeforeDate();
 
   useEffect(() => {
     (async () => {
       setLoading(true);
-      console.log(symbol);
+
       if (symbol) {
         var data = await getCompanyDataBySymbol(symbol);
         if (data && data.status === 200) {
@@ -47,6 +47,9 @@ const Quote = () => {
 
         do {
           try {
+            if (Options) {
+              setOptions(null);
+            }
             const tempDate = getNDayBeforeDate(i);
             var volatility = await getVolatality(symbol, tempDate);
             if (volatility) {

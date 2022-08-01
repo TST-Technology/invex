@@ -9,7 +9,7 @@ import { TYPE } from './Constants';
 import Synopsis from './Synopsis/Synopsis';
 import { getCompanyProfileQuote } from '../api/Symbol';
 import Chart from './Chart/Chart';
-import OptionAnalysis from './OptionAnalysis/OptionAnalysis';
+import OptionAnalysis from '../V2/OptionAnalysis/OptionAnalysis';
 import Valuation from '../V2/Valuation/Valuation';
 import SECFilling from '../V2/SECFilling/SECFilling';
 
