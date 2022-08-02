@@ -352,7 +352,7 @@ const VolatilityChart = ({ data }) => {
           <Line
             type='monotone'
             dataKey='percentage'
-            stroke='#8F9DFE'
+            stroke='#3751FF'
             dot={<RemoveDot />}
             name='30-Day HV'
           />
@@ -361,12 +361,18 @@ const VolatilityChart = ({ data }) => {
             <Line
               type='monotone'
               dataKey='put'
-              stroke='#64AA28'
+              stroke='#13A41B'
               dot={<RemoveDot />}
               name='IV Index Call'
             />
           )}
-          <Legend />
+          <Legend
+            wrapperStyle={{
+              bottom: -20,
+              left: 25,
+              fontSize: '12px',
+            }}
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>

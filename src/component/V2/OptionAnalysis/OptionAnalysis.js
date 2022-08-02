@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import OptionsChain from './OptionChain/OptionChain';
 import Quote from './Quote/Quote';
 
 const OptionAnalysis = () => {
@@ -38,6 +39,7 @@ const OptionAnalysis = () => {
       </div>
 
       {activeTab === ACTIVE_TABS[0].value && <Quote />}
+      {activeTab === ACTIVE_TABS[1].value && <OptionsChain />}
     </>
   );
 };

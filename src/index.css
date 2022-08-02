@@ -96,3 +96,9 @@ code {
 .company_detail_fix.company_details.symfinstatcs {
   padding: 20px 0 0;
 }
+
+.guage-chart-container{
+  background: #F8F8F8;
+  border: 1px solid #EFEFEF;
+  border-radius: 12px;
+}

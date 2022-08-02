@@ -309,7 +309,7 @@ const VolatilityIndex = ({ data }) => {
       <div className='col-lg-12'>
         <div className='table-responsive mb-4'>
           <h5 className='m-0 mb-3'>Historical Volatility Index</h5>
-          <table className='table table-bordered table-striped mt-4 most_tables'>
+          <table className='table table-bordered table-striped m-0 most_tables normal_table'>
             <thead>
               <tr>
                 <th scope='col'>Term</th>

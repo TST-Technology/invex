@@ -248,68 +248,6 @@ const OptionsChain = () => {
                 id='searchform'
                 action
               >
-                {/* <div className='d-lg-inline-flex d-md-flex align-items-center float-start'>
-                <label htmlFor className='me-3 font-bd'>
-                  Stratergy
-                </label>
-                <select
-                  className='form-select me-3'
-                  aria-label='Default select example'
-                >
-                  <option selected>Calls &amp; Puts</option>
-                  <option value={1}>One</option>
-                  <option value={2}>Two</option>
-                  <option value={3}>Three</option>
-                </select>
-                <label htmlFor className='me-3 font-bd'>
-                  Strikes
-                </label>
-                <select
-                  className='form-select me-3'
-                  aria-label='Default select example'
-                >
-                  <option selected>Calls &amp; Puts</option>
-                  <option value={1}>One</option>
-                  <option value={2}>Two</option>
-                  <option value={3}>Three</option>
-                </select>
-                <label htmlFor className='me-3 font-bd'>
-                  Volume
-                </label>
-                <select
-                  className='form-select me-3'
-                  aria-label='Default select example'
-                >
-                  <option selected>Calls &amp; Puts</option>
-                  <option value={1}>One</option>
-                  <option value={2}>Two</option>
-                  <option value={3}>Three</option>
-                </select>
-                <label htmlFor className='me-3 font-bd'>
-                  Open Int
-                </label>
-                <select
-                  className='form-select me-3'
-                  aria-label='Default select example'
-                >
-                  <option selected>Calls &amp; Puts</option>
-                  <option value={1}>One</option>
-                  <option value={2}>Two</option>
-                  <option value={3}>Three</option>
-                </select>
-                <label htmlFor className='me-3 font-bd'>
-                  Date
-                </label>
-                <select
-                  className='form-select me-3'
-                  aria-label='Default select example'
-                >
-                  <option selected>Calls &amp; Puts</option>
-                  <option value={1}>One</option>
-                  <option value={2}>Two</option>
-                  <option value={3}>Three</option>
-                </select>
-              </div> */}
                 <Select
                   isMulti
                   defaultValue={selectedDatesOption}
@@ -319,7 +257,6 @@ const OptionsChain = () => {
                   classNamePrefix='select'
                   placeholder='Select Date'
                   width='100%'
-                  // isClearable={false}
                   onChange={handleChange}
                   hideSelectedOptions={false}
                 />
@@ -610,12 +547,10 @@ const OptionsChain = () => {
                       dataKey='date'
                       axisLine={false}
                       domain={['auto', 'auto']}
-                      // ticks={ticks}
                       tick={{
                         fill: '#212121',
                         fontSize: '10px',
                       }}
-                      // angle={70}
                       tick={<CustomizedXAxisTick />}
                       interval={0}
                       height={80}
@@ -648,6 +583,6 @@ const OptionsChain = () => {
       </div>
     </>
   );
-};;;;;;;;;;
+};
 
 export default OptionsChain;
