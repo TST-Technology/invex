@@ -1159,6 +1159,53 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
         <div className='col-lg-12 mb-4'>
           <div className='d-flex align-items-center justify-content-between mb-3'>
             <h5 className='me-auto font-bd'>Valuation Output Base</h5>
+
+            <div className='d-flex align-items-center justify-content-start'>
+              <label className='mb-3 pb-2' htmlFor>
+                Choose the case
+              </label>
+              <div className='top_button_panel top_button_panel_light mb-3'>
+                {CASE_FILTER &&
+                  CASE_FILTER.map((caseElement) => {
+                    if (caseElement.value !== 'manual') {
+                      return (
+                        <button
+                          type='button'
+                          onClick={() =>
+                            setValuationOutputFilter(caseElement.value)
+                          }
+                          className={`btn ${
+                            valuationOutputFilter === caseElement.value
+                              ? 'btn-info'
+                              : 'btn-light'
+                          }`}
+                        >
+                          {caseElement.label}
+                        </button>
+                      );
+                    } else if (
+                      caseElement.value === 'manual' &&
+                      manualButtonVisible
+                    ) {
+                      return (
+                        <button
+                          type='button'
+                          onClick={() =>
+                            setValuationOutputFilter(caseElement.value)
+                          }
+                          className={`btn ${
+                            valuationOutputFilter === caseElement.value
+                              ? 'btn-info'
+                              : 'btn-light'
+                          }`}
+                        >
+                          {caseElement.label}
+                        </button>
+                      );
+                    }
+                  })}
+              </div>
+            </div>
           </div>
           <div
             className={`scenario justify-content-between ${
@@ -1208,54 +1255,7 @@ const ValuationFCFFM = ({ allData, companyQuote }) => {
             </div>
           </div>
         </div>
-        <div className='col-lg-12'>
-          <div className='d-flex align-items-center justify-content-start'>
-            <label className='mb-3 pb-2' htmlFor>
-              Choose the case
-            </label>
-            <div className='top_button_panel top_button_panel_light mb-3'>
-              {CASE_FILTER &&
-                CASE_FILTER.map((caseElement) => {
-                  if (caseElement.value !== 'manual') {
-                    return (
-                      <button
-                        type='button'
-                        onClick={() =>
-                          setValuationOutputFilter(caseElement.value)
-                        }
-                        className={`btn ${
-                          valuationOutputFilter === caseElement.value
-                            ? 'btn-info'
-                            : 'btn-light'
-                        }`}
-                      >
-                        {caseElement.label}
-                      </button>
-                    );
-                  } else if (
-                    caseElement.value === 'manual' &&
-                    manualButtonVisible
-                  ) {
-                    return (
-                      <button
-                        type='button'
-                        onClick={() =>
-                          setValuationOutputFilter(caseElement.value)
-                        }
-                        className={`btn ${
-                          valuationOutputFilter === caseElement.value
-                            ? 'btn-info'
-                            : 'btn-light'
-                        }`}
-                      >
-                        {caseElement.label}
-                      </button>
-                    );
-                  }
-                })}
-            </div>
-          </div>
-        </div>
+
         <div className='col-lg-12'>
           <div className='top_competitors'>
             <div className='mb-3'>
